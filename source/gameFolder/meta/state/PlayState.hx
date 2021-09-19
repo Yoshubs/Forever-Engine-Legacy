@@ -340,9 +340,9 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		startedCountdown = true;
 
+		// despite all my rage
 		for (i in 0...2)
-			if (i != 0 || !Init.trueSettings.get('Centered Notefield'))
-				generateStaticArrows(i);
+			generateStaticArrows(i);
 
 		// fuck you static displace you have done nothing but ruin my life i hope you die
 		// staticDisplace = 4;
