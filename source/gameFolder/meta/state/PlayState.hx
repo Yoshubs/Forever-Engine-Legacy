@@ -22,6 +22,7 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import gameFolder.gameObjects.*;
+import gameFolder.gameObjects.shaders.PerspectiveShader;
 import gameFolder.gameObjects.userInterface.*;
 import gameFolder.meta.*;
 import gameFolder.meta.MusicBeat.MusicBeatState;
@@ -31,6 +32,7 @@ import gameFolder.meta.state.charting.*;
 import gameFolder.meta.state.menus.*;
 import gameFolder.meta.subState.*;
 import openfl.events.KeyboardEvent;
+import openfl.filters.ShaderFilter;
 import openfl.media.Sound;
 import openfl.utils.Assets;
 
@@ -117,8 +119,13 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
+	public static var camP2:FlxCamera;
+	public static var camP1:FlxCamera;
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
+
+	public static var pShadeP1:PerspectiveShader = new PerspectiveShader();
+	public static var pShadeP2:PerspectiveShader = new PerspectiveShader();
 
 	private var camDisplaceX:Float = 0;
 	private var camDisplaceY:Float = 0; // might not use depending on result
@@ -182,7 +189,15 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
+		// create the receptor cams for each player
+		camP1 = new FlxCamera();
+		camP1.bgColor.alpha = 0;
+		camP2 = new FlxCamera();
+		camP2.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
+		FlxG.cameras.add(camP1);
+		FlxG.cameras.add(camP2);
 		FlxG.cameras.add(camHUD);
 		FlxCamera.defaultCameras = [camGame];
 
@@ -310,7 +325,7 @@ class PlayState extends MusicBeatState
 
 		// set up camera dependencies (so that ui elements correspond to their cameras and such)
 		strumLineNotes.cameras = [camHUD];
-		splashNotes.cameras = [camHUD];
+		splashNotes.cameras = [camP2];
 		notes.cameras = [camHUD];
 
 		// actually set the camera up
@@ -329,8 +344,8 @@ class PlayState extends MusicBeatState
 			if (i != 0 || !Init.trueSettings.get('Centered Notefield'))
 				generateStaticArrows(i);
 
-		if (Init.trueSettings.get('Centered Notefield'))
-			staticDisplace = 4;
+		// fuck you static displace you have done nothing but ruin my life i hope you die
+		// staticDisplace = 4;
 
 		uiHUD = new ClassHUD();
 		add(uiHUD);
@@ -491,10 +506,14 @@ class PlayState extends MusicBeatState
 		// camera stuffs
 		FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom + forceZoom[0], FlxG.camera.zoom, easeLerp);
 		camHUD.zoom = FlxMath.lerp(1 + forceZoom[1], camHUD.zoom, easeLerp);
+		camP1.zoom = FlxMath.lerp(1 + forceZoom[1], camP1.zoom, easeLerp);
+		camP2.zoom = FlxMath.lerp(1 + forceZoom[1], camP2.zoom, easeLerp);
 
 		// not even forcezoom anymore but still
 		FlxG.camera.angle = FlxMath.lerp(0 + forceZoom[2], FlxG.camera.angle, easeLerp);
 		camHUD.angle = FlxMath.lerp(0 + forceZoom[3], camHUD.angle, easeLerp);
+		camP1.angle = FlxMath.lerp(0 + forceZoom[3], camP1.angle, easeLerp);
+		camP2.angle = FlxMath.lerp(0 + forceZoom[3], camP2.angle, easeLerp);
 
 		/*
 			if ((strumLineNotes != null) && (strumLineNotes.members.length > 0) && (!startingSong))
@@ -508,6 +527,36 @@ class PlayState extends MusicBeatState
 					strumLineNotes.members[i].angle = FlxMath.lerp(strumLineNotes.members[i].angleTo, strumLineNotes.members[i].angle, easeLerp);
 				}
 		}*/
+
+		// this is not the best idea but anything else just crashes the damn game
+		// forgive me shubs
+		if (strumLineNotes != null && strumLineNotes.members.length > 0)
+		{
+			for (notes in 0...strumLineNotes.members.length)
+			{
+				switch (notes)
+				{
+					case 0 | 1 | 2 | 3 | 4:
+						for (i in 0...boyfriendStrums.members.length)
+						{
+							strumLineNotes.members[i].cameras = [camP1];
+						}
+					case _:
+						for (i in 0...dadStrums.members.length)
+						{
+							strumLineNotes.members[i + 4].cameras = [camP2];
+						}
+				}
+			}
+
+			if (Init.trueSettings.get('Centered Notefield'))
+				camP1.visible = false;
+			else
+			{
+				camP1.x = -300;
+				camP2.x = 300;
+			}
+		}
 
 		if (health <= 0 && startedCountdown)
 		{
@@ -529,10 +578,12 @@ class PlayState extends MusicBeatState
 			if ((unspawnNotes[0].strumTime - Conductor.songPosition) < 3500)
 			{
 				var dunceNote:Note = unspawnNotes[0];
-				if (!dunceNote.mustPress && Init.trueSettings.get('Centered Notefield'))
-					animationsPlay.push(dunceNote);
+				if (dunceNote.mustPress)
+					dunceNote.cameras = [camP2];
 				else
-					notes.add(dunceNote);
+					dunceNote.cameras = [camP1];
+
+				notes.add(dunceNote);
 
 				unspawnNotes.splice(unspawnNotes.indexOf(dunceNote), 1);
 
@@ -1387,19 +1438,10 @@ class PlayState extends MusicBeatState
 					dadStrums.add(babyArrow);
 			}
 
-			if (!Init.trueSettings.get('Centered Notefield'))
-			{
-				babyArrow.x += 75;
-				babyArrow.x += Note.swagWidth * i;
-				babyArrow.x += ((FlxG.width / 2) * player);
-			}
-			else
-			{
-				babyArrow.screenCenter(X);
-				babyArrow.x -= Note.swagWidth;
-				babyArrow.x -= 54;
-				babyArrow.x += Note.swagWidth * i;
-			}
+			babyArrow.screenCenter(X);
+			babyArrow.x -= Note.swagWidth;
+			babyArrow.x -= 54;
+			babyArrow.x += Note.swagWidth * i;
 
 			babyArrow.initialX = Math.floor(babyArrow.x);
 			babyArrow.initialY = Math.floor(babyArrow.y);
