@@ -20,7 +20,11 @@
 				"$haxe-error",
 				"$haxe-trace"
 			],
-			"label": "lime: test windows"
+			"label": "lime: test windows",
+			"group": {
+				"kind": "build",
+				"isDefault": true
+			}
 		}
 	]
 }
