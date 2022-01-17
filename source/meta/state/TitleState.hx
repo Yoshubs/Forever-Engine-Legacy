@@ -54,6 +54,10 @@ class TitleState extends MusicBeatState
 	{
 		controls.setKeyboardScheme(None, false);
 		curWacky = FlxG.random.getObject(getIntroTextShit());
+
+		if (!initialized)
+			FlxTransitionableState.skipNextTransOut = true;
+
 		super.create();
 
 		startIntro();
@@ -226,6 +230,7 @@ class TitleState extends MusicBeatState
 					}
 					else
 					{ */
+				FlxTransitionableState.skipNextTransOut = false;
 				Main.switchState(this, new MainMenuState());
 				// }
 			});

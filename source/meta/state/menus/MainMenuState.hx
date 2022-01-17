@@ -249,6 +249,9 @@ class MainMenuState extends MusicBeatState
 			});
 		}
 
+		if ((controls.BACK) && (!selectedSomethin))
+			Main.switchState(this, new TitleState());
+
 		if (Math.floor(curSelected) != lastCurSelected)
 			updateSelection();
 
