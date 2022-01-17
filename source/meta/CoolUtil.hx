@@ -1,5 +1,6 @@
 package meta;
 
+import openfl.Lib;
 import lime.utils.Assets;
 import meta.state.PlayState;
 
@@ -18,6 +19,11 @@ class CoolUtil
 	public static function difficultyFromNumber(number:Int):String
 	{
 		return difficultyArray[number];
+	}
+
+	// Function used for icons bounces
+	public static function getRealFPS():Float {
+		return Lib.current.stage.frameRate;
 	}
 
 	public static function dashToSpace(string:String):String

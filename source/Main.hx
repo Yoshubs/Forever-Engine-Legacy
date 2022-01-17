@@ -212,7 +212,7 @@ class Main extends Sprite
 		mainClassState = Type.getClass(target);
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
-			curState.openSubState(new FNFTransition(0.35, false));
+			curState.openSubState(new FNFTransition(0.8, false));
 			FNFTransition.finishCallback = function() {
 				FlxG.switchState(target);
 			};

@@ -9,7 +9,7 @@ class FNFUIState extends FlxUIState
 	{
 		// state stuffs
 		if (!FlxTransitionableState.skipNextTransOut)
-			openSubState(new FNFTransition(0.5, true));
+			openSubState(new FNFTransition(0.8, true));
 	
 		super.create();
 	}
