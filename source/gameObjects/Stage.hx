@@ -380,9 +380,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				gfVersion = 'gf-car';
 			case 'mall' | 'mallEvil':
 				gfVersion = 'gf-christmas';
-			case 'school':
-				gfVersion = 'gf-pixel';
-			case 'schoolEvil':
+			case 'school' | 'schoolEvil':
 				gfVersion = 'gf-pixel';
 		}
 

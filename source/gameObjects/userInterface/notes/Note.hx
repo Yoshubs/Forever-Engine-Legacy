@@ -71,6 +71,7 @@ class Note extends FNFSprite
 		// determine parent note
 		if (isSustainNote && prevNote != null)
 		{
+			flipY = Init.trueSettings.get('Downscroll');
 			parentNote = prevNote;
 			while (parentNote.parentNote != null)
 				parentNote = parentNote.parentNote;

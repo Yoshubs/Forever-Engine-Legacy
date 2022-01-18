@@ -784,7 +784,7 @@ class PlayState extends MusicBeatState
 				strumline.allNotes.forEachAlive(function(daNote:Note)
 				{
 					var roundedSpeed = FlxMath.roundDecimal(daNote.noteSpeed, 2);
-					var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 6;
+					var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 5;
 					var psuedoY:Float = (downscrollMultiplier * -((Conductor.songPosition - daNote.strumTime) * (0.45 * roundedSpeed)));
 					var psuedoX = 25 + daNote.noteVisualOffset;
 
@@ -899,10 +899,11 @@ class PlayState extends MusicBeatState
 					}
 
 					// if the note is off screen (above)
-					if ((((!Init.trueSettings.get('Downscroll')) && (daNote.y < -daNote.height))
-					|| ((Init.trueSettings.get('Downscroll')) && (daNote.y > (FlxG.height + daNote.height))))
-					&& (daNote.tooLate || daNote.wasGoodHit))
-						destroyNote(strumline, daNote);
+					var doKill:Bool = daNote.y < -daNote.height;
+					if (Init.trueSettings.get('Downscroll'))
+						doKill = daNote.y > FlxG.height;
+					if (doKill)
+						destroyNote(strumline, daNote);		
 				});
 
 
