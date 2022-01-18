@@ -63,9 +63,10 @@ class ForeverAssets
 		newSprite.updateHitbox();
 		if (!Init.trueSettings.get('Simply Judgements'))
 		{
-		newSprite.acceleration.y = FlxG.random.int(200, 300);
-		newSprite.velocity.y = -FlxG.random.int(140, 160);
-		newSprite.velocity.x = FlxG.random.float(-5, 5);}
+			newSprite.acceleration.y = FlxG.random.int(200, 300);
+			newSprite.velocity.y = -FlxG.random.int(140, 160);
+			newSprite.velocity.x = FlxG.random.float(-5, 5);
+		}
 
 		return newSprite;
 	}
@@ -184,10 +185,6 @@ class ForeverAssets
 				newStaticArrow.animation.add('pressed', [16 + staticArrowType], 12, false);
 				newStaticArrow.animation.add('confirm', [4 + staticArrowType, 8 + staticArrowType, 16 + staticArrowType], 24, false);
 
-				newStaticArrow.addOffset('static');
-				newStaticArrow.addOffset('pressed');
-				newStaticArrow.addOffset('confirm');
-
 			default:
 				// probably gonna revise this and make it possible to add other arrow types but for now it's just pixel and normal
 				var stringSect:String = '';
@@ -223,8 +220,11 @@ class ForeverAssets
 					}
 				}
 
+				if (staticArrowType == 1)
+					offsetMiddleX += 3;
+
 				newStaticArrow.addOffset('static');
-				newStaticArrow.addOffset('pressed', -2, -2);
+				newStaticArrow.addOffset('pressed', -2, -2 - (staticArrowType == 1 ? 2 : 0));
 				newStaticArrow.addOffset('confirm', 36 + offsetMiddleX, 36 + offsetMiddleY);
 		}
 
