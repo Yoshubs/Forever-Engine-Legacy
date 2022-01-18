@@ -8,8 +8,9 @@ class FNFUIState extends FlxUIState
 	override function create()
 	{
 		// state stuffs
+		// just noticed i had to add 0.3s for make it act like trans in
 		if (!FlxTransitionableState.skipNextTransOut)
-			openSubState(new FNFTransition(0.8, true));
+			openSubState(new FNFTransition(1.1, true));
 	
 		super.create();
 	}
