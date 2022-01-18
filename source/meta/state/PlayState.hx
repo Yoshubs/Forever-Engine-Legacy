@@ -1,5 +1,6 @@
 package meta.state;
 
+import flixel.input.gamepad.FlxGamepad;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -148,6 +149,8 @@ class PlayState extends MusicBeatState
 	public static var lastRating:FlxSprite;
 	// stores the last combo objects in an array
 	public static var lastCombo:Array<FlxSprite>;
+
+	private var keyPressByController:Bool = false;
 
 	// at the beginning of the playstate
 	override public function create()
@@ -409,6 +412,49 @@ class PlayState extends MusicBeatState
 		}
 		return copiedArray;
 	}
+
+	/*
+		This function add the support for gamepad (because the new input system removed it).
+		This is based on some Psych Engine code (and some made by me too).
+	*/
+	private function gamepadKeyShit():Void
+	{
+		if (keyPressByController)
+		{
+			var controlArray:Array<Bool> = [
+				controls.LEFT_P,
+				controls.DOWN_P,
+				controls.UP_P,
+				controls.RIGHT_P
+			];
+			if (controlArray.contains(true))
+			{
+				for (i in 0...controlArray.length)
+				{
+					if (controlArray[i])
+						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
+				}
+			}
+		}
+
+		if (keyPressByController)
+		{
+			var controlArray:Array<Bool> = [
+				controls.LEFT_R,
+				controls.DOWN_R,
+				controls.UP_R,
+				controls.RIGHT_R
+			];
+			if (controlArray.contains(true))
+			{
+				for (i in 0...controlArray.length)
+				{
+					if (controlArray[i])
+						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
+				}
+			}
+		}
+	}
 	
 	var keysArray:Array<Dynamic>;
 
@@ -418,7 +464,7 @@ class PlayState extends MusicBeatState
 
 		if ((key >= 0)
 			&& !boyfriendStrums.autoplay
-			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED))
+			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || keyPressByController)
 			&& (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
 		{
 			if (generatedMusic)
@@ -515,7 +561,10 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		FlxG.camera.followLerp = elapsed * 2;
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		keyPressByController = (gamepad != null && gamepad.pressed.ANY);
+
+		FlxG.camera.followLerp = elapsed;
 
 		if (health > 2)
 			health = 2;
@@ -541,8 +590,10 @@ class PlayState extends MusicBeatState
 		}
 
 		if (!inCutscene) {
+			gamepadKeyShit();
+
 			// pause the game if the game is allowed to pause and enter is pressed
-			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+			if (controls.PAUSE && startedCountdown && canPause)
 			{
 				// update drawing stuffs
 				persistentUpdate = false;
@@ -659,16 +710,17 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			var easeLerp = 0.95;
+			var easeNum = CoolUtil.boundTo(1 - elapsed * 3.125, 0, 1);
+
 			// camera stuffs
-			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom + forceZoom[0], FlxG.camera.zoom, easeLerp);
+			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom + forceZoom[0], FlxG.camera.zoom, easeNum);
 			for (hud in allUIs)
-				hud.zoom = FlxMath.lerp(1 + forceZoom[1], hud.zoom, easeLerp);
+				hud.zoom = FlxMath.lerp(1 + forceZoom[1], hud.zoom, easeNum);
 
 			// not even forcezoom anymore but still
-			FlxG.camera.angle = FlxMath.lerp(0 + forceZoom[2], FlxG.camera.angle, easeLerp);
+			FlxG.camera.angle = FlxMath.lerp(0 + forceZoom[2], FlxG.camera.angle, easeNum);
 			for (hud in allUIs)
-				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
+				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeNum);
 
 			if (health <= 0 && startedCountdown)
 			{
@@ -1439,12 +1491,12 @@ class PlayState extends MusicBeatState
 	{
 		super.beatHit();
 
-		if ((FlxG.camera.zoom < 1.35 && curBeat % 4 == 0) && (!Init.trueSettings.get('Reduced Movements')))
+		if (FlxG.camera.zoom < 1.35 && ((!Init.trueSettings.get('Reduced Movements')) && curBeat % 4 == 0))
 		{
 			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.05;
+			camHUD.zoom += 0.045;
 			for (hud in strumHUD)
-				hud.zoom += 0.05;
+				hud.zoom += 0.045;
 		}
 
 		if (SONG.notes[Math.floor(curStep / 16)] != null)

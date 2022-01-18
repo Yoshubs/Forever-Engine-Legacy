@@ -588,76 +588,6 @@ class Controls extends FlxActionSet
 		]);
 		inline bindKeys(Control.PAUSE, [Init.gameControls.get('PAUSE')[0][0], Init.gameControls.get('PAUSE')[0][1]]);
 		inline bindKeys(Control.RESET, [Init.gameControls.get('RESET')[0][0], Init.gameControls.get('RESET')[0][1]]);
-
-		/* 
-			#if (haxe >= "4.0.0")
-			switch (scheme)
-			{
-				case Solo:
-					inline bindKeys(Control.UP, [J, FlxKey.UP]);
-					inline bindKeys(Control.DOWN, [F, FlxKey.DOWN]);
-					inline bindKeys(Control.LEFT, [D, FlxKey.LEFT]);
-					inline bindKeys(Control.RIGHT, [K, FlxKey.RIGHT]);
-					inline bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
-					inline bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-					inline bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
-					inline bindKeys(Control.RESET, [R]);
-				case Duo(true):
-					inline bindKeys(Control.UP, [W]);
-					inline bindKeys(Control.DOWN, [S]);
-					inline bindKeys(Control.LEFT, [A]);
-					inline bindKeys(Control.RIGHT, [D]);
-					inline bindKeys(Control.ACCEPT, [G, Z]);
-					inline bindKeys(Control.BACK, [H, X]);
-					inline bindKeys(Control.PAUSE, [ONE]);
-					inline bindKeys(Control.RESET, [R]);
-				case Duo(false):
-					inline bindKeys(Control.UP, [FlxKey.UP]);
-					inline bindKeys(Control.DOWN, [FlxKey.DOWN]);
-					inline bindKeys(Control.LEFT, [FlxKey.LEFT]);
-					inline bindKeys(Control.RIGHT, [FlxKey.RIGHT]);
-					inline bindKeys(Control.ACCEPT, [O]);
-					inline bindKeys(Control.BACK, [P]);
-					inline bindKeys(Control.PAUSE, [ENTER]);
-					inline bindKeys(Control.RESET, [BACKSPACE]);
-				case None: // nothing
-				case Custom: // nothing
-			}
-			#else
-			switch (scheme)
-			{
-				case Solo:
-					bindKeys(Control.UP, [W, FlxKey.UP]);
-					bindKeys(Control.DOWN, [S, FlxKey.DOWN]);
-					bindKeys(Control.LEFT, [A, FlxKey.LEFT]);
-					bindKeys(Control.RIGHT, [D, FlxKey.RIGHT]);
-					bindKeys(Control.ACCEPT, [Z, SPACE, ENTER]);
-					bindKeys(Control.BACK, [BACKSPACE, ESCAPE]);
-					bindKeys(Control.PAUSE, [P, ENTER, ESCAPE]);
-					bindKeys(Control.RESET, [R]);
-				case Duo(true):
-					bindKeys(Control.UP, [W]);
-					bindKeys(Control.DOWN, [S]);
-					bindKeys(Control.LEFT, [A]);
-					bindKeys(Control.RIGHT, [D]);
-					bindKeys(Control.ACCEPT, [G, Z]);
-					bindKeys(Control.BACK, [H, X]);
-					bindKeys(Control.PAUSE, [ONE]);
-					bindKeys(Control.RESET, [R]);
-				case Duo(false):
-					bindKeys(Control.UP, [FlxKey.UP]);
-					bindKeys(Control.DOWN, [FlxKey.DOWN]);
-					bindKeys(Control.LEFT, [FlxKey.LEFT]);
-					bindKeys(Control.RIGHT, [FlxKey.RIGHT]);
-					bindKeys(Control.ACCEPT, [O]);
-					bindKeys(Control.BACK, [P]);
-					bindKeys(Control.PAUSE, [ENTER]);
-					bindKeys(Control.RESET, [BACKSPACE]);
-				case None: // nothing
-				case Custom: // nothing
-			}
-			#end
-		 */
 	}
 
 	function removeKeyboard()
@@ -722,6 +652,10 @@ class Controls extends FlxActionSet
 		addGamepadLiteral(id, [
 			Control.ACCEPT => [A],
 			Control.BACK => [B],
+			Control.UI_UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
+			Control.UI_DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
+			Control.UI_LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
+			Control.UI_RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT],
 			Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
 			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
 			Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
@@ -734,6 +668,10 @@ class Controls extends FlxActionSet
 			// Swap A and B for switch
 			Control.ACCEPT => [B],
 			Control.BACK => [A],
+			Control.UI_UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP],
+			Control.UI_DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN],
+			Control.UI_LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT],
+			Control.UI_RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT],
 			Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP],
 			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN],
 			Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT],

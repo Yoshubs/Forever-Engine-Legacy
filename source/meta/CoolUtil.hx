@@ -21,8 +21,13 @@ class CoolUtil
 		return difficultyArray[number];
 	}
 
-	// Function used for icons bounces
-	public static function getRealFPS():Float {
+	inline public static function boundTo(value:Float, min:Float, max:Float):Float
+	{
+		return Math.max(min, Math.min(max, value));
+	}
+
+	public static function getRealFPS():Float
+	{
 		return Lib.current.stage.frameRate;
 	}
 

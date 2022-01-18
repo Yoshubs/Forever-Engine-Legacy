@@ -31,7 +31,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var scoreBar:FlxText;
 
 	var scoreLast:Float = -1;
-	var scoreDisplay:String;
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -48,9 +47,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	{
 		// call the initializations and stuffs
 		super();
-
-		// fnf mods
-		var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 		// le healthbar setup
 		var barY = FlxG.height * 0.875;
@@ -77,7 +73,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		scoreBar = new FlxText(FlxG.width / 2, healthBarBG.y + 40, 0, scoreDisplay, 20);
+		scoreBar = new FlxText(FlxG.width / 2, healthBarBG.y + 40, 0, '', 20);
 		scoreBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		updateScoreText();
 		scoreBar.scrollFactor.set();
@@ -193,8 +189,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	{
 		if (!Init.trueSettings.get('Reduced Movements'))
 		{
-			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
-			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
+			iconP1.setGraphicSize(Std.int(iconP1.width + 35));
+			iconP2.setGraphicSize(Std.int(iconP2.width + 35));
 
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();
