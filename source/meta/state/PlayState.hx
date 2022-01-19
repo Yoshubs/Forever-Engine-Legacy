@@ -110,6 +110,7 @@ class PlayState extends MusicBeatState
 	var songTime:Float = 0;
 
 	public static var camHUD:FlxCamera;
+	public static var camNotes:FlxCamera;
 	public static var camGame:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
 
@@ -144,7 +145,6 @@ class PlayState extends MusicBeatState
 	private var boyfriendStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
-	public static var strumHUD:Array<FlxCamera> = [];
 
 	private var allUIs:Array<FlxCamera> = [];
 
@@ -189,9 +189,15 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
+		// create the notes camera
+		camNotes = new FlxCamera();
+		camNotes.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camNotes);
 		allUIs.push(camHUD);
+		allUIs.push(camNotes);
 		FlxCamera.defaultCameras = [camGame];
 
 		// default song
@@ -205,8 +211,6 @@ class PlayState extends MusicBeatState
 		// determine the chart type here
 		determinedChartType = "FNF";
 
-		//
-
 		// set up a class for the stage type in here afterwards
 		curStage = "";
 		// call the song's stage if it exists
@@ -216,7 +220,6 @@ class PlayState extends MusicBeatState
 		// cache shit
 		displayRating('sick', 'early', true);
 		popUpCombo(true);
-		//
 
 		stageBuild = new Stage(curStage);
 		add(stageBuild);
@@ -282,9 +285,6 @@ class PlayState extends MusicBeatState
 			add(darknessBG);
 		}
 
-		// strum setup
-		strumLines = new FlxTypedGroup<Strumline>();
-
 		// generate the song
 		generateSong(SONG.song);
 
@@ -322,7 +322,19 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		startedCountdown = true;
 
-		//
+		// create a hud over the hud camera for dialogue
+		dialogueHUD = new FlxCamera();
+		dialogueHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(dialogueHUD);
+
+		// create the hud
+		uiHUD = new ClassHUD();
+		uiHUD.cameras = [camHUD];
+		add(uiHUD);
+
+		// strums setup
+		strumLines = new FlxTypedGroup<Strumline>();
+
 		var placement = (FlxG.width / 2);
 		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
 		dadStrums.visible = !Init.trueSettings.get('Centered Notefield');
@@ -332,33 +344,9 @@ class PlayState extends MusicBeatState
 		strumLines.add(dadStrums);
 		strumLines.add(boyfriendStrums);
 
-		// strumline camera setup
-		strumHUD = [];
-		for (i in 0...strumLines.length)
-		{
-			// generate a new strum camera
-			strumHUD[i] = new FlxCamera();
-			strumHUD[i].bgColor.alpha = 0;
-
-			strumHUD[i].cameras = [camHUD];
-			allUIs.push(strumHUD[i]);
-			FlxG.cameras.add(strumHUD[i]);
-			// set this strumline's camera to the designated camera
-			strumLines.members[i].cameras = [strumHUD[i]];
-		}
+		strumLines.cameras = [camNotes];
 		add(strumLines);
 
-		uiHUD = new ClassHUD();
-		add(uiHUD);
-		uiHUD.cameras = [camHUD];
-		//
-
-		// create a hud over the hud camera for dialogue
-		dialogueHUD = new FlxCamera();
-		dialogueHUD.bgColor.alpha = 0;
-		FlxG.cameras.add(dialogueHUD);
-
-		//
 		keysArray = [
 			copyKey(Init.gameControls.get('LEFT')[0]),
 			copyKey(Init.gameControls.get('DOWN')[0]),
@@ -1423,7 +1411,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 
 		// generate the chart
-		unspawnNotes = ChartLoader.generateChartType(SONG, determinedChartType);
+		unspawnNotes = ChartLoader.generateChartType(SONG, determinedChartType, camNotes);
 		// sometime my brain farts dont ask me why these functions were separated before
 
 		// sort through them
@@ -1489,8 +1477,7 @@ class PlayState extends MusicBeatState
 		{
 			FlxG.camera.zoom += 0.015;
 			camHUD.zoom += 0.045;
-			for (hud in strumHUD)
-				hud.zoom += 0.045;
+			camNotes.zoom += 0.045;
 		}
 
 		uiHUD.beatHit();
