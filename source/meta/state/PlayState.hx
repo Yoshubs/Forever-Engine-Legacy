@@ -79,6 +79,7 @@ class PlayState extends MusicBeatState
 	// I'm funny just trust me
 	private var curSection:Int = 0;
 	private var camFollow:FlxObject;
+	private var camFollowPos:FlxObject;
 
 	// Discord RPC variables
 	public static var songDetails:String = "";
@@ -114,6 +115,7 @@ class PlayState extends MusicBeatState
 
 	public var camDisplaceX:Float = 0;
 	public var camDisplaceY:Float = 0; // might not use depending on result
+	public static var cameraSpeed:Float = 1;
 
 	public static var defaultCamZoom:Float = 1.05;
 
@@ -164,6 +166,7 @@ class PlayState extends MusicBeatState
 		lastCombo = [];
 
 		defaultCamZoom = 1.05;
+		cameraSpeed = 1;
 		forceZoom = [0, 0, 0, 0];
 
 		Timings.callAccuracy();
@@ -285,6 +288,8 @@ class PlayState extends MusicBeatState
 		// create the game camera
 		camFollow = new FlxObject(0, 0, 1, 1);
 		camFollow.setPosition(camPos.x, camPos.y);
+		camFollowPos = new FlxObject(0, 0, 1, 1);
+		camFollowPos.setPosition(camPos.x, camPos.y);
 		// check if the camera was following someone previously
 		if (prevCamFollow != null)
 		{
@@ -293,10 +298,10 @@ class PlayState extends MusicBeatState
 		}
 
 		add(camFollow);
+		add(camFollowPos);
 
 		// actually set the camera up
-		var camLerp = Main.framerateAdjust(0.04);
-		FlxG.camera.follow(camFollow, LOCKON, camLerp);
+		FlxG.camera.follow(camFollowPos, LOCKON, 1);
 		FlxG.camera.zoom = defaultCamZoom;
 		FlxG.camera.focusOn(camFollow.getPosition());
 
@@ -707,9 +712,11 @@ class PlayState extends MusicBeatState
 				}
 			}
 
-			var easeNum = CoolUtil.boundTo(1 - elapsed * 3.125, 0, 1);
+			var lerpVal = (elapsed * 2.4) * cameraSpeed;
+			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 			// camera stuffs
+			var easeNum = CoolUtil.boundTo(1 - elapsed * 3.125, 0, 1);
 			FlxG.camera.zoom = FlxMath.lerp(defaultCamZoom + forceZoom[0], FlxG.camera.zoom, easeNum);
 			for (hud in allUIs)
 				hud.zoom = FlxMath.lerp(1 + forceZoom[1], hud.zoom, easeNum);
@@ -1103,7 +1110,6 @@ class PlayState extends MusicBeatState
 					}
 					notesPressedAutoplay.push(daNote);
 				}
-
 				goodNoteHit(daNote, char, strumline, canDisplayJudgement);
 			}
 			//
@@ -1119,11 +1125,9 @@ class PlayState extends MusicBeatState
 				strumline.allNotes.forEachAlive(function(coolNote:Note)
 				{
 					if ((coolNote.parentNote != null && coolNote.parentNote.wasGoodHit)
-						&& coolNote.canBeHit
-						&& coolNote.mustPress
-						&& !coolNote.tooLate
-						&& coolNote.isSustainNote
-						&& holdControls[coolNote.noteData])
+					&& coolNote.canBeHit && coolNote.mustPress
+					&& !coolNote.tooLate && coolNote.isSustainNote
+					&& holdControls[coolNote.noteData])
 						goodNoteHit(coolNote, char, strumline);
 				});
 			}
