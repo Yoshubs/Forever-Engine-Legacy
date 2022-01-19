@@ -786,7 +786,7 @@ class PlayState extends MusicBeatState
 								if (daNote.endHoldOffset == Math.NEGATIVE_INFINITY)
 								{
 									// set the end hold offset yeah I hate that I fix this like this
-									daNote.endHoldOffset = (daNote.prevNote.y - (daNote.y + daNote.height));
+									daNote.endHoldOffset = (daNote.prevNote.y - (daNote.y + daNote.height - 2));
 								}
 								else
 									daNote.y += daNote.endHoldOffset;
@@ -861,7 +861,7 @@ class PlayState extends MusicBeatState
 										var breakFromLate:Bool = false;
 										for (note in parentNote.childrenNotes)
 										{
-											trace('hold amount ${parentNote.childrenNotes.length}, note is late?' + note.tooLate + ', ' + breakFromLate);
+											// trace('hold amount ${parentNote.childrenNotes.length}, note is late?' + note.tooLate + ', ' + breakFromLate);
 											if (note.tooLate && !note.wasGoodHit)
 												breakFromLate = true;
 										}
