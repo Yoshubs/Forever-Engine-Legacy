@@ -810,7 +810,6 @@ class PlayState extends MusicBeatState
 								if (daNote.endHoldOffset == Math.NEGATIVE_INFINITY) {
 									// set the end hold offset yeah I hate that I fix this like this
 									daNote.endHoldOffset = (daNote.prevNote.y - (daNote.y + daNote.height));
-									trace(daNote.endHoldOffset);
 								}
 								else
 									daNote.y += daNote.endHoldOffset;
