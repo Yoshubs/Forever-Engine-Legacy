@@ -1,8 +1,8 @@
 package meta;
 
-import openfl.Lib;
 import lime.utils.Assets;
 import meta.state.PlayState;
+import openfl.Lib;
 
 using StringTools;
 
@@ -26,7 +26,7 @@ class CoolUtil
 		return Math.max(min, Math.min(max, value));
 	}
 
-	public static function getRealFPS():Float
+	public static function getFPS():Float
 	{
 		return Lib.current.stage.frameRate;
 	}
