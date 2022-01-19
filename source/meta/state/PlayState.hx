@@ -191,6 +191,9 @@ class PlayState extends MusicBeatState
 
 		FlxG.cameras.reset(camGame);
 
+		// strum setup
+		strumLines = new FlxTypedGroup<Strumline>();
+
 		// strumline camera setup
 		strumHUD = [];
 		for (i in 0...strumLines.length)
@@ -298,9 +301,6 @@ class PlayState extends MusicBeatState
 			darknessBG.scrollFactor.set(0, 0);
 			add(darknessBG);
 		}
-
-		// strum setup
-		strumLines = new FlxTypedGroup<Strumline>();
 
 		// generate the song
 		generateSong(SONG.song);
