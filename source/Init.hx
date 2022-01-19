@@ -1,3 +1,5 @@
+import openfl.filters.ColorMatrixFilter;
+import openfl.filters.BitmapFilter;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
@@ -9,8 +11,7 @@ import meta.data.Highscore;
 import meta.data.dependency.Discord;
 import meta.state.*;
 import meta.state.charting.*;
-import openfl.filters.BitmapFilter;
-import openfl.filters.ColorMatrixFilter;
+import meta.shaders.*;
 
 using StringTools;
 
@@ -233,15 +234,7 @@ class Init extends FlxState
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 		
-		gotoTitleScreen();
-	}
-
-	private function gotoTitleScreen()
-	{	
-		if (trueSettings.get("Custom Titlescreen"))
-			Main.switchState(this, new CustomTitlescreen());
-		else
-			Main.switchState(this, new TitleState());
+		Main.switchState(this, new TitleState());
 	}
 
 	public static function loadSettings():Void
