@@ -120,6 +120,8 @@ class PlayState extends MusicBeatState
 
 	public static var defaultCamZoom:Float = 1.05;
 
+	var camMoving:Bool = false;
+
 	public static var forceZoom:Array<Float>;
 
 	public static var songScore:Int = 0;
@@ -531,7 +533,9 @@ class PlayState extends MusicBeatState
 		{
 			// receptor reset
 			if (key >= 0 && boyfriendStrums.receptors.members[key] != null)
+			{
 				boyfriendStrums.receptors.members[key].playAnim('static');
+			}
 		}
 	}
 
@@ -926,6 +930,7 @@ class PlayState extends MusicBeatState
 			characterPlayAnimation(coolNote, character);
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
 				characterStrums.receptors.members[coolNote.noteData].playAnim('confirm', true);
+			camMoving = false;
 
 			// special thanks to sam, they gave me the original system which kinda inspired my idea for this new one
 			if (canDisplayJudgement)
@@ -1110,27 +1115,24 @@ class PlayState extends MusicBeatState
 	{
 		if (!Init.trueSettings.get('No Camera Note Movement'))
 		{
-			var camDisplaceExtend:Float = 15;
 			var daSection:SwagSection = PlayState.SONG.notes[Std.int(curStep / 16)];
-			if (daSection != null)
+			if (daSection != null && ((daSection.mustHitSection && mustHit) || (!daSection.mustHitSection && !mustHit)))
 			{
-				if ((daSection.mustHitSection && mustHit) || (!daSection.mustHitSection && !mustHit))
-				{
-					camDisplaceX = 0;
-					if (cStrum.members[0].animation.curAnim.name == 'confirm')
-						camDisplaceX -= camDisplaceExtend;
-					if (cStrum.members[3].animation.curAnim.name == 'confirm')
-						camDisplaceX += camDisplaceExtend;
+				var camDisplaceExtend:Float = 15;
 
-					camDisplaceY = 0;
-					if (cStrum.members[1].animation.curAnim.name == 'confirm')
-						camDisplaceY += camDisplaceExtend;
-					if (cStrum.members[2].animation.curAnim.name == 'confirm')
-						camDisplaceY -= camDisplaceExtend;
-				}
+				camDisplaceX = 0;
+				if (cStrum.members[0].animation.curAnim.name == 'confirm')
+					camDisplaceX -= camDisplaceExtend;
+				if (cStrum.members[3].animation.curAnim.name == 'confirm')
+					camDisplaceX += camDisplaceExtend;
+
+				camDisplaceY = 0;
+				if (cStrum.members[1].animation.curAnim.name == 'confirm')
+					camDisplaceY += camDisplaceExtend;
+				if (cStrum.members[2].animation.curAnim.name == 'confirm')
+					camDisplaceY -= camDisplaceExtend;
 			}
 		}
-		//
 	}
 
 	override public function onFocus():Void
@@ -1162,7 +1164,6 @@ class PlayState extends MusicBeatState
 	}
 
 	var animationsPlay:Array<Note> = [];
-
 	private var ratingTiming:String = "";
 
 	function popUpScore(baseRating:String, timing:String, strumline:Strumline, coolNote:Note)
@@ -1578,29 +1579,45 @@ class PlayState extends MusicBeatState
 
 	public function moveCamera(isDad:Bool)
 	{
+		// fix the cringe moves of camera when multiples characters sings at same time
+		var displaceArray:Array<Float> = [camDisplaceX, camDisplaceY];
+		if (camMoving)
+			displaceArray = [0, 0];
+		else
+			camMoving = true;
+
 		if (isDad)
 		{
-			camFollow.set(dadOpponent.getMidpoint().x + 150, dadOpponent.getMidpoint().y - 100);
-			camFollow.x += camDisplaceX + dadOpponent.characterData.camOffsetX;
-			camFollow.y += camDisplaceY + dadOpponent.characterData.camOffsetY;
+			var char = dadOpponent;
+
+			var getCenterX = char.getMidpoint().x + 100;
+			var getCenterY = char.getMidpoint().y - 100;
+
+			camFollow.x = getCenterX + displaceArray[0] + char.characterData.camOffsetX;
+			camFollow.y = getCenterY + displaceArray[1] + char.characterData.camOffsetY;
 		}
 		else
 		{
-			camFollow.set(boyfriend.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
+			var char = boyfriend;
 
+			var getCenterX = char.getMidpoint().x - 100;
+			var getCenterY = char.getMidpoint().y - 100;
 			switch (curStage)
 			{
 				case 'limo':
-					camFollow.x = boyfriend.getMidpoint().x - 300;
+					getCenterX = char.getMidpoint().x - 300;
 				case 'mall':
-					camFollow.y = boyfriend.getMidpoint().y - 200;
-				case 'school' | 'schoolEvil':
-					camFollow.x = boyfriend.getMidpoint().x - 200;
-					camFollow.y = boyfriend.getMidpoint().y - 200;
+					getCenterY = char.getMidpoint().y - 200;
+				case 'school':
+					getCenterX = char.getMidpoint().x - 200;
+					getCenterY = char.getMidpoint().y - 200;
+				case 'schoolEvil':
+					getCenterX = char.getMidpoint().x - 200;
+					getCenterY = char.getMidpoint().y - 200;
 			}
 
-			camFollow.x -= camDisplaceX - boyfriend.characterData.camOffsetX;
-			camFollow.y += camDisplaceY + boyfriend.characterData.camOffsetY;
+			camFollow.x = getCenterX + displaceArray[0] - char.characterData.camOffsetX;
+			camFollow.y = getCenterY + displaceArray[1] + char.characterData.camOffsetY;
 		}
 	}
 

@@ -67,6 +67,7 @@ class UIStaticArrow extends FlxSprite
 			alpha = setAlpha;
 
 		animation.play(AnimName, Force, Reversed, Frame);
+		centerOrigin();
 		updateHitbox();
 
 		var daOffset = animOffsets.get(AnimName);
