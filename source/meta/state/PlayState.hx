@@ -322,7 +322,6 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		startedCountdown = true;
 
-		//
 		var placement = (FlxG.width / 2);
 		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
 		dadStrums.visible = !Init.trueSettings.get('Centered Notefield');
@@ -351,14 +350,12 @@ class PlayState extends MusicBeatState
 		uiHUD = new ClassHUD();
 		add(uiHUD);
 		uiHUD.cameras = [camHUD];
-		//
 
 		// create a hud over the hud camera for dialogue
 		dialogueHUD = new FlxCamera();
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 
-		//
 		keysArray = [
 			copyKey(Init.gameControls.get('LEFT')[0]),
 			copyKey(Init.gameControls.get('DOWN')[0]),
