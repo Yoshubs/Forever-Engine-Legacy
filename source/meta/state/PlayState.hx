@@ -572,8 +572,6 @@ class PlayState extends MusicBeatState
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
 
-		FlxG.camera.followLerp = elapsed;
-
 		if (health > 2)
 			health = 2;
 
@@ -683,6 +681,9 @@ class PlayState extends MusicBeatState
 					lastSection = Std.int(curStep / 16);
 				}
 			}
+
+			var lerpVal:Float = CoolUtil.boundTo(elapsed * 2.4 * cameraSpeed, 0, 1);
+			camFollowPos.setPosition(FlxMath.lerp(camFollowPos.x, camFollow.x, lerpVal), FlxMath.lerp(camFollowPos.y, camFollow.y, lerpVal));
 
 			// camera stuffs
 			var easeNum = CoolUtil.boundTo(1 - elapsed * 3.125, 0, 1);
