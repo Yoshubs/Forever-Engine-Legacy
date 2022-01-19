@@ -233,15 +233,7 @@ class Init extends FlxState
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 		
-		gotoTitleScreen();
-	}
-
-	private function gotoTitleScreen()
-	{	
-		if (trueSettings.get("Custom Titlescreen"))
-			Main.switchState(this, new CustomTitlescreen());
-		else
-			Main.switchState(this, new TitleState());
+		Main.switchState(this, new TitleState());
 	}
 
 	public static function loadSettings():Void
