@@ -190,6 +190,23 @@ class PlayState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
+
+		// strumline camera setup
+		strumHUD = [];
+		for (i in 0...strumLines.length)
+		{
+			// generate a new strum camera
+			strumHUD[i] = new FlxCamera();
+			strumHUD[i].bgColor.alpha = 0;
+
+			strumHUD[i].cameras = [camHUD];
+			allUIs.push(strumHUD[i]);
+			FlxG.cameras.add(strumHUD[i]);
+			// set this strumline's camera to the designated camera
+			strumLines.members[i].cameras = [strumHUD[i]];
+		}
+		add(strumLines);
+
 		FlxG.cameras.add(camHUD);
 		allUIs.push(camHUD);
 		FlxCamera.defaultCameras = [camGame];
@@ -330,22 +347,6 @@ class PlayState extends MusicBeatState
 
 		strumLines.add(dadStrums);
 		strumLines.add(boyfriendStrums);
-
-		// strumline camera setup
-		strumHUD = [];
-		for (i in 0...strumLines.length)
-		{
-			// generate a new strum camera
-			strumHUD[i] = new FlxCamera();
-			strumHUD[i].bgColor.alpha = 0;
-
-			strumHUD[i].cameras = [camHUD];
-			allUIs.push(strumHUD[i]);
-			FlxG.cameras.add(strumHUD[i]);
-			// set this strumline's camera to the designated camera
-			strumLines.members[i].cameras = [strumHUD[i]];
-		}
-		add(strumLines);
 
 		uiHUD = new ClassHUD();
 		add(uiHUD);
