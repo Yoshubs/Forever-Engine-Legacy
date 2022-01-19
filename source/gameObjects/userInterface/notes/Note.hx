@@ -44,10 +44,11 @@ class Note extends FNFSprite
 	public var noteSpeed:Float = 0;
 	public var noteDirection:Float = 0;
 
-	public var parentNote:Note; 
+	public var parentNote:Note;
 	public var childrenNotes:Array<Note> = [];
 
 	public static var swagWidth:Float = 160 * 0.7;
+
 	// it has come to this.
 	public var endHoldOffset:Float = Math.NEGATIVE_INFINITY;
 
@@ -76,7 +77,8 @@ class Note extends FNFSprite
 			while (parentNote.parentNote != null)
 				parentNote = parentNote.parentNote;
 			parentNote.childrenNotes.push(this);
-		} else if (!isSustainNote)
+		}
+		else if (!isSustainNote)
 			parentNote = null;
 	}
 
@@ -86,8 +88,7 @@ class Note extends FNFSprite
 
 		if (mustPress)
 		{
-			if (strumTime > Conductor.songPosition - (Timings.msThreshold) 
-				&& strumTime < Conductor.songPosition + (Timings.msThreshold))
+			if (strumTime > Conductor.songPosition - (Timings.msThreshold) && strumTime < Conductor.songPosition + (Timings.msThreshold))
 				canBeHit = true;
 			else
 				canBeHit = false;
@@ -194,10 +195,12 @@ class Note extends FNFSprite
 
 			var curBPM:Float = Conductor.bpm;
 			var newTime = strumTime;
-			for (i in 0...Conductor.bpmChangeMap.length) {
-				if (strumTime > Conductor.bpmChangeMap[i].songTime){
+			for (i in 0...Conductor.bpmChangeMap.length)
+			{
+				if (strumTime > Conductor.bpmChangeMap[i].songTime)
+				{
 					curBPM = Conductor.bpmChangeMap[i].bpm;
-					newTime = strumTime-Conductor.bpmChangeMap[i].songTime;
+					newTime = strumTime - Conductor.bpmChangeMap[i].songTime;
 				}
 			}
 

@@ -58,7 +58,12 @@ class Init extends FlxState
 			'Whether to display approximately how much memory is being used.',
 			NOT_FORCED
 		],
-		'Debug Info' => [false, Checkmark, 'Whether to display information like your game state.', NOT_FORCED],
+		'Debug Info' => [
+			false,
+			Checkmark,
+			'Whether to display information like your game state.',
+			NOT_FORCED
+		],
 		'Reduced Movements' => [
 			false,
 			Checkmark,
@@ -119,12 +124,28 @@ class Init extends FlxState
 			NOT_FORCED,
 			['none', 'Deuteranopia', 'Protanopia', 'Tritanopia']
 		],
-		"Clip Style" => ['stepmania', Selector, "Chooses a style for hold note clippings; StepMania: Holds under Receptors; FNF: Holds over receptors", NOT_FORCED, 
-			['StepMania', 'FNF']],
-		"UI Skin" => ['default', Selector, 'Choose a UI Skin for judgements, combo, etc.', NOT_FORCED, ''],
+		"Clip Style" => [
+			'stepmania',
+			Selector,
+			"Chooses a style for hold note clippings; StepMania: Holds under Receptors; FNF: Holds over receptors",
+			NOT_FORCED,
+			['StepMania', 'FNF']
+		],
+		"UI Skin" => [
+			'default',
+			Selector,
+			'Choose a UI Skin for judgements, combo, etc.',
+			NOT_FORCED,
+			''
+		],
 		"Note Skin" => ['default', Selector, 'Choose a note skin.', NOT_FORCED, ''],
 		"Framerate Cap" => [120, Selector, 'Define your maximum FPS.', NOT_FORCED, ['']],
-		"Opaque Arrows" => [false, Checkmark, "Makes the arrows at the top of the screen opaque again.", NOT_FORCED],
+		"Opaque Arrows" => [
+			false,
+			Checkmark,
+			"Makes the arrows at the top of the screen opaque again.",
+			NOT_FORCED
+		],
 		"Opaque Holds" => [false, Checkmark, "Huh, why isnt the trail cut off?", NOT_FORCED],
 		'Ghost Tapping' => [
 			false,
@@ -149,7 +170,7 @@ class Init extends FlxState
 		'Fixed Judgements' => [
 			false,
 			Checkmark,
-			"Fixes the judgements to the camera instead of to the world itself, making them easier to read.", 
+			"Fixes the judgements to the camera instead of to the world itself, making them easier to read.",
 			NOT_FORCED
 		],
 		'Simply Judgements' => [
@@ -158,25 +179,15 @@ class Init extends FlxState
 			"Simplifies the judgement animations, displaying only one judgement / rating sprite at a time.",
 			NOT_FORCED
 		],
-
-
 	];
 
 	public static var trueSettings:Map<String, Dynamic> = [];
 	public static var settingsDescriptions:Map<String, String> = [];
 
 	public static var gameControls:Map<String, Dynamic> = [
-		'UP' => [[FlxKey.UP, W], 2],
-		'DOWN' => [[FlxKey.DOWN, S], 1],
-		'LEFT' => [[FlxKey.LEFT, A], 0],
-		'RIGHT' => [[FlxKey.RIGHT, D], 3],
-		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 4],
-		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 5],
-		'PAUSE' => [[FlxKey.ENTER, P], 6],
-		'RESET' => [[R, null], 13],
-		'UI_UP' => [[FlxKey.UP, W], 8],
-		'UI_DOWN' => [[FlxKey.DOWN, S], 9],
-		'UI_LEFT' => [[FlxKey.LEFT, A], 10],
+		'UP' => [[FlxKey.UP, W], 2], 'DOWN' => [[FlxKey.DOWN, S], 1], 'LEFT' => [[FlxKey.LEFT, A], 0], 'RIGHT' => [[FlxKey.RIGHT, D], 3],
+		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 4], 'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 5], 'PAUSE' => [[FlxKey.ENTER, P], 6],
+		'RESET' => [[R, null], 13], 'UI_UP' => [[FlxKey.UP, W], 8], 'UI_DOWN' => [[FlxKey.DOWN, S], 9], 'UI_LEFT' => [[FlxKey.LEFT, A], 10],
 		'UI_RIGHT' => [[FlxKey.RIGHT, D], 11],
 	];
 
@@ -232,7 +243,7 @@ class Init extends FlxState
 		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
-		
+
 		Main.switchState(this, new TitleState());
 	}
 

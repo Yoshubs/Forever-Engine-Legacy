@@ -391,24 +391,25 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	public function dadPosition(curStage, boyfriend:Character, dad:Character, gf:Character, camPos:FlxPoint):Void
 	{
 		var characterArray:Array<Character> = [dad, boyfriend];
-		for (char in characterArray) {
+		for (char in characterArray)
+		{
 			switch (char.curCharacter)
 			{
 				case 'gf':
 					char.setPosition(gf.x, gf.y);
 					gf.visible = false;
-				/*
-					if (isStoryMode)
-					{
-						camPos.x += 600;
-						tweenCamIn();
-				}*/
-				/*
-				case 'spirit':
-					var evilTrail = new FlxTrail(char, null, 4, 24, 0.3, 0.069);
-					evilTrail.changeValuesEnabled(false, false, false, false);
-					add(evilTrail);
-					*/
+					/*
+						if (isStoryMode)
+						{
+							camPos.x += 600;
+							tweenCamIn();
+					}*/
+					/*
+						case 'spirit':
+							var evilTrail = new FlxTrail(char, null, 4, 24, 0.3, 0.069);
+							evilTrail.changeValuesEnabled(false, false, false, false);
+							add(evilTrail);
+					 */
 			}
 		}
 	}
@@ -443,7 +444,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				boyfriend.y += 220;
 				gf.x += 180;
 				gf.y += 300;
-
 		}
 	}
 

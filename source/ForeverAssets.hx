@@ -53,7 +53,7 @@ class ForeverAssets
 				newSprite.animation.play('base');
 		}
 
-		if (assetModifier == 'pixel') 
+		if (assetModifier == 'pixel')
 			newSprite.setGraphicSize(Std.int(newSprite.width * PlayState.daPixelZoom));
 		else
 		{
@@ -92,9 +92,9 @@ class ForeverAssets
 				rating.y -= 60;
 				if (!Init.trueSettings.get('Simply Judgements'))
 				{
-				rating.acceleration.y = 550;
-				rating.velocity.y = -FlxG.random.int(140, 175);
-				rating.velocity.x = -FlxG.random.int(0, 10);
+					rating.acceleration.y = 550;
+					rating.velocity.y = -FlxG.random.int(140, 175);
+					rating.velocity.x = -FlxG.random.int(0, 10);
 				}
 				rating.animation.add('base', [
 					Std.int((Timings.judgementsMap.get(asset)[0] * 2) + (perfectSick ? 0 : 2) + (timing == 'late' ? 1 : 0))
@@ -113,15 +113,15 @@ class ForeverAssets
 		return rating;
 	}
 
-	public static function generateNoteSplashes(asset:String, assetModifier:String = 'base', changeableSkin:String = 'default', baseLibrary:String, noteData:Int):NoteSplash
+	public static function generateNoteSplashes(asset:String, assetModifier:String = 'base', changeableSkin:String = 'default', baseLibrary:String,
+			noteData:Int):NoteSplash
 	{
 		//
 		var tempSplash:NoteSplash = new NoteSplash(noteData);
 		switch (assetModifier)
 		{
 			case 'pixel':
-				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('splash-pixel', assetModifier, changeableSkin, baseLibrary)), true, 34,
-					34);
+				tempSplash.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('splash-pixel', assetModifier, changeableSkin, baseLibrary)), true, 34, 34);
 				tempSplash.animation.add('anim1', [noteData, 4 + noteData, 8 + noteData, 12 + noteData], 24, false);
 				tempSplash.animation.add('anim2', [16 + noteData, 20 + noteData, 24 + noteData, 28 + noteData], 24, false);
 				tempSplash.animation.play('anim1');
@@ -244,8 +244,9 @@ class ForeverAssets
 		else
 			newNote = Note.returnDefaultNote(assetModifier, strumTime, noteData, noteType, noteAlt, isSustainNote, prevNote);
 
-		// hold note shit 
-		if (isSustainNote && prevNote != null) {
+		// hold note shit
+		if (isSustainNote && prevNote != null)
+		{
 			// set note offset
 			if (prevNote.isSustainNote)
 				newNote.noteVisualOffset = prevNote.noteVisualOffset;

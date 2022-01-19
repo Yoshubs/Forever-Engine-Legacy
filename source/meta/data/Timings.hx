@@ -27,13 +27,13 @@ class Timings
 
 	// set the score judgements for later use
 	public static var scoreRating:Map<String, Int> = [
-		"S+" => 100, 
-		"S" => 95, 
-		"A" => 90, 
-		"b" => 85, 
-		"c" => 80, 
-		"d" => 75, 
-		"e" => 70, 
+		"S+" => 100,
+		"S" => 95,
+		"A" => 90,
+		"b" => 85,
+		"c" => 80,
+		"d" => 75,
+		"e" => 70,
 		"f" => 65,
 	];
 
@@ -89,10 +89,13 @@ class Timings
 
 	public static function updateAccuracy(judgement:Int, ?isSustain:Bool = false, ?segmentCount:Int = 1)
 	{
-		if (!isSustain) {
+		if (!isSustain)
+		{
 			notesHit++;
 			accuracy += (Math.max(0, judgement));
-		} else {
+		}
+		else
+		{
 			accuracy += (Math.max(0, judgement) / segmentCount);
 		}
 		trueAccuracy = (accuracy / notesHit);

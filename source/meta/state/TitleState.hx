@@ -76,7 +76,7 @@ class TitleState extends MusicBeatState
 			#if !html5
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
-			
+
 			ForeverTools.resetMenuMusic(true);
 		}
 

@@ -17,7 +17,8 @@ import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;
 
-typedef CharacterData = {
+typedef CharacterData =
+{
 	var offsetX:Float;
 	var offsetY:Float;
 	var camOffsetX:Float;
@@ -51,7 +52,7 @@ class Character extends FNFSprite
 
 		characterData = {
 			offsetY: 0,
-			offsetX: 0, 
+			offsetX: 0,
 			camOffsetY: 0,
 			camOffsetX: 0,
 			quickDancer: false
@@ -474,8 +475,8 @@ class Character extends FNFSprite
 						animation.addByPrefix(getterArray[i][0], getterArray[i][1].trim(), 24, false);
 					}
 				}
-				else 
-					return setCharacter(x, y, 'bf'); 					
+				else
+					return setCharacter(x, y, 'bf');
 		}
 
 		// set up offsets cus why not
@@ -503,7 +504,8 @@ class Character extends FNFSprite
 		else if (curCharacter.startsWith('bf'))
 			flipLeftRight();
 
-		if (adjustPos) {
+		if (adjustPos)
+		{
 			x += characterData.offsetX;
 			trace('character ${curCharacter} scale ${scale.y}');
 			y += (characterData.offsetY - (frameHeight * scale.y));
@@ -511,7 +513,7 @@ class Character extends FNFSprite
 
 		this.x = x;
 		this.y = y;
-		
+
 		return this;
 	}
 
@@ -599,7 +601,8 @@ class Character extends FNFSprite
 					}
 				default:
 					// Left/right dancing, think Skid & Pump
-					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null) {
+					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null)
+					{
 						danced = !danced;
 						if (danced)
 							playAnim('danceRight', forced);

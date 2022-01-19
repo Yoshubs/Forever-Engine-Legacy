@@ -35,7 +35,6 @@ enum abstract Action(String) to String from String
 	var UI_LEFT_R = "ui_left-release";
 	var UI_RIGHT_R = "ui_right-release";
 	var UI_DOWN_R = "ui_down-release";
-	
 	var UP = "up";
 	var LEFT = "left";
 	var RIGHT = "right";
@@ -195,7 +194,7 @@ class Controls extends FlxActionSet
 
 	inline function get_UI_DOWN_R()
 		return _ui_downR.check();
-	
+
 	public var UP(get, never):Bool;
 
 	inline function get_UP()
@@ -650,19 +649,11 @@ class Controls extends FlxActionSet
 	{
 		#if !switch
 		addGamepadLiteral(id, [
-			Control.ACCEPT => [A],
-			Control.BACK => [B],
-			Control.UI_UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
-			Control.UI_DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
-			Control.UI_LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
-			Control.UI_RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT],
-			Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
-			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
-			Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
-			Control.RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT],
-			Control.PAUSE => [START],
-			Control.RESET => [Y]
-		]);
+			Control.ACCEPT => [A], Control.BACK => [B], Control.UI_UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
+			Control.UI_DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN], Control.UI_LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
+			Control.UI_RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT], Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
+			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN], Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
+			Control.RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT], Control.PAUSE => [START], Control.RESET => [Y]]);
 		#else
 		addGamepadLiteral(id, [
 			// Swap A and B for switch

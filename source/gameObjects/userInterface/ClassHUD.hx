@@ -36,8 +36,10 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	private var healthBar:FlxBar;
 
 	private var SONG = PlayState.SONG;
+
 	public var iconP1:HealthIcon;
 	public var iconP2:HealthIcon;
+
 	private var stupidHealth:Float = 0;
 
 	private var timingsMap:Map<String, FlxText> = [];
@@ -96,17 +98,19 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		add(infoBar);
 
 		// counter
-		if (Init.trueSettings.get('Counter') != 'None') {
+		if (Init.trueSettings.get('Counter') != 'None')
+		{
 			var judgementNameArray:Array<String> = [];
 			for (i in Timings.judgementsMap.keys())
 				judgementNameArray.insert(Timings.judgementsMap.get(i)[0], i);
 			judgementNameArray.sort(sortByShit);
-			for (i in 0...judgementNameArray.length) {
-				var textAsset:FlxText = new FlxText(5 + (!left ? (FlxG.width - 10) : 0),
+			for (i in 0...judgementNameArray.length)
+			{
+				var textAsset:FlxText = new FlxText(5
+					+ (!left ? (FlxG.width - 10) : 0),
 					(FlxG.height / 2)
 					- (counterTextSize * (judgementNameArray.length / 2))
-					+ (i * counterTextSize), 0,
-					'', counterTextSize);
+					+ (i * counterTextSize), 0, '', counterTextSize);
 				if (!left)
 					textAsset.x -= textAsset.text.length * counterTextSize;
 				textAsset.setFormat(Paths.font("vcr.ttf"), counterTextSize, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
@@ -174,7 +178,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')
 		{
-			for (i in timingsMap.keys()) {
+			for (i in timingsMap.keys())
+			{
 				timingsMap[i].text = '${(i.charAt(0).toUpperCase() + i.substring(1, i.length))}: ${Timings.gottenJudgements.get(i)}';
 				timingsMap[i].x = (5 + (!left ? (FlxG.width - 10) : 0) - (!left ? (6 * counterTextSize) : 0));
 			}

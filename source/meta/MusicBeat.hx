@@ -36,8 +36,7 @@ class MusicBeatState extends FNFUIState
 	{
 		// dump
 		Paths.clearStoredMemory();
-		if ((!Std.isOfType(this,meta.state.PlayState)) 
-		&& (!Std.isOfType(this, meta.state.charting.OriginalChartingState)))
+		if ((!Std.isOfType(this, meta.state.PlayState)) && (!Std.isOfType(this, meta.state.charting.OriginalChartingState)))
 			Paths.clearUnusedMemory();
 
 		if (transIn != null)
@@ -64,27 +63,29 @@ class MusicBeatState extends FNFUIState
 		updateCurStep();
 		updateBeat();
 
-		// delta time bullshit 
+		// delta time bullshit
 		var trueStep:Int = curStep;
 		for (i in storedSteps)
 			if (i < oldStep)
 				storedSteps.remove(i);
-		for (i in oldStep...trueStep) {
-			if (!storedSteps.contains(i) && i > 0) {
+		for (i in oldStep...trueStep)
+		{
+			if (!storedSteps.contains(i) && i > 0)
+			{
 				curStep = i;
 				stepHit();
 				skippedSteps.push(i);
 			}
 		}
-		if (skippedSteps.length > 0) {
+		if (skippedSteps.length > 0)
+		{
 			trace('skipped steps $skippedSteps');
 			skippedSteps = [];
 		}
 		curStep = trueStep;
 
 		//
-		if (oldStep != curStep && curStep > 0 
-			&& !storedSteps.contains(curStep)) 
+		if (oldStep != curStep && curStep > 0 && !storedSteps.contains(curStep))
 			stepHit();
 		oldStep = curStep;
 	}
@@ -118,7 +119,7 @@ class MusicBeatState extends FNFUIState
 	{
 		if (curStep % 4 == 0)
 			beatHit();
-		
+
 		// trace('step $curStep');
 
 		if (!storedSteps.contains(curStep))

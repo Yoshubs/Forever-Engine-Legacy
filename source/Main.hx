@@ -171,7 +171,7 @@ class Main extends Sprite
 		}
 
 		FlxTransitionableState.skipNextTransIn = true;
-		
+
 		// here we set up the base game
 		var gameCreate:FlxGame;
 		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, zoom, framerate, framerate, skipSplash);
@@ -213,14 +213,15 @@ class Main extends Sprite
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
 			curState.openSubState(new FNFTransition(0.8, false));
-			FNFTransition.finishCallback = function() {
+			FNFTransition.finishCallback = function()
+			{
 				FlxG.switchState(target);
 			};
 			return trace('changed state');
 		}
 		FlxTransitionableState.skipNextTransIn = false;
 		// load the state
-		FlxG.switchState(target);		
+		FlxG.switchState(target);
 	}
 
 	public static function updateFramerate(newFramerate:Int)

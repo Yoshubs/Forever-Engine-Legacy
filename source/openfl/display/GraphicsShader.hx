@@ -105,7 +105,7 @@ class GraphicsShader extends Shader
 	}
 
 	override public function __initGL()
-	{		
+	{
 		processSource();
 
 		__isGenerated = true;
