@@ -327,13 +327,9 @@ class PlayState extends MusicBeatState
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 
-		// create the hud
-		uiHUD = new ClassHUD();
-		uiHUD.cameras = [camHUD];
-		add(uiHUD);
-
 		// strums setup
 		strumLines = new FlxTypedGroup<Strumline>();
+		strumLines.cameras = [camNotes];
 
 		var placement = (FlxG.width / 2);
 		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
@@ -343,9 +339,16 @@ class PlayState extends MusicBeatState
 
 		strumLines.add(dadStrums);
 		strumLines.add(boyfriendStrums);
-
-		strumLines.cameras = [camNotes];
 		add(strumLines);
+
+		uiHUD = new ClassHUD();
+		add(uiHUD);
+		uiHUD.cameras = [camHUD];
+
+		// create a hud over the hud camera for dialogue
+		dialogueHUD = new FlxCamera();
+		dialogueHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(dialogueHUD);
 
 		keysArray = [
 			copyKey(Init.gameControls.get('LEFT')[0]),
