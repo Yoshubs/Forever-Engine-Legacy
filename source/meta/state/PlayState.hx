@@ -752,17 +752,17 @@ class PlayState extends MusicBeatState
 				strumline.allNotes.forEachAlive(function(daNote:Note)
 				{
 					var roundedSpeed = FlxMath.roundDecimal(daNote.noteSpeed, 2);
-					var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 6;
+					var receptorPosY:Float = strumline.receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 4.5;
 					var psuedoY:Float = (downscrollMultiplier * -((Conductor.songPosition - daNote.strumTime) * (0.45 * roundedSpeed)));
 					var psuedoX = 25 + daNote.noteVisualOffset;
 
 					daNote.y = receptorPosY
-						+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY)
-						+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX);
+						+ Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY
+						+ Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX;
 					// painful math equation
 					daNote.x = strumline.receptors.members[Math.floor(daNote.noteData)].x
-						+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
-						+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
+						+ Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX
+						+ Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY;
 
 					// also set note rotation
 					daNote.angle = -daNote.noteDirection;
@@ -771,23 +771,23 @@ class PlayState extends MusicBeatState
 					var center:Float = receptorPosY + Note.swagWidth / 2;
 					if (daNote.isSustainNote)
 					{
-						daNote.y -= ((daNote.height / 2) * downscrollMultiplier);
+						daNote.y -= (daNote.height / 2) * downscrollMultiplier;
 						if ((daNote.animation.curAnim.name.endsWith('holdend')) && (daNote.prevNote != null))
 						{
-							daNote.y -= ((daNote.prevNote.height / 2) * downscrollMultiplier);
+							daNote.y -= (daNote.prevNote.height / 2) * downscrollMultiplier;
 							if (Init.trueSettings.get('Downscroll'))
 							{
 								daNote.y += (daNote.height * 2);
 								if (daNote.endHoldOffset == Math.NEGATIVE_INFINITY)
 								{
 									// set the end hold offset yeah I hate that I fix this like this
-									daNote.endHoldOffset = (daNote.prevNote.y - (daNote.y + daNote.height - 2));
+									daNote.endHoldOffset = daNote.prevNote.y - (daNote.y + daNote.height - 2);
 								}
 								else
 									daNote.y += daNote.endHoldOffset;
 							}
 							else // this system is funny like that
-								daNote.y += ((daNote.height / 2) * downscrollMultiplier);
+								daNote.y += (daNote.height / 2) * downscrollMultiplier;
 						}
 
 						if (Init.trueSettings.get('Downscroll'))
