@@ -881,9 +881,6 @@ class PlayState extends MusicBeatState
 					if (doKill)
 						destroyNote(strumline, daNote);
 				});
-
-				// unoptimised asf camera control based on strums
-				strumCameraRoll(strumline.receptors, (strumline == boyfriendStrums));
 			}
 		}
 
@@ -923,6 +920,8 @@ class PlayState extends MusicBeatState
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
 				characterStrums.receptors.members[coolNote.noteData].playAnim('confirm', true);
 			camMoving = false;
+			// unoptimised asf camera control based on strums
+			strumCameraRoll(characterStrums.receptors);
 
 			// special thanks to sam, they gave me the original system which kinda inspired my idea for this new one
 			if (canDisplayJudgement)
@@ -1103,27 +1102,23 @@ class PlayState extends MusicBeatState
 		}
 	}
 
-	private function strumCameraRoll(cStrum:FlxTypedGroup<UIStaticArrow>, mustHit:Bool)
+	private function strumCameraRoll(cStrum:FlxTypedGroup<UIStaticArrow>)
 	{
 		if (!Init.trueSettings.get('No Camera Note Movement'))
 		{
-			var daSection:SwagSection = PlayState.SONG.notes[Std.int(curStep / 16)];
-			if (daSection != null && ((daSection.mustHitSection && mustHit) || (!daSection.mustHitSection && !mustHit)))
-			{
-				var camDisplaceExtend:Float = 15;
+			var camDisplaceExtend:Float = 15;
 
-				camDisplaceX = 0;
-				if (cStrum.members[0].animation.curAnim.name == 'confirm')
-					camDisplaceX -= camDisplaceExtend;
-				if (cStrum.members[3].animation.curAnim.name == 'confirm')
-					camDisplaceX += camDisplaceExtend;
+			camDisplaceX = 0;
+			if (cStrum.members[0].animation.curAnim.name == 'confirm')
+				camDisplaceX -= camDisplaceExtend;
+			if (cStrum.members[3].animation.curAnim.name == 'confirm')
+				camDisplaceX += camDisplaceExtend;
 
-				camDisplaceY = 0;
-				if (cStrum.members[1].animation.curAnim.name == 'confirm')
-					camDisplaceY += camDisplaceExtend;
-				if (cStrum.members[2].animation.curAnim.name == 'confirm')
-					camDisplaceY -= camDisplaceExtend;
-			}
+			camDisplaceY = 0;
+			if (cStrum.members[1].animation.curAnim.name == 'confirm')
+				camDisplaceY += camDisplaceExtend;
+			if (cStrum.members[2].animation.curAnim.name == 'confirm')
+				camDisplaceY -= camDisplaceExtend;
 		}
 	}
 
@@ -1480,25 +1475,19 @@ class PlayState extends MusicBeatState
 		if (FlxG.camera.zoom < 1.35 && ((!Init.trueSettings.get('Reduced Movements')) && curBeat % 4 == 0))
 		{
 			FlxG.camera.zoom += 0.015;
-			camHUD.zoom += 0.045;
-			camNotes.zoom += 0.045;
+			for (hud in allUIs)
+				hud.zoom += 0.045;
 		}
 
 		uiHUD.beatHit();
 
-		//
 		charactersDance(curBeat);
 
 		// stage stuffs
 		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
 	}
 
-	//
-	//
 	/// substate stuffs
-	//
-	//
-
 	public static function resetMusic()
 	{
 		// simply stated, resets the playstate's music for other states and substates
