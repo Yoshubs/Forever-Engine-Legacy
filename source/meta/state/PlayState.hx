@@ -1444,10 +1444,8 @@ class PlayState extends MusicBeatState
 	override function stepHit()
 	{
 		super.stepHit();
-		///*
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
-		//*/
 	}
 
 	private function charactersDance(curBeat:Int)
