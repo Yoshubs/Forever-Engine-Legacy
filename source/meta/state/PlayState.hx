@@ -1431,19 +1431,21 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
+		trace('resyncing vocal time ${vocals.time}');
 		vocals.pause();
 
 		songMusic.play();
 		Conductor.songPosition = songMusic.time;
 		vocals.time = Conductor.songPosition;
 		vocals.play();
+		trace('new vocal time ${Conductor.songPosition}');
 	}
 
 	override function stepHit()
 	{
 		super.stepHit();
 		///*
-		if (songMusic.time > Conductor.songPosition + 20 || songMusic.time < Conductor.songPosition - 20)
+		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
 		//*/
 	}
