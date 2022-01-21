@@ -424,6 +424,9 @@ class PlayState extends MusicBeatState
 	 */
 	private function gamepadKeyShit():Void
 	{
+		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));		
+
 		if (keyPressByController)
 		{
 			var controlArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
@@ -437,13 +440,12 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		if (keyPressByController)
+
+		var controlArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
+		if (controlArray.contains(true))
 		{
-			var controlArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
-			if (controlArray.contains(true))
-			{
 				for (i in 0...controlArray.length)
-				{
+			{
 					if (controlArray[i])
 						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 				}
@@ -563,9 +565,6 @@ class PlayState extends MusicBeatState
 		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
 
 		super.update(elapsed);
-
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
 
 		if (health > 2)
 			health = 2;
