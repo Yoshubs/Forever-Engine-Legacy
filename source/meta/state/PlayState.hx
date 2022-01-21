@@ -138,6 +138,8 @@ class PlayState extends MusicBeatState
 	public static var uiHUD:ClassHUD;
 
 	public static var daPixelZoom:Float = 6;
+
+	private static var rawSONG:Dynamic;
 	public static var determinedChartType:String = "";
 
 	// strumlines
@@ -202,14 +204,20 @@ class PlayState extends MusicBeatState
 
 		// default song
 		if (SONG == null)
+		{
 			SONG = Song.loadFromJson('test', 'test');
+		}
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
 
-		/// here we determine the chart type!
 		// determine the chart type here
-		determinedChartType = "FNF";
+		// TODO: find a better way to get raw json
+		if ((cast SONG).splashSkin != null)
+			determinedChartType = "psych";
+		else
+			determinedChartType = "FNF";
+		trace(determinedChartType);
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
@@ -418,10 +426,7 @@ class PlayState extends MusicBeatState
 		return copiedArray;
 	}
 
-	/*
-		This function add the support for gamepad (because the new input system removed it).
-		This is based on some Psych Engine code (and some made by me too).
-	 */
+	// gamepad support forever
 	private function gamepadKeyShit():Void
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -1407,7 +1412,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 
 		// generate the chart
-		unspawnNotes = ChartLoader.generateChartType(SONG, determinedChartType, camNotes);
+		unspawnNotes = ChartLoader.generateChartType(SONG, determinedChartType);
 		// sometime my brain farts dont ask me why these functions were separated before
 
 		// sort through them

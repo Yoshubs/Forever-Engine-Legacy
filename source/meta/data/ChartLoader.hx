@@ -1,16 +1,9 @@
 package meta.data;
 
-import flixel.FlxCamera;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import gameObjects.userInterface.notes.*;
 import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import meta.state.PlayState;
-import meta.state.charting.ChartingState;
 
 /**
 	This is the chartloader class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
@@ -21,7 +14,7 @@ import meta.state.charting.ChartingState;
 class ChartLoader
 {
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
-	public static function generateChartType(songData:SwagSong, ?typeOfChart:String = "FNF", ?cam:FlxCamera):Array<Note>
+	public static function generateChartType(songData:SwagSong, ?typeOfChart:String = "FNF"):Array<Note>
 	{
 		var unspawnNotes:Array<Note> = [];
 		var noteData:Array<SwagSection>;
@@ -29,7 +22,7 @@ class ChartLoader
 		noteData = songData.notes;
 		switch (typeOfChart)
 		{
-			default:
+			case 'FNF':
 				// load fnf style charts (PRE 2.8)
 				var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
@@ -70,10 +63,6 @@ class ChartLoader
 						// create the new note
 						var swagNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteData, 0, daNoteAlt);
 
-						// set note camera
-						if (cam != null)
-							swagNote.cameras = [cam];
-
 						// set note speed
 						swagNote.noteSpeed = songData.speed;
 
@@ -93,8 +82,6 @@ class ChartLoader
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 							var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier,
 								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, 0, daNoteAlt, true, oldNote);
-							if (cam != null)
-								sustainNote.cameras = [cam];
 							sustainNote.scrollFactor.set();
 
 							unspawnNotes.push(sustainNote);
@@ -117,15 +104,74 @@ class ChartLoader
 				load charts from the base game, export charts to the base game, and generally handle everything with an accuracy similar to that
 				of the main game so it feels like loading things in works well.
 			 */
-			case 'forever':
-				/*
-					That being said, however, we also have forever charts, which are complete restructures with new custom features and such.
-					Will be useful for projects later on, and it will give you more control over things you can do with the chart and with the game.
-					I'll also make it really easy to convert charts, you'll just have to load them in and pick an export option! If you want to play
-					songs made in forever engine with the base game then you can do that too.
-				 */
-		}
+			// case 'forever':
+			/*
+				That being said, however, we also have forever charts, which are complete restructures with new custom features and such.
+				Will be useful for projects later on, and it will give you more control over things you can do with the chart and with the game.
+				I'll also make it really easy to convert charts, you'll just have to load them in and pick an export option! If you want to play
+				songs made in forever engine with the base game then you can do that too.
+			 */
+			case 'psych':
+				// load psych engine charts (0.5.*)
+				var daBeats:Int = 0;
 
+				for (section in noteData)
+				{
+					for (songNotes in section.sectionNotes)
+					{
+						var daStrumTime:Float = songNotes[0];
+						var daNoteData:Int = Std.int(songNotes[1] % 4);
+						var daNoteAlt:Float = 0;
+
+						// very stupid but I'm lazy
+						if (songNotes.length > 2)
+							daNoteAlt = songNotes[3];
+
+						var gottaHitNote:Bool = section.mustHitSection;
+
+						if (songNotes[1] > 3)
+						{
+							gottaHitNote = !section.mustHitSection;
+						}
+
+						var oldNote:Note;
+						if (unspawnNotes.length > 0)
+							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+						else
+							oldNote = null;
+
+						var swagNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteData, 0, daNoteAlt);
+
+						swagNote.mustPress = gottaHitNote;
+						swagNote.sustainLength = songNotes[2];
+						swagNote.noteType = songNotes[3];
+
+						swagNote.scrollFactor.set();
+
+						var susLength:Float = swagNote.sustainLength;
+
+						susLength = susLength / Conductor.stepCrochet;
+						unspawnNotes.push(swagNote);
+
+						var floorSus:Int = Math.floor(susLength);
+						if (floorSus > 0)
+						{
+							for (susNote in 0...floorSus + 1)
+							{
+								oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
+
+								var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteData, 0, daNoteAlt, true,
+									oldNote);
+								sustainNote.mustPress = gottaHitNote;
+								sustainNote.noteType = swagNote.noteType;
+								sustainNote.scrollFactor.set();
+								unspawnNotes.push(sustainNote);
+							}
+						}
+					}
+					daBeats += 1;
+				}
+		}
 		return unspawnNotes;
 	}
 }
