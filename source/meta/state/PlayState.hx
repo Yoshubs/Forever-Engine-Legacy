@@ -564,9 +564,6 @@ class PlayState extends MusicBeatState
 
 		super.update(elapsed);
 
-		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
-
 		if (health > 2)
 			health = 2;
 
@@ -592,6 +589,8 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene)
 		{
+			var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
+			keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
 			gamepadKeyShit();
 
 			// pause the game if the game is allowed to pause and enter is pressed
