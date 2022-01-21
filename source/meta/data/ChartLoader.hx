@@ -21,7 +21,7 @@ import meta.state.charting.ChartingState;
 class ChartLoader
 {
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
-	public static function generateChartType(songData:SwagSong, ?typeOfChart:String = "FNF", ?cam:FlxCamera):Array<Note>
+	public static function generateChartType(songData:SwagSong, ?typeOfChart:String = "FNF"):Array<Note>
 	{
 		var unspawnNotes:Array<Note> = [];
 		var noteData:Array<SwagSection>;
@@ -70,10 +70,6 @@ class ChartLoader
 						// create the new note
 						var swagNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteData, 0, daNoteAlt);
 
-						// set note camera
-						if (cam != null)
-							swagNote.cameras = [cam];
-
 						// set note speed
 						swagNote.noteSpeed = songData.speed;
 
@@ -93,8 +89,6 @@ class ChartLoader
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 							var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier,
 								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, 0, daNoteAlt, true, oldNote);
-							if (cam != null)
-								sustainNote.cameras = [cam];
 							sustainNote.scrollFactor.set();
 
 							unspawnNotes.push(sustainNote);
