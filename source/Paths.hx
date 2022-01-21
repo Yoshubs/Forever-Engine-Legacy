@@ -185,7 +185,7 @@ class Paths
 
 		#if sys
 		// support player-made mods (in compiled builds)
-		// (this work only if we are on sys also)
+		// works only if we are on sys
 		levelPath = mods(file);
 		if (FileSystem.exists(levelPath))
 			return levelPath;
