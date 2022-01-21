@@ -425,7 +425,7 @@ class PlayState extends MusicBeatState
 	private function gamepadKeyShit():Void
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));		
+		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
 
 		if (keyPressByController)
 		{
@@ -438,15 +438,13 @@ class PlayState extends MusicBeatState
 						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
 				}
 			}
-		}
 
-
-		var controlArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
-		if (controlArray.contains(true))
-		{
-				for (i in 0...controlArray.length)
+			var controlReleaseArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
+			if (controlReleaseArray.contains(true))
 			{
-					if (controlArray[i])
+				for (i in 0...controlArray.length)
+				{
+					if (controlReleaseArray[i])
 						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 				}
 			}
