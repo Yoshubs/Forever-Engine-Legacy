@@ -32,6 +32,9 @@ class Paths
 		currentLevel = name.toLowerCase();
 	}
 
+	// set up mods folder
+	public static var currentModsFolder:String = "";
+
 	// stealing my own code from psych engine
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	public static var currentTrackedTextures:Map<String, Texture> = [];
@@ -164,34 +167,36 @@ class Paths
 	inline public static function getPath(file:String, type:AssetType, ?library:Null<String>)
 	{
 		/*
-				Okay so, from what I understand, this loads in the current path based on the level
-				we're in (if a library is not specified), say like week 1 or something, 
-				then checks if the assets you're looking for are there.
-				if not, it checks the shared assets folder.
-			// */
+			Okay so, from what I understand, this loads in the current path based on the level
+			we're in (if a library is not specified), say like week 1 or something, 
+			then checks if the assets you're looking for are there.
+			if not, it checks the shared assets folder.
+		 */
 
 		// well I'm rewriting it so that the library is the path and it looks for the file type
 		// later lmao I don't really wanna rn
 
-		if (library != null)
-			return getLibraryPath(file, library);
-
-		/*
-			if (currentLevel != null)
-			{
-				levelPath = getLibraryPathForce(file, currentLevel);
-				if (OpenFlAssets.exists(levelPath, type))
-					return levelPath;
-
-				levelPath = getLibraryPathForce(file, "shared");
-				if (OpenFlAssets.exists(levelPath, type))
-					return levelPath;
-		}*/
-
+		// first we check if the file is modded
+		// then we return the modded path if true
+		#if MODS_ALLOWED
 		var levelPath = getLibraryPathForce(file, "mods");
 		if (OpenFlAssets.exists(levelPath, type))
 			return levelPath;
 
+		#if sys
+		// support player-made mods (in compiled builds)
+		// (this work only if we are on sys also)
+		levelPath = mods(file);
+		if (FileSystem.exists(levelPath))
+			return levelPath;
+		#end
+		#end
+
+		// if a library is specified
+		if (library != null)
+			return getLibraryPath(file, library);
+
+		// else, return the preload path
 		return getPreloadPath(file);
 	}
 
@@ -304,6 +309,13 @@ class Paths
 		return 'assets/fonts/$key';
 	}
 
+	// mods functions i think
+	inline static public function mods(key:String)
+	{
+		return 'mods/$key';
+	}
+
+	// animated sprites functions
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
 		var graphic:FlxGraphic = returnGraphic(key, library);

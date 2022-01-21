@@ -26,29 +26,34 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
+	<!-- ________________________________ Defines _______________________________ -->
+
+	<!-- Specific to Forever Engine -->
+	<define name="MODS_ALLOWED" if="desktop" />
+
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
-	<!--<assets path="mods" />-->
+	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
 
 	<haxelib name="flixel" />
-	<haxedev set='webgl' />
+	<haxedev set="webgl" />
 
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc"/>
+	<!-- <haxelib name="polymod"/> -->
+	<haxelib name="discord_rpc" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
 	<set name="BUILD_DIR" value="export/debug" if="debug" />
 	<set name="BUILD_DIR" value="export/release" unless="debug" />
-	
+
 	<!--Enable the Flixel core recording system-->
 	<!--<haxedef name="FLX_RECORD" />-->
 
@@ -85,12 +90,12 @@
 
 	<!-- _________________________________ Custom _______________________________ -->
 
-	<icon path="art/icon16.png" size='16'/>
-	<icon path="art/icon32.png" size='32'/>
-	<icon path="art/icon64.png" size='64'/>
-	<icon path="art/icon128.png" size='128'/>
-	<icon path="art/icon256.png" size='256'/>
-	<icon path="art/icon512.png" size='512'/>
+	<icon path="art/icon16.png" size='16' />
+	<icon path="art/icon32.png" size='32' />
+	<icon path="art/icon64.png" size='64' />
+	<icon path="art/icon128.png" size='128' />
+	<icon path="art/icon256.png" size='256' />
+	<icon path="art/icon512.png" size='512' />
 	<icon path="art/iconOG.png" />
 
 </project>
