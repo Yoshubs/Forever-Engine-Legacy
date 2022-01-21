@@ -13,7 +13,6 @@ import openfl.display3D.textures.Texture;
 import openfl.media.Sound;
 import openfl.system.System;
 import openfl.utils.AssetType;
-import openfl.utils.Assets as OpenFlAssets;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -179,17 +178,9 @@ class Paths
 		// first we check if the file is modded
 		// then we return the modded path if true
 		#if MODS_ALLOWED
-		var levelPath = getLibraryPathForce(file, "mods");
-		if (OpenFlAssets.exists(levelPath, type))
-			return levelPath;
-
-		#if sys
-		// support player-made mods (in compiled builds)
-		// works only if we are on sys
-		levelPath = mods(file);
-		if (FileSystem.exists(levelPath))
-			return levelPath;
-		#end
+		var path:String = mods(file);
+		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end)
+			return path;
 		#end
 
 		// if a library is specified
@@ -261,11 +252,13 @@ class Paths
 
 	inline static public function json(key:String, ?library:String)
 	{
-		return getPath('songs/$key.json', TEXT, library);
+		return getPath('$key.json', TEXT, library);
 	}
 
 	inline static public function songJson(song:String, secondSong:String, ?library:String)
-		return getPath('songs/${song.toLowerCase()}/${secondSong.toLowerCase()}.json', TEXT, library);
+	{
+		return json('songs/${song.toLowerCase()}/${secondSong.toLowerCase()}', library);
+	}
 
 	static public function sound(key:String, ?library:String):Dynamic
 	{

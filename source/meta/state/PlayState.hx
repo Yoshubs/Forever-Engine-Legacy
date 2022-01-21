@@ -1783,7 +1783,7 @@ class PlayState extends MusicBeatState
 
 	function callTextbox()
 	{
-		var dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
+		var dialogPath = Paths.json('songs/' + SONG.song.toLowerCase() + '/dialogue');
 		if (sys.FileSystem.exists(dialogPath))
 		{
 			startedCountdown = false;
