@@ -354,7 +354,7 @@ class FreeplayState extends MusicBeatState
 								// trace("Play index " + index);
 							}
 							else
-								trace("Thread not active, skipping " + index);
+								trace("Thread no active, skipping " + index);
 						}
 						else
 							trace("Skipping " + index);
