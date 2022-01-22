@@ -36,6 +36,7 @@
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
+	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 	<assets path='example_mods' rename='mods' embed='false' if="MODS_ALLOWED"/>
 
 	<!-- _______________________________ Libraries ______________________________ -->
