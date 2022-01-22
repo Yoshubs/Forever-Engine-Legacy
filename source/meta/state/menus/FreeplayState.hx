@@ -364,7 +364,7 @@ class FreeplayState extends MusicBeatState
 					var index:Null<Int> = Thread.readMessage(false);
 					if (index != null)
 					{
-						if (index != curSongPlaying)
+						if (index != curSongPlaying && index == curPlaying)
 						{
 							var inst:Sound = Paths.inst(songs[curSelected].songName);
 
