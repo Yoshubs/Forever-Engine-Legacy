@@ -352,7 +352,7 @@ class StoryMenuState extends MusicBeatState
 
 		var stringThing:Array<String> = Main.gameWeeks[curWeek][0];
 		for (i in stringThing)
-			txtTracklist.text += "\n" + CoolUtil.dashToSpace(i);
+			txtTracklist.text += "\n" + i;
 
 		txtTracklist.text += "\n"; // pain
 		txtTracklist.text = txtTracklist.text.toUpperCase();

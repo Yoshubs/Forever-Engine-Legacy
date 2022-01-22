@@ -92,7 +92,7 @@ class FreeplayState extends MusicBeatState
 				{
 					var castSong:SwagSong = Song.loadFromJson(i, i);
 					icon = (castSong != null) ? castSong.player2 : 'gf';
-					addSong(CoolUtil.spaceToDash(castSong.song), 1, icon, FlxColor.WHITE);
+					addSong(CoolUtil.coolFormat(castSong.song), 1, icon, FlxColor.WHITE);
 				}
 			}
 		}

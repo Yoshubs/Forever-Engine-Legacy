@@ -81,8 +81,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		scoreBar.scrollFactor.set();
 		add(scoreBar);
 
-		// small info bar, kinda like the KE watermark
-		// based on scoretxt which I will set up as well
+		// small info bar based on scoretxt, kinda like the KE watermark
 		var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
 		var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
 		var engineBar:FlxText = new FlxText(0, FlxG.height - 30, 0, engineDisplay, 16);

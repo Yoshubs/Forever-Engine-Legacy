@@ -1384,7 +1384,7 @@ class PlayState extends MusicBeatState
 		Conductor.changeBPM(songData.bpm);
 
 		// String that contains the mode defined here so it isn't necessary to call changePresence for each mode
-		songDetails = CoolUtil.dashToSpace(SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(storyDifficulty);
+		songDetails = SONG.song + ' - ' + CoolUtil.difficultyFromNumber(storyDifficulty);
 
 		// String for when the game is paused
 		detailsPausedText = "Paused - " + songDetails;

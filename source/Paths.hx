@@ -162,7 +162,6 @@ class Paths
 		return currentTrackedSounds.get(gottenPath);
 	}
 
-	//
 	inline public static function getPath(file:String, type:AssetType, ?library:Null<String>)
 	{
 		/*
@@ -177,10 +176,13 @@ class Paths
 
 		// first we check if the file is modded
 		// then we return the modded path if true
+
 		#if MODS_ALLOWED
 		var path:String = mods(file);
-		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end)
+		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end) {
+			trace("modded: " + path);
 			return path;
+		}
 		#end
 
 		// if a library is specified
@@ -221,7 +223,7 @@ class Paths
 	{
 		var returnPath:String = 'assets/$file';
 		if (!FileSystem.exists(returnPath))
-			returnPath = CoolUtil.swapSpaceDash(returnPath);
+			returnPath = CoolUtil.coolFormat(returnPath);
 		return returnPath;
 	}
 
@@ -257,7 +259,7 @@ class Paths
 
 	inline static public function songJson(song:String, secondSong:String, ?library:String)
 	{
-		return json('songs/${song.toLowerCase()}/${secondSong.toLowerCase()}', library);
+		return json('songs/${CoolUtil.coolFormat(song, true)}/${CoolUtil.coolFormat(secondSong, true)}', library);
 	}
 
 	static public function sound(key:String, ?library:String):Dynamic
@@ -279,14 +281,14 @@ class Paths
 
 	inline static public function voices(song:String):Any
 	{
-		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Voices';
+		var songKey:String = '${CoolUtil.coolFormat(song, true)}/Voices';
 		var voices = returnSound('songs', songKey);
 		return voices;
 	}
 
 	inline static public function inst(song:String):Any
 	{
-		var songKey:String = '${CoolUtil.swapSpaceDash(song.toLowerCase())}/Inst';
+		var songKey:String = '${CoolUtil.coolFormat(song, true)}/Inst';
 		var inst = returnSound('songs', songKey);
 		return inst;
 	}

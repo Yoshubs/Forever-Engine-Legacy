@@ -31,19 +31,25 @@ class CoolUtil
 		return Lib.current.stage.frameRate;
 	}
 
-	public static function dashToSpace(string:String):String
+	inline public static function dashToSpace(string:String):String
 	{
 		return string.replace("-", " ");
 	}
 
-	public static function spaceToDash(string:String):String
+	inline public static function spaceToDash(string:String):String
 	{
 		return string.replace(" ", "-");
 	}
 
-	public static function swapSpaceDash(string:String):String
+	inline static public function coolFormat(string:String, ?invert:Bool = false)
 	{
-		return StringTools.contains(string, '-') ? dashToSpace(string) : spaceToDash(string);
+		var daString = string.toLowerCase();
+		var daCheck = daString.contains("-");
+
+		if (invert)
+			daCheck = !daCheck;
+
+		return daCheck ? dashToSpace(daString) : spaceToDash(daString);
 	}
 
 	public static function coolTextFile(path:String):Array<String>
