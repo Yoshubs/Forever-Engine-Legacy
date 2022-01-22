@@ -146,8 +146,14 @@ class FreeplayState extends MusicBeatState
 
 	public function addWeek(week:Week, weekNum:Int)
 	{
-		for (song in week.songs)
-			addSong(song, weekNum, week.characters[0], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
+		var num:Int = 0;
+
+		for (song in week.songs) {
+			addSong(song, weekNum, week.characters[num], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
+
+			if (week.characters.length != 1)
+				num++;
+		}
 	}
 
 	override function update(elapsed:Float)
@@ -213,7 +219,9 @@ class FreeplayState extends MusicBeatState
 		threadActive = false;
 		for (song in currentTrackedSongs)
 		{
-			song.destroy();
+			// cringe crash fix
+			if (song != null)
+				song.destroy();
 		}
 	}
 
