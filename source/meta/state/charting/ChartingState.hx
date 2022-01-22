@@ -154,8 +154,8 @@ class ChartingState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
 		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.add(camHUD);
 
 		FlxG.camera.follow(strumLineCam);
 

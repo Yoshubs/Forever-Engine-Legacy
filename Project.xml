@@ -45,9 +45,7 @@
 	<haxedev set="webgl" />
 
 	<haxelib name="flixel-addons" />
-	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
-	<!-- <haxelib name="polymod"/> -->
 	<haxelib name="discord_rpc" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->

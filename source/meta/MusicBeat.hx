@@ -2,9 +2,6 @@ package meta;
 
 import flixel.FlxG;
 import flixel.FlxSubState;
-import flixel.addons.transition.FlxTransitionableState;
-import flixel.math.FlxRect;
-import flixel.util.FlxTimer;
 import meta.*;
 import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;

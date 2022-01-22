@@ -2,11 +2,12 @@
     "name": "RED SNOW",
     "directory": "",
     "songs": ["Cocoa", "Eggnog", "Winter-Horrorland"],
-    "characters": [
+    "freeplayIcons": [
         "parents-christmas",
         "parents-christmas",
         "monster-christmas"
     ],
+    "storyMenuCharacters": ["parents-christmas", "gf", "bf"],
     "color": [141, 165, 206],
 	"unlocked": true,
     "hideWeek": false,

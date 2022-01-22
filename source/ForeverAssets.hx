@@ -1,5 +1,6 @@
 package;
 
+import haxe.Exception;
 import meta.data.Week;
 import meta.data.Week.SwagWeek;
 import sys.FileSystem;
@@ -321,8 +322,11 @@ class ForeverAssets
 			{
 				var path:String = 'weeks/${moddedWeeksFilesList[i]}';
 
-				// wanna add a custom week and NOT override a existing week?
-				if (Paths.isModded(path) && !weeksFilesList.contains(moddedWeeksFilesList[i]))
+				// make game crash if the week already exist in game files
+				if (weeksFilesList.contains(moddedWeeksFilesList[i]))
+					throw new Exception('TRYING TO OVERRIDE A BASE GAME WEEK????');
+				// wanna add a custom week with a good name???
+				else if (Paths.isModded(path))
 					weeksFilesList.push(moddedWeeksFilesList[i]);
 			}
 		}
@@ -331,11 +335,15 @@ class ForeverAssets
 		// load the weeks
 		for (i in 0...weeksFilesList.length)
 		{
-			// remove .json extension
-			weeksFilesList[i] = weeksFilesList[i].substring(0, weeksFilesList[i].lastIndexOf('.'));
+			// ignore other types of files
+			if (weeksFilesList[i].endsWith('.json'))
+			{
+				// remove .json extension
+				weeksFilesList[i] = weeksFilesList[i].substring(0, weeksFilesList[i].lastIndexOf('.'));
 
-			// load week from the json
-			weeksList[i] = new Week(Week.loadFromJson(Paths.json('weeks/${weeksFilesList[i]}')));
+				// load week from the json
+				weeksList[i] = new Week(Week.loadFromJson(Paths.json('weeks/${weeksFilesList[i]}')));
+			}
 		}
 
 		return weeksList;

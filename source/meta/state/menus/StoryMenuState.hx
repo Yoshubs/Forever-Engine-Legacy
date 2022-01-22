@@ -260,7 +260,9 @@ class StoryMenuState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('confirmMenu'));
 
 				grpWeekText.members[curWeek].startFlashing();
-				grpWeekCharacters.members[1].createCharacter('bfConfirm');
+				for (i in 0...grpWeekCharacters.length)
+					grpWeekCharacters.members[i].hey();
+				
 				stopspamming = true;
 			}
 
@@ -346,9 +348,9 @@ class StoryMenuState extends MusicBeatState
 
 	function updateText()
 	{
-		grpWeekCharacters.members[0].createCharacter(weekCharacters[curWeek][0], true);
-		// grpWeekCharacters.members[1].createCharacter(weekCharacters[curWeek][1]);
-		// grpWeekCharacters.members[2].createCharacter(weekCharacters[curWeek][2]);
+		for (i in 0...grpWeekCharacters.length)
+			grpWeekCharacters.members[i].createCharacter(Main.weeks[curWeek].storyMenuCharacters[i]);
+
 		txtTracklist.text = "Tracks\n";
 
 		var stringThing:Array<String> = Main.weeks[curWeek].songs;

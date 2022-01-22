@@ -363,8 +363,6 @@ class OptionsMenuState extends MusicBeatState
 							(letter.text == 'Framerate Cap') ? true : false, (letter.text == 'Stage Opacity') ? true : false);
 
 						extrasMap.set(letter, selector);
-					default:
-						// dont do ANYTHING
 				}
 				//
 			}
@@ -415,8 +413,6 @@ class OptionsMenuState extends MusicBeatState
 					else if (controls.UI_LEFT_P)
 						updateSelector(selector, -1);
 					#end
-				default:
-					// none
 			}
 		}
 	}
@@ -544,7 +540,6 @@ class OptionsMenuState extends MusicBeatState
 
 	public function exitMenu()
 	{
-		//
 		if (controls.ACCEPT)
 		{
 			FlxG.sound.play(Paths.sound('confirmMenu'));
@@ -555,6 +550,5 @@ class OptionsMenuState extends MusicBeatState
 				lockedMovement = false;
 			});
 		}
-		//
 	}
 }

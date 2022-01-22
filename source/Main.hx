@@ -76,7 +76,9 @@ class Main extends Sprite
 
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	var infoCounter:InfoHud; // initialize the heads up display that shows information before creating it.
+	var infoCounter:InfoHud; // Initialize the heads up display that shows information before creating it.
+
+	public static var transSpeed:Float = 0.25; // The speed of each trans-in and trans-out in seconds (1 transition = transSpeed * 2 + [the loading time]).
 
 	// set up weeks list
 	public static var weeks:Array<Week> = [];
@@ -170,7 +172,7 @@ class Main extends Sprite
 		mainClassState = Type.getClass(target);
 		if (!FlxTransitionableState.skipNextTransIn)
 		{
-			curState.openSubState(new FNFTransition(0.8, false));
+			curState.openSubState(new FNFTransition(transSpeed, false));
 			FNFTransition.finishCallback = function()
 			{
 				FlxG.switchState(target);

@@ -12,7 +12,6 @@ import flixel.util.FlxColor;
 import gameObjects.userInterface.HealthIcon;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
-import meta.data.Song.SwagSong;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import sys.FileSystem;
@@ -60,7 +59,7 @@ class FreeplayState extends MusicBeatState
 		mutex = new Mutex();
 
 		/**
-			Wanna add songs? They're in your weeks files now, so they are automatically loaded for you!.
+			Wanna add songs? They're in your weeks files, so they are automatically loaded for you!.
 		**/
 
 		// reload weeks list
@@ -70,13 +69,6 @@ class FreeplayState extends MusicBeatState
 		for (i in 0...Main.weeks.length)
 		{
 			addWeek(Main.weeks[i], i);
-			for (j in Main.weeks[i].songs)
-			{
-				if (!Main.weeks[i].hideOnFreeplay.contains(j))
-				{
-					existingSongs.push(j.toLowerCase());
-				}
-			}
 		}
 
 		#if !html5
@@ -149,10 +141,12 @@ class FreeplayState extends MusicBeatState
 		var num:Int = 0;
 
 		for (song in week.songs) {
-			addSong(song, weekNum, week.characters[num], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
+			if (!week.hideOnFreeplay.contains(song)) {
+				addSong(song, weekNum, week.freeplayIcons[num], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
 
-			if (week.characters.length != 1)
-				num++;
+				if (week.freeplayIcons.length != 1)
+					num++;
+			}
 		}
 	}
 
@@ -215,14 +209,8 @@ class FreeplayState extends MusicBeatState
 
 	function removeSongThread()
 	{
-		// destroy all tracked songs before exit freeplay
 		threadActive = false;
-		for (song in currentTrackedSongs)
-		{
-			// cringe crash fix
-			if (song != null)
-				song.destroy();
-		}
+		FlxG.sound.destroy();
 	}
 
 	var lastDifficulty:String;
@@ -307,7 +295,7 @@ class FreeplayState extends MusicBeatState
 					var index:Null<Int> = Thread.readMessage(false);
 					if (index != null)
 					{
-						// TODO: find a way to fix the memory issue with loading twice time the same song
+						// TODO: find a way to fix the memory issue with spamming selection
 						if (index == curSelected && index != curSongPlaying)
 						{
 							if (!currentTrackedSongs.exists(index))
@@ -321,7 +309,7 @@ class FreeplayState extends MusicBeatState
 								mutex.acquire();
 								mutex.release();
 
-								// kill unused songs sd we will gain a little of memory
+								// kill unused songs so we will gain a little of memory
 								for (i in currentTrackedSongs.keys())
 								{
 									var song:FlxSound = currentTrackedSongs.get(i);

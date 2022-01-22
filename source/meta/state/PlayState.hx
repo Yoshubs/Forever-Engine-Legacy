@@ -105,7 +105,6 @@ class PlayState extends MusicBeatState
 	var songTime:Float = 0;
 
 	public static var camHUD:FlxCamera;
-	public static var camNotes:FlxCamera;
 	public static var camGame:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
 
@@ -140,6 +139,7 @@ class PlayState extends MusicBeatState
 	private var boyfriendStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
+	public static var strumHUD:Array<FlxCamera> = [];
 
 	private var allUIs:Array<FlxCamera> = [];
 
@@ -184,16 +184,10 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
-		// create the notes camera
-		camNotes = new FlxCamera();
-		camNotes.bgColor.alpha = 0;
-
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camNotes);
-		FlxG.cameras.add(camHUD);
-		allUIs.push(camNotes);
-		allUIs.push(camHUD);
 		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.add(camHUD);
+		allUIs.push(camHUD);
 
 		// default song
 		if (SONG == null)
@@ -317,14 +311,8 @@ class PlayState extends MusicBeatState
 		startingSong = true;
 		startedCountdown = true;
 
-		// create a hud over the hud camera for dialogue
-		dialogueHUD = new FlxCamera();
-		dialogueHUD.bgColor.alpha = 0;
-		FlxG.cameras.add(dialogueHUD);
-
 		// strums setup
 		strumLines = new FlxTypedGroup<Strumline>();
-		strumLines.cameras = [camNotes];
 
 		var placement = (FlxG.width / 2);
 		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
@@ -334,6 +322,21 @@ class PlayState extends MusicBeatState
 
 		strumLines.add(dadStrums);
 		strumLines.add(boyfriendStrums);
+
+		// strumline camera setup
+		strumHUD = [];
+		for (i in 0...strumLines.length)
+		{
+			// generate a new strum camera
+			strumHUD[i] = new FlxCamera();
+			strumHUD[i].bgColor.alpha = 0;
+
+			strumHUD[i].cameras = [camHUD];
+			allUIs.push(strumHUD[i]);
+			FlxG.cameras.add(strumHUD[i]);
+			// set this strumline's camera to the designated camera
+			strumLines.members[i].cameras = [strumHUD[i]];
+		}
 		add(strumLines);
 
 		uiHUD = new ClassHUD();
@@ -413,10 +416,6 @@ class PlayState extends MusicBeatState
 		return copiedArray;
 	}
 
-	/*
-		This function add the support for gamepad (because the new input system removed it).
-		This is based on some Psych Engine code (and some made by me too).
-	 */
 	private function gamepadKeyShit():Void
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
@@ -599,24 +598,19 @@ class PlayState extends MusicBeatState
 				updateRPC(true);
 			}
 
-			// make sure you're not cheating lol
-			if (!isStoryMode)
+			// charting state (more on that later)
+			if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
 			{
-				// charting state (more on that later)
-				if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
-				{
-					resetMusic();
-					if (Init.trueSettings.get('Use Forever Chart Editor'))
-						Main.switchState(this, new ChartingState());
-					else
-						Main.switchState(this, new OriginalChartingState());
-				}
-
-				if ((FlxG.keys.justPressed.SIX))
-					boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
+				resetMusic();
+				if (Init.trueSettings.get('Use Forever Chart Editor'))
+					Main.switchState(this, new ChartingState());
+				else
+					Main.switchState(this, new OriginalChartingState());
 			}
 
-			///*
+			if ((FlxG.keys.justPressed.SIX))
+				boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
+
 			if (startingSong)
 			{
 				if (startedCountdown)
@@ -922,7 +916,8 @@ class PlayState extends MusicBeatState
 				camDisplaceX = 0;
 				camDisplaceY = 0;
 
-				switch (coolNote.noteData) {
+				switch (coolNote.noteData)
+				{
 					case 0:
 						camDisplaceX -= camDisplaceExtend;
 					case 3:
@@ -993,8 +988,6 @@ class PlayState extends MusicBeatState
 			character.playAnim('sing' + stringDirection.toUpperCase() + 'miss', lockMiss);
 		}
 		decreaseCombo(popMiss);
-
-		//
 	}
 
 	function characterPlayAnimation(coolNote:Note, character:Character)
@@ -1552,7 +1545,8 @@ class PlayState extends MusicBeatState
 	{
 		// fix the cringe moves of camera when multiples characters sings at same time
 		var displaceArray:Array<Float> = [camDisplaceX, camDisplaceY];
-		if (camMoving) {
+		if (camMoving)
+		{
 			displaceArray = [0, 0];
 			camMoving = false;
 		}
