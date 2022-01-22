@@ -175,7 +175,8 @@ class Main extends Sprite
 			{
 				FlxG.switchState(target);
 			};
-			return trace('changed state');
+			// trace('changed state')
+			return;
 		}
 		FlxTransitionableState.skipNextTransIn = false;
 		// load the state
