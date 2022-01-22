@@ -224,7 +224,7 @@ class OriginalChartingState extends MusicBeatState
 			loadJson(_song.song.toLowerCase());
 		});
 
-		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'load autosave', loadAutosave);
+		var loadAutosaveBtn:FlxButton = new FlxButton(reloadSongJson.x, reloadSongJson.y + 30, 'Load Autosave', loadAutosave);
 
 		var stepperSpeed:FlxUINumericStepper = new FlxUINumericStepper(10, 80, 0.1, 1, 0.1, 10, 1);
 		stepperSpeed.value = _song.speed;
@@ -578,6 +578,7 @@ class OriginalChartingState extends MusicBeatState
 			PlayState.SONG = _song;
 			songMusic.stop();
 			vocals.stop();
+			FlxG.mouse.visible = false;
 			Main.switchState(this, new PlayState());
 		}
 

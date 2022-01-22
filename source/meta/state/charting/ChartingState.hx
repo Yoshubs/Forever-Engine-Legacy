@@ -159,8 +159,7 @@ class ChartingState extends MusicBeatState
 
 		FlxG.camera.follow(strumLineCam);
 
-		FlxG.mouse.useSystemCursor = false; // Use system cursor because it's prettier
-		FlxG.mouse.visible = true; // Hide mouse on start
+		FlxG.mouse.visible = true;
 	}
 
 	var hitSoundsPlayed:Array<Note> = [];
@@ -281,6 +280,7 @@ class ChartingState extends MusicBeatState
 
 			PlayState.SONG = _song;
 			ForeverTools.killMusic([songMusic, vocals]);
+			FlxG.mouse.visible = false;
 			Main.switchState(this, new PlayState());
 		}
 	}
