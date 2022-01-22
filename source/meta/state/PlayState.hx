@@ -669,6 +669,7 @@ class PlayState extends MusicBeatState
 					{
 						camDisplaceX = 0;
 						camDisplaceY = 0;
+						camMoving = false;
 					}
 					lastSection = Std.int(curStep / 16);
 				}
@@ -916,9 +917,26 @@ class PlayState extends MusicBeatState
 			characterPlayAnimation(coolNote, character);
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
 				characterStrums.receptors.members[coolNote.noteData].playAnim('confirm', true);
-			camMoving = false;
-			// unoptimised asf camera control based on strums
-			strumCameraRoll(characterStrums.receptors);
+
+			// camera control shit
+			if (!Init.trueSettings.get('No Camera Note Movement'))
+			{
+				var camDisplaceExtend:Float = 15;
+
+				camDisplaceX = 0;
+				camDisplaceY = 0;
+
+				switch (coolNote.noteData) {
+					case 0:
+						camDisplaceX -= camDisplaceExtend;
+					case 3:
+						camDisplaceX += camDisplaceExtend;
+					case 1:
+						camDisplaceY += camDisplaceExtend;
+					case 2:
+						camDisplaceY -= camDisplaceExtend;
+				}
+			}
 
 			// special thanks to sam, they gave me the original system which kinda inspired my idea for this new one
 			if (canDisplayJudgement)
@@ -1096,26 +1114,6 @@ class PlayState extends MusicBeatState
 						goodNoteHit(coolNote, char, strumline);
 				});
 			}
-		}
-	}
-
-	private function strumCameraRoll(cStrum:FlxTypedGroup<UIStaticArrow>)
-	{
-		if (!Init.trueSettings.get('No Camera Note Movement'))
-		{
-			var camDisplaceExtend:Float = 15;
-
-			camDisplaceX = 0;
-			if (cStrum.members[0].animation.curAnim.name == 'confirm')
-				camDisplaceX -= camDisplaceExtend;
-			if (cStrum.members[3].animation.curAnim.name == 'confirm')
-				camDisplaceX += camDisplaceExtend;
-
-			camDisplaceY = 0;
-			if (cStrum.members[1].animation.curAnim.name == 'confirm')
-				camDisplaceY += camDisplaceExtend;
-			if (cStrum.members[2].animation.curAnim.name == 'confirm')
-				camDisplaceY -= camDisplaceExtend;
 		}
 	}
 
@@ -1558,10 +1556,10 @@ class PlayState extends MusicBeatState
 	{
 		// fix the cringe moves of camera when multiples characters sings at same time
 		var displaceArray:Array<Float> = [camDisplaceX, camDisplaceY];
-		if (camMoving)
+		if (camMoving) {
 			displaceArray = [0, 0];
-		else
-			camMoving = true;
+			camMoving = false;
+		}
 
 		if (isDad)
 		{
