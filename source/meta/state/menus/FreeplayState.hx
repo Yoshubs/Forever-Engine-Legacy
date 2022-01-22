@@ -28,7 +28,6 @@ using StringTools;
 
 class FreeplayState extends MusicBeatState
 {
-	//
 	var songs:Array<SongMetadata> = [];
 
 	var selector:FlxText;
@@ -332,10 +331,20 @@ class FreeplayState extends MusicBeatState
 		}
 		//
 
-		trace("curSelected: " + curSelected);
-
 		changeDiff();
 		changeSongPlaying();
+	}
+
+	inline function clearUnusedSongsFromMemory()
+	{
+		// fuck my life
+		for (i in 0...songs.length)
+		{
+			if (curSongPlaying != i)
+			{
+				Paths.clearAssetFromMemory(Paths.soundPath('songs', '${CoolUtil.coolFormat(songs[i].songName)}/Inst'));
+			}
+		}
 	}
 
 	function changeSongPlaying()
@@ -355,25 +364,30 @@ class FreeplayState extends MusicBeatState
 					var index:Null<Int> = Thread.readMessage(false);
 					if (index != null)
 					{
-						if (index == curSelected && index != curSongPlaying)
+						if (index != curSongPlaying)
 						{
-							trace("Loading index " + index);
-
 							var inst:Sound = Paths.inst(songs[curSelected].songName);
 
-							if (index == curSelected && threadActive)
+							if (threadActive)
 							{
 								mutex.acquire();
 								songToPlay = inst;
 								mutex.release();
 
-								curSongPlaying = curSelected;
+								clearUnusedSongsFromMemory();
+
+								curSongPlaying = index;
+
+								trace("Play index " + index);
 							}
 							else
-								trace("Nevermind, skipping " + index);
+								trace("Thread not active, skipping " + index);
 						}
 						else
+						{
+							clearUnusedSongsFromMemory();
 							trace("Skipping " + index);
+						}
 					}
 				}
 			});

@@ -88,32 +88,44 @@ class Paths
 	// define the locally tracked assets
 	public static var localTrackedAssets:Array<String> = [];
 
-	public static function clearStoredMemory(?cleanUnused:Bool = false)
+	public static function clearStoredMemory()
 	{
 		// clear anything not in the tracked assets list
 		@:privateAccess
 		for (key in FlxG.bitmap._cache.keys())
 		{
-			var obj = FlxG.bitmap._cache.get(key);
-			if (obj != null && !currentTrackedAssets.exists(key))
-			{
-				openfl.Assets.cache.removeBitmapData(key);
-				FlxG.bitmap._cache.remove(key);
-				obj.destroy();
-			}
+			clearAssetFromMemory(key);
 		}
 
 		// clear all sounds that are cached
 		for (key in currentTrackedSounds.keys())
 		{
-			if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key) && key != null)
-			{
-				Assets.cache.clear(key);
-				currentTrackedSounds.remove(key);
-			}
+			clearSongFromMemory(key);
 		}
 		// flags everything to be cleared out next unused memory clear
 		localTrackedAssets = [];
+	}
+
+	public static function clearAssetFromMemory(key:String)
+	{
+		@:privateAccess
+		var obj = FlxG.bitmap._cache.get(key);
+		@:privateAccess
+		if (obj != null && !currentTrackedAssets.exists(key))
+		{
+			openfl.Assets.cache.removeBitmapData(key);
+			FlxG.bitmap._cache.remove(key);
+			obj.destroy();
+		}
+	}
+
+	public static function clearSongFromMemory(key:String)
+	{
+		if (!localTrackedAssets.contains(key) && !dumpExclusions.contains(key) && key != null)
+		{
+			Assets.cache.clear(key);
+			currentTrackedSounds.remove(key);
+		}
 	}
 
 	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool = false)
@@ -150,11 +162,16 @@ class Paths
 		return null;
 	}
 
-	public static function returnSound(path:String, key:String, ?library:String)
+	inline public static function soundPath(key:String, path:String, ?library:String)
+	{
+		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
+		return gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
+	}
+
+	public static function returnSound(path:String, key:String, ?library:String):Any
 	{
 		// I hate this so god damn much
-		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
-		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
+		var gottenPath:String = soundPath(key, path, library);
 		// trace(gottenPath);
 		if (!currentTrackedSounds.exists(gottenPath))
 			currentTrackedSounds.set(gottenPath, Sound.fromFile('./' + gottenPath));
@@ -179,7 +196,8 @@ class Paths
 
 		#if MODS_ALLOWED
 		var path:String = mods(file);
-		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end) {
+		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end)
+		{
 			trace("modded: " + path);
 			return path;
 		}
