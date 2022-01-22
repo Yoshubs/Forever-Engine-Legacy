@@ -63,6 +63,9 @@ class FreeplayState extends MusicBeatState
 			Wanna add songs? They're in your weeks files now, so they are automatically loaded for you!.
 		**/
 
+		// reload weeks list
+		Main.weeks = ForeverAssets.generateWeeksList();
+
 		// load songs from weeks data
 		for (i in 0...Main.weeks.length)
 		{
