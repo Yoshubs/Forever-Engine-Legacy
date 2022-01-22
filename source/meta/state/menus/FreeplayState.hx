@@ -322,6 +322,7 @@ class FreeplayState extends MusicBeatState
 					var index:Null<Int> = Thread.readMessage(false);
 					if (index != null)
 					{
+						// TODO: find a way to fix the memory issue with loading twice time the same song
 						if (index == curSelected && index != curSongPlaying)
 						{
 							if (!currentTrackedSongs.exists(index))
