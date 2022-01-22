@@ -338,9 +338,6 @@ class ForeverAssets
 			weeksList[i] = new Week(Week.loadFromJson(Paths.json('weeks/${weeksFilesList[i]}')));
 		}
 
-		// clear memory to remove week files for real
-		Paths.clearUnusedMemory();
-
 		return weeksList;
 	}
 }
