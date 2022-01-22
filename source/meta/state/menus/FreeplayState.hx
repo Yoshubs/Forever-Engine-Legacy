@@ -230,10 +230,14 @@ class FreeplayState extends MusicBeatState
 		mutex.release();
 	}
 
-	function removeSongThread() {
+	function removeSongThread()
+	{
 		// destroy all tracked songs before exit freeplay
-		FlxG.sound.destroy();
 		threadActive = false;
+		for (song in currentTrackedSongs)
+		{
+			song.destroy();
+		}
 	}
 
 	var lastDifficulty:String;
