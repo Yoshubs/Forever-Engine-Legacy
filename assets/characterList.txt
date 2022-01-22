@@ -15,5 +15,3 @@ bf-pixel
 senpai
 senpai-angry
 spirit
-pico-speaker
-bf-holding-gf
