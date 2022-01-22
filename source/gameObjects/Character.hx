@@ -311,15 +311,6 @@ class Character extends FNFSprite
 
 				flipX = true;
 
-			case 'bf-holding-gf-dead':
-				frames = Paths.getSparrowAtlas('characters/bfHoldingGF-DEAD');
-
-				animation.addByPrefix('firstDeath', "BF Dies with GF", 24, false);
-				animation.addByPrefix('deathLoop', "BF Dead with GF Loop", 24, true);
-				animation.addByPrefix('deathConfirm', "RETRY confirm holding gf", 24, false);
-
-				playAnim('firstDeath');
-
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('characters/bfChristmas');
 				frames = tex;
