@@ -1,0 +1,10 @@
+{
+    "name": "Week Template",
+    "directory": "",
+    "songs": ["test"],
+    "characters": ["pixel-bf"],
+    "color": [255, 255, 255],
+	"unlocked": true,
+    "hideWeek": false,
+    "hideOnFreeplay": []
+}
