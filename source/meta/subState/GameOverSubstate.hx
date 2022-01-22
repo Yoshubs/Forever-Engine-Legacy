@@ -14,7 +14,6 @@ import meta.state.menus.*;
 
 class GameOverSubstate extends MusicBeatSubState
 {
-	//
 	var bf:Boyfriend;
 	var camFollow:FlxObject;
 	var stageSuffix:String = "";

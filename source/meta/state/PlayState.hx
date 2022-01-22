@@ -692,6 +692,7 @@ class PlayState extends MusicBeatState
 				paused = true;
 
 				resetMusic();
+				FlxG.sound.destroy();
 
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
@@ -1416,14 +1417,14 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
-		trace('resyncing vocal time ${vocals.time}');
+		// trace('resyncing vocal time ${vocals.time}');
 		vocals.pause();
 
 		songMusic.play();
 		Conductor.songPosition = songMusic.time;
 		vocals.time = Conductor.songPosition;
 		vocals.play();
-		trace('new vocal time ${Conductor.songPosition}');
+		// trace('new vocal time ${Conductor.songPosition}');
 	}
 
 	override function stepHit()

@@ -311,7 +311,7 @@ class ForeverAssets
 
 		var weeksList:Array<Week> = [];
 
-		// custom modded week code cuz the standard one is incomplete in our case
+		// custom modded week code because the original one is incomplete for our case
 		#if MODS_ALLOWED
 		var moddedWeeksFilesList:Array<String> = FileSystem.readDirectory('${Paths.modFolder}/weeks');
 
@@ -319,7 +319,7 @@ class ForeverAssets
 		{
 			for (i in 0...moddedWeeksFilesList.length)
 			{
-				var path:String = 'weeks/${weeksFilesList[i]}';
+				var path:String = 'weeks/${moddedWeeksFilesList[i]}';
 
 				// wanna add a custom week and NOT override a existing week?
 				if (Paths.isModded(path) && !weeksFilesList.contains(moddedWeeksFilesList[i]))
