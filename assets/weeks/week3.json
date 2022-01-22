@@ -1,0 +1,10 @@
+{
+    "name": "vs. Pico",
+    "directory": "",
+    "songs": ["Pico", "Philly-Nice", "Blammed"],
+    "characters": ["pico"],
+    "color": [111, 19, 60],
+	"unlocked": true,
+    "hideWeek": false,
+    "hideOnFreeplay": []
+}

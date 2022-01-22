@@ -13,6 +13,7 @@ import openfl.display3D.textures.Texture;
 import openfl.media.Sound;
 import openfl.system.System;
 import openfl.utils.AssetType;
+import openfl.utils.Assets as OpenFlAssets;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -32,8 +33,9 @@ class Paths
 	}
 
 	// set up mods folder
-	public static var currentModsFolder:String = "";
+	public static var modFolder:String = "mods";
 
+	// public static var currentModsFolder:String = "";
 	// stealing my own code from psych engine
 	public static var currentTrackedAssets:Map<String, FlxGraphic> = [];
 	public static var currentTrackedTextures:Map<String, Texture> = [];
@@ -179,7 +181,7 @@ class Paths
 		return currentTrackedSounds.get(gottenPath);
 	}
 
-	inline public static function getPath(file:String, type:AssetType, ?library:Null<String>)
+	inline public static function getPath(file:String, type:AssetType, ?library:Null<String>, ?allowModding:Bool = true)
 	{
 		/*
 			Okay so, from what I understand, this loads in the current path based on the level
@@ -191,17 +193,9 @@ class Paths
 		// well I'm rewriting it so that the library is the path and it looks for the file type
 		// later lmao I don't really wanna rn
 
-		// first we check if the file is modded
-		// then we return the modded path if true
-
-		#if MODS_ALLOWED
-		var path:String = mods(file);
-		if (#if sys FileSystem.exists(path) #else OpenFlAssets.exists(path, type) #end)
-		{
-			trace("modded: " + path);
-			return path;
-		}
-		#end
+		// check if the file is modded
+		if (allowModding && isModded(file))
+			return mod(file);
 
 		// if a library is specified
 		if (library != null)
@@ -322,13 +316,23 @@ class Paths
 		return 'assets/fonts/$key';
 	}
 
-	// mods functions i think
-	inline static public function mods(key:String)
+	// mods!
+	inline static public function mod(key:String)
 	{
-		return 'mods/$key';
+		return '$modFolder/$key';
 	}
 
-	// animated sprites functions
+	inline static public function isModded(path:String)
+	{
+		#if MODS_ALLOWED
+		path = mod(path);
+		return FileSystem.exists(path);
+		#else
+		return false;
+		#end
+	}
+
+	// animated sprites!
 	inline static public function getSparrowAtlas(key:String, ?library:String)
 	{
 		var graphic:FlxGraphic = returnGraphic(key, library);

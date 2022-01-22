@@ -23,8 +23,6 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 	var curDifficulty:Int = 1;
 
-	public static var weekUnlocked:Array<Bool> = [true, true, true, true, true, true, true];
-
 	var weekCharacters:Array<Dynamic> = [
 		['', 'bf', 'gf'],
 		['dad', 'bf', 'gf'],
@@ -94,7 +92,7 @@ class StoryMenuState extends MusicBeatState
 		grpLocks = new FlxTypedGroup<FlxSprite>();
 		add(grpLocks);
 
-		for (i in 0...Main.gameWeeks.length)
+		for (i in 0...Main.weeks.length)
 		{
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
 			weekThing.y += ((weekThing.height + 20) * i);
@@ -106,7 +104,7 @@ class StoryMenuState extends MusicBeatState
 			// weekThing.updateHitbox();
 
 			// Needs an offset thingie
-			if (!weekUnlocked[i])
+			if (!Main.weeks[i].unlocked)
 			{
 				var lock:FlxSprite = new FlxSprite(weekThing.width + 10 + weekThing.x);
 				lock.frames = ui_tex;
@@ -195,12 +193,12 @@ class StoryMenuState extends MusicBeatState
 
 		scoreText.text = "WEEK SCORE:" + lerpScore;
 
-		txtWeekTitle.text = Main.gameWeeks[curWeek][3].toUpperCase();
+		txtWeekTitle.text = Main.weeks[curWeek].name.toUpperCase();
 		txtWeekTitle.x = FlxG.width - (txtWeekTitle.width + 10);
 
 		// FlxG.watch.addQuick('font', scoreText.font);
 
-		difficultySelectors.visible = weekUnlocked[curWeek];
+		difficultySelectors.visible = Main.weeks[curWeek].unlocked;
 
 		grpLocks.forEach(function(lock:FlxSprite)
 		{
@@ -252,7 +250,7 @@ class StoryMenuState extends MusicBeatState
 
 	function selectWeek()
 	{
-		if (weekUnlocked[curWeek])
+		if (Main.weeks[curWeek].unlocked)
 		{
 			if (stopspamming == false)
 			{
@@ -263,7 +261,7 @@ class StoryMenuState extends MusicBeatState
 				stopspamming = true;
 			}
 
-			PlayState.storyPlaylist = Main.gameWeeks[curWeek][0].copy();
+			PlayState.storyPlaylist = Main.weeks[curWeek].songs.copy();
 			PlayState.isStoryMode = true;
 			selectedWeek = true;
 
@@ -321,17 +319,17 @@ class StoryMenuState extends MusicBeatState
 	{
 		curWeek += change;
 
-		if (curWeek >= Main.gameWeeks.length)
+		if (curWeek >= Main.weeks.length)
 			curWeek = 0;
 		if (curWeek < 0)
-			curWeek = Main.gameWeeks.length - 1;
+			curWeek = Main.weeks.length - 1;
 
 		var bullShit:Int = 0;
 
 		for (item in grpWeekText.members)
 		{
 			item.targetY = bullShit - curWeek;
-			if (item.targetY == Std.int(0) && weekUnlocked[curWeek])
+			if (item.targetY == Std.int(0) && Main.weeks[curWeek].unlocked)
 				item.alpha = 1;
 			else
 				item.alpha = 0.6;
@@ -350,7 +348,7 @@ class StoryMenuState extends MusicBeatState
 		// grpWeekCharacters.members[2].createCharacter(weekCharacters[curWeek][2]);
 		txtTracklist.text = "Tracks\n";
 
-		var stringThing:Array<String> = Main.gameWeeks[curWeek][0];
+		var stringThing:Array<String> = Main.weeks[curWeek].songs;
 		for (i in stringThing)
 			txtTracklist.text += "\n" + i;
 

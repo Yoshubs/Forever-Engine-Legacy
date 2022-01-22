@@ -1,5 +1,6 @@
 package meta;
 
+import sys.io.File;
 import lime.utils.Assets;
 import meta.state.PlayState;
 import openfl.Lib;
@@ -50,6 +51,14 @@ class CoolUtil
 			daCheck = !daCheck;
 
 		return daCheck ? dashToSpace(daString) : spaceToDash(daString);
+	}
+
+	public static function formatJson(jsonInput:String)
+	{
+		while (!jsonInput.endsWith("}"))
+			jsonInput = jsonInput.substr(0, jsonInput.length - 1);
+
+		return jsonInput;
 	}
 
 	public static function coolTextFile(path:String):Array<String>

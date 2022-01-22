@@ -1,0 +1,12 @@
+{
+    "name": "hating simulator ft. moawling",
+    "directory": "",
+    "songs": ["Senpai", "Roses", "Thorns"],
+    "characters": [
+        "senpai", "senpai", "spirit"
+    ],
+    "color": [206, 106, 169],
+	"unlocked": true,
+    "hideWeek": false,
+    "hideOnFreeplay": []
+}

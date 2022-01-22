@@ -1,5 +1,6 @@
 package;
 
+import meta.data.Week;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -77,54 +78,8 @@ class Main extends Sprite
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
 	var infoCounter:InfoHud; // initialize the heads up display that shows information before creating it.
 
-	// heres gameweeks set up!
-
-	/**
-		Small bit of documentation here, gameweeks are what control everything in my engine
-		this system will eventually be overhauled in favor of using actual week folders within the 
-		assets.
-		Enough of that, here's how it works
-		[ [songs to use], [characters in songs], [color of week], name of week ]
-	**/
-	public static var gameWeeks:Array<Dynamic> = [
-		[['Tutorial'], ['gf'], [FlxColor.fromRGB(129, 100, 223)], 'Funky Beginnings'],
-		[
-			['Bopeebo', 'Fresh', 'Dadbattle'],
-			['dad', 'dad', 'dad'],
-			[FlxColor.fromRGB(129, 100, 223)],
-			'vs. DADDY DEAREST'
-		],
-		[
-			['Spookeez', 'South', 'Monster'],
-			['spooky', 'spooky', 'monster'],
-			[FlxColor.fromRGB(30, 45, 60)],
-			'Spooky Month'
-		],
-		[
-			['Pico', 'Philly-Nice', 'Blammed'],
-			['pico'],
-			[FlxColor.fromRGB(111, 19, 60)],
-			'vs. Pico'
-		],
-		[
-			['Satin-Panties', 'High', 'Milf'],
-			['mom'],
-			[FlxColor.fromRGB(203, 113, 170)],
-			'MOMMY MUST MURDER'
-		],
-		[
-			['Cocoa', 'Eggnog', 'Winter-Horrorland'],
-			['parents-christmas', 'parents-christmas', 'monster-christmas'],
-			[FlxColor.fromRGB(141, 165, 206)],
-			'RED SNOW'
-		],
-		[
-			['Senpai', 'Roses', 'Thorns'],
-			['senpai', 'senpai', 'spirit'],
-			[FlxColor.fromRGB(206, 106, 169)],
-			"hating simulator ft. moawling"
-		],
-	];
+	// set up weeks list
+	public static var weeks:Array<Week> = [];
 
 	// most of these variables are just from the base game!
 	// be sure to mess around with these if you'd like.
@@ -194,6 +149,9 @@ class Main extends Sprite
 
 		infoCounter = new InfoHud(10, 3, 0xFFFFFF, true);
 		addChild(infoCounter);
+
+		// create weeks list
+		weeks = ForeverAssets.generateWeeksList();
 	}
 
 	public static function framerateAdjust(input:Float)

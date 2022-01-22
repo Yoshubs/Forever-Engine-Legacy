@@ -60,31 +60,18 @@ class FreeplayState extends MusicBeatState
 		mutex = new Mutex();
 
 		/**
-			Wanna add songs? They're in the Main state now, you can just find the week array and add a song there to a specific week.
-			Alternatively, you can make a folder in the Songs folder and put your songs there, however, this gives you less
-			control over what you can display about the song (color, icon, etc) since it will be pregenerated for you instead.
+			Wanna add songs? They're in your weeks files now, so they are automatically loaded for you!.
 		**/
-		// load in all songs that exist in folder
-		var folderSongs:Array<String> = CoolUtil.returnAssetsLibrary('songs', 'assets');
 
-		for (i in 0...Main.gameWeeks.length)
+		// load songs from weeks data
+		for (i in 0...Main.weeks.length)
 		{
-			addWeek(Main.gameWeeks[i][0], i, Main.gameWeeks[i][1], Main.gameWeeks[i][2]);
-			for (j in cast(Main.gameWeeks[i][0], Array<Dynamic>))
-				existingSongs.push(j.toLowerCase());
-		}
-
-		for (i in folderSongs)
-		{
-			if (!existingSongs.contains(i.toLowerCase()))
+			addWeek(Main.weeks[i], i);
+			for (j in Main.weeks[i].songs)
 			{
-				var icon:String = 'gf';
-				var chartExists:Bool = FileSystem.exists(Paths.songJson(i, i));
-				if (chartExists)
+				if (!Main.weeks[i].hideOnFreeplay.contains(j))
 				{
-					var castSong:SwagSong = Song.loadFromJson(i, i);
-					icon = (castSong != null) ? castSong.player2 : 'gf';
-					addSong(CoolUtil.coolFormat(castSong.song), 1, icon, FlxColor.WHITE);
+					existingSongs.push(j.toLowerCase());
 				}
 			}
 		}
@@ -154,23 +141,10 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
-	public function addWeek(songs:Array<String>, weekNum:Int, ?songCharacters:Array<String>, ?songColor:Array<FlxColor>)
+	public function addWeek(week:Week, weekNum:Int)
 	{
-		if (songCharacters == null)
-			songCharacters = ['bf'];
-		if (songColor == null)
-			songColor = [FlxColor.WHITE];
-
-		var num:Array<Int> = [0, 0];
-		for (song in songs)
-		{
-			addSong(song, weekNum, songCharacters[num[0]], songColor[num[1]]);
-
-			if (songCharacters.length != 1)
-				num[0]++;
-			if (songColor.length != 1)
-				num[1]++;
-		}
+		for (song in week.songs)
+			addSong(song, weekNum, week.characters[0], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
 	}
 
 	override function update(elapsed:Float)

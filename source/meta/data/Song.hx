@@ -1,8 +1,6 @@
 package meta.data;
 
 import haxe.Json;
-import haxe.format.JsonParser;
-import lime.utils.Assets;
 import meta.data.Section.SwagSection;
 import sys.io.File;
 
@@ -43,10 +41,7 @@ class Song
 
 	public static function loadFromJson(jsonInput:String, ?folder:String):SwagSong
 	{
-		var rawJson = File.getContent(Paths.songJson(folder.toLowerCase(), jsonInput.toLowerCase())).trim();
-
-		while (!rawJson.endsWith("}"))
-			rawJson = rawJson.substr(0, rawJson.length - 1);
+		var rawJson = CoolUtil.formatJson(File.getContent(Paths.songJson(folder.toLowerCase(), jsonInput.toLowerCase())).trim());
 
 		return parseJSONshit(rawJson);
 	}

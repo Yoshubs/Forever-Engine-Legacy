@@ -1,0 +1,10 @@
+{
+    "name": "Spooky Month",
+    "directory": "",
+    "songs": ["Spookeez", "South", "Monster"],
+    "characters": ["spooky", "spooky", "monster"],
+    "color": [30, 45, 60],
+	"unlocked": true,
+    "hideWeek": false,
+    "hideOnFreeplay": []
+}

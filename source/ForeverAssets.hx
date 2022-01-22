@@ -1,5 +1,8 @@
 package;
 
+import meta.data.Week;
+import meta.data.Week.SwagWeek;
+import sys.FileSystem;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -297,5 +300,44 @@ class ForeverAssets
 				// addOffset('false', 2, -30);
 		}
 		return newCheckmark;
+	}
+
+	/**
+		Weeks!
+	**/
+	public static function generateWeeksList()
+	{
+		var weeksFilesList:Array<String> = FileSystem.readDirectory('assets/weeks');
+
+		var weeksList:Array<Week> = [];
+
+		// custom modded week code cuz the standard one is incomplete in our case
+		#if MODS_ALLOWED
+		var moddedWeeksFilesList:Array<String> = FileSystem.readDirectory('${Paths.modFolder}/weeks');
+
+		if (moddedWeeksFilesList != null)
+		{
+			for (i in 0...moddedWeeksFilesList.length)
+			{
+				var path:String = 'weeks/${weeksFilesList[i]}';
+
+				// wanna add a custom week and NOT override a existing week?
+				if (Paths.isModded(path) && !weeksFilesList.contains(moddedWeeksFilesList[i]))
+					weeksFilesList.push(moddedWeeksFilesList[i]);
+			}
+		}
+		#end
+
+		// load the weeks
+		for (i in 0...weeksFilesList.length)
+		{
+			// remove .json extension
+			weeksFilesList[i] = weeksFilesList[i].substring(0, weeksFilesList[i].lastIndexOf('.'));
+
+			// load week from the json
+			weeksList[i] = new Week(Week.loadFromJson(Paths.json('weeks/${weeksFilesList[i]}')));
+		}
+
+		return weeksList;
 	}
 }
