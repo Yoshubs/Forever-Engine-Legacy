@@ -116,7 +116,7 @@ class Paths
 
 	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool = false)
 	{
-		var path = getPath('images/$key.png', IMAGE, library);
+		var path = Main.getDataPath() + getPath('images/$key.png', IMAGE, library);
 		if (FileSystem.exists(path))
 		{
 			if (!currentTrackedAssets.exists(key))
@@ -150,7 +150,7 @@ class Paths
 
 	public static function returnSound(path:String, key:String, ?library:String) {
 		// I hate this so god damn much
-		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
+		var gottenPath:String = Main.getDataPath() + getPath('$path/$key.$SOUND_EXT', SOUND, library);
 		gottenPath = gottenPath.substring(gottenPath.indexOf(':') + 1, gottenPath.length);
 		// trace(gottenPath);
 		if (!currentTrackedSounds.exists(gottenPath))
@@ -218,7 +218,7 @@ class Paths
 	}
 
 	inline static function getPreloadPath(file:String) {
-		var returnPath:String = 'assets/$file';
+		var returnPath:String = Main.getDataPath() + 'assets/$file';
 		if (!FileSystem.exists(returnPath))
 			returnPath = CoolUtil.swapSpaceDash(returnPath);
 		return returnPath;
@@ -279,7 +279,7 @@ class Paths
 	}
 
 	inline static public function font(key:String) {
-		return 'assets/fonts/$key';
+		return Main.getDataPath() + 'assets/fonts/$key';
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String) {
