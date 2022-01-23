@@ -31,12 +31,12 @@ class ForeverTools
 	public static function returnSkinAsset(asset:String, assetModifier:String = 'base', changeableSkin:String = 'default', baseLibrary:String,
 			?defaultChangeableSkin:String = 'default', ?defaultBaseAsset:String = 'base'):String
 	{
-		var realAsset = '$baseLibrary/$changeableSkin/$assetModifier/$asset';
-		if (!FileSystem.exists(Paths.getPath('images/' + realAsset + '.png', IMAGE)))
+		var realAsset = Main.getDataPath() + '$baseLibrary/$changeableSkin/$assetModifier/$asset';
+		if (!FileSystem.exists(Main.getDataPath() + Paths.getPath('images/' + realAsset + '.png', IMAGE)))
 		{
-			realAsset = '$baseLibrary/$defaultChangeableSkin/$assetModifier/$asset';
-			if (!FileSystem.exists(Paths.getPath('images/' + realAsset + '.png', IMAGE)))
-				realAsset = '$baseLibrary/$defaultChangeableSkin/$defaultBaseAsset/$asset';
+			realAsset = Main.getDataPath() + '$baseLibrary/$defaultChangeableSkin/$assetModifier/$asset';
+			if (!FileSystem.exists(Main.getDataPath() + Paths.getPath('images/' + realAsset + '.png', IMAGE)))
+				realAsset = Main.getDataPath() + '$baseLibrary/$defaultChangeableSkin/$defaultBaseAsset/$asset';
 		}
 
 		return realAsset;
