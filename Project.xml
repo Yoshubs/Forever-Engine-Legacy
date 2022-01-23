@@ -44,6 +44,7 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc" unless="android"/>
+        <haxelib name="AndroidTools" if="android"
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
