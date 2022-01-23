@@ -218,7 +218,7 @@ class Paths
 	}
 
 	inline static function getPreloadPath(file:String) {
-		var returnPath:String = Main.getDataPath() + 'assets/$file';
+		var returnPath:String = 'assets/$file';
 		if (!FileSystem.exists(returnPath))
 			returnPath = CoolUtil.swapSpaceDash(returnPath);
 		return returnPath;
