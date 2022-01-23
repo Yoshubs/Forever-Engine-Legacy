@@ -25,6 +25,10 @@ import openfl.events.UncaughtErrorEvent;
 import sys.FileSystem;
 import sys.io.File;
 import sys.io.Process;
+#if android //only android will use those
+import lime.system.System;
+import android.*;
+#end
 
 // Here we actually import the states and metadata, and just the metadata.
 // It's nice to have modularity so that we don't have ALL elements loaded at the same time.
@@ -72,6 +76,11 @@ class Main extends Sprite
 	public static var framerate:Int = 120; // How many frames per second the game should run at.
 
 	public static var gameVersion:String = '0.3';
+
+	#if android//the things android uses  
+        private static var androidDir:String = null;
+        private static var storagePath:String = AndroidTools.getExternalStorageDirectory();  
+        #end
 
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
@@ -129,6 +138,23 @@ class Main extends Sprite
 	// most of these variables are just from the base game!
 	// be sure to mess around with these if you'd like.
 
+        static public function getDataPath():String
+        {
+        	#if android
+                if (androidDir != null && androidDir.length > 0) 
+                {
+                        return androidDir;
+                } 
+                else 
+                { 
+                        androidDir = storagePath + "/" + Application.current.meta.get("packageName") + "/files/";
+                }
+                return androidDir;
+                #else
+                return "";
+	        #end
+        }
+
 	public static function main():Void
 	{
 		Lib.current.addChild(new Main());
@@ -171,6 +197,37 @@ class Main extends Sprite
 		}
 
 		FlxTransitionableState.skipNextTransIn = true;
+
+                #if android
+                if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
+		    AndroidTools.requestPermissions([Permissions.READ_EXTERNAL_STORAGE, Permissions.WRITE_EXTERNAL_STORAGE]);
+		}  
+
+                var grantedPermsList:Array<Permissions> = AndroidTools.getGrantedPermissions();    
+
+                if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
+                	if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
+                        	Application.current.window.alert("If you accepted the permisions for storage good, you can continue, if you not the game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
+                                System.exit(0);//Will close the game
+		        } else {
+                        	Application.current.window.alert("game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
+                                System.exit(0);//Will close the game
+		        }
+                }
+                else
+                {
+                        if (!FileSystem.exists(storagePath + "/" + Application.current.meta.get("packageName"))) {
+                                FileSystem.createDirectory(storagePath + "/" + Application.current.meta.get("packageName"));
+                        } 
+                        if (!FileSystem.exists(storagePath + "/" + Application.current.meta.get("packageName") + '/files')) {
+                                FileSystem.createDirectory(storagePath + "/" + Application.current.meta.get("packageName") + '/files');
+                        }
+                        if (!FileSystem.exists(Main.getDataPath() + "assets")) {
+                                Application.current.window.alert("Try copying assets/assets from apk to" + Application.current.meta.get("packageName") + " In your internal storage" + "\n" + "Press Ok To Close The App", "Instructions");
+                                System.exit(0);//Will close the game
+                        }
+                }
+                #end
 		
 		// here we set up the base game
 		var gameCreate:FlxGame;
