@@ -11,10 +11,10 @@ import lime.app.Application;
 **/
 class Discord
 {
-	#if !android
 	// set up the rich presence initially
 	public static function initializeRPC()
 	{
+                #if !android
 		DiscordRpc.start({
 			clientID: "879525344128925717",
 			onReady: onReady,
@@ -24,17 +24,20 @@ class Discord
 
 		// THANK YOU GEDE
 		Application.current.window.onClose.add(shutdownRPC);
+                #end
 	}
 
 	// from the base game
 	static function onReady()
 	{
+                #if !android
 		DiscordRpc.presence({
 			details: "",
 			state: null,
 			largeImageKey: 'iconog',
 			largeImageText: "Forever Engine"
 		});
+                #end
 	}
 
 	static function onError(_code:Int, _message:String)
@@ -51,6 +54,7 @@ class Discord
 
 	public static function changePresence(details:String = '', state:Null<String> = '', ?smallImageKey:String, ?hasStartTimestamp:Bool, ?endTimestamp:Float)
 	{
+                #if !android
 		var startTimestamp:Float = (hasStartTimestamp) ? Date.now().getTime() : 0;
 
 		if (endTimestamp > 0)
@@ -66,14 +70,16 @@ class Discord
 			startTimestamp: Std.int(startTimestamp / 1000),
 			endTimestamp: Std.int(endTimestamp / 1000)
 		});
+                #end
 
 		// trace('Discord RPC Updated. Arguments: $details, $state, $smallImageKey, $hasStartTimestamp, $endTimestamp');
 	}
 
 	public static function shutdownRPC()
 	{
+                #if !android
 		// borrowed from izzy engine -- somewhat, at least
 		DiscordRpc.shutdown();
+                #end
 	}
-	#end
 }
