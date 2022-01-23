@@ -10,7 +10,6 @@ import meta.data.font.Alphabet;
 
 class Selector extends FlxTypedSpriteGroup<FlxSprite>
 {
-	//
 	var leftSelector:FNFSprite;
 	var rightSelector:FNFSprite;
 
