@@ -16,9 +16,9 @@ class Checkmark extends FNFSprite
 	{
 		if (animation != null)
 		{
-			if ((animation.finished) && (animation.curAnim.name == 'true'))
+			if (animation.finished && animation.curAnim.name == 'true')
 				playAnim('true finished');
-			if ((animation.finished) && (animation.curAnim.name == 'false'))
+			if (animation.finished && animation.curAnim.name == 'false')
 				playAnim('false finished');
 		}
 

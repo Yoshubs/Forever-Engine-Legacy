@@ -113,7 +113,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.updateHitbox();
 
 			/*
-				FlxTween.tween(menuItem, {alpha: 1, x: ((FlxG.width / 2) - (menuItem.width / 2))}, 0.35, {
+				FlxTween.tween(menuItem, {alpha: 1, x: FlxG.width / 2 - menuItem.width / 2}, 0.35, {
 					ease: FlxEase.smootherStepInOut,
 					onComplete: function(tween:FlxTween)
 					{
@@ -140,7 +140,8 @@ class MainMenuState extends MusicBeatState
 
 	// var colorTest:Float = 0;
 	var selectedSomethin:Bool = false;
-	var counterControl:Float = 0;
+
+	// var counterControl:Float = 0;
 
 	override function update(elapsed:Float)
 	{
@@ -153,7 +154,7 @@ class MainMenuState extends MusicBeatState
 		var down_p = controls.UI_DOWN_P;
 		var controlArray:Array<Bool> = [up, down, up_p, down_p];
 
-		if ((controlArray.contains(true)) && (!selectedSomethin))
+		if (controlArray.contains(true) && !selectedSomethin)
 		{
 			for (i in 0...controlArray.length)
 			{
@@ -198,16 +199,12 @@ class MainMenuState extends MusicBeatState
 					else if (curSelected >= optionShit.length)
 						curSelected = 0;
 				}
-				//
 			}
 		}
-		else
-		{
-			// reset variables
-			counterControl = 0;
-		}
+		// else
+		// 	counterControl = 0;
 
-		if ((controls.ACCEPT) && (!selectedSomethin))
+		if (controls.ACCEPT && !selectedSomethin)
 		{
 			//
 			selectedSomethin = true;
@@ -249,7 +246,7 @@ class MainMenuState extends MusicBeatState
 			});
 		}
 
-		if ((controls.BACK) && (!selectedSomethin))
+		if (controls.BACK && !selectedSomethin)
 			Main.switchState(this, new TitleState());
 
 		if (Math.floor(curSelected) != lastCurSelected)

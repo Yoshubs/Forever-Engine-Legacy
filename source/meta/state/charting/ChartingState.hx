@@ -131,8 +131,8 @@ class ChartingState extends MusicBeatState
 			if (typeReal > 3)
 				typeReal -= 4;
 
-			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((i - 1) * gridSize), -76,
-				typeReal, 'chart editor');
+			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows((FlxG.width / 2 - keysTotal / 2 * gridSize) + (i - 1) * gridSize, -76, typeReal,
+				'chart editor');
 
 			newArrow.ID = i;
 			newArrow.setGraphicSize(gridSize);
@@ -209,14 +209,13 @@ class ChartingState extends MusicBeatState
 
 		super.update(elapsed);
 
-		///*
 		if (FlxG.mouse.x > (fullGrid.x)
 			&& FlxG.mouse.x < (fullGrid.x + fullGrid.width)
 			&& FlxG.mouse.y > 0
 			&& FlxG.mouse.y < (getYfromStrum(songMusic.length)))
 		{
 			var fakeMouseX = FlxG.mouse.x - fullGrid.x;
-			dummyArrow.x = (Math.floor((fakeMouseX) / gridSize) * gridSize) + fullGrid.x;
+			dummyArrow.x = Math.floor(fakeMouseX / gridSize) * gridSize + fullGrid.x;
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
 			else
@@ -290,8 +289,7 @@ class ChartingState extends MusicBeatState
 		// call all rendered notes lol
 		curRenderedNotes.forEach(function(epicNote:Note)
 		{
-			if ((epicNote.y > (strumLineCam.y - (FlxG.height / 2) - epicNote.height))
-				|| (epicNote.y < (strumLineCam.y + (FlxG.height / 2))))
+			if (epicNote.y > strumLineCam.y - FlxG.height / 2 - epicNote.height || epicNote.y < strumLineCam.y + FlxG.height / 2)
 			{
 				epicNote.alive = true;
 				epicNote.visible = true;
@@ -472,7 +470,7 @@ class ChartingState extends MusicBeatState
 		note.updateHitbox();
 
 		note.screenCenter(X);
-		note.x -= ((gridSize * (keysTotal / 2)) - (gridSize / 2));
+		note.x -= gridSize * keysTotal / 2 - gridSize / 2;
 		note.x += Math.floor(adjustSide(daNoteInfo, _song.notes[noteSection].mustHitSection) * gridSize);
 
 		note.y = Math.floor(getYfromStrum(daStrumTime));
@@ -536,7 +534,7 @@ class ChartingState extends MusicBeatState
 
 	function adjustSide(noteData:Int, sectionTemp:Bool)
 	{
-		return (sectionTemp ? ((noteData + 4) % 8) : noteData);
+		return (sectionTemp ? (noteData + 4) % 8 : noteData);
 	}
 
 	function pauseMusic()
@@ -558,6 +556,4 @@ class ChartingState extends MusicBeatState
 		vocals.time = Conductor.songPosition;
 		vocals.play();
 	}
-
-	// */
 }

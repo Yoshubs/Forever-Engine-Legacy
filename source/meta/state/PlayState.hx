@@ -241,7 +241,7 @@ class PlayState extends MusicBeatState
 		stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
-		if ((curStage.startsWith("school")) && ((determinedChartType == "FNF")))
+		if (curStage.startsWith("school") && (determinedChartType == "FNF"))
 			assetModifier = 'pixel';
 
 		// add characters
@@ -419,28 +419,22 @@ class PlayState extends MusicBeatState
 	private function gamepadKeyShit():Void
 	{
 		var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
-		keyPressByController = (gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY));
+		keyPressByController = gamepad != null && (!gamepad.justReleased.ANY || gamepad.pressed.ANY);
 
 		if (keyPressByController)
 		{
 			var controlArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
-			if (controlArray.contains(true))
+			for (i in 0...controlArray.length)
 			{
-				for (i in 0...controlArray.length)
-				{
-					if (controlArray[i])
-						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
-				}
+				if (controlArray[i])
+					onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
 			}
 
 			var controlReleaseArray:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
-			if (controlReleaseArray.contains(true))
+			for (i in 0...controlArray.length)
 			{
-				for (i in 0...controlArray.length)
-				{
-					if (controlReleaseArray[i])
-						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
-				}
+				if (controlReleaseArray[i])
+					onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
 			}
 		}
 	}
@@ -452,7 +446,7 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
-		if ((key >= 0)
+		if (key >= 0
 			&& !boyfriendStrums.autoplay
 			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || keyPressByController)
 			&& (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
@@ -467,7 +461,7 @@ class PlayState extends MusicBeatState
 
 				boyfriendStrums.allNotes.forEachAlive(function(daNote:Note)
 				{
-					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
+					if (daNote.noteData == key && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
 						possibleNoteList.push(daNote);
 				});
 				possibleNoteList.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
@@ -516,6 +510,8 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate))
 		{
+			resetCamMove();
+
 			// receptor reset
 			if (key >= 0 && boyfriendStrums.receptors.members[key] != null)
 			{
@@ -599,7 +595,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// charting state (more on that later)
-			if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
+			if (FlxG.keys.justPressed.SEVEN && !startingSong)
 			{
 				resetMusic();
 				if (Init.trueSettings.get('Use Forever Chart Editor'))
@@ -608,7 +604,7 @@ class PlayState extends MusicBeatState
 					Main.switchState(this, new OriginalChartingState());
 			}
 
-			if ((FlxG.keys.justPressed.SIX))
+			if (FlxG.keys.justPressed.SIX)
 				boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
 
 			if (startingSong)
@@ -655,11 +651,8 @@ class PlayState extends MusicBeatState
 					// section reset stuff
 					var lastMustHit:Bool = PlayState.SONG.notes[lastSection].mustHitSection;
 					if (PlayState.SONG.notes[curSection].mustHitSection != lastMustHit)
-					{
-						camDisplaceX = 0;
-						camDisplaceY = 0;
-						camMoving = false;
-					}
+						resetCamMove();
+
 					lastSection = Std.int(curStep / 16);
 				}
 			}
@@ -694,7 +687,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// spawn in the notes from the array
-			if ((unspawnNotes[0] != null) && ((unspawnNotes[0].strumTime - Conductor.songPosition) < 3500))
+			if (unspawnNotes[0] != null && (unspawnNotes[0].strumTime - Conductor.songPosition) < 3500)
 			{
 				var dunceNote:Note = unspawnNotes[0];
 				// push note to its correct strumline
@@ -761,7 +754,7 @@ class PlayState extends MusicBeatState
 					if (daNote.isSustainNote)
 					{
 						daNote.y -= (daNote.height / 2) * downscrollMultiplier;
-						if ((daNote.animation.curAnim.name.endsWith('holdend')) && (daNote.prevNote != null))
+						if (daNote.animation.curAnim.name.endsWith('holdend') && daNote.prevNote != null)
 						{
 							daNote.y -= (daNote.prevNote.height / 2) * downscrollMultiplier;
 							if (Init.trueSettings.get('Downscroll'))
@@ -822,7 +815,7 @@ class PlayState extends MusicBeatState
 
 					if (!daNote.tooLate && daNote.strumTime < Conductor.songPosition - (Timings.msThreshold) && !daNote.wasGoodHit)
 					{
-						if ((!daNote.tooLate) && (daNote.mustPress))
+						if (!daNote.tooLate && daNote.mustPress)
 						{
 							if (!daNote.isSustainNote)
 							{
@@ -831,7 +824,7 @@ class PlayState extends MusicBeatState
 									note.tooLate = true;
 
 								vocals.volume = 0;
-								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+								missNoteCheck(Init.trueSettings.get('Ghost Tapping') ? true : false, daNote.noteData, boyfriend, true);
 								// ambiguous name
 								Timings.updateAccuracy(0);
 							}
@@ -851,7 +844,7 @@ class PlayState extends MusicBeatState
 										}
 										if (!breakFromLate)
 										{
-											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+											missNoteCheck(Init.trueSettings.get('Ghost Tapping') ? true : false, daNote.noteData, boyfriend, true);
 											for (note in parentNote.childrenNotes)
 												note.tooLate = true;
 										}
@@ -913,8 +906,7 @@ class PlayState extends MusicBeatState
 			{
 				var camDisplaceExtend:Float = 15;
 
-				camDisplaceX = 0;
-				camDisplaceY = 0;
+				resetCamMove();
 
 				switch (coolNote.noteData)
 				{
@@ -1002,8 +994,8 @@ class PlayState extends MusicBeatState
 		// I tried doing xor and it didnt work lollll
 		if (coolNote.noteAlt > 0)
 			altString = '-alt';
-		if (((SONG.notes[Math.floor(curStep / 16)] != null) && (SONG.notes[Math.floor(curStep / 16)].altAnim))
-			&& (character.animOffsets.exists(baseString + '-alt')))
+		if ((SONG.notes[Math.floor(curStep / 16)] != null && SONG.notes[Math.floor(curStep / 16)].altAnim)
+			&& character.animOffsets.exists(baseString + '-alt'))
 		{
 			if (altString != '-alt')
 				altString = '-alt';
@@ -1019,13 +1011,20 @@ class PlayState extends MusicBeatState
 		character.holdTimer = 0;
 	}
 
+	function resetCamMove()
+	{
+		camDisplaceX = 0;
+		camDisplaceY = 0;
+		camMoving = false;
+	}
+
 	private function strumCallsAuto(cStrum:UIStaticArrow, ?callType:Int = 1, ?daNote:Note):Void
 	{
 		switch (callType)
 		{
 			case 1:
 				// end the animation if the calltype is 1 and it is done
-				if ((cStrum.animation.finished) && (cStrum.canFinishAnimation))
+				if (cStrum.animation.finished && cStrum.canFinishAnimation)
 					cStrum.playAnim('static');
 			default:
 				// check if it is the correct strum
@@ -1035,7 +1034,7 @@ class PlayState extends MusicBeatState
 					cStrum.playAnim('confirm'); // play the correct strum's confirmation animation (haha rhymes)
 
 					// stuff for sustain notes
-					if ((daNote.isSustainNote) && (!daNote.animation.curAnim.name.endsWith('holdend')))
+					if (daNote.isSustainNote && !daNote.animation.curAnim.name.endsWith('holdend'))
 						cStrum.canFinishAnimation = false; // basically, make it so the animation can't be finished if there's a sustain note below
 					else
 						cStrum.canFinishAnimation = true;
@@ -1163,7 +1162,7 @@ class PlayState extends MusicBeatState
 	public function createSplash(coolNote:Note, strumline:Strumline)
 	{
 		// play animation in existing notesplashes
-		var noteSplashRandom:String = (Std.string((FlxG.random.int(0, 1) + 1)));
+		var noteSplashRandom:String = Std.string(FlxG.random.int(0, 1) + 1);
 		if (strumline.splashNotes != null)
 			strumline.splashNotes.members[coolNote.noteData].playAnim('anim' + noteSplashRandom, true);
 	}
@@ -1174,7 +1173,7 @@ class PlayState extends MusicBeatState
 	{
 		var comboString:String = Std.string(combo);
 		var negative = false;
-		if ((comboString.startsWith('-')) || (combo == 0))
+		if (comboString.startsWith('-') || (combo == 0))
 			negative = true;
 		var stringArray:Array<String> = comboString.split("");
 		// deletes all combo sprites prior to initalizing new ones
@@ -1211,7 +1210,7 @@ class PlayState extends MusicBeatState
 				// centers combo
 				numScore.y += 10;
 				numScore.x -= 95;
-				numScore.x -= ((comboString.length - 1) * 22);
+				numScore.x -= (comboString.length - 1) * 22;
 				lastCombo.push(numScore);
 				FlxTween.tween(numScore, {y: numScore.y + 20}, 0.1, {type: FlxTweenType.BACKWARD, ease: FlxEase.circOut});
 			}
@@ -1229,7 +1228,7 @@ class PlayState extends MusicBeatState
 	function decreaseCombo(?popMiss:Bool = false)
 	{
 		// painful if statement
-		if (((combo > 5) || (combo < 0)) && (gf.animOffsets.exists('sad')))
+		if ((combo > 5 || combo < 0) && gf.animOffsets.exists('sad'))
 			gf.playAnim('sad');
 
 		if (combo > 0)
@@ -1429,16 +1428,16 @@ class PlayState extends MusicBeatState
 
 	private function charactersDance(curBeat:Int)
 	{
-		if ((curBeat % gfSpeed == 0) && ((gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))))
+		if (curBeat % gfSpeed == 0 && (gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance")))
 			gf.dance();
 
 		if ((boyfriend.animation.curAnim.name.startsWith("idle") || boyfriend.animation.curAnim.name.startsWith("dance"))
-			&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
+			&& (curBeat % 4 == 0 || boyfriend.characterData.quickDancer))
 			boyfriend.dance();
 
 		// added this for opponent cus it wasn't here before and skater would just freeze
 		if ((dadOpponent.animation.curAnim.name.startsWith("idle") || dadOpponent.animation.curAnim.name.startsWith("dance"))
-			&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
+			&& (curBeat % 4 == 0 || dadOpponent.characterData.quickDancer))
 			dadOpponent.dance();
 	}
 
@@ -1456,7 +1455,7 @@ class PlayState extends MusicBeatState
 				Conductor.changeBPM(daSection.bpm);
 		}
 
-		if (FlxG.camera.zoom < 1.35 && ((!Init.trueSettings.get('Reduced Movements')) && curBeat % 4 == 0))
+		if (FlxG.camera.zoom < 1.35 && (!Init.trueSettings.get('Reduced Movements') && curBeat % 4 == 0))
 		{
 			FlxG.camera.zoom += 0.015;
 			for (hud in allUIs)
@@ -1496,7 +1495,7 @@ class PlayState extends MusicBeatState
 			}
 
 			// trace('ui shit break');
-			if ((startTimer != null) && (!startTimer.finished))
+			if (startTimer != null && !startTimer.finished)
 				startTimer.active = false;
 		}
 
@@ -1512,7 +1511,7 @@ class PlayState extends MusicBeatState
 			if (songMusic != null && !startingSong)
 				resyncVocals();
 
-			if ((startTimer != null) && (!startTimer.finished))
+			if (startTimer != null && !startTimer.finished)
 				startTimer.active = true;
 			paused = false;
 
@@ -1610,7 +1609,7 @@ class PlayState extends MusicBeatState
 			storyPlaylist.remove(storyPlaylist[0]);
 
 			// check if there aren't any songs left
-			if ((storyPlaylist.length <= 0) && (!endSongEvent))
+			if (storyPlaylist.length <= 0 && !endSongEvent)
 			{
 				// play menu music
 				ForeverTools.resetMenuMusic();

@@ -158,7 +158,7 @@ class Strumline extends FlxTypedGroup<FlxBasic>
 			var staticArrow:UIStaticArrow = ForeverAssets.generateUIArrows(-25 + x, 25 + (downscroll ? FlxG.height - 200 : 0), i, PlayState.assetModifier);
 			staticArrow.ID = i;
 
-			staticArrow.x -= ((keyAmount / 2) * Note.swagWidth);
+			staticArrow.x -= (keyAmount / 2 * Note.swagWidth);
 			staticArrow.x += (Note.swagWidth * i);
 			receptors.add(staticArrow);
 
@@ -191,7 +191,7 @@ class Strumline extends FlxTypedGroup<FlxBasic>
 	public function createSplash(coolNote:Note)
 	{
 		// play animation in existing notesplashes
-		var noteSplashRandom:String = (Std.string((FlxG.random.int(0, 1) + 1)));
+		var noteSplashRandom:String = Std.string(FlxG.random.int(0, 1) + 1);
 		splashNotes.members[coolNote.noteData].playAnim('anim' + noteSplashRandom);
 	}
 

@@ -23,16 +23,6 @@ class StoryMenuState extends MusicBeatState
 	var scoreText:FlxText;
 	var curDifficulty:Int = 1;
 
-	var weekCharacters:Array<Dynamic> = [
-		['', 'bf', 'gf'],
-		['dad', 'bf', 'gf'],
-		['spooky', 'bf', 'gf'],
-		['pico', 'bf', 'gf'],
-		['mom', 'bf', 'gf'],
-		['parents-christmas', 'bf', 'gf'],
-		['senpai', 'bf', 'gf']
-	];
-
 	var txtWeekTitle:FlxText;
 
 	var curWeek:Int = 0;
@@ -98,7 +88,7 @@ class StoryMenuState extends MusicBeatState
 		for (i in 0...Main.weeks.length)
 		{
 			var weekThing:MenuItem = new MenuItem(0, yellowBG.y + yellowBG.height + 10, i);
-			weekThing.y += ((weekThing.height + 20) * i);
+			weekThing.y += (weekThing.height + 20) * i;
 			weekThing.targetY = i;
 			grpWeekText.add(weekThing);
 
@@ -121,7 +111,7 @@ class StoryMenuState extends MusicBeatState
 
 		for (char in 0...3)
 		{
-			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, weekCharacters[curWeek][char]);
+			var weekCharacterThing:MenuCharacter = new MenuCharacter((FlxG.width * 0.25) * (1 + char) - 150, Main.weeks[curWeek].storyMenuCharacters[char]);
 			weekCharacterThing.antialiasing = true;
 			switch (weekCharacterThing.character)
 			{
@@ -262,7 +252,7 @@ class StoryMenuState extends MusicBeatState
 				grpWeekText.members[curWeek].startFlashing();
 				for (i in 0...grpWeekCharacters.length)
 					grpWeekCharacters.members[i].hey();
-				
+
 				stopspamming = true;
 			}
 

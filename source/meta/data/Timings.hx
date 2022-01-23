@@ -125,7 +125,7 @@ class Timings
 		var biggest:Int = 0;
 		for (score in scoreRating.keys())
 		{
-			if ((scoreRating.get(score) <= trueAccuracy) && (scoreRating.get(score) >= biggest))
+			if (scoreRating.get(score) <= trueAccuracy && scoreRating.get(score) >= biggest)
 			{
 				biggest = scoreRating.get(score);
 				ratingFinal = score;

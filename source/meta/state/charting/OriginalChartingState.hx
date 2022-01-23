@@ -512,7 +512,7 @@ class OriginalChartingState extends MusicBeatState
 		if (curBeat % 4 == 0 && curStep >= 16 * (curSection + 1))
 		{
 			trace(curStep);
-			trace((_song.notes[curSection].lengthInSteps) * (curSection + 1));
+			trace(_song.notes[curSection].lengthInSteps * (curSection + 1));
 			trace('DUMBSHIT');
 
 			if (_song.notes[curSection + 1] == null)
@@ -754,7 +754,7 @@ class OriginalChartingState extends MusicBeatState
 		}
 
 		vocals.time = songMusic.time;
-		updateCurStep();
+		curStep = Conductor.getCurStep();
 
 		updateGrid();
 		updateSectionUI();
@@ -785,7 +785,7 @@ class OriginalChartingState extends MusicBeatState
 
 				songMusic.time = sectionStartTime();
 				vocals.time = songMusic.time;
-				updateCurStep();
+				curStep = Conductor.getCurStep();
 			}
 
 			updateGrid();
@@ -1083,7 +1083,7 @@ class OriginalChartingState extends MusicBeatState
 
 		var data:String = Json.stringify(json);
 
-		if ((data != null) && (data.length > 0))
+		if (data != null && data.length > 0)
 		{
 			_file = new FileReference();
 			_file.addEventListener(Event.COMPLETE, onSaveComplete);

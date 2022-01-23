@@ -24,23 +24,14 @@ class Conductor
 {
 	public static var bpm:Float = 100;
 
-	public static var crochet:Float = ((60 / bpm) * 1000); // beats in milliseconds
-	public static var stepCrochet:Float = crochet / 4; // steps in milliseconds
+	public static var crochet:Float = 0; // beats in milliseconds
+	public static var stepCrochet:Float = 0; // steps in milliseconds
 
 	public static var songPosition:Float;
 	public static var lastSongPos:Float;
 	public static var offset:Float = 0;
 
-	/*
-		public static var safeFrames:Int = 10;
-		public static var safeZoneOffset:Float = (safeFrames / 60) * 1000;
-	 */
 	public static var bpmChangeMap:Array<BPMChangeEvent> = [];
-
-	public function new()
-	{
-		//
-	}
 
 	public static function mapBPMChanges(song:SwagSong)
 	{
@@ -64,7 +55,7 @@ class Conductor
 
 			var deltaSteps:Int = song.notes[i].lengthInSteps;
 			totalSteps += deltaSteps;
-			totalPos += ((60 / curBPM) * 1000 / 4) * deltaSteps;
+			totalPos += (60 / curBPM) * 1000 / 4 * deltaSteps;
 		}
 		// trace("new BPM map BUDDY " + bpmChangeMap);
 	}
@@ -73,7 +64,23 @@ class Conductor
 	{
 		bpm = newBpm;
 
-		crochet = ((60 / bpm) * 1000);
-		stepCrochet = (crochet / 4) * measure;
+		crochet = 60 / bpm * 1000;
+		stepCrochet = crochet / 4 * measure;
+	}
+
+	public static function getCurStep():Int
+	{
+		var lastChange:BPMChangeEvent = {
+			stepTime: 0,
+			songTime: 0,
+			bpm: 0
+		}
+		for (i in 0...bpmChangeMap.length)
+		{
+			if (songPosition >= bpmChangeMap[i].songTime)
+				lastChange = bpmChangeMap[i];
+		}
+
+		return lastChange.stepTime + Math.floor((songPosition - lastChange.songTime) / stepCrochet);
 	}
 }

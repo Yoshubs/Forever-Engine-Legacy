@@ -39,14 +39,14 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 
 		#if html5
 		// lol heres how we fuck with everyone
-		var lock = new FlxSprite(shiftX + ((word.length) * 50) + (shiftX / 4) + ((fpsCap) ? 20 : 0), shiftY);
+		var lock = new FlxSprite(shiftX + word.length * 5 + shiftX / 4 + (fpsCap ? 20 : 0), shiftY);
 		lock.frames = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets');
 		lock.animation.addByPrefix('lock', 'lock', 24, false);
 		lock.animation.play('lock');
 		add(lock);
 		#else
 		leftSelector = createSelector(shiftX, shiftY, word, 'left');
-		rightSelector = createSelector(shiftX + ((word.length) * 50) + (shiftX / 4) + ((fpsCap) ? 20 : 0), shiftY, word, 'right');
+		rightSelector = createSelector(shiftX + word.length * 50 + shiftX / 4 + (fpsCap ? 20 : 0), shiftY, word, 'right');
 
 		add(leftSelector);
 		add(rightSelector);

@@ -33,11 +33,11 @@ class MusicBeatState extends FNFUIState
 	{
 		// dump
 		Paths.clearStoredMemory();
-		if ((!Std.isOfType(this, meta.state.PlayState)) && (!Std.isOfType(this, meta.state.charting.OriginalChartingState)))
+		if (!Std.isOfType(this, meta.state.PlayState) && !Std.isOfType(this, meta.state.charting.OriginalChartingState))
 			Paths.clearUnusedMemory();
 
-		if (transIn != null)
-			trace('reg ' + transIn.region);
+		// if (transIn != null)
+		// 	trace('reg ' + transIn.region);
 
 		super.create();
 
@@ -57,7 +57,7 @@ class MusicBeatState extends FNFUIState
 
 	public function updateContents()
 	{
-		updateCurStep();
+		curStep = Conductor.getCurStep();
 		updateBeat();
 
 		// delta time bullshit
@@ -94,22 +94,6 @@ class MusicBeatState extends FNFUIState
 	public function updateBeat():Void
 	{
 		curBeat = Math.floor(curStep / 4);
-	}
-
-	public function updateCurStep():Void
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition >= Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
 	public function stepHit():Void
@@ -153,29 +137,13 @@ class MusicBeatSubState extends FlxSubState
 		// everyStep();
 		var oldStep:Int = curStep;
 
-		updateCurStep();
+		curStep = Conductor.getCurStep();
 		curBeat = Math.floor(curStep / 4);
 
 		if (oldStep != curStep && curStep > 0)
 			stepHit();
 
 		super.update(elapsed);
-	}
-
-	private function updateCurStep():Void
-	{
-		var lastChange:BPMChangeEvent = {
-			stepTime: 0,
-			songTime: 0,
-			bpm: 0
-		}
-		for (i in 0...Conductor.bpmChangeMap.length)
-		{
-			if (Conductor.songPosition > Conductor.bpmChangeMap[i].songTime)
-				lastChange = Conductor.bpmChangeMap[i];
-		}
-
-		curStep = lastChange.stepTime + Math.floor((Conductor.songPosition - lastChange.songTime) / Conductor.stepCrochet);
 	}
 
 	public function stepHit():Void

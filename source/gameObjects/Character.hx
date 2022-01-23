@@ -4,7 +4,6 @@ package gameObjects;
 	The character class initialises any and all characters that exist within gameplay. For now, the character class will
 	stay the same as it was in the original source of the game. I'll most likely make some changes afterwards though!
 **/
-
 import flixel.graphics.frames.FlxAtlasFrames;
 import meta.*;
 import meta.data.*;
@@ -534,7 +533,7 @@ class Character extends FNFSprite
 			case 'gf':
 				if (animation.curAnim.name == 'hairFall' && animation.curAnim.finished)
 					playAnim('danceRight');
-				if ((animation.curAnim.name.startsWith('sad')) && (animation.curAnim.finished))
+				if (animation.curAnim.name.startsWith('sad') && animation.curAnim.finished)
 					playAnim('danceLeft');
 		}
 
@@ -563,7 +562,7 @@ class Character extends FNFSprite
 			switch (curCharSimplified)
 			{
 				case 'gf':
-					if ((!animation.curAnim.name.startsWith('hair')) && (!animation.curAnim.name.startsWith('sad')))
+					if (!animation.curAnim.name.startsWith('hair') && !animation.curAnim.name.startsWith('sad'))
 					{
 						danced = !danced;
 

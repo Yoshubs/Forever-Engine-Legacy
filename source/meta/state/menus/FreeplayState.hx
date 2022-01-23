@@ -140,8 +140,10 @@ class FreeplayState extends MusicBeatState
 	{
 		var num:Int = 0;
 
-		for (song in week.songs) {
-			if (!week.hideOnFreeplay.contains(song)) {
+		for (song in week.songs)
+		{
+			if (!week.hideOnFreeplay.contains(song))
+			{
 				addSong(song, weekNum, week.freeplayIcons[num], FlxColor.fromRGB(week.color[0], week.color[1], week.color[2]));
 
 				if (week.freeplayIcons.length != 1)

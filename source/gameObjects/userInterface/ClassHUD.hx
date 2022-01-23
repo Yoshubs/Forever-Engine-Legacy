@@ -172,7 +172,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
 		}
 
-		scoreBar.x = ((FlxG.width / 2) - (scoreBar.width / 2));
+		scoreBar.x = (FlxG.width / 2 - scoreBar.width / 2);
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')

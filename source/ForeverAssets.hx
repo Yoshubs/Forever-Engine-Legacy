@@ -101,7 +101,7 @@ class ForeverAssets
 					rating.velocity.x = -FlxG.random.int(0, 10);
 				}
 				rating.animation.add('base', [
-					Std.int((Timings.judgementsMap.get(asset)[0] * 2) + (perfectSick ? 0 : 2) + (timing == 'late' ? 1 : 0))
+					Std.int(Timings.judgementsMap.get(asset)[0] * 2 + (perfectSick ? 0 : 2) + (timing == 'late' ? 1 : 0))
 				], 24, false);
 				rating.animation.play('base');
 		}
@@ -255,7 +255,7 @@ class ForeverAssets
 			if (prevNote.isSustainNote)
 				newNote.noteVisualOffset = prevNote.noteVisualOffset;
 			else // calculate a new visual offset based on that note's width and newnote's width
-				newNote.noteVisualOffset = ((prevNote.width / 2) - (newNote.width / 2));
+				newNote.noteVisualOffset = prevNote.width / 2 - newNote.width / 2;
 		}
 
 		return newNote;

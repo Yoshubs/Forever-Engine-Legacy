@@ -16,7 +16,7 @@ class ForeverTools
 	public static function resetMenuMusic(resetVolume:Bool = false, setVolumeToFull = false)
 	{
 		// make sure the music is playing
-		if (((FlxG.sound.music != null) && (!FlxG.sound.music.playing)) || (FlxG.sound.music == null))
+		if ((FlxG.sound.music != null && !FlxG.sound.music.playing) || FlxG.sound.music == null)
 		{
 			FlxG.sound.playMusic(Paths.music('freakyMenu'), setVolumeToFull ? 1 : (resetVolume ? 0 : 0.7));
 			if (!setVolumeToFull && resetVolume)

@@ -289,7 +289,7 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
+		if (FlxG.save.data.gameControls != null && Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls))
 			gameControls = FlxG.save.data.gameControls;
 
 		saveControls();

@@ -149,11 +149,11 @@ class OptionsMenuState extends MusicBeatState
 
 	function selectOption(newSelection:Int, playSound:Bool = true)
 	{
-		if ((newSelection != curSelection) && (playSound))
+		if (newSelection != curSelection && playSound)
 			FlxG.sound.play(Paths.sound('scrollMenu'));
 
 		// direction increment finder
-		var directionIncrement = ((newSelection < curSelection) ? -1 : 1);
+		var directionIncrement = (newSelection < curSelection) ? -1 : 1;
 
 		// updates to that new selection
 		curSelection = newSelection;
@@ -171,13 +171,13 @@ class OptionsMenuState extends MusicBeatState
 			if (currentAttachmentMap != null)
 				setAttachmentAlpha(currentAttachmentMap.get(activeSubgroup.members[i]), 0.6);
 			activeSubgroup.members[i].targetY = (i - curSelection) / 2;
-			activeSubgroup.members[i].xTo = 200 + ((i - curSelection) * 25);
+			activeSubgroup.members[i].xTo = 200 + (i - curSelection) * 25;
 
 			// check for null members and hardcode the dividers
 			if (categoryMap.get(curCategory)[0][i][1] == null)
 			{
 				activeSubgroup.members[i].alpha = 1;
-				activeSubgroup.members[i].xTo += Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40)) - 200;
+				activeSubgroup.members[i].xTo += Std.int(FlxG.width / 2 - (activeSubgroup.members[i].text.length / 2) * 40) - 200;
 			}
 		}
 
@@ -259,7 +259,7 @@ class OptionsMenuState extends MusicBeatState
 		// move the attachments if there are any
 		for (setting in currentAttachmentMap.keys())
 		{
-			if ((setting != null) && (currentAttachmentMap.get(setting) != null))
+			if (setting != null && currentAttachmentMap.get(setting) != null)
 			{
 				var thisAttachment = currentAttachmentMap.get(setting);
 				thisAttachment.x = setting.x - 100;

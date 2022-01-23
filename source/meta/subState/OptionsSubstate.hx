@@ -153,7 +153,7 @@ class OptionsSubstate extends MusicBeatSubState
 				secondaryText.y += (90 * (i - (arrayTemp.length / 2)));
 				secondaryText.targetY = i;
 				secondaryText.disableX = true;
-				secondaryText.xTo += ((j + 1) * 420);
+				secondaryText.xTo += (j + 1) * 420;
 				secondaryText.isMenuItem = true;
 				secondaryText.alpha = 0.6;
 
@@ -203,7 +203,7 @@ class OptionsSubstate extends MusicBeatSubState
 		for (i in 0...otherKeys.length)
 		{
 			otherKeys.members[i].alpha = 0.6;
-			otherKeys.members[i].targetY = (((Math.floor(i / 2)) - curSelection) / 2) - 0.25;
+			otherKeys.members[i].targetY = (Math.floor(i / 2) - curSelection) / 2 - 0.25;
 		}
 		otherKeys.members[(curSelection * 2) + curHorizontalSelection].alpha = 1;
 		// */

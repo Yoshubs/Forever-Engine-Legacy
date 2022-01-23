@@ -142,8 +142,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				trainSound = new FlxSound().loadEmbedded(Paths.sound('train_passes'));
 				FlxG.sound.list.add(trainSound);
 
-				// var cityLights:FNFSprite = new FNFSprite().loadGraphic(AssetPaths.win0.png);
-
 				var street:FNFSprite = new FNFSprite(-40, streetBehind.y).loadGraphic(Paths.image('backgrounds/' + curStage + '/street'));
 				add(street);
 			case 'highway':
@@ -166,7 +164,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 				for (i in 0...5)
 				{
-					var dancer:BackgroundDancer = new BackgroundDancer((370 * i) + 130, bgLimo.y - 400);
+					var dancer:BackgroundDancer = new BackgroundDancer(370 * i + 130, bgLimo.y - 400);
 					dancer.scrollFactor.set(0.4, 0.4);
 					grpLimoDancers.add(dancer);
 				}

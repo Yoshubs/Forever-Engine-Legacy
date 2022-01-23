@@ -2,12 +2,8 @@ package meta.data.font;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxMath;
-import flixel.tweens.FlxEase;
-import flixel.tweens.FlxTween;
 import flixel.util.FlxTimer;
 
 using StringTools;
@@ -129,7 +125,7 @@ class Alphabet extends FlxSpriteGroup
 			var isNumber:Bool = AlphaCharacter.numbers.contains(character);
 			var isSymbol:Bool = AlphaCharacter.symbols.contains(character);
 
-			if ((AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1) || (AlphaCharacter.numbers.contains(character)))
+			if (AlphaCharacter.alphabet.indexOf(character.toLowerCase()) != -1 || AlphaCharacter.numbers.contains(character))
 			{
 				if (xPosResetted)
 				{
@@ -303,7 +299,7 @@ class Alphabet extends FlxSpriteGroup
 				x = FlxMath.lerp(x, xTo, elapsed * 6);
 		}
 
-		if ((text != textInit))
+		if (text != textInit)
 		{
 			if (arrayLetters.length > 0)
 				for (i in 0...arrayLetters.length)
