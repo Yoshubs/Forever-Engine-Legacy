@@ -208,10 +208,10 @@ class Main extends Sprite
                 if (!grantedPermsList.contains(Permissions.READ_EXTERNAL_STORAGE) || !grantedPermsList.contains(Permissions.WRITE_EXTERNAL_STORAGE)) {
                 	if (AndroidTools.getSDKversion() > 23 || AndroidTools.getSDKversion() == 23) {
                         	Application.current.window.alert("If you accepted the permisions for storage good, you can continue, if you not the game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
-                                System.exit(0);//Will close the game
+                                Sys.exit(0);//Will close the game
 		        } else {
                         	Application.current.window.alert("game can't run without storage permissions please grant them in app settings" + "\n" + "Press Ok To Close The App","Permissions");
-                                System.exit(0);//Will close the game
+                                Sys.exit(0);//Will close the game
 		        }
                 }
                 else
@@ -224,7 +224,7 @@ class Main extends Sprite
                         }
                         if (!FileSystem.exists(Main.getDataPath() + "assets")) {
                                 Application.current.window.alert("Try copying assets/assets from apk to" + Application.current.meta.get("packageName") + " In your internal storage" + "\n" + "Press Ok To Close The App", "Instructions");
-                                System.exit(0);//Will close the game
+                                Sys.exit(0);//Will close the game
                         }
                 }
                 #end
@@ -320,10 +320,10 @@ class Main extends Sprite
 
 		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Yoshubs/Forever-Engine";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists(Main.getDataPath() + "./crash/"))
+			FileSystem.createDirectory(Main.getDataPath() + "./crash/");
 
-		File.saveContent(path, errMsg + "\n");
+		File.saveContent(Main.getDataPath() + path, errMsg + "\n");
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
@@ -334,7 +334,7 @@ class Main extends Sprite
 		crashDialoguePath += ".exe";
 		#end
 
-		if (FileSystem.exists("./" + crashDialoguePath))
+		if (FileSystem.exists(Main.getDataPath() + "./" + crashDialoguePath))
 		{
 			Sys.println("Found crash dialog: " + crashDialoguePath);
 
