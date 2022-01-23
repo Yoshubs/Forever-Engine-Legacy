@@ -43,7 +43,7 @@
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc"/>
+	<haxelib name="discord_rpc" unless="android"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
