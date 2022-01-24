@@ -1,6 +1,6 @@
 package meta.state.menus;
 
-import meta.MusicBeat.MusicBeatSubState;
+import meta.MusicBeat.MusicBeatState;
 import flixel.ui.FlxButton;
 import flixel.addons.ui.FlxUIButton;
 import flixel.text.FlxText;
@@ -19,7 +19,7 @@ import lime.system.Clipboard;
 
 using StringTools;
 
-class AndroidControlsState extends MusicBeatSubState
+class AndroidControlsState extends MusicBeatState
 {
 	var _pad:FlxVirtualPad;
 	var _hb:Hitbox;
@@ -48,9 +48,9 @@ class AndroidControlsState extends MusicBeatSubState
 
 	var config:Config;
 
-	public function new()
+	override function create()
 	{
-		super();
+		super.create();
 
 		//init config
 		config = new Config();
@@ -123,7 +123,7 @@ class AndroidControlsState extends MusicBeatSubState
 		add(importbutton);
 
 		// add virtualpad
-		this.add(_pad);
+		add(_pad);
 
 		//add hb
 		add(_hb);
