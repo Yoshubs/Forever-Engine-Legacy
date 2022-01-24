@@ -55,7 +55,7 @@ class OptionsMenuState extends MusicBeatState
 					['preferences', callNewGroup],
 					['appearance', callNewGroup],
 					['controls', openControlmenu],
-                                        ['android controls', openAndroidControlsmenu]
+                                        ['android controls', openAndroidControlsmenu],
 					['exit', exitMenu]
 				]
 			],
