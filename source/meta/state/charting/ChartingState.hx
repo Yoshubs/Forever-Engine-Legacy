@@ -275,7 +275,7 @@ class ChartingState extends MusicBeatState
 		}
 		// */
 
-		if (FlxG.keys.justPressed.ENTER)
+		if (FlxG.keys.justPressed.ENTER#if android || FlxG.android.justReleased.BACK #end)
 		{
 			songPosition = songMusic.time;
 
