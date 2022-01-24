@@ -21,7 +21,6 @@ using StringTools;
 
 class AndroidControlsState extends MusicBeatSubState
 {
-
 	var _pad:FlxVirtualPad;
 	var _hb:Hitbox;
 
@@ -70,7 +69,7 @@ class AndroidControlsState extends MusicBeatSubState
 		inputvari = new FlxText(125, 50, 0,controlitems[0], 48);
 		
 		//arrows
-		var ui_tex = Paths.getSparrowAtlas('campaign_menu_UI_assets');
+		var ui_tex = Paths.getSparrowAtlas('menus/base/storymenu/campaign_menu_UI_assets);
 
 		leftArrow = new FlxSprite(inputvari.x - 60,inputvari.y - 10);
 		leftArrow.frames = ui_tex;
