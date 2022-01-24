@@ -296,7 +296,7 @@ class OptionsSubstate extends MusicBeatSubState
 				});
 			}
 			else if (controls.BACK)
-				close();
+                                FlxG.switchState(FlxG.state);// :) I'm happy
 		}
 		else
 			subMenuControl();
