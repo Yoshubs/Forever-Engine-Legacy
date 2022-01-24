@@ -87,7 +87,7 @@ class FreeplayState extends MusicBeatState
 			if (!existingSongs.contains(i.toLowerCase()))
 			{
 				var icon:String = 'gf';
-				var chartExists:Bool = FileSystem.exists(Paths.songJson(i, i));
+				var chartExists:Bool = FileSystem.exists(Main.getDataPath() + Paths.songJson(i, i));
 				if (chartExists)
 				{
 					var castSong:SwagSong = Song.loadFromJson(i, i);
