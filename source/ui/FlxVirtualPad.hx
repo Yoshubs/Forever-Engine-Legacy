@@ -145,7 +145,7 @@ class FlxVirtualPad extends FlxSpriteGroup
 		button.immovable = true;
 		button.scrollFactor.set();
 
-	    #if FLX_DEBUG
+	        #if FLX_DEBUG
 		button.ignoreDrawDebug = true;
 		#end
 
@@ -157,7 +157,7 @@ class FlxVirtualPad extends FlxSpriteGroup
 
 	public static function getVirtualInputFrames():FlxAtlasFrames
 	{
-		return Paths.getPackerAtlas('virtualpad');
+		return Paths.getPackerAtlas('AndroidControls/virtualpad');
 	}
 }
 
@@ -175,7 +175,7 @@ enum FlxActionMode
 {
 	NONE;
 	A;
-    B;
+        B;
  	D;   
 	A_B;
 	A_B_C;
