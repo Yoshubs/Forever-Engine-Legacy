@@ -1,7 +1,6 @@
 package meta.state.menus;
 
-package options;
-
+import meta.MusicBeat.MusicBeatSubState;
 import flixel.ui.FlxButton;
 import flixel.addons.ui.FlxUIButton;
 import flixel.text.FlxText;
