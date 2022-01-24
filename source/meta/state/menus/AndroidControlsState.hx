@@ -19,7 +19,7 @@ import lime.system.Clipboard;
 
 using StringTools;
 
-class AndroidControlsState extends MusicBeatSubstate
+class AndroidControlsState extends MusicBeatSubState
 {
 
 	var _pad:FlxVirtualPad;
