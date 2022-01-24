@@ -55,6 +55,7 @@ class OptionsMenuState extends MusicBeatState
 					['preferences', callNewGroup],
 					['appearance', callNewGroup],
 					['controls', openControlmenu],
+                                        ['android controls', openAndroidControlsmenu]
 					['exit', exitMenu]
 				]
 			],
@@ -562,6 +563,20 @@ class OptionsMenuState extends MusicBeatState
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
 				openSubState(new OptionsSubstate());
+				lockedMovement = false;
+			});
+		}
+	}
+
+	public function openAndroidControlsmenu()
+	{
+		if (controls.ACCEPT)
+		{
+			FlxG.sound.play(Paths.sound('confirmMenu'));
+			lockedMovement = true;
+			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
+			{
+				Main.switchState(this, new meta.state.menus.AndroidControlsState());
 				lockedMovement = false;
 			});
 		}
