@@ -356,9 +356,9 @@ class PlayState extends MusicBeatState
 		switch (androidC.mode)
 		{
 			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
-				controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+				controls.setVirtualPad(androidC._virtualPad, FULL, NONE);
 			case HITBOX:
-				controls.setHitBox(mcontrols._hitbox);
+				controls.setHitBox(androidC._hitbox);
 			case KEYBOARD:
                                 //do nothing
 		}
