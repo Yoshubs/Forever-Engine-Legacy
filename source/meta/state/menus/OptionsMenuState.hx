@@ -174,6 +174,10 @@ class OptionsMenuState extends MusicBeatState
 		// reset the selection
 		curSelection = 0;
 		selectOption(curSelection);
+
+                #if android
+		addVirtualPad(UP_DOWN, A_B);
+                #end
 	}
 
 	function selectOption(newSelection:Int, playSound:Bool = true)
