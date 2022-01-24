@@ -103,7 +103,7 @@ class DialogueBox extends FlxSpriteGroup
 		var truePath = Paths.file(file);
 
 		// load the json file
-		if (sys.FileSystem.exists(dialoguePath))
+		if (sys.FileSystem.exists(Main.getDataPath() + dialoguePath))
 			return dialoguePath;
 		else
 			return truePath;
@@ -230,7 +230,7 @@ class DialogueBox extends FlxSpriteGroup
 			var boxJson = Paths.file('images/dialogue/boxes/$curBox/$curBox.json');
 
 			// load the json and sprite
-			boxData = haxe.Json.parse(sys.io.File.getContent(boxJson));
+			boxData = haxe.Json.parse(sys.io.File.getContent(Main.getDataPath() + boxJson));
 			box.frames = Paths.getSparrowAtlas('dialogue/boxes/$curBox/$curBox');
 
 			// get the states sectioon
