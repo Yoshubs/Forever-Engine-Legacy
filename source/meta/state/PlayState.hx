@@ -39,7 +39,9 @@ import openfl.filters.ShaderFilter;
 import openfl.media.Sound;
 import openfl.utils.Assets;
 import sys.io.File;
-
+#if android
+import ui.AndroidControls;
+#end
 using StringTools;
 
 #if !html5
@@ -48,6 +50,9 @@ import meta.data.dependency.Discord;
 
 class PlayState extends MusicBeatState
 {
+        #if android
+        var androidC:AndroidControls;
+        #end
 	public static var startTimer:FlxTimer;
 
 	public static var curStage:String = '';
@@ -113,6 +118,7 @@ class PlayState extends MusicBeatState
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
+        public static var androidCHUD:FlxCamera;
 
 	public var camDisplaceX:Float = 0;
 	public var camDisplaceY:Float = 0; // might not use depending on result
@@ -344,6 +350,30 @@ class PlayState extends MusicBeatState
 		dialogueHUD = new FlxCamera();
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
+
+                #if android
+		androidC = new AndroidControls();
+		switch (androidC.mode)
+		{
+			case VIRTUALPAD_RIGHT | VIRTUALPAD_LEFT | VIRTUALPAD_CUSTOM:
+				controls.setVirtualPad(mcontrols._virtualPad, FULL, NONE);
+			case HITBOX:
+				controls.setHitBox(mcontrols._hitbox);
+			case KEYBOARD:
+                                //do nothing
+		}
+		trackedinputs = controls.trackedinputs;
+		controls.trackedinputs = [];
+
+                androidCHUD = new FlxCamera();
+		androidCHUD.bgColor.alpha = 0;
+		FlxG.cameras.add(androidCHUD);
+                androidC.cameras = [androidCHUD];
+
+		androidC.visible = false;
+
+		add(androidC);
+		#end
 
 		//
 		keysArray = [
@@ -1538,6 +1568,9 @@ class PlayState extends MusicBeatState
 	function endSong():Void
 	{
 		canPause = false;
+                #if android
+                androidC.visible = false;
+                #end
 		songMusic.volume = 0;
 		vocals.volume = 0;
 		if (SONG.validScore)
@@ -1754,6 +1787,9 @@ class PlayState extends MusicBeatState
 	private function startCountdown():Void
 	{
 		inCutscene = false;
+                #if android
+                androidC.visible = true;
+                #end
 		Conductor.songPosition = -(Conductor.crochet * 5);
 		swagCounter = 0;
 
