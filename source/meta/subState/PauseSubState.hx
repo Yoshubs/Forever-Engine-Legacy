@@ -20,7 +20,7 @@ class PauseSubState extends MusicBeatSubState
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Chart Editor', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -101,6 +101,15 @@ class PauseSubState extends MusicBeatSubState
 		#if debug
 		// trace('cameras done');
 		#end
+
+#if android
+		addVirtualPad(UP_DOWN, A);
+		
+		var camcontrol = new flixel.FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		_virtualpad.cameras = [camcontrol];
+		#end
 	}
 
 	override function update(elapsed:Float)
@@ -145,6 +154,8 @@ class PauseSubState extends MusicBeatSubState
 						Main.switchState(this, new StoryMenuState());
 					else
 						Main.switchState(this, new FreeplayState());
+				case "Chart Editor":
+					Main.switchState(this, new FreeplayState());
 			}
 		}
 
