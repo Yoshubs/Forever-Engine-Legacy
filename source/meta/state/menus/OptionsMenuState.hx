@@ -131,6 +131,10 @@ class OptionsMenuState extends MusicBeatState
 		add(infoText);
 
 		loadSubgroup('main');
+
+                #if android
+		addVirtualPad(FULL, A_B);
+                #end
 	}
 
 	private var currentAttachmentMap:Map<Alphabet, Dynamic>;
@@ -174,10 +178,6 @@ class OptionsMenuState extends MusicBeatState
 		// reset the selection
 		curSelection = 0;
 		selectOption(curSelection);
-
-                #if android
-		addVirtualPad(UP_DOWN, A_B);
-                #end
 	}
 
 	function selectOption(newSelection:Int, playSound:Bool = true)
