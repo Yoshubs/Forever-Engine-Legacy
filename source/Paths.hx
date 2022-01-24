@@ -219,7 +219,7 @@ class Paths
 
 	inline static function getPreloadPath(file:String) {
 		var returnPath:String = 'assets/$file';
-		if (!FileSystem.exists(Main.getDataPath() + returnPath))
+		if (!FileSystem.exists(returnPath))
 			returnPath = CoolUtil.swapSpaceDash(returnPath);
 		return returnPath;
 	}
@@ -279,7 +279,7 @@ class Paths
 	}
 
 	inline static public function font(key:String) {
-		return Main.getDataPath() + 'assets/fonts/$key';
+		return 'assets/fonts/$key';
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String) {
