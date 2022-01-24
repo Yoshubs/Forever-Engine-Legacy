@@ -102,7 +102,7 @@ class PauseSubState extends MusicBeatSubState
 		// trace('cameras done');
 		#end
 
-#if android
+                #if android
 		addVirtualPad(UP_DOWN, A);
 		
 		var camcontrol = new flixel.FlxCamera();
@@ -155,7 +155,7 @@ class PauseSubState extends MusicBeatSubState
 					else
 						Main.switchState(this, new FreeplayState());
 				case "Chart Editor":
-					Main.switchState(this, new FreeplayState());
+					Main.switchState(this, new meta.state.charting.ChartingState());
 			}
 		}
 
