@@ -9,6 +9,10 @@ import meta.*;
 import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;
 import meta.data.dependency.FNFUIState;
+#if android
+import flixel.input.actions.FlxActionInput;
+import ui.FlxVirtualPad;
+#end
 
 /* 
 	Music beat state happens to be the first thing on my list of things to add, it just so happens to be the backbone of
@@ -30,6 +34,28 @@ class MusicBeatState extends FNFUIState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+
+        #if android
+	var _virtualpad:FlxVirtualPad;
+	var trackedinputsUI:Array<FlxActionInput> = [];
+	var trackedinputs:Array<FlxActionInput> = [];
+	
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		add(_virtualpad);
+		controls.setVirtualPadUI(_virtualpad, DPad, Action);
+		trackedinputsUI = controls.trackedinputsUI;
+		controls.trackedinputsUI = [];
+	}
+	
+	override function destroy() {
+		controls.removeFlxInput(trackedinputsUI);
+		controls.removeFlxInput(trackedinputs);		
+		
+		super.destroy();
+	}
+	#end	
 
 	// class create event
 	override function create()
@@ -149,6 +175,28 @@ class MusicBeatSubState extends FlxSubState
 
 	inline function get_controls():Controls
 		return PlayerSettings.player1.controls;
+
+        #if android
+	var _virtualpad:FlxVirtualPad;
+	var trackedinputsUI:Array<FlxActionInput> = [];
+	var trackedinputs:Array<FlxActionInput> = [];
+	
+	public function addVirtualPad(?DPad:FlxDPadMode, ?Action:FlxActionMode) {
+		_virtualpad = new FlxVirtualPad(DPad, Action);
+		_virtualpad.alpha = 0.75;
+		add(_virtualpad);
+		controls.setVirtualPadUI(_virtualpad, DPad, Action);
+		trackedinputsUI = controls.trackedinputsUI;
+		controls.trackedinputsUI = [];
+	}
+	
+	override function destroy() {
+		controls.removeFlxInput(trackedinputsUI);
+		controls.removeFlxInput(trackedinputs);		
+		
+		super.destroy();
+	}
+	#end	
 
 	override function update(elapsed:Float)
 	{
