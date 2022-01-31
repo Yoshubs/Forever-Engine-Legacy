@@ -1435,11 +1435,11 @@ class PlayState extends MusicBeatState
 	function resyncVocals():Void
 	{
 		trace('resyncing vocal time ${vocals.time}');
+		songMusic.pause();
 		vocals.pause();
-
-		songMusic.play();
 		Conductor.songPosition = songMusic.time;
 		vocals.time = Conductor.songPosition;
+		songMusic.play();
 		vocals.play();
 		trace('new vocal time ${Conductor.songPosition}');
 	}
@@ -1630,8 +1630,7 @@ class PlayState extends MusicBeatState
 				FlxG.sound.play(Paths.sound('Lights_Shut_off'));
 
 				// call the song end
-				var eggnogEndTimer:FlxTimer = new FlxTimer().start(Conductor.crochet / 1000, function(timer:FlxTimer)
-				{
+				var eggnogEndTimer:FlxTimer = new FlxTimer().start(Conductor.crochet / 1000, function(timer:FlxTimer) {
 					callDefaultSongEnd();
 				}, 1);
 
