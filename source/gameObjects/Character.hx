@@ -540,30 +540,27 @@ class Character extends FNFSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!isPlayer && !Init.trueSettings.get('Opponent Play'))
+		if (!isPlayer)
 		{
-			if (animation.curAnim.name.startsWith('sing'))
-			{
-				holdTimer += elapsed;
-			}
+			if (!Init.trueSettings.get('Opponent Play')) {
+				if (animation.curAnim.name.startsWith('sing'))
+				{
+					holdTimer += elapsed;
+				}
 
-			var dadVar:Float = 4;
-			if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
-			{
-				dance();
-				holdTimer = 0;
-			}
-		} else {
-			if (animation.curAnim.name.startsWith('sing'))
-			{
-				holdTimer += elapsed;
-			}
-			else
-				holdTimer = 0;
-
-			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
-			{
-				playAnim('idle', true, false, 10);
+				var dadVar:Float = 4;
+				if (holdTimer >= Conductor.stepCrochet * dadVar * 0.001)
+				{
+					dance();
+					holdTimer = 0;
+				}
+			} else {
+				if (animation.curAnim.name.startsWith('sing'))
+				{
+					holdTimer += elapsed;
+				}
+				else
+					holdTimer = 0;
 			}
 		}
 
