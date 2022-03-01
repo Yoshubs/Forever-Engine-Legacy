@@ -146,7 +146,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 		var iconOffset:Int = 26;
 
-		iconP1.x = iconP1.x = (opponentL ? -593 : 0) + healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, (opponentL ? -100 : 100), 100, 0) * 0.01) - iconOffset);
+		iconP1.x = (opponentL ? -593 : 0) + healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, (opponentL ? -100 : 100), 100, 0) * 0.01) - iconOffset);
 		iconP2.x = (opponentL ? -593 : 0) + healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, (opponentL ? -100 : 100), 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		if (healthBar.percent < 20)
