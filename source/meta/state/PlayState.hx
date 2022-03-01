@@ -105,6 +105,7 @@ class PlayState extends MusicBeatState
 	var inCutscene:Bool = false;
 
 	var canPause:Bool = true;
+	public var opponentChart:Bool = Init.trueSettings.get('Opponent Play');
 
 	var previousFrameTime:Int = 0;
 	var lastReportedPlayheadPosition:Int = 0;
@@ -311,9 +312,12 @@ class PlayState extends MusicBeatState
 
 		//
 		var placement = (FlxG.width / 2);
-		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
+		dadStrums = new Strumline(placement - (FlxG.width / 4)*(opponentChart ? -1 : 1), 
+		this, (opponentChart ? boyfriend : dadOpponent), false, true, false, 4, Init.trueSettings.get('Downscroll'));
 		dadStrums.visible = !Init.trueSettings.get('Centered Notefield');
-		boyfriendStrums = new Strumline(placement + (!Init.trueSettings.get('Centered Notefield') ? (FlxG.width / 4) : 0), this, boyfriend, true, false, true,
+		
+		boyfriendStrums = new Strumline(placement + (!Init.trueSettings.get('Centered Notefield') ? (FlxG.width / 4) : 0)*(opponentChart ? -1 : 1), 
+		this, (opponentChart ? dadOpponent : boyfriend), true, false, true,
 			4, Init.trueSettings.get('Downscroll'));
 
 		strumLines.add(dadStrums);
@@ -458,7 +462,7 @@ class PlayState extends MusicBeatState
 						}
 
 						if (eligable) {
-							goodNoteHit(coolNote, boyfriend, boyfriendStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, (opponentChart ? dadOpponent : boyfriend), boyfriendStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -467,7 +471,7 @@ class PlayState extends MusicBeatState
 				}
 				else // else just call bad notes
 					if (!Init.trueSettings.get('Ghost Tapping'))
-						missNoteCheck(true, key, boyfriend, true);
+						missNoteCheck(true, key, (opponentChart ? dadOpponent : boyfriend), true);
 				Conductor.songPosition = previousTime;
 			}
 
@@ -695,6 +699,9 @@ class PlayState extends MusicBeatState
 			{
 				var dunceNote:Note = unspawnNotes[0];
 				// push note to its correct strumline
+				if (opponentChart) {
+					dunceNote.mustPress = !dunceNote.mustPress;
+				}
 				strumLines.members[Math.floor((dunceNote.noteData + (dunceNote.mustPress ? 4 : 0)) / numberOfKeys)].push(dunceNote);
 				unspawnNotes.splice(unspawnNotes.indexOf(dunceNote), 1);
 			}
@@ -820,7 +827,7 @@ class PlayState extends MusicBeatState
 									note.tooLate = true;
 								
 								vocals.volume = 0;
-								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (opponentChart ? dadOpponent : boyfriend), true);
 								// ambiguous name
 								Timings.updateAccuracy(0);
 							}
@@ -840,7 +847,7 @@ class PlayState extends MusicBeatState
 										}
 										if (!breakFromLate)
 										{
-											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (opponentChart ? dadOpponent : boyfriend), true);
 											for (note in parentNote.childrenNotes)
 												note.tooLate = true;
 										}
@@ -870,11 +877,21 @@ class PlayState extends MusicBeatState
 		var holdControls:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
 		if ((boyfriend != null && boyfriend.animation != null)
 			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000)
-			&& (!holdControls.contains(true) || boyfriendStrums.autoplay)))
+			&& (!holdControls.contains(true) || boyfriendStrums.autoplay || opponentChart)))
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing')
 			&& !boyfriend.animation.curAnim.name.endsWith('miss'))
 				boyfriend.dance();
+		}
+		if (opponentChart) {
+			if ((dadOpponent != null && dadOpponent.animation != null)
+				&& (dadOpponent.holdTimer > Conductor.stepCrochet * (4 / 1000)
+				&& (!holdControls.contains(true) || boyfriendStrums.autoplay)))
+			{
+				if (dadOpponent.animation.curAnim.name.startsWith('sing')
+				&& !dadOpponent.animation.curAnim.name.endsWith('miss'))
+					dadOpponent.dance();
+			}
 		}
 	}
 

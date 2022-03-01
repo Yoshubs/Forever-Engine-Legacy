@@ -32,6 +32,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	var scoreLast:Float = -1;
 	var scoreDisplay:String;
+	var opponentL:Bool = Init.trueSettings.get('Opponent Play');
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -63,9 +64,11 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, (opponentL ? LEFT_TO_RIGHT : RIGHT_TO_LEFT), Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		if (!opponentL)
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		else healthBar.createFilledBar(0xFF66FF33, 0xFFFF0000);
 		// healthBar
 		add(healthBar);
 
@@ -143,18 +146,18 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 		var iconOffset:Int = 26;
 
-		iconP1.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01) - iconOffset);
-		iconP2.x = healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, 100, 100, 0) * 0.01)) - (iconP2.width - iconOffset);
+		iconP1.x = iconP1.x = (opponentL ? -593 : 0) + healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, (opponentL ? -100 : 100), 100, 0) * 0.01) - iconOffset);
+		iconP2.x = (opponentL ? -593 : 0) + healthBar.x + (healthBar.width * (FlxMath.remapToRange(healthBar.percent, 0, (opponentL ? -100 : 100), 100, 0) * 0.01)) - (iconP2.width - iconOffset);
 
 		if (healthBar.percent < 20)
-			iconP1.animation.curAnim.curFrame = 1;
+			(opponentL ? iconP2 : iconP1).animation.curAnim.curFrame = 1;
 		else
-			iconP1.animation.curAnim.curFrame = 0;
+			(opponentL ? iconP2 : iconP1).animation.curAnim.curFrame = 0;
 
 		if (healthBar.percent > 80)
-			iconP2.animation.curAnim.curFrame = 1;
+			(opponentL ? iconP1 : iconP2).animation.curAnim.curFrame = 1;
 		else
-			iconP2.animation.curAnim.curFrame = 0;
+			(opponentL ? iconP1 : iconP2).animation.curAnim.curFrame = 0;
 	}
 
 	private final divider:String = ' - ';

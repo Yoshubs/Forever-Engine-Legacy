@@ -92,6 +92,7 @@ class Init extends FlxState
 			'Whether to disable Anti-aliasing. Helps improve performance in FPS.',
 			NOT_FORCED
 		],
+		'Opponent Play' => [false, Checkmark, "Whether to play the opponent's chart.", NOT_FORCED],
 		'No Camera Note Movement' => [
 			false,
 			Checkmark,

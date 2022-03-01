@@ -540,7 +540,7 @@ class Character extends FNFSprite
 
 	override function update(elapsed:Float)
 	{
-		if (!isPlayer)
+		if (!isPlayer && !Init.trueSettings.get('Opponent Play'))
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{
@@ -552,6 +552,18 @@ class Character extends FNFSprite
 			{
 				dance();
 				holdTimer = 0;
+			}
+		} else {
+			if (animation.curAnim.name.startsWith('sing'))
+			{
+				holdTimer += elapsed;
+			}
+			else
+				holdTimer = 0;
+
+			if (animation.curAnim.name.endsWith('miss') && animation.curAnim.finished && !debugMode)
+			{
+				playAnim('idle', true, false, 10);
 			}
 		}
 
