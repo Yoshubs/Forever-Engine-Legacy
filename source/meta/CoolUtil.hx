@@ -102,4 +102,27 @@ class CoolUtil
 		}
 		return dumbArray;
 	}
+	
+	public static function formatSong(song:String):String
+   	{
+		var swag:String = song.replace('-', ' ').toLowerCase();
+		var splitSong:Array<String> = swag.split(' ');
+
+		for (i in 0...splitSong.length)
+		{
+		    var firstLetter = splitSong[i].substring(0, splitSong[i].length - (splitSong[i].length - 1));
+		    var coolSong:String = splitSong[i].replace(firstLetter, firstLetter.toUpperCase());
+
+		    for (a in 0...splitSong.length)
+		    {
+			var stringSong:String = Std.string(splitSong[a+1]);
+			var stringFirstLetter:String = stringSong.substring(0, stringSong.length - (stringSong.length - 1));
+			coolSong += ' ${stringSong.toLowerCase().replace(stringFirstLetter.toLowerCase(), stringFirstLetter.toUpperCase())}';
+		    }
+
+		    return coolSong.replace(' Null', '');
+		}
+
+        	return swag;
+	}
 }
