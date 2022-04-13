@@ -103,25 +103,50 @@ class CoolUtil
 		return dumbArray;
 	}
 	
+	public static function coolReplace(string:String, sub:String, by:String):String
+	{
+		/*#if (!cs && !java)*/
+		return string.split(sub).join(by);
+		//#end
+	}
+
+
 	public static function formatSong(song:String):String
    	{
-		var swag:String = song.replace('-', ' ').toLowerCase();
+		var swag:String = coolReplace(song, '-', ' ');
 		var splitSong:Array<String> = swag.split(' ');
 
 		for (i in 0...splitSong.length)
 		{
-		    var firstLetter = splitSong[i].substring(0, splitSong[i].length - (splitSong[i].length - 1));
-		    var coolSong:String = splitSong[i].replace(firstLetter, firstLetter.toUpperCase());
+		    var firstLetter = splitSong[i].substring(0, 1);
+		    var coolSong:String = coolReplace(splitSong[i], firstLetter, firstLetter.toUpperCase());
+				var splitCoolSong:Array<String> = coolSong.split('');
+
+				coolSong = Std.string(splitCoolSong[0]).toUpperCase();
+
+				for (e in 0...splitCoolSong.length)
+					coolSong += Std.string(splitCoolSong[e+1]).toLowerCase();
+
+				coolSong = coolReplace(coolSong, 'null', '');
 
 		    for (a in 0...splitSong.length)
 		    {
 			var stringSong:String = Std.string(splitSong[a+1]);
-			var stringFirstLetter:String = stringSong.substring(0, stringSong.length - (stringSong.length - 1));
-			coolSong += ' ${stringSong.toLowerCase().replace(stringFirstLetter.toLowerCase(), stringFirstLetter.toUpperCase())}';
+			var stringFirstLetter:String = stringSong.substring(0, 1);
+
+			var splitStringSong = stringSong.split('');
+			stringSong = Std.string(splitStringSong[0]).toUpperCase();
+
+			for (l in 0...splitStringSong.length)
+				stringSong += Std.string(splitStringSong[l+1]).toLowerCase();
+
+			stringSong = coolReplace(stringSong, 'null', '');
+
+			coolSong += ' $stringSong';
 		    }
 
 		    return coolSong.replace(' Null', '');
-		}
+       		}
 
         	return swag;
 	}
