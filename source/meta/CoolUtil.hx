@@ -120,14 +120,14 @@ class CoolUtil
 		{
 		    var firstLetter = splitSong[i].substring(0, 1);
 		    var coolSong:String = coolReplace(splitSong[i], firstLetter, firstLetter.toUpperCase());
-				var splitCoolSong:Array<String> = coolSong.split('');
+		    var splitCoolSong:Array<String> = coolSong.split('');
 
-				coolSong = Std.string(splitCoolSong[0]).toUpperCase();
+		    coolSong = Std.string(splitCoolSong[0]).toUpperCase();
 
-				for (e in 0...splitCoolSong.length)
-					coolSong += Std.string(splitCoolSong[e+1]).toLowerCase();
+		    for (e in 0...splitCoolSong.length)
+		    	coolSong += Std.string(splitCoolSong[e+1]).toLowerCase();
 
-				coolSong = coolReplace(coolSong, 'null', '');
+		    coolSong = coolReplace(coolSong, 'null', '');
 
 		    for (a in 0...splitSong.length)
 		    {
