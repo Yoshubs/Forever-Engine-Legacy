@@ -58,6 +58,11 @@ class OptionsSubstate extends MusicBeatSubState
 		submenuText2.y += 32;
 		submenuGroup.add(submenuText2);
 
+		var submenuText3 = new Alphabet(0, 0, "DEL to Delete Key", true, false);
+		submenuText3.screenCenter();
+		submenuText3.y += 92;
+		submenuGroup.add(submenuText3);
+
 		// submenuoffset group
 		// this code by codist
 		var submenuOffsetText = new Alphabet(0, 0, "Left or Right to edit.", true, false);
@@ -341,6 +346,7 @@ class OptionsSubstate extends MusicBeatSubState
 			{
 				// loop through existing keys and see if there are any alike
 				var checkKey = FlxG.keys.getIsDown()[0].ID;
+				var delKey = FlxG.keys.getIsDown()[-1];
 
 				// check if any keys use the same key lol
 				/*
@@ -358,6 +364,11 @@ class OptionsSubstate extends MusicBeatSubState
 				// now check if its the key we want to change
 				Init.gameControls.get(keyOptions.members[curSelection].text)[0][curHorizontalSelection] = checkKey;
 				otherKeys.members[(curSelection * 2) + curHorizontalSelection].text = getStringKey(checkKey);
+				
+				if (FlxG.keys.justPressed.DELETE) {
+					Init.gameControls.get(keyOptions.members[curSelection].text)[0][curHorizontalSelection] = delKey;
+					otherKeys.members[(curSelection * 2) + curHorizontalSelection].text = getStringKey(delKey);
+				}
 
 				// refresh keys
 				controls.setKeyboardScheme(None, false);
