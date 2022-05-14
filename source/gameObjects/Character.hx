@@ -31,6 +31,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
+	public var barColor:Int;
 
 	public var holdTimer:Float = 0;
 
@@ -41,6 +42,10 @@ class Character extends FNFSprite
 	{
 		super(x, y);
 		this.isPlayer = isPlayer;
+
+		// if the character has no Bar Color, it will use the default one
+		// Lime for Boyfriend, Red for Dad
+		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
 	}
 
 	public function setCharacter(x:Float, y:Float, character:String):Character
@@ -76,6 +81,7 @@ class Character extends FNFSprite
 				animation.addByPrefix('scared', 'GF FEAR', 24);
 
 				playAnim('danceRight');
+				barColor = 0xFFa5004d;
 
 			case 'gf-christmas':
 				tex = Paths.getSparrowAtlas('characters/gfChristmas');
@@ -143,6 +149,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
 
 				playAnim('idle');
+				barColor = 0xFFaf66ce;
+
 			case 'spooky':
 				tex = Paths.getSparrowAtlas('characters/spooky_kids_assets');
 				frames = tex;
@@ -156,6 +164,8 @@ class Character extends FNFSprite
 				characterData.quickDancer = true;
 
 				playAnim('danceRight');
+				barColor = 0xFFd57e00;
+
 			case 'mom':
 				tex = Paths.getSparrowAtlas('characters/Mom_Assets');
 				frames = tex;
@@ -174,6 +184,8 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				characterData.camOffsetY = 100;
+				barColor = 0xFFd8558e;
+
 			case 'mom-car':
 				tex = Paths.getSparrowAtlas('characters/momCar');
 				frames = tex;
@@ -188,6 +200,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT', 'Mom Pose Left', 24, false);
 
 				playAnim('idle');
+				barColor = 0xFFd8558e;
+
 			case 'monster':
 				tex = Paths.getSparrowAtlas('characters/Monster_Assets');
 				frames = tex;
@@ -198,6 +212,7 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
 				playAnim('idle');
+				barColor = 0xFFf3ff6e;
 
 			case 'monster-christmas':
 				tex = Paths.getSparrowAtlas('characters/monsterChristmas');
@@ -209,6 +224,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('singLEFT', 'Monster Right note', 24, false);
 
 				playAnim('idle');
+				barColor = 0xFFf3ff6e;
+
 			case 'pico':
 				tex = Paths.getSparrowAtlas('characters/Pico_FNF_assetss');
 				frames = tex;
@@ -237,6 +254,7 @@ class Character extends FNFSprite
 				playAnim('idle');
 
 				flipX = true;
+				barColor = 0xFFb7d855;
 
 			case 'bf':
 				frames = Paths.getSparrowAtlas('characters/BOYFRIEND');
@@ -376,6 +394,8 @@ class Character extends FNFSprite
 				antialiasing = false;
 
 				flipX = true;
+				barColor = 0xFF7bd6f6;
+
 			case 'bf-pixel-dead':
 				frames = Paths.getSparrowAtlas('characters/bfPixelsDEAD');
 				animation.addByPrefix('singUP', "BF Dies pixel", 24, false);
@@ -409,6 +429,8 @@ class Character extends FNFSprite
 
 				characterData.camOffsetY = -330;
 				characterData.camOffsetX = -200;
+				barColor = 0xFFffaa6f;
+
 			case 'senpai-angry':
 				frames = Paths.getSparrowAtlas('characters/senpai');
 				animation.addByPrefix('idle', 'Angry Senpai Idle', 24, false);
@@ -424,6 +446,8 @@ class Character extends FNFSprite
 
 				characterData.camOffsetY = -330;
 				characterData.camOffsetX = -200;
+				barColor = 0xFFffaa6f;
+
 			case 'spirit':
 				frames = Paths.getPackerAtlas('characters/spirit');
 				animation.addByPrefix('idle', "idle spirit_", 24, false);
@@ -442,6 +466,7 @@ class Character extends FNFSprite
 
 				characterData.camOffsetY = 50;
 				characterData.camOffsetX = 100;
+				barColor = 0xFFff3c6e;
 
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('characters/mom_dad_christmas_assets');
@@ -458,6 +483,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
 				playAnim('idle');
+				barColor = 0xFFc45eae;
+
 			default:
 				// set up animations if they aren't already
 
@@ -479,6 +506,13 @@ class Character extends FNFSprite
 				else 
 					return setCharacter(x, y, 'bf'); 					
 		}
+
+		/*
+			since there are many variants of bf, we can just make it so if a character name starts with "bf", use his color
+			it's way better than setting it up manually for every variant
+		*/
+		if (curCharacter.startsWith('bf'))
+			barColor = 0xFF31b0d1;
 
 		// set up offsets cus why not
 		if (OpenFlAssets.exists(Paths.offsetTxt(curCharacter + 'Offsets')))
