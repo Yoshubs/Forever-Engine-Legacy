@@ -288,7 +288,7 @@ class TitleState extends MusicBeatState
 		switch (curBeat)
 		{
 			case 1:
-				createCoolText(['ninjamuffin', 'phantomArcade', 'kawaisprite', 'evilsker']);
+				createCoolText(['NimuDev','Mago Star', 'Donic 11']);
 
 			// credTextShit.visible = true;
 			case 3:
@@ -305,34 +305,34 @@ class TitleState extends MusicBeatState
 			case 7:
 				addMoreText('newgrounds');
 				ngSpr.visible = true;
-			// credTextShit.text += '\nNewgrounds';
+			// credTextShit.text += '\nForever Engine';
 
 			case 8:
 				deleteCoolText();
 				ngSpr.visible = false;
 			// credTextShit.visible = false;
 
-			// credTextShit.text = 'Shoutouts Tom Fulp';
+			// credTextShit.text =  'Forever Engine soo cool shit';
 			// credTextShit.screenCenter();
 			case 9:
 				createCoolText([curWacky[0]]);
 			// credTextShit.visible = true;
 			case 11:
 				addMoreText(curWacky[1]);
-			// credTextShit.text += '\nlmao';
+			// credTextShit.text += '\nAmong us';
 			case 12:
 				deleteCoolText();
 			// credTextShit.visible = false;
-			// credTextShit.text = "Friday";
+			// credTextShit.text = "Vs";
 			// credTextShit.screenCenter();
 			case 13:
-				addMoreText('Friday');
+				addMoreText('Vs');
 			// credTextShit.visible = true;
 			case 14:
-				addMoreText('Night');
-			// credTextShit.text += '\nNight';
+				addMoreText('Vs');
+			// credTextShit.text += '\nVs';
 			case 15:
-				addMoreText('Funkin'); // credTextShit.text += '\nFunkin';
+				addMoreText('Angel Y Erick'); // credTextShit.text += '\nAngel Y Erick';
 
 			case 16:
 				skipIntro();
