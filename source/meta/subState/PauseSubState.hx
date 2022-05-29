@@ -15,12 +15,13 @@ import meta.MusicBeat.MusicBeatSubState;
 import meta.data.font.Alphabet;
 import meta.state.*;
 import meta.state.menus.*;
+import meta.state.charting.*;
 
 class PauseSubState extends MusicBeatSubState
 {
 	var grpMenuShit:FlxTypedGroup<Alphabet>;
 
-	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to menu'];
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Forever Chart Editor', 'Original Chart Editor', 'Exit to menu'];
 	var curSelected:Int = 0;
 
 	var pauseMusic:FlxSound;
@@ -119,6 +120,10 @@ class PauseSubState extends MusicBeatSubState
 					close();
 				case "Restart Song":
 					Main.switchState(this, new PlayState());
+				case "Forever Chart Editor":
+					Main.switchState(this, new ChartingState());
+				case "Original Chart Editor":
+					Main.switchState(this, new OriginalChartingState());
 				case "Exit to menu":
 					PlayState.resetMusic();
 

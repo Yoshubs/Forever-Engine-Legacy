@@ -32,7 +32,6 @@ class FlxHitbox extends FlxSpriteGroup {
 
 		var hints:FlxSprite = new FlxSprite(0, 0);
 		hints.loadGraphic(Paths.image('androidcontrols/hitbox_hint'));
-		hints.antialiasing = ClientPrefs.globalAntialiasing;
 		hints.alpha = 0.75;
 		add(hints);
 	}
@@ -40,7 +39,6 @@ class FlxHitbox extends FlxSpriteGroup {
 	public function createhitbox(x:Float = 0, y:Float = 0, frames:String):FlxButton {
 		var button = new FlxButton(x, y);
 		button.loadGraphic(FlxGraphic.fromFrame(getFrames().getByName(frames)));
-		button.antialiasing = ClientPrefs.globalAntialiasing;
 		button.alpha = 0;
 		button.onDown.callback = function(){
 			FlxTween.num(0, 0.75, 0.075, {ease:FlxEase.circInOut}, function(alpha:Float){ 

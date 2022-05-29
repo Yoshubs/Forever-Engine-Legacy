@@ -1,17 +1,13 @@
 package meta;
 
+import sys.FileSystem;
 import lime.utils.Assets;
 import meta.state.PlayState;
 
 using StringTools;
 
-#if desktop
-import sys.FileSystem;
-#end
-
 class CoolUtil
 {
-	// tymgus45
 	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"];
 	public static var difficultyLength = difficultyArray.length;
 

@@ -730,7 +730,7 @@ class PlayState extends MusicBeatState
 
 	function controllerInput()
 	{
-		if (!autoplay) {
+		if (!strumline.autoplay) {
 			var controlArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
 			if(controlArray.contains(true))
 			{
