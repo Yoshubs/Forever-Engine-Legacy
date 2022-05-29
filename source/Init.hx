@@ -281,8 +281,13 @@ class Init extends FlxState
 
 		updateAll();
 
+		#if android
+		FlxG.sound.volume = 1;
+		FlxG.sound.muted = false;
+		#else
 		FlxG.sound.volume = FlxG.save.data.volume;
 		FlxG.sound.muted = FlxG.save.data.mute;
+		#end
 	}
 
 	public static function loadControls():Void
