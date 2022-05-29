@@ -386,9 +386,9 @@ class OptionsSubstate extends MusicBeatSubState
 				closeSubmenu();
 
 			var move = 0;
-			if (FlxG.keys.pressed.LEFT)
+			if (FlxG.keys.justPressed.LEFT || FlxG.keys.pressed.LEFT && FlxG.keys.pressed.SHIFT)
 				move = -1;
-			else if (FlxG.keys.pressed.RIGHT)
+			else if (FlxG.keys.justPressed.RIGHT || FlxG.keys.pressed.RIGHT && FlxG.keys.pressed.SHIFT)
 				move = 1;
 
 			offsetTemp += move * 0.1;
