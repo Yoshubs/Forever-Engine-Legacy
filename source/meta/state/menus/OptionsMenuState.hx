@@ -31,6 +31,8 @@ class OptionsMenuState extends MusicBeatState
 
 	var lockedMovement:Bool = false;
 
+	var prepareVpad:Bool = false;
+
 	override public function create():Void
 	{
 		super.create();
@@ -132,6 +134,10 @@ class OptionsMenuState extends MusicBeatState
 		add(infoText);
 
 		loadSubgroup('main');
+
+		#if android
+		addVirtualPad(FULL, A_B);
+		#end
 	}
 
 	private var currentAttachmentMap:Map<Alphabet, Dynamic>;
@@ -563,6 +569,10 @@ class OptionsMenuState extends MusicBeatState
 			lockedMovement = true;
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
+				#if android
+				removeVirtualPad();
+				#end
+				prepareVpad = true;
 				openSubState(new OptionsSubstate());
 				lockedMovement = false;
 			});
@@ -583,5 +593,17 @@ class OptionsMenuState extends MusicBeatState
 			});
 		}
 		//
+	}
+
+	override function closeSubState() {
+		super.closeSubState();
+
+		if (prepareVpad) {
+			#if android
+			addVirtualPad(FULL, A_B);
+			#end
+			prepareVpad = false;
+		}
+		ClientPrefs.saveSettings();
 	}
 }

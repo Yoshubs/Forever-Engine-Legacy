@@ -161,13 +161,17 @@ class ChartingState extends MusicBeatState
 
 		FlxG.mouse.useSystemCursor = false; // Use system cursor because it's prettier
 		FlxG.mouse.visible = true; // Hide mouse on start
+
+		#if android
+		addVirtualPad(UP_DOWN, A_B_C);
+		#end
 	}
 
 	var hitSoundsPlayed:Array<Note> = [];
 
 	override public function update(elapsed:Float)
 	{
-		if (FlxG.keys.justPressed.SPACE)
+		if (FlxG.keys.justPressed.SPACE #if android || _virtualpad.buttonC.justPressed #end)
 		{
 			if (songMusic.playing)
 			{
@@ -187,7 +191,30 @@ class ChartingState extends MusicBeatState
 			}
 		}
 
+
 		var scrollSpeed:Float = 0.75;
+		#if android
+		if (controls.UP || controls.DOWN)
+		{
+			songMusic.pause();
+			vocals.pause();
+
+			var daTime:Float = 700 * FlxG.elapsed * scrollSpeed;
+
+			if (controls.UP)
+			{
+				songMusic.time = Math.max(songMusic.time - daTime, 0);
+				songMusic.time = Math.min(songMusic.time, songMusic.length);
+			}
+			else
+			{
+				songMusic.time = Math.max(songMusic.time + daTime, 0);
+				songMusic.time = Math.min(songMusic.time, songMusic.length);
+			}
+
+			vocals.time = songMusic.time;
+		}
+		#else
 		if (FlxG.mouse.wheel != 0)
 		{
 			songMusic.pause();
@@ -197,8 +224,8 @@ class ChartingState extends MusicBeatState
 			songMusic.time = Math.min(songMusic.time, songMusic.length);
 			vocals.time = songMusic.time;
 		}
+		#end
 
-		// strumline camera stuffs!
 		Conductor.songPosition = songMusic.time;
 
 		strumLine.y = getYfromStrum(Conductor.songPosition);
@@ -210,7 +237,51 @@ class ChartingState extends MusicBeatState
 
 		super.update(elapsed);
 
-		///*
+		#if android
+		for (touch in FlxG.touches.list)
+		{
+			if (touch.x > (fullGrid.x)
+				&& touch.x < (fullGrid.x + fullGrid.width)
+				&& touch.y > 0
+				&& touch.y < (getYfromStrum(songMusic.length)))
+			{
+				var fakeMouseX = touch.x - fullGrid.x;
+				dummyArrow.x = (Math.floor((fakeMouseX) / gridSize) * gridSize) + fullGrid.x;
+				if (_virtualpad.buttonB.justPressed)
+					dummyArrow.y = touch.y;
+				else
+					dummyArrow.y = Math.floor(touch.y / gridSize) * gridSize;
+
+				// moved this in here for the sake of not dying
+				if (touch.justPressed)
+				{
+					if (!touch.overlaps(curRenderedNotes))
+					{
+						// add note funny
+						var noteStrum = getStrumTime(dummyArrow.y);
+
+						var notesSection = Math.floor(noteStrum / (Conductor.stepCrochet * 16));
+						var noteData = adjustSide(Math.floor((dummyArrow.x - fullGrid.x) / gridSize), _song.notes[notesSection].mustHitSection);
+						var noteSus = 0;
+
+						generateChartNote(noteData, noteStrum, noteSus, 0, notesSection);
+					}
+					else
+					{
+						curRenderedNotes.forEachAlive(function(note:Note)
+						{
+							if (touch.overlaps(note))
+							{
+									note.kill();
+									curRenderedNotes.remove(note);
+									note.destroy();
+							}
+						});
+					}
+				}
+			}
+		}
+		#else
 		if (FlxG.mouse.x > (fullGrid.x)
 			&& FlxG.mouse.x < (fullGrid.x + fullGrid.width)
 			&& FlxG.mouse.y > 0
@@ -218,7 +289,7 @@ class ChartingState extends MusicBeatState
 		{
 			var fakeMouseX = FlxG.mouse.x - fullGrid.x;
 			dummyArrow.x = (Math.floor((fakeMouseX) / gridSize) * gridSize) + fullGrid.x;
-			if (FlxG.keys.pressed.SHIFT)
+			if (FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonB.justPressed #end)
 				dummyArrow.y = FlxG.mouse.y;
 			else
 				dummyArrow.y = Math.floor(FlxG.mouse.y / gridSize) * gridSize;
@@ -233,15 +304,9 @@ class ChartingState extends MusicBeatState
 
 					var notesSection = Math.floor(noteStrum / (Conductor.stepCrochet * 16));
 					var noteData = adjustSide(Math.floor((dummyArrow.x - fullGrid.x) / gridSize), _song.notes[notesSection].mustHitSection);
-					var noteSus = 0; // ninja you will NOT get away with this
-
-					//noteCleanup(notesSection, noteStrum, noteData);
-					//_song.notes[notesSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+					var noteSus = 0;
 
 					generateChartNote(noteData, noteStrum, noteSus, 0, notesSection);
-
-					//updateSelection(_song.notes[notesSection].sectionNotes[_song.notes[notesSection].sectionNotes.length - 1], notesSection, true);
-					//isPlacing = true;
 				}
 				else
 				{
@@ -249,33 +314,17 @@ class ChartingState extends MusicBeatState
 					{
 						if (FlxG.mouse.overlaps(note))
 						{
-							if (FlxG.keys.pressed.CONTROL)
-							{
-								// selectNote(note);
-							}
-							else
-							{
-								// delete the epic note
-								//var notesSection = getSectionfromY(note.y);
-								// persona 3 mass destruction
-								//destroySustain(note, notesSection);
-
-								//noteCleanup(notesSection, note.strumTime, note.rawNoteData);
-
 								note.kill();
 								curRenderedNotes.remove(note);
 								note.destroy();
-								//
-							}
 						}
-						// lol
 					});
 				}
 			}
 		}
-		// */
+		#end
 
-		if (FlxG.keys.justPressed.ENTER)
+		if (controls.ACCEPT)
 		{
 			songPosition = songMusic.time;
 

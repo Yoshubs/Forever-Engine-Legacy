@@ -11,6 +11,9 @@ import meta.data.Conductor.BPMChangeEvent;
 import meta.data.Conductor;
 import meta.state.*;
 import meta.state.menus.*;
+#if android
+import android.Hardware;
+#end
 
 class GameOverSubstate extends MusicBeatSubState
 {
@@ -48,6 +51,11 @@ class GameOverSubstate extends MusicBeatSubState
 		add(camFollow);
 
 		FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+
+		#if android
+		Hardware.vibrate(500);
+		#end
+
 		Conductor.changeBPM(100);
 
 		// FlxG.camera.followLerp = 1;
@@ -56,6 +64,11 @@ class GameOverSubstate extends MusicBeatSubState
 		FlxG.camera.target = null;
 
 		bf.playAnim('firstDeath');
+
+		#if android
+		addVirtualPad(NONE, A_B);
+		addPadCamera();
+		#end
 	}
 
 	override function update(elapsed:Float)

@@ -345,6 +345,10 @@ class PlayState extends MusicBeatState
 		dialogueHUD.bgColor.alpha = 0;
 		FlxG.cameras.add(dialogueHUD);
 
+		#if android
+		addAndroidControls();
+		#end
+
 		//
 		keysArray = [
 			copyKey(Init.gameControls.get('LEFT')[0]),
@@ -1582,6 +1586,10 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		#if android
+		androidc.visible = false;
+		#end
+
 		canPause = false;
 		songMusic.volume = 0;
 		vocals.volume = 0;
@@ -1802,6 +1810,9 @@ class PlayState extends MusicBeatState
 		swagCounter = 0;
 
 		camHUD.visible = true;
+		#if android
+		androidc.visible = true;
+		#end
 
 		startTimer = new FlxTimer().start(Conductor.crochet / 1000, function(tmr:FlxTimer)
 		{

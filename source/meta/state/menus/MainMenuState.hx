@@ -136,6 +136,10 @@ class MainMenuState extends MusicBeatState
 		add(versionShit);
 
 		//
+
+		#if android
+		addVirtualPad(UP_DOWN, A_B);
+		#end
 	}
 
 	// var colorTest:Float = 0;
