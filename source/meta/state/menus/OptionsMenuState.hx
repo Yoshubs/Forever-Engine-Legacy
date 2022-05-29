@@ -604,6 +604,5 @@ class OptionsMenuState extends MusicBeatState
 			#end
 			prepareVpad = false;
 		}
-		ClientPrefs.saveSettings();
 	}
 }

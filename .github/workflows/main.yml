@@ -185,7 +185,8 @@ jobs:
           haxelib run lime config JAVA_HOME $JAVA_HOME
           haxelib run lime config ANDROID_SETUP true
           haxelib install flixel-tools
-          haxelib run flixel-tools setup
+          haxelib install flixel-addons
+          haxelib install hscript
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib git extension-androidtools https://github.com/jigsaw-4277821/extension-androidtools.git   
           haxelib list
