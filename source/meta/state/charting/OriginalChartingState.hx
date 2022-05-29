@@ -692,6 +692,7 @@ class OriginalChartingState extends MusicBeatState
 
 				songMusic.time -= (FlxG.mouse.wheel * Conductor.stepCrochet * 0.4);
 				vocals.time = songMusic.time;
+			}
 			#end
 
 			if (!FlxG.keys.pressed.SHIFT #if android || _virtualpad.buttonB.pressed #end)
