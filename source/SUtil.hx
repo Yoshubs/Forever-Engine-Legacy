@@ -61,7 +61,7 @@ class SUtil {
 			FileSystem.createDirectory(SUtil.getPath() + "saves");
 		}
 		if (!FileSystem.exists(SUtil.getPath() + "assets")){
-			File.saveContent(SUtil.getPath() + "Paste the Assets and Mods folders here.txt", "the file name says all");
+			File.saveContent(SUtil.getPath() + "Paste the Assets folder here.txt", "the file name says all");
 		}
 		if (!FileSystem.exists(SUtil.getPath() + "assets")){
 			SUtil.applicationAlert("Instructions:", "You have to copy assets/assets from apk to your internal storage app directory"
