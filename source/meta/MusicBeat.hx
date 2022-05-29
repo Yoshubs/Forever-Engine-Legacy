@@ -89,6 +89,24 @@ class MusicBeatState extends FNFUIState
 	}
 	#end
 
+	#if android
+	public function addPadCamera() {
+		var camcontrol = new flixel.FlxCamera();
+		FlxG.cameras.add(camcontrol);
+		camcontrol.bgColor.alpha = 0;
+		_virtualpad.cameras = [camcontrol];
+	}
+	#end
+	
+	override function destroy() {
+		#if android
+		controls.removeFlxInput(trackedinputsNOTES);
+		controls.removeFlxInput(trackedinputsUI);
+		#end	
+		
+		super.destroy();
+	}
+
 	// class create event
 	override function create()
 	{
