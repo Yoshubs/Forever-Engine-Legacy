@@ -265,10 +265,10 @@ class Main extends Sprite
 
 		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/jigsaw-4277821/Forever-Engine-Legacy";
 
-		if (!FileSystem.exists("crash/"))
-			FileSystem.createDirectory("crash/");
+		if (!FileSystem.exists(SUtil.getPath() + "crash/"))
+			FileSystem.createDirectory(SUtil.getPath() + "crash/");
 
-		File.saveContent(path, errMsg + "\n");
+		File.saveContent(SUtil.getPath() + path, errMsg + "\n");
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
