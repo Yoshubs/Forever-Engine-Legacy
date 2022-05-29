@@ -24,13 +24,14 @@
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 
 	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
+	<window if="mobile" orientation="landscape" fullscreen="true" width="1280" height="720" resizable="false" allow-shaders="true" require-shaders="true"/>
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
 	<set name="BUILD_DIR" value="export" />
 	<source path="source" />
 	<assets path="assets" />
+	<assets path="assets/images/androidcontrols" if="android"/> <!-- to not have the android assets in another builds -saw -->
 	<assets path="FE-CrashDialog.exe" type="template" if="windows release" />
 	<!--<assets path="mods" />-->
 
@@ -42,8 +43,9 @@
 	<haxelib name="flixel-addons" />
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
-	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc"/>
+	<haxelib name="discord_rpc" if="desktop"/>
+
+	<haxelib name="extension-androidtools" if="android"/>
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 
@@ -60,9 +62,9 @@
 	<!--<haxedef name="FLX_NO_NATIVE_CURSOR" />-->
 
 	<!--Optimise inputs, be careful you will get null errors if you don't use conditionals in your game-->
-	<haxedef name="FLX_NO_MOUSE" if="mobile" />
-	<haxedef name="FLX_NO_KEYBOARD" if="mobile" />
-	<haxedef name="FLX_NO_TOUCH" if="desktop" />
+	<!--<haxedef name="FLX_NO_MOUSE" if="mobile" />-->
+	<!--<haxedef name="FLX_NO_KEYBOARD" if="mobile" />-->
+	<!--<haxedef name="FLX_NO_TOUCH" if="desktop" />-->
 	<!--<haxedef name="FLX_NO_GAMEPAD" />-->
 
 	<!--Disable the Flixel core sound tray-->
@@ -83,6 +85,16 @@
 	<!-- Akways enable Null Object Reference check for crash dialog -->
 	<haxedef name="HXCPP_CHECK_POINTER" if="release" />
 	<haxedef name="HXCPP_STACK_LINE" if="release" />
+
+	<!-- make's game use less ram -->
+	<haxedef name="HXCPP_GC_BIG_BLOCKS"/>
+
+	<!-- Android stuff: thanks Yoshi Engine -->
+	<android permission="android.permission.ACCESS_NETWORK_STATE"/>
+	<android permission="android.permission.INTERNET"/>
+	<android permission="android.permission.VIBRATE"/>
+	<android permission="android.permission.WRITE_EXTERNAL_STORAGE"/>
+	<android permission="android.permission.READ_EXTERNAL_STORAGE"/>
 
 	<!-- _________________________________ Custom _______________________________ -->
 

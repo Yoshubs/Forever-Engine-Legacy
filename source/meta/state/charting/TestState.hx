@@ -27,7 +27,7 @@ import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 import openfl.media.Sound;
-#if !html5
+#if desktop
 import sys.thread.Thread;
 #end
 

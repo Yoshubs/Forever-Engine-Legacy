@@ -148,7 +148,7 @@ class Main extends Sprite
 
 		Lib.current.loaderInfo.uncaughtErrorEvents.addEventListener(UncaughtErrorEvent.UNCAUGHT_ERROR, onCrash);
 
-		#if html5
+		#if (html5 || android)
 		framerate = 60;
 		#end
 
@@ -170,8 +170,10 @@ class Main extends Sprite
 			// if set to negative one, it is done so automatically, which is the default.
 		}
 
+		SUtil.doTheCheck();
+
 		FlxTransitionableState.skipNextTransIn = true;
-		
+
 		// here we set up the base game
 		var gameCreate:FlxGame;
 		gameCreate = new FlxGame(gameWidth, gameHeight, mainClassState, zoom, framerate, framerate, skipSplash);
@@ -181,7 +183,7 @@ class Main extends Sprite
 		// addChild(new FPS(10, 3, 0xFFFFFF));
 
 		// begin the discord rich presence
-		#if !html5
+		#if desktop
 		Discord.initializeRPC();
 		Discord.changePresence('');
 		#end
@@ -248,7 +250,7 @@ class Main extends Sprite
 		dateNow = StringTools.replace(dateNow, " ", "_");
 		dateNow = StringTools.replace(dateNow, ":", "'");
 
-		path = "./crash/" + "FE_" + dateNow + ".txt";
+		path = "crash/" + "FE_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -261,36 +263,30 @@ class Main extends Sprite
 			}
 		}
 
-		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/Yoshubs/Forever-Engine";
+		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/jigsaw-4277821/Forever-Engine-Legacy";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists("crash/"))
+			FileSystem.createDirectory("crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
 		Sys.println(errMsg);
 		Sys.println("Crash dump saved in " + Path.normalize(path));
 
-		var crashDialoguePath:String = "FE-CrashDialog";
-
 		#if windows
-		crashDialoguePath += ".exe";
-		#end
-
-		if (FileSystem.exists("./" + crashDialoguePath))
+		if (FileSystem.exists("FE-CrashDialog.exe"))
 		{
-			Sys.println("Found crash dialog: " + crashDialoguePath);
-
-			#if linux
-			crashDialoguePath = "./" + crashDialoguePath;
-			#end
-			new Process(crashDialoguePath, [path]);
+			Sys.println("Found crash dialog: " + "FE-CrashDialog.exe");
+			new Process("FE-CrashDialog.exe", [path]);
 		}
 		else
 		{
 			Sys.println("No crash dialog found! Making a simple alert instead...");
 			Application.current.window.alert(errMsg, "Error!");
 		}
+		#else
+		Application.current.window.alert(errMsg, "Error!");		
+		#end
 
 		Sys.exit(1);
 	}

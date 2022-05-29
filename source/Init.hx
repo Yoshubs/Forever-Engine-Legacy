@@ -51,6 +51,7 @@ class Init extends FlxState
 			NOT_FORCED
 		],
 		'Auto Pause' => [true, Checkmark, 'Whether to pause the game automatically if the window is unfocused.', NOT_FORCED],
+		'Controller Mode' => [#if desktop false #else true #end, Checkmark, 'Whether if you want to play with\na controller instead of using your Keyboard.', NOT_FORCED],
 		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS counter.', NOT_FORCED],
 		'Memory Counter' => [
 			true,
@@ -214,7 +215,7 @@ class Init extends FlxState
 		loadSettings();
 		loadControls();
 
-		#if !html5
+		#if desktop
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 
@@ -313,7 +314,7 @@ class Init extends FlxState
 
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 
-		#if !html5
+		#if desktop
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 

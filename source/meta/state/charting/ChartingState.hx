@@ -48,7 +48,7 @@ import openfl.utils.ByteArray;
 
 using StringTools;
 
-#if !html5
+#if desktop
 import sys.thread.Thread;
 #end
 

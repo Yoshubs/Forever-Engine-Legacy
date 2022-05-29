@@ -42,7 +42,7 @@ import sys.io.File;
 
 using StringTools;
 
-#if !html5
+#if desktop
 import meta.data.dependency.Discord;
 #end
 
@@ -353,8 +353,11 @@ class PlayState extends MusicBeatState
 			copyKey(Init.gameControls.get('RIGHT')[0])
 		];
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		if (!Init.trueSettings.get('Controller Mode'))
+		{
+			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		}
 		
 		Paths.clearUnusedMemory();
 
@@ -421,10 +424,7 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
-		if ((key >= 0)
-			&& !boyfriendStrums.autoplay
-			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED))
-			&& (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
+		if ((key >= 0) && !boyfriendStrums.autoplay && (Init.trueSettings.get('Controller Mode') || FlxG.keys.checkStatus(eventKey, JUST_PRESSED)) && (!paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
 		{
 			if (generatedMusic)
 			{
@@ -481,7 +481,7 @@ class PlayState extends MusicBeatState
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
-		if (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)) {
+		if (!paused && (FlxG.state.active || FlxG.state.persistentUpdate)) {
 			// receptor reset
 			if (key >= 0 && boyfriendStrums.receptors.members[key] != null)
 				boyfriendStrums.receptors.members[key].playAnim('static');
@@ -504,8 +504,11 @@ class PlayState extends MusicBeatState
 	}
 
 	override public function destroy() {
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		if (!Init.trueSettings.get('Controller Mode'))
+		{
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		}
 
 		super.destroy();
 	}
@@ -526,11 +529,23 @@ class PlayState extends MusicBeatState
 		// dialogue checks
 		if (dialogueBox != null && dialogueBox.alive) {
 			// wheee the shift closes the dialogue
-			if (FlxG.keys.justPressed.SHIFT)
+			if (FlxG.keys.justPressed.SHIFT #if android || FlxG.android.justReleased.BACK #end)
 				dialogueBox.closeDialog();
 
+			#if android
+			var justTouched:Bool = false;
+
+			for (touch in FlxG.touches.list)
+			{
+				if (touch.justPressed)
+				{
+					justTouched = true;
+				}
+			}
+			#end
+
 			// the change I made was just so that it would only take accept inputs
-			if (controls.ACCEPT && dialogueBox.textStarted)
+			if (controls.ACCEPT #if android || justTouched #end && dialogueBox.textStarted)
 			{
 				FlxG.sound.play(Paths.sound('cancelMenu'));
 				dialogueBox.curPage += 1;
@@ -545,7 +560,7 @@ class PlayState extends MusicBeatState
 
 		if (!inCutscene) {
 			// pause the game if the game is allowed to pause and enter is pressed
-			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
+			if (FlxG.keys.justPressed.ENTER #if android || FlxG.android.justReleased.BACK #end && startedCountdown && canPause)
 			{
 				// update drawing stuffs
 				persistentUpdate = false;
@@ -700,8 +715,38 @@ class PlayState extends MusicBeatState
 			}
 
 			noteCalls();
+
+			if (Init.trueSettings.get('Controller Mode'))
+			{
+				controllerInput();
+			}
 		}
 
+	}
+
+	function controllerInput()
+	{
+		if (!autoplay) {
+			var controlArray:Array<Bool> = [controls.LEFT_P, controls.DOWN_P, controls.UP_P, controls.RIGHT_P];
+			if(controlArray.contains(true))
+			{
+				for (i in 0...controlArray.length)
+				{
+					if(controlArray[i])
+						onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
+				}
+			}
+
+			var controlArrayRelease:Array<Bool> = [controls.LEFT_R, controls.DOWN_R, controls.UP_R, controls.RIGHT_R];
+			if(controlArrayRelease.contains(true))
+			{
+				for (i in 0...controlArrayRelease.length)
+				{
+					if(controlArrayRelease[i])
+						onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
+				}
+			}
+		}
 	}
 
 	function noteCalls()
@@ -1118,7 +1163,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if !html5
+		#if desktop
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 
 		if (health > 0)
@@ -1347,7 +1392,7 @@ class PlayState extends MusicBeatState
 
 			resyncVocals();
 
-			#if !html5
+			#if desktop
 			// Song duration in a float, useful for the time left feature
 			songLength = songMusic.length;
 
@@ -1713,7 +1758,7 @@ class PlayState extends MusicBeatState
 	}
 
 	function callTextbox() {
-		var dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
+		var dialogPath = SUtil.getPath() + Paths.json(SONG.song.toLowerCase() + '/dialogue');
 		if (sys.FileSystem.exists(dialogPath))
 		{
 			startedCountdown = false;

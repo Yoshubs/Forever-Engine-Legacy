@@ -52,6 +52,10 @@ class TitleState extends MusicBeatState
 
 	override public function create():Void
 	{
+		#if android
+		FlxG.android.preventDefaultKeys = [BACK];
+		#end
+
 		controls.setKeyboardScheme(None, false);
 		curWacky = FlxG.random.getObject(getIntroTextShit());
 		super.create();
@@ -69,7 +73,7 @@ class TitleState extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if !html5
+			#if desktop
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 			

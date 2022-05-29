@@ -45,7 +45,7 @@ class OptionsMenuState extends MusicBeatState
 
 		// NOTE : Make sure to check Init.hx if you are trying to add options.
 
-		#if !html5
+		#if desktop
 		Discord.changePresence('OPTIONS MENU', 'Main Menu');
 		#end
 
@@ -62,6 +62,7 @@ class OptionsMenuState extends MusicBeatState
 				[
 					['Game Settings', null],
 					['', null],
+					['Controller Mode', getFromOption],
 					['Auto Pause', getFromOption],
 					['Downscroll', getFromOption],
 					['Centered Notefield', getFromOption],
@@ -430,7 +431,7 @@ class OptionsMenuState extends MusicBeatState
 						});
 					}
 				case Init.SettingTypes.Selector:
-					#if !html5
+					#if desktop
 					var selector:Selector = currentAttachmentMap.get(activeSubgroup.members[curSelection]);
 
 					if (!controls.UI_LEFT)

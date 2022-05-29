@@ -5,7 +5,7 @@ import meta.state.PlayState;
 
 using StringTools;
 
-#if !html5
+#if desktop
 import sys.FileSystem;
 #end
 
@@ -62,10 +62,8 @@ class CoolUtil
 
 	public static function returnAssetsLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
 	{
-		//
 		var libraryArray:Array<String> = [];
-		#if !html5
-		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
+		var unfilteredLibrary = FileSystem.readDirectory(SUtil.getPath() + '$subDir/$library');
 
 		for (folder in unfilteredLibrary)
 		{
@@ -73,7 +71,6 @@ class CoolUtil
 				libraryArray.push(folder);
 		}
 		trace(libraryArray);
-		#end
 
 		return libraryArray;
 	}
