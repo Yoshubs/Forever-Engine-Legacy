@@ -279,7 +279,7 @@ class Paths
 	}
 
 	inline static public function font(key:String) {
-		return 'assets/fonts/$key';
+		return SUtil.getPath() + 'assets/fonts/$key';
 	}
 
 	inline static public function getSparrowAtlas(key:String, ?library:String) {

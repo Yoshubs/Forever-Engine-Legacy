@@ -215,7 +215,7 @@ class Init extends FlxState
 		loadSettings();
 		loadControls();
 
-		#if desktop
+		#if !html5
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 
@@ -314,7 +314,7 @@ class Init extends FlxState
 
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 
-		#if desktop
+		#if !html5
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
 
