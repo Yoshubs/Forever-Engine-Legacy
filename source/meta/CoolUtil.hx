@@ -67,7 +67,7 @@ class CoolUtil
 			folder = folder.replace(SUtil.getPath(), "androiddir:");
 			if (!folder.contains('.'))
 			{
-				folder = folder.replace("androiddir:", "SUtil.getPath()");
+				folder = folder.replace("androiddir:", SUtil.getPath());
 				libraryArray.push(folder);
 			}
 			#else
