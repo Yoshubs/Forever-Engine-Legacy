@@ -63,19 +63,8 @@ class CoolUtil
 
 		for (folder in unfilteredLibrary)
 		{
-			#if android
-			folder = folder.replace(SUtil.getPath(), "androiddir:");
-			if (!folder.contains('.'))
-			{
-				folder = folder.replace("androiddir:", SUtil.getPath());
-				libraryArray.push(folder);
-			}
-			#else
-			if (!folder.contains('.'))
-				libraryArray.push(folder);
-			#end
+			libraryArray.push(folder);
 		}
-		trace(libraryArray);
 
 		return libraryArray;
 	}
