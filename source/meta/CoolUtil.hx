@@ -1,13 +1,17 @@
 package meta;
 
-import sys.FileSystem;
 import lime.utils.Assets;
 import meta.state.PlayState;
 
 using StringTools;
 
+#if !html5
+import sys.FileSystem;
+#end
+
 class CoolUtil
 {
+	// tymgus45
 	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"];
 	public static var difficultyLength = difficultyArray.length;
 
@@ -58,13 +62,27 @@ class CoolUtil
 
 	public static function returnAssetsLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
 	{
+		//
 		var libraryArray:Array<String> = [];
+		#if !html5
 		var unfilteredLibrary = FileSystem.readDirectory(SUtil.getPath() + '$subDir/$library');
 
 		for (folder in unfilteredLibrary)
 		{
-			libraryArray.push(folder);
+			#if android
+			folder = folder.replace(SUtil.getPath(), "androiddir:");
+			if (!folder.contains('.'))
+			{
+				folder = folder.replace("androiddir:", SUtil.getPath());
+				libraryArray.push(folder);
+			}
+			#else
+			if (!folder.contains('.'))
+				libraryArray.push(folder);
+			#end
 		}
+		trace(libraryArray);
+		#end
 
 		return libraryArray;
 	}
