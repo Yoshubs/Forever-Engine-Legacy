@@ -26,7 +26,7 @@ class ForeverAssets
 			baseLibrary:String, negative:Bool, createdColor:FlxColor, scoreInt:Int):FlxSprite
 	{
 		var width = 100;
-		var height = 140;
+		var height = 141;
 
 		if (assetModifier == 'pixel')
 		{
