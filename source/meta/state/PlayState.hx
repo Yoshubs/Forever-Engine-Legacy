@@ -1600,7 +1600,7 @@ class PlayState extends MusicBeatState
 		canPause = false;
 		songMusic.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore)
+		if (SONG.validScore && !preventScoring)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
 		if (!isStoryMode)
@@ -1629,7 +1629,7 @@ class PlayState extends MusicBeatState
 				Main.switchState(this, new StoryMenuState());
 
 				// save the week's score if the score is valid
-				if (SONG.validScore)
+				if (SONG.validScore && !preventScoring)
 					Highscore.saveWeekScore(storyWeek, campaignScore, storyDifficulty);
 
 				// flush the save
