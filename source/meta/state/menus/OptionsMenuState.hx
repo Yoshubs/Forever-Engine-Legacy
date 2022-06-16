@@ -15,6 +15,7 @@ import meta.data.dependency.Discord;
 import meta.data.dependency.FNFSprite;
 import meta.data.font.Alphabet;
 import meta.subState.OptionsSubstate;
+import meta.subState.PauseSubState;
 
 /**
 	Options menu rewrite because I'm unhappy with how it was done previously
