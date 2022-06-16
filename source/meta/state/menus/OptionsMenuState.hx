@@ -298,10 +298,15 @@ class OptionsMenuState extends MusicBeatState
 		if (controls.BACK)
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
-			if (curCategory != 'main')
+
+			if (curCategory != 'main') {
 				loadSubgroup('main');
-			else
-				Main.switchState(this, new MainMenuState());
+			} else if (PauseSubState.toOptions) {
+					PlayState.resetMusic();
+					Main.switchState(this, new PlayState());
+				} else {
+					Main.switchState(this, new MainMenuState());
+				}
 		}
 	}
 
@@ -577,7 +582,12 @@ class OptionsMenuState extends MusicBeatState
 			lockedMovement = true;
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
-				Main.switchState(this, new MainMenuState());
+				if (PauseSubState.toOptions) {
+					PlayState.resetMusic();
+					Main.switchState(this, new PlayState());
+				} else {
+					Main.switchState(this, new MainMenuState());
+				}
 				lockedMovement = false;
 			});
 		}

@@ -151,6 +151,11 @@ class PlayState extends MusicBeatState
 	// stores the last combo objects in an array
 	public static var lastCombo:Array<FlxSprite>;
 
+	public static var preventScoring:Bool = false;
+	
+	public static var disableDeath:Bool = false;
+	public static var deaths:Int = 0;
+
 	// at the beginning of the playstate
 	override public function create()
 	{
@@ -177,6 +182,8 @@ class PlayState extends MusicBeatState
 		resetMusic();
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
+
+		startCaching();
 
 		// create the game camera
 		camGame = new FlxCamera();
@@ -396,6 +403,25 @@ class PlayState extends MusicBeatState
 		*/
 	}
 
+	function startCaching()
+	{
+		var stageSuffix = '';
+
+		if (assetModifier == 'pixel')
+			stageSuffix = '-pixel';
+
+		// cache songs
+		Paths.music('breakfast');
+		Paths.music('gameOver' + stageSuffix);
+		Paths.music('gameOverEnd' + stageSuffix);
+
+		// cache sounds
+		Paths.sound('missnote1');
+		Paths.sound('missnote2');
+		Paths.sound('missnote3');
+		Paths.sound('fnf_loss_sfx' + stageSuffix);
+	}
+
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
 	{
 		var copiedArray:Array<FlxKey> = arrayToCopy.copy();
@@ -570,8 +596,15 @@ class PlayState extends MusicBeatState
 						Main.switchState(this, new OriginalChartingState());
 				}
 
-				if ((FlxG.keys.justPressed.SIX))
+				if ((FlxG.keys.justPressed.FIVE)) {
+					preventScoring = true;
+					disableDeath = true;
+				}
+
+				if ((FlxG.keys.justPressed.SIX)) {
+					preventScoring = true;
 					boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
+				}
 			}
 
 			///*
@@ -676,18 +709,28 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
-			if (health <= 0 && startedCountdown)
+			if (health <= 0 || controls.RESET && !disableDeath && startedCountdown)
 			{
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
 				paused = true;
 
+				deaths++;
+
 				resetMusic();
 
+				var stageSuffix:String = '';
+				if (assetModifier == 'pixel')
+					stageSuffix = '-pixel';
+
+				new FlxTimer().start(0.1, function(soundTime:FlxTimer)
+				{
+					FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+				});
 				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
-				// discord stuffs should go here
+				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
 			}
 
 			// spawn in the notes from the array
