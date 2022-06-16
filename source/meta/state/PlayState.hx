@@ -1507,6 +1507,11 @@ class PlayState extends MusicBeatState
 
 		uiHUD.beatHit();
 
+		if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
+		{
+			boyfriend.playAnim('hey', true);
+		}
+
 		//
 		charactersDance(curBeat);
 

@@ -134,7 +134,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
 
-		var iconLerp = 0.5;
+		var iconLerp = 0.85;
 		iconP1.setGraphicSize(Std.int(FlxMath.lerp(iconP1.initialWidth, iconP1.width, iconLerp)));
 		iconP2.setGraphicSize(Std.int(FlxMath.lerp(iconP2.initialWidth, iconP2.width, iconLerp)));
 
@@ -194,8 +194,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	{
 		if (!Init.trueSettings.get('Reduced Movements'))
 		{
-			iconP1.setGraphicSize(Std.int(iconP1.width + 45));
-			iconP2.setGraphicSize(Std.int(iconP2.width + 45));
+			iconP1.setGraphicSize(Std.int(iconP1.width + 30));
+			iconP2.setGraphicSize(Std.int(iconP2.width + 30));
 
 			iconP1.updateHitbox();
 			iconP2.updateHitbox();

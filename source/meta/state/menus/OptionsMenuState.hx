@@ -113,6 +113,9 @@ class OptionsMenuState extends MusicBeatState
 			categoryMap.get(category)[2] = returnExtrasMap(categoryMap.get(category)[1]);
 		}
 
+		// make sure the music is playing
+		ForeverTools.resetMenuMusic();
+
 		// call the options menu
 		var bg = new FlxSprite(-85);
 		bg.loadGraphic(Paths.image('menus/base/menuDesat'));
