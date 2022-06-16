@@ -29,7 +29,7 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'credits', 'options'];
 	var canSnap:Array<Float> = [];
 
 	// the create 'state'
@@ -52,7 +52,7 @@ class MainMenuState extends MusicBeatState
 		persistentUpdate = persistentDraw = true;
 
 		// background
-		bg = new FlxSprite(-85);
+		bg = new FlxSprite(-80);
 		bg.loadGraphic(Paths.image('menus/base/menuBG'));
 		bg.scrollFactor.x = 0;
 		bg.scrollFactor.y = 0.18;
@@ -62,7 +62,7 @@ class MainMenuState extends MusicBeatState
 		bg.antialiasing = true;
 		add(bg);
 
-		magenta = new FlxSprite(-85).loadGraphic(Paths.image('menus/base/menuDesat'));
+		magenta = new FlxSprite(-80).loadGraphic(Paths.image('menus/base/menuDesat'));
 		magenta.scrollFactor.x = 0;
 		magenta.scrollFactor.y = 0.18;
 		magenta.setGraphicSize(Std.int(magenta.width * 1.1));
@@ -87,7 +87,7 @@ class MainMenuState extends MusicBeatState
 		// loop through the menu options
 		for (i in 0...optionShit.length)
 		{
-			var menuItem:FlxSprite = new FlxSprite(0, 80 + (i * 200));
+			var menuItem:FlxSprite = new FlxSprite(0, 60 + (i * 160));
 			menuItem.frames = tex;
 			// add the animations in a cool way (real
 			menuItem.animation.addByPrefix('idle', optionShit[i] + " basic", 24);
@@ -239,6 +239,8 @@ class MainMenuState extends MusicBeatState
 								Main.switchState(this, new StoryMenuState());
 							case 'freeplay':
 								Main.switchState(this, new FreeplayState());
+							case 'credits':
+								Main.switchState(this, new CreditsMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;

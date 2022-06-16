@@ -148,6 +148,21 @@ class Paths
 		return null;
 	}
 
+	static public function getTextFromFile(key:String):String
+	{
+		if (FileSystem.exists(getPreloadPath(key)))
+			return File.getContent(getPreloadPath(key));
+
+		if (currentLevel != null)
+		{
+			var levelPath:String = '';
+			levelPath = getLibraryPathForce(key, '');
+			if (FileSystem.exists(levelPath))
+				return File.getContent(levelPath);
+		}
+		return Assets.getText(getPath(key, TEXT));
+	}
+
 	public static function returnSound(path:String, key:String, ?library:String) {
 		// I hate this so god damn much
 		var gottenPath:String = getPath('$path/$key.$SOUND_EXT', SOUND, library);
