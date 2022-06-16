@@ -160,14 +160,18 @@ class Init extends FlxState
 	public static var settingsDescriptions:Map<String, String> = [];
 
 	public static var gameControls:Map<String, Dynamic> = [
-		'UP' => [[FlxKey.UP, W], 2],
-		'DOWN' => [[FlxKey.DOWN, S], 1],
 		'LEFT' => [[FlxKey.LEFT, A], 0],
+		'DOWN' => [[FlxKey.DOWN, S], 1],
+		'UP' => [[FlxKey.UP, W], 2],
 		'RIGHT' => [[FlxKey.RIGHT, D], 3],
-		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 4],
-		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 5],
-		'PAUSE' => [[FlxKey.ENTER, P], 6],
-		'RESET' => [[R, null], 13],
+
+		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 6],
+		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 7],
+		'PAUSE' => [[FlxKey.ENTER, P], 8],
+		'RESET' => [[null, null], 9],
+	];
+
+	public static var uiControls:Map<String, Dynamic> = [
 		'UI_UP' => [[FlxKey.UP, W], 8],
 		'UI_DOWN' => [[FlxKey.DOWN, S], 9],
 		'UI_LEFT' => [[FlxKey.LEFT, A], 10],
