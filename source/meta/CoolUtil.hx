@@ -1,5 +1,6 @@
 package meta;
 
+import flixel.FlxG;
 import lime.utils.Assets;
 import meta.state.PlayState;
 
@@ -12,8 +13,12 @@ import sys.FileSystem;
 class CoolUtil
 {
 	// tymgus45
-	public static var difficultyArray:Array<String> = ['EASY', "NORMAL", "HARD"];
+	public static var difficultyArray:Array<String> = ["EASY", "NORMAL", "HARD"];
 	public static var difficultyLength = difficultyArray.length;
+
+	inline public static function boundTo(value:Float, min:Float, max:Float):Float {
+		return Math.max(min, Math.min(max, value));
+	}
 
 	public static function difficultyFromNumber(number:Int):String
 	{
@@ -78,6 +83,25 @@ class CoolUtil
 		return libraryArray;
 	}
 
+	// literally just copy and pasted from the above
+	public static function returnSoundsLibrary(library:String, ?subDir:String = 'assets/sounds'):Array<String>
+	{
+		//
+		var libraryArray:Array<String> = [];
+		#if !html5
+		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
+
+		for (folder in unfilteredLibrary)
+		{
+			if (!folder.contains('.'))
+				libraryArray.push(folder);
+		}
+		trace(libraryArray);
+		#end
+
+		return libraryArray;
+	}
+
 	public static function getAnimsFromTxt(path:String):Array<Array<String>>
 	{
 		var fullText:String = Assets.getText(path);
@@ -101,5 +125,13 @@ class CoolUtil
 			dumbArray.push(i);
 		}
 		return dumbArray;
+	}
+	
+	public static function browserLoad(site:String) {
+		#if linux
+		Sys.command('/usr/bin/xdg-open', [site]);
+		#else
+		FlxG.openURL(site);
+		#end
 	}
 }
