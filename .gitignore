@@ -3,3 +3,4 @@ export/
 APIStuff.hx
 mods/
 docs/_build
+**/.DS_Store

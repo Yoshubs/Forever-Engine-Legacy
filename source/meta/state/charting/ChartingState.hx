@@ -23,6 +23,7 @@ import flixel.math.FlxMath;
 import flixel.system.FlxSound;
 import flixel.text.FlxText;
 import flixel.ui.FlxButton;
+import flixel.util.FlxAxes;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
 import gameObjects.*;
@@ -406,7 +407,7 @@ class ChartingState extends MusicBeatState
 			for (i in _song.notes[section].sectionNotes)
 			{
 				// note stuffs
-				var daNoteAlt = 0;
+				var daNoteAlt:Float = 0;
 				if (i.length > 2)
 					daNoteAlt = i[3];
 				generateChartNote(i[1], i[0], i[2], daNoteAlt, section);
@@ -460,9 +461,9 @@ class ChartingState extends MusicBeatState
 		//
 	}
 
-	private function generateChartNote(daNoteInfo, daStrumTime, daSus, daNoteAlt, noteSection)
+	private function generateChartNote(daNoteInfo, daStrumTime, daSus, daNoteAlt:Float, noteSection)
 	{
-		var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, daNoteAlt, false, null);
+		var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, false, null);
 		// I love how there's 3 different engines that use this exact same variable name lmao
 		note.rawNoteData = daNoteInfo;
 		note.sustainLength = daSus;

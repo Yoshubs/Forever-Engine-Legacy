@@ -1,20 +1,19 @@
 package gameObjects.userInterface.notes;
 
-import flixel.FlxG;
 import flixel.FlxSprite;
-import flixel.graphics.frames.FlxAtlasFrames;
-import flixel.math.FlxMath;
-import flixel.tweens.FlxTween;
-import flixel.util.FlxColor;
-import gameObjects.userInterface.notes.*;
 import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
-import meta.*;
 import meta.data.*;
-import meta.data.Section.SwagSection;
 import meta.data.dependency.FNFSprite;
 import meta.state.PlayState;
 
 using StringTools;
+
+enum NoteType
+{
+	NORMAL; // Normal Notes
+	ALT; // Alt Animation Notes
+	HEY; // Hey Notes
+}
 
 class Note extends FNFSprite
 {
@@ -23,7 +22,7 @@ class Note extends FNFSprite
 	public var mustPress:Bool = false;
 	public var noteData:Int = 0;
 	public var noteAlt:Float = 0;
-	public var noteType:Float = 0;
+	public var noteType:NoteType = NORMAL;
 	public var noteString:String = "";
 
 	public var canBeHit:Bool = false;
@@ -51,7 +50,19 @@ class Note extends FNFSprite
 	// it has come to this.
 	public var endHoldOffset:Float = Math.NEGATIVE_INFINITY;
 
-	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false)
+	public static var noteTypeMap:Map<String, NoteType> = [
+		'' => NORMAL,
+		'Alt Animation' => ALT,
+		'Hey!' => HEY
+	];
+
+	static var noteSkinMap:Map<NoteType, String> = [
+		NORMAL => 'NOTE_assets',
+		ALT => 'NOTE_assets',
+		HEY => 'NOTE_assets',
+	];
+
+	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL)
 	{
 		super(x, y);
 
@@ -67,6 +78,11 @@ class Note extends FNFSprite
 		this.strumTime = strumTime;
 		this.noteData = noteData;
 		this.noteAlt = noteAlt;
+
+		if (type != null)
+			this.noteType = type;
+		else
+			this.noteType = NORMAL;
 
 		// determine parent note
 		if (isSustainNote && prevNote != null)
@@ -91,6 +107,7 @@ class Note extends FNFSprite
 			else
 				canBeHit = false;
 		}
+		
 		else // make sure the note can't be hit if it's the dad's I guess
 			canBeHit = false;
 
@@ -103,9 +120,9 @@ class Note extends FNFSprite
 
 		these are for all your custom note needs
 	**/
-	public static function returnDefaultNote(assetModifier, strumTime, noteData, noteType, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note = null):Note
+	public static function returnDefaultNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note, noteType:NoteType = NORMAL):Note
 	{
-		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote);
+		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, noteType);
 
 		// frames originally go here
 		switch (assetModifier)
@@ -138,8 +155,17 @@ class Note extends FNFSprite
 				newNote.antialiasing = false;
 				newNote.setGraphicSize(Std.int(newNote.width * PlayState.daPixelZoom));
 				newNote.updateHitbox();
+
 			default: // base game arrows for no reason whatsoever
-				newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('NOTE_assets', assetModifier, Init.trueSettings.get("Note Skin"),
+				var noteSkin:String = null;
+				
+				switch (noteType)
+				{
+					default:
+						noteSkin = 'NOTE_assets';
+				}
+
+				newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset(noteSkin, assetModifier, Init.trueSettings.get("Note Skin"),
 					'noteskins/notes'));
 				newNote.animation.addByPrefix('greenScroll', 'green0');
 				newNote.animation.addByPrefix('redScroll', 'red0');
@@ -178,9 +204,9 @@ class Note extends FNFSprite
 		return newNote;
 	}
 
-	public static function returnQuantNote(assetModifier, strumTime, noteData, noteType, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note = null):Note
+	public static function returnQuantNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note = null, type:NoteType = NORMAL):Note
 	{
-		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote);
+		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, type);
 
 		// actually determine the quant of the note
 		if (newNote.noteQuant == -1)
