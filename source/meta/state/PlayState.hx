@@ -1466,6 +1466,23 @@ class PlayState extends MusicBeatState
 		//*/
 	}
 
+	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0)
+	{
+		if (char.animOffsets.exists(anim))
+			char.playAnim(anim, force, reverse, frame);
+
+		if (time != null)
+		{
+			new FlxTimer().start(time, function(danceTimer:FlxTimer)
+			{
+				char.dance();
+			});
+		} else {
+			if (char.animation.curAnim.name == anim && char.animation.curAnim.finished)
+				char.dance();
+		}
+	}
+
 	private function charactersDance(curBeat:Int)
 	{
 		if ((curBeat % gfSpeed == 0) 
@@ -1506,11 +1523,6 @@ class PlayState extends MusicBeatState
 		}
 
 		uiHUD.beatHit();
-
-		if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
-		{
-			boyfriend.playAnim('hey', true);
-		}
 
 		//
 		charactersDance(curBeat);
