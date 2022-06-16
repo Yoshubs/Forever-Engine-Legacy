@@ -442,7 +442,6 @@ class Character extends FNFSprite
 
 				characterData.camOffsetY = 50;
 				characterData.camOffsetX = 100;
-
 			case 'parents-christmas':
 				frames = Paths.getSparrowAtlas('characters/mom_dad_christmas_assets');
 				animation.addByPrefix('idle', 'Parent Christmas Idle', 24, false);
@@ -458,6 +457,29 @@ class Character extends FNFSprite
 				animation.addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
 				playAnim('idle');
+			case 'tankman':
+				frames = Paths.getSparrowAtlas('characters/tankmanCaptain');
+				animation.addByPrefix('idle', 'Tankman Idle Dance instance', 24, false);
+
+				animation.addByPrefix('singUP', 'Tankman UP note instance', 24, false);
+				animation.addByPrefix('singRIGHT', 'Tankman Note Left instance', 24, false);
+				animation.addByPrefix('singLEFT', 'Tankman Right Note instance', 24, false);
+				animation.addByPrefix('singDOWN', 'Tankman DOWN note instance', 24, false);
+
+				animation.addByPrefix('singUP-alt', 'TANKMAN UGH instance', 24, false);
+				animation.addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman instance', 24, false);
+
+				flipX = true;
+				playAnim('idle');
+			case 'pico-speaker':
+				frames = Paths.getSparrowAtlas('characters/picoSpeaker');
+
+				animation.addByPrefix('shoot1', 'Pico shoot 1', 24, false);
+				animation.addByPrefix('shoot2', 'Pico shoot 2', 24, false);
+				animation.addByPrefix('shoot3', 'Pico shoot 3', 24, false);
+				animation.addByPrefix('shoot4', 'Pico shoot 4', 24, false);
+
+				playAnim('shoot1');
 			default:
 				// set up animations if they aren't already
 
