@@ -83,25 +83,6 @@ class CoolUtil
 		return libraryArray;
 	}
 
-	// literally just copy and pasted from the above
-	public static function returnSoundsLibrary(library:String, ?subDir:String = 'assets/sounds'):Array<String>
-	{
-		//
-		var libraryArray:Array<String> = [];
-		#if !html5
-		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
-
-		for (folder in unfilteredLibrary)
-		{
-			if (!folder.contains('.'))
-				libraryArray.push(folder);
-		}
-		trace(libraryArray);
-		#end
-
-		return libraryArray;
-	}
-
 	public static function getAnimsFromTxt(path:String):Array<Array<String>>
 	{
 		var fullText:String = Assets.getText(path);
