@@ -65,7 +65,7 @@ class Alphabet extends FlxSpriteGroup
 
 	public var isBold:Bool = false;
 
-	public var soundChoices:Array<String> = ["GF_1", "GF_2", "GF_3", "GF_4",];
+	public var soundChoices:Array<String> = ["GF_1", "GF_2", "GF_3", "GF_4"];
 	public var beginPath:String = "assets/sounds/";
 	public var soundChance:Int = 40;
 	public var playSounds:Bool = true;

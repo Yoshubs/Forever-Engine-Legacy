@@ -13,13 +13,13 @@ import flixel.system.FlxAssets.FlxGraphicAsset;
 **/
 class FNFSprite extends FlxSprite
 {
-	public var animOffsets:Map<String, Array<Dynamic>>;
+	public var animOffsets:Map<String, Array<Float>>;
 
 	public function new(x:Float = 0, y:Float = 0)
 	{
 		super(x, y);
 
-		animOffsets = new Map<String, Array<Dynamic>>();
+		animOffsets = new Map<String, Array<Float>>();
 	}
 
 	public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void

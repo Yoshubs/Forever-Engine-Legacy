@@ -6,11 +6,11 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import haxe.Json;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.dependency.AbsoluteSprite;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
-import haxe.Json;
 import sys.FileSystem;
 import sys.io.File;
 
@@ -38,7 +38,6 @@ class CreditsMenu extends MusicBeatState
 
     var curSelected:Int;
     
-    var creditStuff:Array<Dynamic> = [];
     var icons:Array<AbsoluteSprite> = [];
     var creditsData:CreditsData;
     
@@ -51,11 +50,6 @@ class CreditsMenu extends MusicBeatState
 
         creditsData = Json.parse(Paths.getTextFromFile('credits.json'));
 
-        //if (fileExists)
-            creditStuff = creditsData.data;
-        //else
-        //    creditStuff = [["ERROR", 'error', "AN ERROR HAS OCURRED", " - PLEASE CHECK YOUR CREDITS JSON FILE!.", "", [255, 255, 255], -180, 0]];
-        
         #if !html5
         Discord.changePresence('MENU SCREEN', 'Credits Menu');
         #end
@@ -73,20 +67,20 @@ class CreditsMenu extends MusicBeatState
         alfabe = new FlxTypedGroup<Alphabet>();
         add(alfabe);
 
-        for (i in 0...creditStuff.length)
+        for (i in 0...creditsData.data.length)
         {
-            var alphabet:Alphabet = new Alphabet(0, 70 * i, creditStuff[i][0], !isSelectable(i));
+            var alphabet:Alphabet = new Alphabet(0, 70 * i, creditsData.data[i][0], !isSelectable(i));
             alphabet.isMenuItem = true;
             alphabet.itemType = "Centered";
             alphabet.screenCenter(X);
             alphabet.targetY = i;
             alfabe.add(alphabet);
             
-            var curIcon = 'credits/${creditStuff[i][1]}';
-            if (creditStuff[i][1] == '' || creditStuff[i][1] == null) curIcon = 'credits/error';
+            var curIcon = 'credits/${creditsData.data[i][1]}';
+            if (creditsData.data[i][1] == '' || creditsData.data[i][1] == null) curIcon = 'credits/error';
             
-            var icon:AbsoluteSprite = new AbsoluteSprite(curIcon, alphabet, creditStuff[i][6], creditStuff[i][7]);
-            if (creditStuff[i][8] != null) icon.setGraphicSize(Std.int(icon.width * creditStuff[i][8]));
+            var icon:AbsoluteSprite = new AbsoluteSprite(curIcon, alphabet, creditsData.data[i][6], creditsData.data[i][7]);
+            if (creditsData.data[i][8] != null) icon.setGraphicSize(Std.int(icon.width * creditsData.data[i][8]));
             icons.push(icon);
             //icon.updateHitbox();
             add(icon);
@@ -117,9 +111,9 @@ class CreditsMenu extends MusicBeatState
         if (controls.BACK) 
             Main.switchState(this, new MainMenuState());
 
-        if (controls.ACCEPT && isSelectable(curSelected) && creditStuff[curSelected][4] != null
-            && creditStuff[curSelected][4] != '') 
-            CoolUtil.browserLoad(creditStuff[curSelected][4]);
+        if (controls.ACCEPT && isSelectable(curSelected) && creditsData.data[curSelected][4] != null
+            && creditsData.data[curSelected][4] != '') 
+            CoolUtil.browserLoad(creditsData.data[curSelected][4]);
     }
     
     public function changeSelection(change:Int = 0)
@@ -129,14 +123,14 @@ class CreditsMenu extends MusicBeatState
         curSelected += change;
         
         if (curSelected < 0)
-            curSelected = creditStuff.length - 1;
+            curSelected = creditsData.data.length - 1;
         
-        if (curSelected >= creditStuff.length)
+        if (curSelected >= creditsData.data.length)
             curSelected = 0;
         
         var bullShit:Int = 0;
-        var color:FlxColor = FlxColor.fromRGB(creditStuff[curSelected][5][0],
-            creditStuff[curSelected][5][1], creditStuff[curSelected][5][2]);
+        var color:FlxColor = FlxColor.fromRGB(creditsData.data[curSelected][5][0],
+            creditsData.data[curSelected][5][1], creditsData.data[curSelected][5][2]);
             
         if (menuBGTween != null)
             menuBGTween.cancel();
@@ -150,8 +144,8 @@ class CreditsMenu extends MusicBeatState
             });
         }
         
-        desc.text = creditStuff[curSelected][2];
-        if (creditStuff[curSelected][3] != null && creditStuff[curSelected][3].length >= 0) desc.text += ' - "' + creditStuff[curSelected][3] + '"';
+        desc.text = creditsData.data[curSelected][2];
+        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 0) desc.text += ' - "' + creditsData.data[curSelected][3] + '"';
         
         for (item in alfabe.members)
         {
@@ -171,5 +165,5 @@ class CreditsMenu extends MusicBeatState
     }
     
     public function isSelectable(id:Int):Bool
-        return creditStuff[id].length > 1;
+        return creditsData.data[id].length > 1;
 }

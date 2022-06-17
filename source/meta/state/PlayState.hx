@@ -5,17 +5,13 @@ import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
-import flixel.FlxState;
 import flixel.FlxSubState;
-import flixel.addons.effects.FlxTrail;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
-import flixel.math.FlxRandom;
 import flixel.math.FlxRect;
-import flixel.system.FlxAssets.FlxSoundAsset;
 import flixel.system.FlxSound;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -33,12 +29,7 @@ import meta.data.Song.SwagSong;
 import meta.state.charting.*;
 import meta.state.menus.*;
 import meta.subState.*;
-import openfl.display.GraphicsShader;
 import openfl.events.KeyboardEvent;
-import openfl.filters.ShaderFilter;
-import openfl.media.Sound;
-import openfl.utils.Assets;
-import sys.io.File;
 
 using StringTools;
 
@@ -443,7 +434,8 @@ class PlayState extends MusicBeatState
 	
 	var keysArray:Array<Dynamic>;
 
-	public function onKeyPress(event:KeyboardEvent):Void {
+	public function onKeyPress(event:KeyboardEvent):Void 
+	{
 		var eventKey:FlxKey = event.keyCode;
 		var key:Int = getKeyFromEvent(eventKey);
 
@@ -483,7 +475,8 @@ class PlayState extends MusicBeatState
 								eligable = false;
 						}
 
-						if (eligable) {
+						if (eligable) 
+						{
 							goodNoteHit(coolNote, boyfriend, boyfriendStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
@@ -939,16 +932,19 @@ class PlayState extends MusicBeatState
 
 	function goodNoteHit(coolNote:Note, character:Character, characterStrums:Strumline, ?canDisplayJudgement:Bool = true)
 	{
-		if (!coolNote.wasGoodHit) {
+		if (!coolNote.wasGoodHit) 
+		{
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 
 			characterPlayAnimation(coolNote, character);
+
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
 				characterStrums.receptors.members[coolNote.noteData].playAnim('confirm', true);
 
 			// special thanks to sam, they gave me the original system which kinda inspired my idea for this new one
-			if (canDisplayJudgement) {
+			if (canDisplayJudgement) 
+			{
 				// get the note ms timing
 				var noteDiff:Float = Math.abs(coolNote.strumTime - Conductor.songPosition);
 				// get the timing
@@ -970,15 +966,22 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!coolNote.isSustainNote) {
+				if (!coolNote.isSustainNote) 
+				{
 					increaseCombo(foundRating, coolNote.noteData, character);
 					popUpScore(foundRating, ratingTiming, characterStrums, coolNote);
+					
 					if (coolNote.childrenNotes.length > 0)
 						Timings.notesHit++;
+
 					healthCall(Timings.judgementsMap.get(foundRating)[3]);
-				} else if (coolNote.isSustainNote) {
+				} 
+
+				else if (coolNote.isSustainNote) 
+				{
 					// call updated accuracy stuffs
-					if (coolNote.parentNote != null) {
+					if (coolNote.parentNote != null) 
+					{
 						Timings.updateAccuracy(100, true, coolNote.parentNote.childrenNotes.length);
 						healthCall(100 / coolNote.parentNote.childrenNotes.length);
 					}
@@ -987,7 +990,6 @@ class PlayState extends MusicBeatState
 
 			if (!coolNote.isSustainNote)
 				destroyNote(characterStrums, coolNote);
-			//
 		}
 	}
 
@@ -1001,8 +1003,6 @@ class PlayState extends MusicBeatState
 			character.playAnim('sing' + stringDirection.toUpperCase() + 'miss', lockMiss);
 		}
 		decreaseCombo(popMiss);
-
-		//
 	}
 
 	function characterPlayAnimation(coolNote:Note, character:Character)
@@ -1017,6 +1017,7 @@ class PlayState extends MusicBeatState
 		// I tried doing xor and it didnt work lollll
 		if (coolNote.noteAlt > 0)
 			altString = '-alt';
+		
 		if (((SONG.notes[Math.floor(curStep / 16)] != null) && (SONG.notes[Math.floor(curStep / 16)].altAnim))
 			&& (character.animOffsets.exists(baseString + '-alt')))
 		{
@@ -1289,6 +1290,7 @@ class PlayState extends MusicBeatState
 			displayRating("miss", 'late');
 			healthCall(Timings.judgementsMap.get("miss")[3]);
 		}
+		
 		popUpCombo();
 
 		// gotta do it manually here lol

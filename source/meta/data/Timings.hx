@@ -17,10 +17,10 @@ class Timings
 	// max milliseconds, score from it and percentage
 	public static var judgementsMap:Map<String, Array<Dynamic>> = [
 		"sick" => [0, 55, 350, 100, ' [SFC]'],
-		"good" => [1, 80, 150, 75, ' [GFC]'],
-		"bad" => [2, 100, 0, 25, ' [FC]'],
-		"shit" => [3, 120, -50, -150],
-		"miss" => [4, 140, -100, -175],
+		"good" => [1, 80, 200, 75, ' [GFC]'],
+		"bad" => [2, 100, 100, 50, ' [FC]'],
+		"shit" => [3, 120, 50, -50, ' [FC'],
+		"miss" => [4, -9999, 0, -100]
 	];
 
 	public static var msThreshold:Float = 0;
@@ -105,8 +105,17 @@ class Timings
 	{
 		// update combo display
 		comboDisplay = '';
+
 		if (judgementsMap.get(smallestRating)[4] != null)
 			comboDisplay = judgementsMap.get(smallestRating)[4];
+
+		if (smallestRating == "shit")
+		{
+			if (PlayState.misses < 10)
+				comboDisplay += ' (SDS)]';
+			else
+				comboDisplay += ' (MDS)]';
+		}
 
 		// this updates the most so uh
 		PlayState.uiHUD.updateScoreText();
