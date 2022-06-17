@@ -34,6 +34,7 @@ class CreditsMenu extends MusicBeatState
     var alfabe:FlxTypedGroup<Alphabet>;
     var menuBG:FlxSprite = new FlxSprite();
     var menuBGTween:FlxTween;
+    var textBG:FlxSprite;
     var desc:FlxText;
 
     var curSelected:Int;
@@ -44,9 +45,6 @@ class CreditsMenu extends MusicBeatState
     override function create()
     {
         super.create();
-
-        // make sure the music is playing
-        ForeverTools.resetMenuMusic();
 
         creditsData = Json.parse(Paths.getTextFromFile('credits.json'));
 
@@ -69,24 +67,28 @@ class CreditsMenu extends MusicBeatState
 
         for (i in 0...creditsData.data.length)
         {
-            var alphabet:Alphabet = new Alphabet(0, 70 * i, creditsData.data[i][0], !isSelectable(i));
+            var alphabet:Alphabet = new Alphabet(0, 70 * i, creditsData.data[i][0], !selectableItem(i));
             alphabet.isMenuItem = true;
             alphabet.itemType = "Centered";
             alphabet.screenCenter(X);
             alphabet.targetY = i;
             alfabe.add(alphabet);
-            
-            var curIcon = 'credits/${creditsData.data[i][1]}';
-            if (creditsData.data[i][1] == '' || creditsData.data[i][1] == null) curIcon = 'credits/error';
-            
-            var icon:AbsoluteSprite = new AbsoluteSprite(curIcon, alphabet, creditsData.data[i][6], creditsData.data[i][7]);
-            if (creditsData.data[i][8] != null) icon.setGraphicSize(Std.int(icon.width * creditsData.data[i][8]));
-            icons.push(icon);
-            //icon.updateHitbox();
-            add(icon);
+
+            if (selectableItem(i)) {
+                var curIcon = 'credits/${creditsData.data[i][1]}';
+                var icon:AbsoluteSprite = new AbsoluteSprite(curIcon, alphabet, creditsData.data[i][6], creditsData.data[i][7]);
+                if (creditsData.data[i][8] != null) icon.setGraphicSize(Std.int(icon.width * creditsData.data[i][8]));
+
+                if (creditsData.data[i][1].length <= 1 || creditsData.data[i][1] == null) icon.visible = false;
+
+                icons.push(icon);
+                add(icon);
+
+                curSelected = 1;
+            }
         }
-        
-        var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+
+        textBG = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
         textBG.alpha = 0.6;
         add(textBG);
         
@@ -111,7 +113,7 @@ class CreditsMenu extends MusicBeatState
         if (controls.BACK) 
             Main.switchState(this, new MainMenuState());
 
-        if (controls.ACCEPT && isSelectable(curSelected) && creditsData.data[curSelected][4] != null
+        if (controls.ACCEPT && selectableItem(curSelected) && creditsData.data[curSelected][4] != null
             && creditsData.data[curSelected][4] != '') 
             CoolUtil.browserLoad(creditsData.data[curSelected][4]);
     }
@@ -120,33 +122,33 @@ class CreditsMenu extends MusicBeatState
     {
         FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
         
-        curSelected += change;
-        
-        if (curSelected < 0)
-            curSelected = creditsData.data.length - 1;
-        
-        if (curSelected >= creditsData.data.length)
-            curSelected = 0;
-        
-        var bullShit:Int = 0;
+        do {
+            curSelected += change;
+            if (curSelected < 0)
+                curSelected = creditsData.data.length - 1;
+            if (curSelected >= creditsData.data.length)
+                curSelected = 0;
+        } while(!selectableItem(curSelected));
+
         var color:FlxColor = FlxColor.fromRGB(creditsData.data[curSelected][5][0],
             creditsData.data[curSelected][5][1], creditsData.data[curSelected][5][2]);
-            
+
         if (menuBGTween != null)
             menuBGTween.cancel();
-        
+            
         if (color != menuBG.color)
         {
             menuBGTween = FlxTween.color(menuBG, 0.35, menuBG.color, color,
             {
                 onComplete: function(tween:FlxTween)
-                    menuBGTween = null
+                menuBGTween = null
             });
         }
         
         desc.text = creditsData.data[curSelected][2];
-        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 0) desc.text += ' - "' + creditsData.data[curSelected][3] + '"';
-        
+        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 1) desc.text += ' - "' + creditsData.data[curSelected][3] + '"';
+
+        var bullShit:Int = 0;
         for (item in alfabe.members)
         {
             item.targetY = bullShit - curSelected;
@@ -154,7 +156,7 @@ class CreditsMenu extends MusicBeatState
             
             item.alpha = 0.6;
             
-            if (!isSelectable(bullShit - 1))
+            if (!selectableItem(bullShit - 1))
                 item.alpha = 1;
             
             if (item.targetY == 0)
@@ -164,6 +166,6 @@ class CreditsMenu extends MusicBeatState
         }
     }
     
-    public function isSelectable(id:Int):Bool
+    public function selectableItem(id:Int):Bool
         return creditsData.data[id].length > 1;
 }

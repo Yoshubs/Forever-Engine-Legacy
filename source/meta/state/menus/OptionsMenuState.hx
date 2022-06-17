@@ -70,14 +70,13 @@ class OptionsMenuState extends MusicBeatState
 					['Display Accuracy', getFromOption],
 					['Skip Text', getFromOption],
 					['', null],
-					['Player Judgements'],
+					/*['Player Judgements'],
 					['', null],
-					['Behavior', getFromOption],
-					/*['Sick! Hit Window', getFromOption],
+					['Sick! Hit Window', getFromOption],
 					['Good Hit Window', getFromOption],
 					['Bad Hit Window', getFromOption],
-					['Shit Hit Window', getFromOption],*/
-					['', null],
+					['Shit Hit Window', getFromOption],
+					['', null],*/
 					['Meta Settings', null],
 					['', null],
 					["Framerate Cap", getFromOption],

@@ -19,6 +19,8 @@ class GameOverSubstate extends MusicBeatSubState
 	var camFollow:FlxObject;
 	var stageSuffix:String = "";
 
+	var volume:Float = 1;
+
 	public function new(x:Float, y:Float)
 	{
 		var daBoyfriendType = PlayState.boyfriend.curCharacter;
@@ -30,6 +32,8 @@ class GameOverSubstate extends MusicBeatSubState
 			case 'bf-pixel':
 				daBf = 'bf-pixel-dead';
 				stageSuffix = '-pixel';
+			case 'bf-holding-gf':
+				daBf = 'bf-holding-gf-dead';
 			default:
 				daBf = 'bf-dead';
 		}
@@ -81,10 +85,23 @@ class GameOverSubstate extends MusicBeatSubState
 			FlxG.camera.follow(camFollow, LOCKON, 0.01);
 
 		if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
-			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix));
+			FlxG.sound.playMusic(Paths.music('gameOver' + stageSuffix), volume);
 
-		// if (FlxG.sound.music.playing)
-		//	Conductor.songPosition = FlxG.sound.music.time;
+		if (PlayState.storyWeek == 7)
+		{
+			volume = 0.2;
+
+			if (bf.animation.curAnim.name == 'firstDeath' && bf.animation.curAnim.finished)
+			{
+				FlxG.sound.play(Paths.sound('jeff/jeffGameover-' + FlxG.random.int(1, 25)), 1, false, null, true, function()
+				{
+					if (!isEnding) FlxG.sound.music.fadeIn(4, 0.2, 1);
+				});
+			}
+		}
+
+		if (FlxG.sound.music.playing)
+			Conductor.songPosition = FlxG.sound.music.time;
 	}
 
 	override function beatHit()

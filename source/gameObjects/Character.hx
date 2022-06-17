@@ -102,9 +102,6 @@ class Character extends FNFSprite
 				animation.addByIndices('danceRight', 'GF Dancing Beat Hair blowing CAR', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24,
 					false);
 
-				addOffset('danceLeft', 0);
-				addOffset('danceRight', 0);
-
 				playAnim('danceRight');
 
 			case 'gf-pixel':
@@ -113,9 +110,6 @@ class Character extends FNFSprite
 				animation.addByIndices('singUP', 'GF IDLE', [2], "", 24, false);
 				animation.addByIndices('danceLeft', 'GF IDLE', [30, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14], "", 24, false);
 				animation.addByIndices('danceRight', 'GF IDLE', [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29], "", 24, false);
-
-				addOffset('danceLeft', 0);
-				addOffset('danceRight', 0);
 
 				playAnim('danceRight');
 
@@ -318,6 +312,8 @@ class Character extends FNFSprite
 				animation.addByPrefix('deathConfirm', "RETRY confirm holding gf", 24, false);
 
 				playAnim('firstDeath');
+
+				flipX = true;
 
 			case 'bf-christmas':
 				var tex = Paths.getSparrowAtlas('characters/bfChristmas');

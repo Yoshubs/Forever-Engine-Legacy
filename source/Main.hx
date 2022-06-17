@@ -32,6 +32,8 @@ import sys.io.Process;
 class Main extends Sprite
 {
 	/*
+		[--------------------------------------SHUBS'S NOTE--------------------------------------]
+		
 		This is the main class of the project, it basically connects everything together.
 		If you know what you're doing, go ahead and shoot! if you're looking for something more specific, however,
 		try accessing some game objects or meta files, meta files control the information (say what's playing on screen)
@@ -63,6 +65,32 @@ class Main extends Sprite
 
 		if you have any questions like I said, shoot me a message or something, I'm totally cool with it even if it's just help with programming or something
 		>	fair warning I'm not a very good programmer
+
+		[--------------------------------------GHOST'S NOTE--------------------------------------]
+		
+		hello, thank you for taking a look at this small little project of mine, the reason for this to exist is just because I wanted
+		a more customizable Forever Engine Build for my own other mod projects and such, Forever Engine is one of the best engines written in haxe, and I do enjoy working with it
+		I'm not a very good programmer, in fact, I do not fully understand how Forever works yet, I just wanted to make a fun little fork of it to add stuff that I like and that I might use for other mods!
+
+		don't forget to check out the official repository and the official team behind Forever, the in-game credits menu can help you to access some of their socials
+		I don't think this project can go any further than just finishing forever's chart editor
+		so make sure to also check the official Forever Engine Rewrite!
+
+		-- REWRITE
+		https://github.com/Yoshubs/FNF-Forever-Engine
+
+		-- OFFICIAL LEGACY REPOSITORY
+		https://github.com/Yoshubs/Forever-Engine-Legacy
+
+		if you have any questions about the fork, send me a message on discord, I'm fine with it
+
+		BeastlyGhost♧#9035
+
+		help with the fork is also appreciated, since again, I'm not a very good programmer!
+		
+		thank you for your time.
+
+		---------------------------------------------------------------------------------------
 	 */
 	// class action variables
 	public static var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).

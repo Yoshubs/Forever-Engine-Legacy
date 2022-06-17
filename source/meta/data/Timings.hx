@@ -13,25 +13,13 @@ class Timings
 	public static var trueAccuracy:Float;
 	public static var judgementRates:Array<Float>;
 
-	var sickScore:Int = 350;
-	var goodScore:Int = 200;
-	var badScore:Int = 100;
-	var shitScore:Int = -50;
-	var missScore:Int = -100;
-
-	var sickPercentage:Int = 100;
-	var goodPercentage:Int = 75;
-	var badPercentage:Int = 50;
-	var shitPercentage:Int = -50;
-	var missPercentage:Int = -100;
-
 	// from left to right
 	// judgement id, max milliseconds, score from it and percentage
 	public static var judgementsMap:Map<String, Array<Dynamic>> = [
 		"sick" => [0, 55, 350, 100, ' [SFC]'],
 		"good" => [1, 80, 200, 75, ' [GFC]'],
 		"bad" => [2, 100, 100, 50, ' [FC]'],
-		"shit" => [3, 120, 50, -50, ' [FC]'],
+		"shit" => [3, 120, 50, -50],
 		"miss" => [4, 140, -100, -175],
 	];
 
@@ -56,24 +44,6 @@ class Timings
 
 	public static var gottenJudgements:Map<String, Int> = [];
 	public static var smallestRating:String;
-
-	public function new()
-	{
-		if (Init.trueSettings.get('Behavior') == 'Forever')
-		{
-			sickScore = 350;
-			goodScore = 150;
-			badScore = 0;
-			shitScore = -50;
-			missScore = -100;
-
-			sickPercentage = 100;
-			goodPercentage = 75;
-			badPercentage = 25;
-			shitPercentage = -150;
-			missPercentage = -175;
-		}
-	}
 
 	public static function callAccuracy()
 	{	
