@@ -13,14 +13,26 @@ class Timings
 	public static var trueAccuracy:Float;
 	public static var judgementRates:Array<Float>;
 
+	var sickScore:Int = 350;
+	var goodScore:Int = 200;
+	var badScore:Int = 100;
+	var shitScore:Int = -50;
+	var missScore:Int = -100;
+
+	var sickPercentage:Int = 100;
+	var goodPercentage:Int = 75;
+	var badPercentage:Int = 50;
+	var shitPercentage:Int = -50;
+	var missPercentage:Int = -100;
+
 	// from left to right
-	// max milliseconds, score from it and percentage
+	// judgement id, max milliseconds, score from it and percentage
 	public static var judgementsMap:Map<String, Array<Dynamic>> = [
 		"sick" => [0, 55, 350, 100, ' [SFC]'],
 		"good" => [1, 80, 200, 75, ' [GFC]'],
 		"bad" => [2, 100, 100, 50, ' [FC]'],
-		"shit" => [3, 120, 50, -50, ' [FC'],
-		"miss" => [4, -9999, 0, -100]
+		"shit" => [3, 120, 50, -50, ' [FC]'],
+		"miss" => [4, 140, -100, -175],
 	];
 
 	public static var msThreshold:Float = 0;
@@ -45,8 +57,26 @@ class Timings
 	public static var gottenJudgements:Map<String, Int> = [];
 	public static var smallestRating:String;
 
-	public static function callAccuracy()
+	public function new()
 	{
+		if (Init.trueSettings.get('Behavior') == 'Forever')
+		{
+			sickScore = 350;
+			goodScore = 150;
+			badScore = 0;
+			shitScore = -50;
+			missScore = -100;
+
+			sickPercentage = 100;
+			goodPercentage = 75;
+			badPercentage = 25;
+			shitPercentage = -150;
+			missPercentage = -175;
+		}
+	}
+
+	public static function callAccuracy()
+	{	
 		// reset the accuracy to 0%
 		accuracy = 0.001;
 		trueAccuracy = 0;
@@ -108,14 +138,6 @@ class Timings
 
 		if (judgementsMap.get(smallestRating)[4] != null)
 			comboDisplay = judgementsMap.get(smallestRating)[4];
-
-		if (smallestRating == "shit")
-		{
-			if (PlayState.misses < 10)
-				comboDisplay += ' (SDS)]';
-			else
-				comboDisplay += ' (MDS)]';
-		}
 
 		// this updates the most so uh
 		PlayState.uiHUD.updateScoreText();

@@ -70,6 +70,14 @@ class OptionsMenuState extends MusicBeatState
 					['Display Accuracy', getFromOption],
 					['Skip Text', getFromOption],
 					['', null],
+					['Player Judgements'],
+					['', null],
+					['Behavior', getFromOption],
+					/*['Sick! Hit Window', getFromOption],
+					['Good Hit Window', getFromOption],
+					['Bad Hit Window', getFromOption],
+					['Shit Hit Window', getFromOption],*/
+					['', null],
 					['Meta Settings', null],
 					['', null],
 					["Framerate Cap", getFromOption],
@@ -397,7 +405,12 @@ class OptionsMenuState extends MusicBeatState
 					case Init.SettingTypes.Selector:
 						// selector
 						var selector:Selector = new Selector(10, letter.y, letter.text, Init.gameSettings.get(letter.text)[4],
-							(letter.text == 'Framerate Cap') ? true : false, (letter.text == 'Stage Opacity') ? true : false);
+							(letter.text == 'Framerate Cap') ? true : false,
+							(letter.text == 'Stage Opacity') ? true : false,
+							(letter.text == 'Sick! Hit Window') ? true : false,
+							(letter.text == 'Good Hit Window') ? true : false,
+							(letter.text == 'Bad Hit Window') ? true : false,
+							(letter.text == 'Shit Hit Window') ? true : false);
 
 						extrasMap.set(letter, selector);
 					default:
@@ -467,6 +480,11 @@ class OptionsMenuState extends MusicBeatState
 	{
 		var fps = selector.fpsCap;
 		var bgdark = selector.darkBG;
+		var sickhw = selector.sickHW;
+		var goodhw = selector.goodHW;
+		var badhw = selector.badHW;
+		var shithw = selector.shitHW;
+
 		if (fps)
 		{
 			// bro I dont even know if the engine works in html5 why am I even doing this
@@ -516,7 +534,103 @@ class OptionsMenuState extends MusicBeatState
 			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originaldark);
 			Init.saveSettings();
 		}
-		else if (!fps && !bgdark)
+		else if (sickhw)
+		{
+			// lazily hardcoded sick hit window cap
+			var ogMil = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+			var increase = 1 * updateBy;
+			if (ogMil + increase < 5)
+				increase = 5;
+			// high hit window cap
+			if (ogMil + increase > 55)
+				increase = 5;
+
+			if (updateBy == -1)
+				selector.selectorPlay('left', 'press');
+			else
+				selector.selectorPlay('right', 'press');
+
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+
+			ogMil += increase;
+			selector.chosenOptionString = Std.string(ogMil);
+			selector.optionChosen.text = Std.string(ogMil);
+			Init.trueSettings.set(activeSubgroup.members[curSelection].text, ogMil);
+			Init.saveSettings();
+		}
+		else if (goodhw)
+		{
+			// lazily hardcoded good hit window cap
+			var ogMil = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+			var increase = 1 * updateBy;
+			if (ogMil + increase < 5)
+				increase = 5;
+			// high hit window cap
+			if (ogMil + increase > 80)
+				increase = 5;
+
+			if (updateBy == -1)
+				selector.selectorPlay('left', 'press');
+			else
+				selector.selectorPlay('right', 'press');
+
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+
+			ogMil += increase;
+			selector.chosenOptionString = Std.string(ogMil);
+			selector.optionChosen.text = Std.string(ogMil);
+			Init.trueSettings.set(activeSubgroup.members[curSelection].text, ogMil);
+			Init.saveSettings();
+		}
+		else if (badhw)
+		{
+			// lazily hardcoded bad hit window cap
+			var ogMil = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+			var increase = 1 * updateBy;
+			if (ogMil + increase < 5)
+				increase = 5;
+			// high hit window cap
+			if (ogMil + increase > 135)
+				increase = 5;
+
+			if (updateBy == -1)
+				selector.selectorPlay('left', 'press');
+			else
+				selector.selectorPlay('right', 'press');
+
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+
+			ogMil += increase;
+			selector.chosenOptionString = Std.string(ogMil);
+			selector.optionChosen.text = Std.string(ogMil);
+			Init.trueSettings.set(activeSubgroup.members[curSelection].text, ogMil);
+			Init.saveSettings();
+		}
+		else if (shithw)
+		{
+			// lazily hardcoded shit hit window cap
+			var ogMil = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+			var increase = 1 * updateBy;
+			if (ogMil + increase < 5)
+				increase = 5;
+			// high hit window cap
+			if (ogMil + increase > 160)
+				increase = 5;
+
+			if (updateBy == -1)
+				selector.selectorPlay('left', 'press');
+			else
+				selector.selectorPlay('right', 'press');
+
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+
+			ogMil += increase;
+			selector.chosenOptionString = Std.string(ogMil);
+			selector.optionChosen.text = Std.string(ogMil);
+			Init.trueSettings.set(activeSubgroup.members[curSelection].text, ogMil);
+			Init.saveSettings();
+		}
+		else if (!fps && !bgdark && !sickhw && !goodhw && !badhw && !shithw)
 		{ 
 			// get the current option as a number
 			var storedNumber:Int = 0;

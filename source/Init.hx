@@ -153,7 +153,19 @@ class Init extends FlxState
 			NOT_FORCED
 		],
 
+		// Judgement Behavior and customizable millisecond timings
+		'Behavior' => [
+			'forever',
+			Selector,
+			'How Judgements should behave in terms of score and accuracy gain, Vanilla should feel like the base game.',
+			NOT_FORCED,
+			['forever', 'vanilla']
+		],
 
+		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],
+		"Good Hit Window" => [80, Selector, 'Define your desired Hit Window for getting a "Good" Judgement.', NOT_FORCED, ['']],
+		"Bad Hit Window" => [100, Selector, 'Define your desired Hit Window for getting a "Bad" Judgement.', NOT_FORCED, ['']],
+		"Shit Hit Window" => [120, Selector, 'Define your desired Hit Window for getting a "Shit" Judgement.', NOT_FORCED, ['']],
 	];
 
 	public static var trueSettings:Map<String, Dynamic> = [];
