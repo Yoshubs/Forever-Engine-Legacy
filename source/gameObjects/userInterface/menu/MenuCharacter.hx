@@ -16,9 +16,10 @@ class MenuCharacter extends FlxSprite
 		'dad' => ["Dad idle dance BLACK LINE", 24, true, 1 * 0.5, 0, 0],
 		'spooky' => ["spooky dance idle BLACK LINES", 24, true, 1 * 0.5, 0, 90],
 		'pico' => ["Pico Idle Dance", 24, true, 1 * 0.5, 0, 100],
-		'mom' => ["Mom Idle BLACK LINES", 24, true, 1 * 0.5, 0, -20],
+		'mom' => ["Mom Idle BLACK LINES", 24, true, 1 * 0.5, 0, -30],
 		'parents-christmas' => ["Parent Christmas Idle", 24, true, 0.8, -100, 50],
 		'senpai' => ["SENPAI idle Black Lines", 24, true, 1.4 * 0.5, -50, 100],
+		'tankman' => ["Tankman Menu BLACK", 24, true, 1 * 0.5, 0, 80],
 	];
 
 	var baseX:Float = 0;
