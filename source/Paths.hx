@@ -232,7 +232,7 @@ class Paths
 		return '$library/$file';
 	}
 
-	inline static function getPreloadPath(file:String) {
+	public inline static function getPreloadPath(file:String) {
 		var returnPath:String = 'assets/$file';
 		if (!FileSystem.exists(returnPath))
 			returnPath = CoolUtil.swapSpaceDash(returnPath);

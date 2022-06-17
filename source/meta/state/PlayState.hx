@@ -35,6 +35,7 @@ using StringTools;
 
 #if !html5
 import meta.data.dependency.Discord;
+import sys.FileSystem;
 #end
 
 class PlayState extends MusicBeatState
@@ -47,7 +48,7 @@ class PlayState extends MusicBeatState
 	public static var storyWeek:Int = 0;
 	public static var storyPlaylist:Array<String> = [];
 	public static var storyDifficulty:Int = 2;
-
+	public static var contents:PlayState;
 	public static var songMusic:FlxSound;
 	public static var vocals:FlxSound;
 
@@ -101,6 +102,8 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
+	var scriptArray:Array<HaxeScript> = [];
+
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
@@ -152,6 +155,8 @@ class PlayState extends MusicBeatState
 	{
 		super.create();
 
+		contents = this;
+
 		// reset any values and variables that are static
 		songScore = 0;
 		combo = 0;
@@ -200,6 +205,46 @@ class PlayState extends MusicBeatState
 		determinedChartType = "FNF";
 
 		//
+
+		var scripts:Array<String> = [
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/h.hscript')
+		];
+
+		var folders:Array<String> = [
+			Paths.getPreloadPath('scripts/')
+		];
+
+		var pushedScripts:Array<String> = [];
+
+		#if sys
+		for (i in scripts)
+		{
+			if (FileSystem.exists(i) && !pushedScripts.contains(i))
+			{
+				var script:HaxeScript = new HaxeScript(i);
+				scriptArray.push(script);
+				pushedScripts.push(i);
+			}
+		}
+
+		for (i in folders)
+		{
+			var fullPath:Array<String> = FileSystem.readDirectory(FileSystem.absolutePath(i));
+
+			if (fullPath != null)
+			{
+				for (e in fullPath)
+				{
+					if (FileSystem.exists(e) && e.endsWith('.hscript') && !pushedScripts.contains(e))
+					{
+						var script:HaxeScript = new HaxeScript(e);
+						scriptArray.push(script);
+						pushedScripts.push(e);
+					}
+				}
+			}
+		}
+		#end
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
@@ -331,6 +376,7 @@ class PlayState extends MusicBeatState
 			// set this strumline's camera to the designated camera
 			strumLines.members[i].cameras = [strumHUD[i]];
 		}
+		
 		add(strumLines);
 
 		uiHUD = new ClassHUD();
@@ -562,7 +608,19 @@ class PlayState extends MusicBeatState
 
 		}
 
-		if (!inCutscene) {
+		if (generatedMusic)
+		{
+			set('curStep', curStep);
+			set('curBeat', curBeat);
+			set('health', health);
+			set('log', function(key:Dynamic) trace(key));
+
+			for (i in scriptArray)
+				i.execute();
+		}
+
+		if (!inCutscene) 
+		{
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
@@ -871,9 +929,8 @@ class PlayState extends MusicBeatState
 										for (note in parentNote.childrenNotes)
 										{
 											trace('hold amount ${parentNote.childrenNotes.length}, note is late?' + note.tooLate + ', ' + breakFromLate);
-											if (note.tooLate && !note.wasGoodHit)
-												breakFromLate = true;
 										}
+
 										if (!breakFromLate)
 										{
 											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
@@ -1302,14 +1359,10 @@ class PlayState extends MusicBeatState
 		// trolled this can actually decrease your combo if you get a bad/shit/miss
 		if (baseRating != null)
 		{
-			if (Timings.judgementsMap.get(baseRating)[3] > 0)
-			{
-				if (combo < 0)
-					combo = 0;
-				combo += 1;
-			}
-			else
-				missNoteCheck(true, direction, character, false, true);
+			if (combo < 0)
+				combo = 0;
+
+			combo += 1;
 		}
 	}
 
@@ -1774,7 +1827,8 @@ class PlayState extends MusicBeatState
 		//
 	}
 
-	function callTextbox() {
+	function callTextbox() 
+	{
 		var dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
 		if (sys.FileSystem.exists(dialogPath))
 		{
@@ -1917,5 +1971,13 @@ class PlayState extends MusicBeatState
 		if (Init.trueSettings.get('Disable Antialiasing') && Std.isOfType(Object, FlxSprite))
 			cast(Object, FlxSprite).antialiasing = false;
 		return super.add(Object);
+	}
+
+	function set(key:String, value:Dynamic):Bool
+	{
+		for (i in scriptArray)
+			i.set(key, value);
+
+		return true;
 	}
 }

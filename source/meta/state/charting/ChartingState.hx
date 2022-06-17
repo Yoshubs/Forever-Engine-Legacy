@@ -551,9 +551,6 @@ class ChartingState extends MusicBeatState
 		note.mustPress = _song.notes[noteSection].mustHitSection;
 		note.y = Math.floor(getYfromStrum(daStrumTime));
 
-		if (daNoteInfo > 3) 
-			note.mustPress = !note.mustPress;
-
 		if (shouldPush)
 		{
 			_song.notes[noteSection].sectionNotes.push([daStrumTime, (daNoteInfo + 4) % 8, daSus, NORMAL]);

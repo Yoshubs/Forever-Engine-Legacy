@@ -1,0 +1,1 @@
+Put your Haxe scripts here! Scripts here will be executed no matter what the song is!
