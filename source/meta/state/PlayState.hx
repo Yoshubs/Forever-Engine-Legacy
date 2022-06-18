@@ -207,7 +207,7 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/h.hscript')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
 		];
 
 		var folders:Array<String> = [
@@ -235,7 +235,7 @@ class PlayState extends MusicBeatState
 			{
 				for (e in fullPath)
 				{
-					if (FileSystem.exists(e) && e.endsWith('.hscript') && !pushedScripts.contains(e))
+					if (FileSystem.exists(e) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
 						var script:HaxeScript = new HaxeScript(e);
 						scriptArray.push(script);
