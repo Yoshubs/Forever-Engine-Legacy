@@ -1424,19 +1424,14 @@ class PlayState extends MusicBeatState
 		// trolled this can actually decrease your combo if you get a bad/shit/miss
 		if (baseRating != null)
 		{
-			if (combo < 0)
-				combo = 0;
-
-			combo += 1;
-
-			/*if (Timings.judgementsMap.get(baseRating)[3] > 0)
+			if (Timings.judgementsMap.get(baseRating)[3] > 0)
 			{
 				if (combo < 0)
 					combo = 0;
 				combo += 1;
 			}
 			else
-				missNoteCheck(true, direction, character, false, true);*/
+				missNoteCheck(true, direction, character, false, true);
 		}
 	}
 
