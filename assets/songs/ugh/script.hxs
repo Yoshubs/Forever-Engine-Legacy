@@ -1,0 +1,5 @@
+switch (curStep)
+{
+    case 60, 444, 524, 828:
+        dad.playAnim('singUP-alt', true);
+}

@@ -98,6 +98,8 @@ class ChartingState extends MusicBeatState
 	var bfIcon:HealthIcon;
 	var dadIcon:HealthIcon;
 
+	var bpmTxt:FlxText;
+
 	override public function create()
 	{
 		super.create();
@@ -211,6 +213,11 @@ class ChartingState extends MusicBeatState
 
 		FlxG.camera.follow(strumLineCam);
 
+		bpmTxt = new FlxText(5, FlxG.height - 30, 0, "", 16);
+		bpmTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT);
+		bpmTxt.scrollFactor.set();
+		add(bpmTxt);
+
 		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 		FlxG.mouse.visible = true; // Hide mouse on start
 	}
@@ -244,6 +251,15 @@ class ChartingState extends MusicBeatState
 		
 		else if (FlxG.keys.justPressed.Q && curSelectedNote != null)
 			curSelectedNote.sustainLength -= Conductor.stepCrochet;
+
+		if (FlxG.keys.justPressed.ESCAPE)
+			bpmTxt.visible = !bpmTxt.visible;
+
+		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
+			+ " / "
+			+ Std.string(FlxMath.roundDecimal(songMusic.length / 1000, 2))
+			+ " - Beat: " + curBeat
+			+ " - Step: " + curStep;
 
 		var scrollSpeed:Float = 0.75;
 		if (FlxG.mouse.wheel != 0)

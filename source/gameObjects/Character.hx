@@ -37,6 +37,8 @@ class Character extends FNFSprite
 	public var characterData:CharacterData;
 	public var adjustPos:Bool = true;
 
+	public var animationDisabled:Bool = false;
+
 	public function new(?isPlayer:Bool = false)
 	{
 		super(x, y);
@@ -634,18 +636,21 @@ class Character extends FNFSprite
 
 	override public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-		if (animation.getByName(AnimName) != null)
-			super.playAnim(AnimName, Force, Reversed, Frame);
-
-		if (curCharacter == 'gf')
+		if (!animationDisabled)
 		{
-			if (AnimName == 'singLEFT')
-				danced = true;
-			else if (AnimName == 'singRIGHT')
-				danced = false;
+			if (animation.getByName(AnimName) != null)
+				super.playAnim(AnimName, Force, Reversed, Frame);
 
-			if (AnimName == 'singUP' || AnimName == 'singDOWN')
-				danced = !danced;
+			if (curCharacter == 'gf')
+			{
+				if (AnimName == 'singLEFT')
+					danced = true;
+				else if (AnimName == 'singRIGHT')
+					danced = false;
+
+				if (AnimName == 'singUP' || AnimName == 'singDOWN')
+					danced = !danced;
+			}
 		}
 	}
 
