@@ -230,13 +230,14 @@ class PlayState extends MusicBeatState
 			{
 				for (e in foolPath)
 				{
-					if (FileSystem.exists(e) && e.endsWith('.hxs') && !pushedScripts.contains(e))
+					var scriptFile:String = Paths.getPreloadPath(e);
+
+					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:HaxeScript = new HaxeScript(e);
+						var script:HaxeScript = new HaxeScript(scriptFile);
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}
-					trace("Scripts: " + pushedScripts);
 				}
 			}
 		}
