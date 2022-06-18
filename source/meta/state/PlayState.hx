@@ -1363,6 +1363,15 @@ class PlayState extends MusicBeatState
 				combo = 0;
 
 			combo += 1;
+
+			/*if (Timings.judgementsMap.get(baseRating)[3] > 0)
+			{
+				if (combo < 0)
+					combo = 0;
+				combo += 1;
+			}
+			else
+				missNoteCheck(true, direction, character, false, true);*/
 		}
 	}
 
