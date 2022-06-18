@@ -635,7 +635,7 @@ class PlayState extends MusicBeatState
 			
 			// Character values
 			set('boyfriend', boyfriend.curCharacter);
-			set('girlfriend', gf.curCharacter);
+			set('gf', gf.curCharacter);
 			set('dad', dadOpponent.curCharacter);
 			set('gfSpeed', gfSpeed);
 
