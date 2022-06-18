@@ -95,6 +95,9 @@ class ChartingState extends MusicBeatState
 
 	var buttonArray:Array<Array<Dynamic>> = [];
 
+	var bfIcon:HealthIcon;
+	var dadIcon:HealthIcon;
+
 	override public function create()
 	{
 		super.create();
@@ -104,7 +107,7 @@ class ChartingState extends MusicBeatState
 		//x, y, text on button, text size, child (optional), size ("", "big", or "small"), 
 		//function that will be called when pressed (optional)
 		buttonArray = [
-			[FlxG.width - 180, 20, "Reload Song", 20, null, "", null]
+			[FlxG.width - 180, 30, "Reload Song", 20, null, "", null]
 		];
 
 		if (PlayState.SONG != null)
@@ -137,9 +140,6 @@ class ChartingState extends MusicBeatState
 		add(curRenderedSections);
 		add(curRenderedSustains);
 		add(curRenderedNotes);
-
-		strumLineCam = new FlxObject(0, 0);
-		strumLineCam.screenCenter(X);
 
 		// epic strum line
 		strumLine = new FlxSprite(0, 0).makeGraphic(Std.int(FlxG.width / 2), 2);
@@ -174,6 +174,28 @@ class ChartingState extends MusicBeatState
 		}
 		add(arrowGroup);
 		arrowGroup.x -= 1;
+
+		bfIcon = new HealthIcon(_song.player1);
+		dadIcon = new HealthIcon(_song.player2);
+		bfIcon.scrollFactor.set(1, 1);
+		dadIcon.scrollFactor.set(1, 1);
+
+		bfIcon.setGraphicSize(gridSize, gridSize);
+		dadIcon.setGraphicSize(gridSize, gridSize);
+
+		bfIcon.flipX = true;
+
+		add(bfIcon);
+		add(dadIcon);
+
+		bfIcon.screenCenter(X);
+		dadIcon.screenCenter(X);
+
+		dadIcon.setPosition(strumLine.width / 2, -500);
+		bfIcon.setPosition(830, dadIcon.y);
+
+		strumLineCam = new FlxObject(0, 0);
+		strumLineCam.screenCenter(X);
 
 		// code from the playstate so I can separate the camera and hud
 		camGame = new FlxCamera();
@@ -240,6 +262,9 @@ class ChartingState extends MusicBeatState
 
 		coolGradient.y = strumLineCam.y - (FlxG.height / 2);
 		coolGrid.y = strumLineCam.y - (FlxG.height / 2);
+
+		bfIcon.y = strumLineCam.y - (FlxG.height / 2);
+		dadIcon.y = strumLineCam.y - (FlxG.height / 2);
 
 		super.update(elapsed);
 
