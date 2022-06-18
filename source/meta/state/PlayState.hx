@@ -611,6 +611,7 @@ class PlayState extends MusicBeatState
 			// Flixel values.
 			set('FlxG', FlxG);
 			set('FlxBasic', FlxBasic);
+			set('FlxObject', FlxObject);
 			set('FlxSprite', FlxSprite);
 			set('FlxTween', FlxTween);
 			set('FlxEase', FlxEase);
@@ -620,7 +621,6 @@ class PlayState extends MusicBeatState
 			set('curSong', PlayState.contents.curSong);
 			set('curStep', curStep);
 			set('curBeat', curBeat);
-			set('log', function(key:Dynamic) trace(key));
 			set('hud', uiHUD);
 			
 			set('score', songScore);
@@ -638,6 +638,43 @@ class PlayState extends MusicBeatState
 			set('girlfriend', gf.curCharacter);
 			set('dad', dadOpponent.curCharacter);
 			set('gfSpeed', gfSpeed);
+
+			//functions
+			set('set', function(key:String, value:Dynamic)
+			{
+				var dotList:Array<String> = key.split('.');
+
+				if (dotList.length >  1)
+				{
+					var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
+
+					for (i in 1...dotList.length - 1)
+						suckCock = Reflect.getProperty(suckCock, dotList[i]);
+
+					Reflect.setProperty(suckCock, dotList[dotList.length - 1], value);
+					return true;
+				}
+
+				Reflect.setProperty(this, key, value);
+				return true;
+			});
+
+			set('get', function(variable:String)
+			{
+				var dotList:Array<String> = variable.split('.');
+
+				if (dotList.length > 1)
+				{
+					var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
+
+					for (i in 1...dotList.length - 1)
+						suckCock = Reflect.getProperty(suckCock, dotList[i]);
+
+					return Reflect.getProperty(suckCock, dotList[dotList.length - 1]);
+				}
+
+				return Reflect.getProperty(this, variable);
+			});
 
 			for (i in scriptArray)
 				i.execute();
