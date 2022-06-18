@@ -107,7 +107,10 @@ class ChartingState extends MusicBeatState
 		//x, y, text on button, text size, child (optional), size ("", "big", or "small"), 
 		//function that will be called when pressed (optional)
 		buttonArray = [
-			[FlxG.width - 180, 30, "Reload Song", 20, null, "", null]
+			[FlxG.width - 180, 20, "Reload Song", 20, null, "", null],
+			[FlxG.width - 240, 70, "Swap Section Notes", 20, null, "", null],
+			[FlxG.width - 240, 120, "Copy Section Notes", 20, null, "", null],
+			[FlxG.width - 240, 170, "Paste Section Notes", 20, null, "", null]
 		];
 
 		if (PlayState.SONG != null)
@@ -208,7 +211,7 @@ class ChartingState extends MusicBeatState
 
 		FlxG.camera.follow(strumLineCam);
 
-		FlxG.mouse.useSystemCursor = false; // Use system cursor because it's prettier
+		FlxG.mouse.useSystemCursor = true; // Use system cursor because it's prettier
 		FlxG.mouse.visible = true; // Hide mouse on start
 	}
 

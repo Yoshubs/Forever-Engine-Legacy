@@ -614,6 +614,7 @@ class PlayState extends MusicBeatState
 			set('curBeat', curBeat);
 			set('health', health);
 			set('log', function(key:Dynamic) trace(key));
+			set('hud', uiHUD);
 
 			for (i in scriptArray)
 				i.execute();
