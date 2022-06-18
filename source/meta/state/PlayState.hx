@@ -610,11 +610,38 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
+			// NOTE: later on, we should create a class specifically for setting script values
+
+			// Flixel values.
+			set('FlxG', FlxG);
+			set('FlxBasic', FlxBasic);
+			set('FlxSprite', FlxSprite);
+			set('FlxTween', FlxTween);
+			set('FlxEase', FlxEase);
+
+			// PlayState values
+			set('song', PlayState.SONG.song);
+			set('curSong', PlayState.contents.curSong);
 			set('curStep', curStep);
 			set('curBeat', curBeat);
-			set('health', health);
 			set('log', function(key:Dynamic) trace(key));
 			set('hud', uiHUD);
+			
+			set('score', songScore);
+			set('misses', misses);
+			set('health', health);
+			set('combo', combo);
+
+			// Timings.hx values
+			set('comboRating', Timings.comboDisplay);
+			set('getAccuracy', Math.floor(Timings.getAccuracy() * 100) / 100);
+			set('getRank', Timings.returnScoreRating().toUpperCase());
+			
+			// Character values
+			set('boyfriend', boyfriend.curCharacter);
+			set('girlfriend', gf.curCharacter);
+			set('dad', dadOpponent.curCharacter);
+			set('gfSpeed', gfSpeed);
 
 			for (i in scriptArray)
 				i.execute();
