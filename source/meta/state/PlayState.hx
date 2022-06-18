@@ -230,7 +230,7 @@ class PlayState extends MusicBeatState
 			{
 				for (e in foolPath)
 				{
-					var scriptFile:String = Paths.getPreloadPath(e);
+					var scriptFile:String = Paths.getPreloadPath('scripts/$e');
 
 					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
