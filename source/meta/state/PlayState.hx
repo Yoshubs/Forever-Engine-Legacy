@@ -634,9 +634,12 @@ class PlayState extends MusicBeatState
 			set('getRank', Timings.returnScoreRating().toUpperCase());
 			
 			// Character values
-			set('boyfriend', boyfriend.curCharacter);
-			set('gf', gf.curCharacter);
-			set('dad', dadOpponent.curCharacter);
+			set('bf', boyfriend);
+			set('gf', gf);
+			set('dad', dadOpponent);
+			set('curBf', boyfriend.curCharacter);
+			set('curGf', gf.curCharacter);
+			set('curDad', dadOpponent.curCharacter);
 			set('gfSpeed', gfSpeed);
 
 			//functions

@@ -28,10 +28,13 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
 	var infoBar:FlxText; // small side bar like kade engine that tells you engine info
+	var engineBar:FlxText;
 	var scoreBar:FlxText;
 
 	var scoreLast:Float = -1;
-	var scoreDisplay:String;
+	
+	// fnf mods
+	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -41,6 +44,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	public var iconP2:HealthIcon;
 	private var stupidHealth:Float = 0;
 
+	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
+	var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
+
 	private var timingsMap:Map<String, FlxText> = [];
 
 	// eep
@@ -48,9 +54,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	{
 		// call the initializations and stuffs
 		super();
-
-		// fnf mods
-		var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 		// le healthbar setup
 		var barY = FlxG.height * 0.875;
@@ -85,9 +88,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 		// small info bar, kinda like the KE watermark
 		// based on scoretxt which I will set up as well
-		var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
-		var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
-		var engineBar:FlxText = new FlxText(0, FlxG.height - 30, 0, engineDisplay, 16);
+		engineBar = new FlxText(0, FlxG.height - 30, 0, engineDisplay, 16);
 		engineBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		engineBar.updateHitbox();
 		engineBar.x = FlxG.width - engineBar.width - 5;
