@@ -90,6 +90,7 @@ class PlayState extends MusicBeatState
 	public static var misses:Int = 0;
 
 	public var generatedMusic:Bool = false;
+	public var endingSong:Bool = false;
 
 	private var startingSong:Bool = false;
 	private var paused:Bool = false;
@@ -1726,6 +1727,7 @@ class PlayState extends MusicBeatState
 	function endSong():Void
 	{
 		canPause = false;
+		endingSong = true;
 		songMusic.volume = 0;
 		vocals.volume = 0;
 		if (SONG.validScore && !preventScoring)
@@ -1807,6 +1809,52 @@ class PlayState extends MusicBeatState
 
 		// deliberately did not use the main.switchstate as to not unload the assets
 		FlxG.switchState(new PlayState());
+	}
+
+	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
+    {
+        #if hxCodec
+        inCutscene = true;
+
+        var filepath:String = Paths.video(name);
+        #if sys
+        if(!FileSystem.exists(filepath))
+        #else
+        if(!OpenFlAssets.exists(filepath))
+        #end
+        {
+            FlxG.log.warn('Couldnt find video file: ' + name);
+            startAndEnd();
+            return;
+        }
+
+        var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
+        bg.scrollFactor.set();
+        bg.cameras = [camHUD];
+        add(bg);
+
+        var video:VideoHandler = new VideoHandler();
+        video.playVideo(filepath, loop, haccelerated, pauseMusic);
+        video.finishCallback = function()
+        {
+            remove(bg);
+            startAndEnd();
+            Paths.clearUnusedMemory();
+        }
+        return;
+        #else
+        FlxG.log.warn('Platform not supported!');
+        startAndEnd();
+        return;
+        #end
+    }
+
+	function startAndEnd()
+	{
+		if(endingSong)
+			songEndSpecificActions();
+		else
+			callTextbox();
 	}
 
 	var dialogueBox:DialogueBox;
@@ -1894,6 +1942,7 @@ class PlayState extends MusicBeatState
 						});
 					}
 				});
+
 			default:
 				callTextbox();
 		}

@@ -44,6 +44,10 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc"/>
+	<haxelib name="hxCodec" if='windows || linux' />
+
+	<!-- Show debug traces for hxCodec -->
+	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
 
 	<!-- ______________________________ Haxedefines _____________________________ -->
 

@@ -22,6 +22,7 @@ class Paths
 	// Here we set up the paths class. This will be used to
 	// Return the paths of assets and call on those assets as well.
 	inline public static var SOUND_EXT = "ogg";
+	inline public static var VIDEO_EXT = "mp4";
 
 	// level we're loading
 	static var currentLevel:String;
@@ -305,5 +306,10 @@ class Paths
 	inline static public function getPackerAtlas(key:String, ?library:String)
 	{
 		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library)));
+	}
+
+	inline static public function video(key:String)
+	{
+		return 'assets/videos/$key.$VIDEO_EXT';
 	}
 }
