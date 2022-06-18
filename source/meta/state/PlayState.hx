@@ -102,7 +102,7 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
-	var scriptArray:Array<HaxeScript> = [];
+	public var scriptArray:Array<HaxeScript> = [];
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -209,14 +209,9 @@ class PlayState extends MusicBeatState
 		var scripts:Array<String> = [
 			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
 		];
-
-		var folders:Array<String> = [
-			Paths.getPreloadPath('scripts/')
-		];
-
+		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
 		var pushedScripts:Array<String> = [];
 
-		#if sys
 		for (i in scripts)
 		{
 			if (FileSystem.exists(i) && !pushedScripts.contains(i))
@@ -227,13 +222,13 @@ class PlayState extends MusicBeatState
 			}
 		}
 
-		for (i in folders)
+		for (fool in fools)
 		{
-			var fullPath:Array<String> = FileSystem.readDirectory(FileSystem.absolutePath(i));
+			var foolPath:Array<String> = FileSystem.readDirectory(FileSystem.absolutePath(fool));
 
-			if (fullPath != null)
+			if (foolPath != null)
 			{
-				for (e in fullPath)
+				for (e in foolPath)
 				{
 					if (FileSystem.exists(e) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
@@ -241,10 +236,10 @@ class PlayState extends MusicBeatState
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}
+					trace("Scripts: " + pushedScripts);
 				}
 			}
 		}
-		#end
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
