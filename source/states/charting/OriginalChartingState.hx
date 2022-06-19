@@ -579,13 +579,12 @@ class OriginalChartingState extends MusicBeatState
 				if (songMusic.playing && (playTicks.checked)
 					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
                 {
-					var sound:String = 'soundNoteTick';
+					var sound:String = 'hitsounds/charter/hit';
 					if (_song.player1.contains('gf'))
 						sound = 'GF_' + Std.string(data + 1);
 
                     FlxG.sound.play(Paths.sound(sound));
                     playedSound[data] = true;
-					//trace('beep ' + playedSound);
                 }
             }
         });
