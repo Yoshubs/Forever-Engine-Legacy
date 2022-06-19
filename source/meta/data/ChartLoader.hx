@@ -26,10 +26,10 @@ import states.charting.ChartingState;
 enum ChartType
 {
 	VANILLA; // base game 0.3 and beyond
-	VANILLA_OLD; // base game 0.2.8 and previous
-	PSYCH;
+	VANILLA_LEGACY; // base game 0.2.8 and previous
 	FOREVER_LEGACY; // v0.3 and previous(?) - the base fork uses this one!
 	FOREVER; // v1.0 and beyond
+	PSYCH; // MIND GAMES!! - in case we need it, I don't think this one is any different than vanilla
 }
 
 class ChartLoader
