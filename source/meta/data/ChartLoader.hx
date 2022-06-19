@@ -39,7 +39,7 @@ class ChartLoader
 			// placeholder until 0.3!
 			case FOREVER:
 			// placeholder
-			case FOREVER_LEGACY:
+			case FOREVER_UNDERSCORE:
 			// placeholder
 			default:
 				// load fnf style charts (PRE 0.3)
