@@ -21,7 +21,7 @@ typedef SwagSong =
 	var gfVersion:String;
 	var stage:String;
 	var noteSkin:String;
-	var chartType:String; // null or string is not on the chart file = base game chart
+	var splasSkin:String;
 	var validScore:Bool;
 }
 

@@ -71,34 +71,69 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		super();
 		this.curStage = curStage;
 
-		/// get hardcoded stage type if chart is fnf style
-		if (ChartLoader.songType == FNF_LEGACY)
+		switch (ChartLoader.songType)
 		{
-			// this is because I want to avoid editing the fnf chart type
-			// custom stage stuffs will come with forever charts
-			switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
-			{
-				case 'spookeez' | 'south' | 'monster':
-					curStage = 'spooky';
-				case 'pico' | 'blammed' | 'philly-nice':
-					curStage = 'philly';
-				case 'milf' | 'satin-panties' | 'high':
-					curStage = 'highway';
-				case 'cocoa' | 'eggnog':
-					curStage = 'mall';
-				case 'winter-horrorland':
-					curStage = 'mallEvil';
-				case 'senpai' | 'roses':
-					curStage = 'school';
-				case 'thorns':
-					curStage = 'schoolEvil';
-				case 'ugh' | 'guns' | 'stress':
-					curStage = 'military';
-				default:
-					curStage = 'stage';
-			}
+			case FNF:
+				// placeholder
+			case FOREVER:
+				// placeholder
+			case PSYCH:
+				// placeholder
+			case FNF_LEGACY:
+				/// get hardcoded stage type if chart is fnf style
+				// this is because I want to avoid editing the fnf chart type
+				// custom stage stuffs will come with forever charts
+				switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
+				{
+					case 'spookeez' | 'south' | 'monster':
+						curStage = 'spooky';
+					case 'pico' | 'blammed' | 'philly-nice':
+						curStage = 'philly';
+					case 'milf' | 'satin-panties' | 'high':
+						curStage = 'highway';
+					case 'cocoa' | 'eggnog':
+						curStage = 'mall';
+					case 'winter-horrorland':
+						curStage = 'mallEvil';
+					case 'senpai' | 'roses':
+						curStage = 'school';
+					case 'thorns':
+						curStage = 'schoolEvil';
+					case 'ugh' | 'guns' | 'stress':
+						curStage = 'military';
+					default:
+						curStage = 'stage';
+				}
 
-			PlayState.curStage = curStage;
+				PlayState.curStage = curStage;
+
+			case FOREVER_UNDERSCORE:
+				if(curStage == null || curStage.length < 1)
+				{
+					// get hardcoded values *if* the chart json has no data on it for them
+					switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
+					{
+						case 'spookeez' | 'south' | 'monster':
+							curStage = 'spooky';
+						case 'pico' | 'blammed' | 'philly-nice':
+							curStage = 'philly';
+						case 'milf' | 'satin-panties' | 'high':
+							curStage = 'highway';
+						case 'cocoa' | 'eggnog':
+							curStage = 'mall';
+						case 'winter-horrorland':
+							curStage = 'mallEvil';
+						case 'senpai' | 'roses':
+							curStage = 'school';
+						case 'thorns':
+							curStage = 'schoolEvil';
+						case 'ugh' | 'guns' | 'stress':
+							curStage = 'military';
+						default:
+							curStage = 'stage';
+					}
+				}
+				PlayState.curStage = PlayState.SONG.stage;
 		}
 
 		// to apply to foreground use foreground.add(); instead of add();
@@ -504,24 +539,59 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	// return the girlfriend's type
 	public function returnGFtype(curStage)
 	{
-		switch (curStage)
+		switch (ChartLoader.songType)
 		{
-			case 'highway':
-				gfVersion = 'gf-car';
-			case 'mall' | 'mallEvil':
-				gfVersion = 'gf-christmas';
-			case 'school':
-				gfVersion = 'gf-pixel';
-			case 'schoolEvil':
-				gfVersion = 'gf-pixel';
-		}
+			case FNF:
+				// placeholder
+			case FOREVER:
+				// placeholder
+			case PSYCH:
+				// placeholder
+			case FNF_LEGACY:
+				switch (curStage)
+				{
+					case 'highway':
+						gfVersion = 'gf-car';
+					case 'mall' | 'mallEvil':
+						gfVersion = 'gf-christmas';
+					case 'school':
+						gfVersion = 'gf-pixel';
+					case 'schoolEvil':
+						gfVersion = 'gf-pixel';
+				}
 
-		switch (PlayState.SONG.song.toLowerCase())
-		{
-			case 'ugh' | 'guns':
-				gfVersion = 'gf-tankmen';
-			case 'stress':
-				gfVersion = 'pico-speaker';
+				switch (PlayState.SONG.song.toLowerCase())
+				{
+					case 'ugh' | 'guns':
+						gfVersion = 'gf-tankmen';
+					case 'stress':
+						gfVersion = 'pico-speaker';
+				}
+
+			case FOREVER_UNDERSCORE:
+				if(gfVersion == null || gfVersion.length < 1)
+				{
+					switch (curStage)
+					{
+						case 'limo':
+							gfVersion = 'gf-car';
+						case 'mall' | 'mallEvil':
+							gfVersion = 'gf-christmas';
+						case 'school' | 'schoolEvil':
+							gfVersion = 'gf-pixel';
+						default:
+							gfVersion = 'gf';
+					}
+
+					switch (PlayState.SONG.song.toLowerCase())
+					{
+						case 'ugh' | 'guns':
+							gfVersion = 'gf-tankmen';
+						case 'stress':
+							gfVersion = 'pico-speaker';
+					}
+					PlayState.SONG.gfVersion = gfVersion;
+				}
 		}
 
 		return gfVersion;

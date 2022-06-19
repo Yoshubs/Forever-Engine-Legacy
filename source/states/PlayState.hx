@@ -284,7 +284,7 @@ class PlayState extends MusicBeatState
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
-		if ((curStage.startsWith("school")) && ((ChartLoader.songType == FNF_LEGACY)))
+		if ((curStage.startsWith("school")))
 			assetModifier = 'pixel';
 
 		// add characters
@@ -1560,7 +1560,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 
 		// generate the chart
-		unspawnNotes = ChartLoader.generateChartType(SONG, FNF_LEGACY);
+		unspawnNotes = ChartLoader.generateChartType(SONG, ChartLoader.songType);
 		// sometime my brain farts dont ask me why these functions were separated before
 
 		// sort through them

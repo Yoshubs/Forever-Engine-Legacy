@@ -22,7 +22,7 @@ import Paths.ChartType;
 
 class ChartLoader
 {
-	public static var songType:ChartType = FNF_LEGACY;
+	public static var songType:ChartType = FOREVER_UNDERSCORE;
 	
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
 	public static function generateChartType(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
@@ -134,6 +134,7 @@ class ChartLoader
 						var daStrumTime:Float = songNotes[0] - Init.trueSettings['Offset']; // - | late, + | early
 						var daNoteData:Int = Std.int(songNotes[1] % 4);
 						// define the note's type
+						var daNoteAlt:Float = 0;
 						var daNoteType:NoteType = NORMAL;
 
 						// very stupid but I'm lazy
