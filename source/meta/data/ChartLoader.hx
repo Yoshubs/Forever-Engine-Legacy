@@ -42,7 +42,7 @@ class ChartLoader
 			case FOREVER_LEGACY:
 			// placeholder
 			default:
-				// load fnf style charts (PRE 2.8)
+				// load fnf style charts (PRE 0.3)
 				var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
 				for (section in noteData) {
