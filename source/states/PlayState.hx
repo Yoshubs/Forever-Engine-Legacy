@@ -31,7 +31,7 @@ import openfl.events.KeyboardEvent;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
-import Paths.EngineImplementation;
+import Paths.ChartType;
 
 using StringTools;
 
