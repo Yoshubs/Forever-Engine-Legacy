@@ -11,7 +11,7 @@ import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import states.PlayState;
 import states.charting.ChartingState;
-import Paths.EngineImplementation;
+import Paths.ChartType;
 
 /**
 	This is the chartloader class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
