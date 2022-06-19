@@ -17,6 +17,20 @@ import openfl.utils.Assets as OpenFlAssets;
 import sys.FileSystem;
 import sys.io.File;
 
+/**
+	future chart types support (unfinished!)
+	code taken from: FNF-Forever-Engine, https://github.com/Yoshubs/FNF-Forever-Engine
+**/
+
+@:enum abstract ChartType(String) to String
+{
+	var FNF;
+	var FNF_LEGACY;
+	var FOREVER;
+	var FOREVER_LEGACY;
+	var PSYCH;
+}
+
 class Paths
 {
 	// Here we set up the paths class. This will be used to

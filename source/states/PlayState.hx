@@ -31,6 +31,7 @@ import openfl.events.KeyboardEvent;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
+import Paths.EngineImplementation;
 
 using StringTools;
 
@@ -132,7 +133,6 @@ class PlayState extends MusicBeatState
 	public static var uiHUD:ClassHUD;
 
 	public static var daPixelZoom:Float = 6;
-	public static var determinedChartType:String = "";
 
 	// strumlines
 	private var dadStrums:Strumline;
@@ -203,10 +203,6 @@ class PlayState extends MusicBeatState
 
 		Conductor.mapBPMChanges(SONG);
 		Conductor.changeBPM(SONG.bpm);
-
-		/// here we determine the chart type!
-		// determine the chart type here
-		determinedChartType = "FNF";
 
 		//
 
@@ -289,7 +285,7 @@ class PlayState extends MusicBeatState
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
-		if ((curStage.startsWith("school")) && ((determinedChartType == "FNF")))
+		if ((curStage.startsWith("school")) && ((ChartLoader.songType == FNF_LEGACY)))
 			assetModifier = 'pixel';
 
 		// add characters
@@ -1545,7 +1541,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 
 		// generate the chart
-		unspawnNotes = ChartLoader.generateChartType(SONG, determinedChartType);
+		unspawnNotes = ChartLoader.generateChartType(SONG, FNF_LEGACY);
 		// sometime my brain farts dont ask me why these functions were separated before
 
 		// sort through them

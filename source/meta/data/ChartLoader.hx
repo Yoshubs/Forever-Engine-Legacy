@@ -11,6 +11,7 @@ import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import states.PlayState;
 import states.charting.ChartingState;
+import Paths.EngineImplementation;
 
 /**
 	This is the chartloader class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
@@ -19,30 +20,27 @@ import states.charting.ChartingState;
 	to handle and load, as well as much more modular!
 **/
 
-/**
-	future chart types support (unfinished!)
-**/
-
-enum ChartType
-{
-	VANILLA; // base game 0.3 and beyond
-	VANILLA_LEGACY; // base game 0.2.8 and previous
-	FOREVER_LEGACY; // v0.3 and previous(?) - the base fork uses this one!
-	FOREVER; // v1.0 and beyond
-	PSYCH; // MIND GAMES!! - in case we need it, I don't think this one is any different than vanilla
-}
-
 class ChartLoader
 {
+
+	// everything will use legacy fnf for now.
+	public static var songType:ChartType = FNF_LEGACY;
+	
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
-	public static function generateChartType(songData:SwagSong, ?typeOfChart:String = "FNF"):Array<Note>
+	public static function generateChartType(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
 	{
 		var unspawnNotes:Array<Note> = [];
 		var noteData:Array<SwagSection>;
 
 		noteData = songData.notes;
-		switch (typeOfChart)
+		switch (songType)
 		{
+			case FNF:
+			// placeholder until 0.3!
+			case FOREVER:
+			// placeholder
+			case FOREVER_LEGACY:
+			// placeholder
 			default:
 				// load fnf style charts (PRE 2.8)
 				var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
@@ -128,13 +126,6 @@ class ChartLoader
 				load charts from the base game, export charts to the base game, and generally handle everything with an accuracy similar to that
 				of the main game so it feels like loading things in works well.
 			 */
-			case 'forever':
-				/*
-					That being said, however, we also have forever charts, which are complete restructures with new custom features and such.
-					Will be useful for projects later on, and it will give you more control over things you can do with the chart and with the game.
-					I'll also make it really easy to convert charts, you'll just have to load them in and pick an export option! If you want to play
-					songs made in forever engine with the base game then you can do that too.
-				 */
 		}
 
 		return unspawnNotes;

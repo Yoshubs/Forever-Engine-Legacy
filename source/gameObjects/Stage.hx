@@ -19,6 +19,7 @@ import meta.CoolUtil;
 import meta.data.Conductor;
 import meta.data.dependency.FNFSprite;
 import states.PlayState;
+import meta.data.ChartLoader;
 
 using StringTools;
 
@@ -71,7 +72,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		this.curStage = curStage;
 
 		/// get hardcoded stage type if chart is fnf style
-		if (PlayState.determinedChartType == "FNF")
+		if (ChartLoader.songType == FNF_LEGACY)
 		{
 			// this is because I want to avoid editing the fnf chart type
 			// custom stage stuffs will come with forever charts
