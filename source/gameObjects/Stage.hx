@@ -18,7 +18,7 @@ import gameObjects.background.*;
 import meta.CoolUtil;
 import meta.data.Conductor;
 import meta.data.dependency.FNFSprite;
-import meta.state.PlayState;
+import states.PlayState;
 
 using StringTools;
 

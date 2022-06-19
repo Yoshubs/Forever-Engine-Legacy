@@ -1,4 +1,4 @@
-package meta.state.menus;
+package states.menus;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -14,8 +14,8 @@ import meta.MusicBeat.MusicBeatState;
 import meta.data.dependency.Discord;
 import meta.data.dependency.FNFSprite;
 import meta.data.font.Alphabet;
-import meta.subState.OptionsSubstate;
-import meta.subState.PauseSubState;
+import states.subStates.OptionsSubState;
+import states.subStates.PauseSubState;
 
 /**
 	Options menu rewrite because I'm unhappy with how it was done previously
@@ -712,7 +712,7 @@ class OptionsMenuState extends MusicBeatState
 			lockedMovement = true;
 			FlxFlicker.flicker(activeSubgroup.members[curSelection], 0.5, 0.06 * 2, true, false, function(flick:FlxFlicker)
 			{
-				openSubState(new OptionsSubstate());
+				openSubState(new OptionsSubState());
 				lockedMovement = false;
 			});
 		}

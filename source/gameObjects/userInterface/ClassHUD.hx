@@ -20,7 +20,7 @@ import meta.CoolUtil;
 import meta.InfoHud;
 import meta.data.Conductor;
 import meta.data.Timings;
-import meta.state.PlayState;
+import states.PlayState;
 
 using StringTools;
 

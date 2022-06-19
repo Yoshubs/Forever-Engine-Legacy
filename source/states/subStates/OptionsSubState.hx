@@ -1,4 +1,4 @@
-package meta.subState;
+package states.subStates;
 
 import flixel.FlxBasic;
 import flixel.FlxG;
@@ -13,7 +13,7 @@ import meta.data.font.Alphabet;
 
 using StringTools;
 
-class OptionsSubstate extends MusicBeatSubState
+class OptionsSubState extends MusicBeatSubState
 {
 	private var curSelection = 0;
 	private var submenuGroup:FlxTypedGroup<FlxBasic>;

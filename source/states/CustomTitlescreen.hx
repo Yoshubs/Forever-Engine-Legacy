@@ -1,4 +1,4 @@
-package meta.state;
+package states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -27,7 +27,7 @@ import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
-import meta.state.menus.*;
+import states.menus.*;
 import openfl.Assets;
 
 using StringTools;

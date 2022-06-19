@@ -1,4 +1,4 @@
-package meta.state.menus;
+package states.menus;
 
 import flixel.FlxG;
 import flixel.FlxObject;

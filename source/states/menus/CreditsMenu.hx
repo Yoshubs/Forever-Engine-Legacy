@@ -1,4 +1,4 @@
-package meta.state.menus;
+package states.menus;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -7,6 +7,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import haxe.Json;
+import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.dependency.AbsoluteSprite;
 import meta.data.dependency.Discord;

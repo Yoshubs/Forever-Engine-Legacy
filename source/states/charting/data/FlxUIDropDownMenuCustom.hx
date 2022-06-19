@@ -1,4 +1,4 @@
-package meta.state.charting.data;
+package states.charting.data;
 
 import flash.geom.Rectangle;
 import flixel.addons.ui.interfaces.IFlxUIClickable;

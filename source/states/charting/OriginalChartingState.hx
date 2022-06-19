@@ -1,4 +1,4 @@
-package meta.state.charting;
+package states.charting;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -27,17 +27,18 @@ import gameObjects.userInterface.notes.*;
 import gameObjects.userInterface.notes.Note.NoteType;
 import haxe.Json;
 import lime.utils.Assets;
+import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Conductor.BPMChangeEvent;
 import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
-import meta.state.charting.data.*;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import states.charting.data.*;
 
 using StringTools;
 

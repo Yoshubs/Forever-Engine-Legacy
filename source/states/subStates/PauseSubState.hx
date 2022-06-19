@@ -1,4 +1,4 @@
-package meta.subState;
+package states.subStates;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -11,11 +11,12 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatSubState;
 import meta.data.*;
 import meta.data.font.Alphabet;
-import meta.state.*;
-import meta.state.menus.*;
+import states.*;
+import states.menus.*;
 
 class PauseSubState extends MusicBeatSubState
 {

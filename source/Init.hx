@@ -7,8 +7,8 @@ import meta.CoolUtil;
 import meta.InfoHud;
 import meta.data.Highscore;
 import meta.data.dependency.Discord;
-import meta.state.*;
-import meta.state.charting.*;
+import states.*;
+import states.charting.*;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
 

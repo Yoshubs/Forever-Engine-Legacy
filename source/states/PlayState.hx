@@ -1,4 +1,4 @@
-package meta.state;
+package states;
 
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -26,10 +26,10 @@ import meta.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Song.SwagSong;
-import meta.state.charting.*;
-import meta.state.menus.*;
-import meta.subState.*;
 import openfl.events.KeyboardEvent;
+import states.charting.*;
+import states.menus.*;
+import states.subStates.*;
 
 using StringTools;
 
@@ -849,7 +849,7 @@ class PlayState extends MusicBeatState
 				{
 					FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
 				});
-				openSubState(new GameOverSubstate(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				openSubState(new GameOverSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 
 				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
 			}

@@ -1,4 +1,4 @@
-package meta.state.charting;
+package states.charting;
 
 import flixel.FlxBasic;
 import flixel.FlxG;

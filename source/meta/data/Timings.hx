@@ -1,7 +1,7 @@
 package meta.data;
 
 import gameObjects.userInterface.notes.*;
-import meta.state.PlayState;
+import states.PlayState;
 
 /**
 	Here's a class that calculates timings and judgements for the songs and such

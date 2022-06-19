@@ -12,7 +12,7 @@ import gameObjects.userInterface.HealthIcon;
 import meta.*;
 import meta.data.*;
 import meta.data.dependency.FNFSprite;
-import meta.state.PlayState;
+import states.PlayState;
 import openfl.utils.Assets as OpenFlAssets;
 
 using StringTools;

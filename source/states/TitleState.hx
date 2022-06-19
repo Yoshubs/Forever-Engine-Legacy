@@ -1,4 +1,4 @@
-package meta.state;
+package states;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -23,12 +23,13 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import lime.app.Application;
+import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
-import meta.state.menus.*;
 import openfl.Assets;
+import states.menus.*;
 
 using StringTools;
 

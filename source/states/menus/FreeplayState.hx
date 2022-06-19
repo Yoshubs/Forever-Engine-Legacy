@@ -1,4 +1,4 @@
-package meta.state.menus;
+package states.menus;
 
 import flash.text.TextField;
 import flixel.FlxG;
@@ -14,6 +14,7 @@ import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
 import gameObjects.userInterface.HealthIcon;
 import lime.utils.Assets;
+import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Song.SwagSong;

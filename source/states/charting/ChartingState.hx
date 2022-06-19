@@ -1,4 +1,4 @@
-package meta.state.charting;
+package states.charting;
 
 import flixel.FlxBasic;
 import flixel.FlxCamera;
@@ -41,7 +41,6 @@ import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import meta.data.dependency.*;
 import meta.data.dependency.BaseButton.CoolAssButton;
-import meta.subState.charting.*;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.geom.ColorTransform;
@@ -49,6 +48,7 @@ import openfl.geom.Rectangle;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
+import states.subStates.charting.*;
 
 using StringTools;
 

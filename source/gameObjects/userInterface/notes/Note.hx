@@ -4,7 +4,7 @@ import flixel.FlxSprite;
 import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
 import meta.data.*;
 import meta.data.dependency.FNFSprite;
-import meta.state.PlayState;
+import states.PlayState;
 
 using StringTools;
 

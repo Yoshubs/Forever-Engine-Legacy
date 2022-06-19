@@ -1,4 +1,4 @@
-package meta.subState;
+package states.subStates;
 
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -9,10 +9,10 @@ import gameObjects.Boyfriend;
 import meta.MusicBeat.MusicBeatSubState;
 import meta.data.Conductor.BPMChangeEvent;
 import meta.data.Conductor;
-import meta.state.*;
-import meta.state.menus.*;
+import states.*;
+import states.menus.*;
 
-class GameOverSubstate extends MusicBeatSubState
+class GameOverSubState extends MusicBeatSubState
 {
 	//
 	var bf:Boyfriend;
