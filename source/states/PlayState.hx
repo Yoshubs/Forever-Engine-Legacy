@@ -706,7 +706,7 @@ class PlayState extends MusicBeatState
 			if (!isStoryMode)
 			{
 				// charting state (more on that later)
-				if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
+				if ((FlxG.keys.justPressed.SEVEN))
 				{
 					paused = true;
 					openSubState(new CharterSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));

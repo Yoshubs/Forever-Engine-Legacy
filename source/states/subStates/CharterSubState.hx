@@ -26,15 +26,32 @@ class CharterSubState extends MusicBeatSubState
 	var pauseOG:Array<String> = ['Forever Charter', 'Original Charter'];
 	var menuItems:Array<String> = [];
 
+	public static var playingPause:Bool = false;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
 
 		menuItems = pauseOG;
 
-		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-		pauseMusic.volume = 0;
-		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+		if (!playingPause)
+		{
+			playingPause = true;
+			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+			pauseMusic.volume = 0;
+			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
+			pauseMusic.ID = 9000;
+
+			FlxG.sound.list.add(pauseMusic);
+		}
+		else
+		{
+			for (i in FlxG.sound.list)
+			{
+				if (i.ID == 9000) // jankiest static variable
+					pauseMusic = i;
+			}
+		}
 
 		FlxG.sound.list.add(pauseMusic);
 
@@ -129,6 +146,8 @@ class CharterSubState extends MusicBeatSubState
 	override function destroy()
 	{
 		pauseMusic.destroy();
+
+		playingPause = false;
 
 		super.destroy();
 	}
