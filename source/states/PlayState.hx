@@ -18,7 +18,6 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
-import openfl.media.Sound;
 import gameObjects.*;
 import gameObjects.userInterface.*;
 import gameObjects.userInterface.notes.*;
@@ -586,6 +585,26 @@ class PlayState extends MusicBeatState
 
 		if (health > 2)
 			health = 2;
+
+		// dialogue checks
+		if (dialogueBox != null && dialogueBox.alive) {
+			// wheee the shift closes the dialogue
+			if (FlxG.keys.justPressed.SHIFT)
+				dialogueBox.closeDialog();
+
+			// the change I made was just so that it would only take accept inputs
+			if (controls.ACCEPT && dialogueBox.textStarted)
+			{
+				FlxG.sound.play(Paths.sound('cancelMenu'));
+				dialogueBox.curPage += 1;
+
+				if (dialogueBox.curPage == dialogueBox.dialogueData.dialogue.length)
+					dialogueBox.closeDialog()
+				else
+					dialogueBox.updateDialog();
+			}
+
+		}
 
 		if (generatedMusic)
 		{
@@ -1930,28 +1949,18 @@ class PlayState extends MusicBeatState
 		//
 	}
 
-	public function callTextbox(?dialogPath:String, ?music:Sound)
+	function callTextbox() 
 	{
-		if (dialogPath == null)
-			dialogPath = Paths.json('songs/' + curSong.toLowerCase() + '/dialogue');
-		if (dialogPath != '' && Paths.exists(dialogPath))
+		var dialogPath = Paths.json(SONG.song.toLowerCase() + '/dialogue');
+		if (sys.FileSystem.exists(dialogPath))
 		{
-			for (hud in allUIs)
-				hud.visible = false;
+			startedCountdown = false;
 
-			dialogueBox = new DialogueBox(DialogueBox.loadFromJson(dialogPath), music);
+			dialogueBox = DialogueBox.createDialogue(sys.io.File.getContent(dialogPath));
 			dialogueBox.cameras = [dialogueHUD];
-			dialogueBox.finishThing = function()
-			{
-				for (hud in allUIs)
-					hud.visible = true;
-				startCountdown();
-			};
+			dialogueBox.whenDaFinish = startCountdown;
 
-			new FlxTimer().start(0.7, function(tmr:FlxTimer)
-			{
-				add(dialogueBox);
-			});
+			add(dialogueBox);
 		}
 		else
 			startCountdown();
