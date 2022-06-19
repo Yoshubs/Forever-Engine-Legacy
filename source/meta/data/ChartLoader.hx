@@ -22,10 +22,10 @@ import Paths.ChartType;
 
 class ChartLoader
 {
-	public static var songType:ChartType = FOREVER_UNDERSCORE;
+	public static var songType:ChartType = FNF_LEGACY;
 	
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
-	public static function generateChartType(songData:SwagSong, songType:ChartType = FOREVER_UNDERSCORE):Array<Note>
+	public static function generateChartType(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
 	{
 		var unspawnNotes:Array<Note> = [];
 		var noteData:Array<SwagSection>;
