@@ -25,8 +25,8 @@ import states.charting.ChartingState;
 
 enum ChartType
 {
-	BASE; // base game 0.3 and beyond
-	BASE_OLD; // base game 0.2.8 and previous
+	VANILLA; // base game 0.3 and beyond
+	VANILLA_OLD; // base game 0.2.8 and previous
 	PSYCH;
 	FOREVER_LEGACY; // v0.3 and previous(?) - the base fork uses this one!
 	FOREVER; // v1.0 and beyond
