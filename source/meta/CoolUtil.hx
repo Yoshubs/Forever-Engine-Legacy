@@ -2,6 +2,9 @@ package meta;
 
 import flixel.FlxG;
 import lime.utils.Assets;
+import haxe.Exception;
+import haxe.Json;
+import meta.data.PlayerSettings;
 import states.PlayState;
 
 using StringTools;
@@ -125,6 +128,35 @@ class CoolUtil
 			dumbArray.push(i);
 		}
 		return dumbArray;
+	}
+
+	inline public static function getControls()
+	{
+		return PlayerSettings.player1.controls;
+	}
+
+	public static function readJson(path:String)
+	{
+		var content:String = null;
+		try
+		{
+			content = Paths.readFile(path);
+		}
+		catch (e:Exception)
+		{
+			throw new Exception('The file doesn\'t exist or is unreadable: $path');
+		}
+		if (content != null && content.length > 0)
+			return Json.parse(cleanJson(content));
+		else
+			throw new Exception('Invalid JSON file: $path');
+	}
+
+	public static function cleanJson(rawJson:String)
+	{
+		while (!rawJson.endsWith("}"))
+			rawJson = rawJson.substr(0, rawJson.length - 1);
+		return rawJson;
 	}
 	
 	public static function browserLoad(site:String) {

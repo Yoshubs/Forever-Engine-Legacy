@@ -209,6 +209,10 @@ class Paths
 		return getPreloadPath(file);
 	}
 
+	public static function exists(path:String) {
+		return Assets.exists(path);
+	}
+
 	// files!
 	// this is how I'm gonna do it, considering it's much cleaner in my opinion
 
@@ -238,6 +242,15 @@ class Paths
 		if (!FileSystem.exists(returnPath))
 			returnPath = CoolUtil.swapSpaceDash(returnPath);
 		return returnPath;
+	}
+
+	inline public static function readFile(path:String)
+	{
+		#if sys
+		return File.getContent(path);
+		#else
+		return Assets.getText(path);
+		#end
 	}
 
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String) {
