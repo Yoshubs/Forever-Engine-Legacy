@@ -18,6 +18,20 @@ import states.charting.ChartingState;
 	and so on. This class will handle both saving and loading of charts with useful features and scripts that will make things much easier
 	to handle and load, as well as much more modular!
 **/
+
+/**
+	future chart types support (unfinished!)
+**/
+
+enum ChartType
+{
+	BASE; // base game 0.3 and beyond
+	BASE_OLD; // base game 0.2.8 and previous
+	PSYCH;
+	FOREVER_LEGACY; // v0.3 and previous(?) - the base fork uses this one!
+	FOREVER; // v1.0 and beyond
+}
+
 class ChartLoader
 {
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
