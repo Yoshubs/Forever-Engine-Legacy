@@ -157,6 +157,8 @@ class PlayState extends MusicBeatState
 	{
 		super.create();
 
+		FlxG.mouse.visible = false;
+
 		contents = this;
 
 		// reset any values and variables that are static
@@ -706,11 +708,9 @@ class PlayState extends MusicBeatState
 				// charting state (more on that later)
 				if ((FlxG.keys.justPressed.SEVEN) && (!startingSong))
 				{
-					resetMusic();
-					if (FlxG.keys.pressed.SHIFT)
-						Main.switchState(this, new OriginalChartingState());
-					else
-						Main.switchState(this, new ChartingState());
+					paused = true;
+					openSubState(new CharterSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+					//resetMusic();
 				}
 
 				if ((FlxG.keys.justPressed.FIVE)) {
