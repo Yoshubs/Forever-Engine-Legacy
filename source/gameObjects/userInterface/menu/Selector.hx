@@ -24,8 +24,9 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 	public var goodHW:Bool = false;
 	public var badHW:Bool = false;
 	public var shitHW:Bool = false;
+	public var hitVol:Bool = false;
 
-	public function new(x:Float = 0, y:Float = 0, word:String, options:Array<String>, fpsCap:Bool = false, darkBG:Bool = false, sickHW:Bool = false, goodHW:Bool = false, badHW:Bool = false, shitHW:Bool = false)
+	public function new(x:Float = 0, y:Float = 0, word:String, options:Array<String>, fpsCap:Bool = false, darkBG:Bool = false, sickHW:Bool = false, goodHW:Bool = false, badHW:Bool = false, shitHW:Bool = false, hitVol:Bool = false)
 	{
 		// call back the function
 		super(x, y);
@@ -44,6 +45,7 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 		this.goodHW = goodHW;
 		this.badHW = badHW;
 		this.shitHW = shitHW;
+		this.hitVol = hitVol;
 
 		#if html5
 		// lol heres how we fuck with everyone
@@ -61,7 +63,7 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 		#end
 
 		chosenOptionString = Init.trueSettings.get(word);
-		if (fpsCap || darkBG || sickHW || goodHW || badHW || shitHW)
+		if (fpsCap || darkBG || sickHW || goodHW || badHW || shitHW || hitVol)
 		{
 			chosenOptionString = Std.string(Init.trueSettings.get(word));
 			optionChosen = new Alphabet(FlxG.width / 2 + 200, shiftY + 20, chosenOptionString, false, false);

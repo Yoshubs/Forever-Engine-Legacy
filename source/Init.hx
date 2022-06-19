@@ -153,6 +153,9 @@ class Init extends FlxState
 			NOT_FORCED
 		],
 
+		"Sound Type" => ['default', Selector, 'Choose the Hitsound you prefer, you can create new sounds by adding yours to the sounds/hitsounds folder.', NOT_FORCED, ''],
+		'Hitsound Volume' => [Checkmark, Selector, 'Enables a Hitsound for when you Hit a Note.', NOT_FORCED],
+
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],
 		"Good Hit Window" => [80, Selector, 'Define your desired Hit Window for getting a "Good" Judgement.', NOT_FORCED, ['']],
@@ -276,13 +279,23 @@ class Init extends FlxState
 			|| trueSettings.get("Stage Opacity") > 100)
 			trueSettings.set("Stage Opacity", 100);
 
+		if (!Std.isOfType(trueSettings.get("Hitsound Volume"), Int)
+			|| trueSettings.get("Hitsound Volume") < 0
+			|| trueSettings.get("Hitsound Volume") > 100)
+			trueSettings.set("Hitsound Volume", 0);
+
 		// 'hardcoded' ui skins
 		gameSettings.get("UI Skin")[4] = CoolUtil.returnAssetsLibrary('UI');
 		if (!gameSettings.get("UI Skin")[4].contains(trueSettings.get("UI Skin")))
 			trueSettings.set("UI Skin", 'default');
+
 		gameSettings.get("Note Skin")[4] = CoolUtil.returnAssetsLibrary('noteskins/notes');
 		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
 			trueSettings.set("Note Skin", 'default');
+
+		gameSettings.get("Sound Type")[4] = CoolUtil.returnSoundsLibrary('hitsounds');
+		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
+			trueSettings.set("Sound Type", 'default');
 
 		saveSettings();
 

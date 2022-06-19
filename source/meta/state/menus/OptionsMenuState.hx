@@ -68,6 +68,8 @@ class OptionsMenuState extends MusicBeatState
 					['Centered Notefield', getFromOption],
 					['Ghost Tapping', getFromOption],
 					['Display Accuracy', getFromOption],
+					['Sound Type', getFromOption],
+					['Hitsound Volume', getFromOption],
 					['Skip Text', getFromOption],
 					['', null],
 					/*['Player Judgements'],
@@ -409,7 +411,8 @@ class OptionsMenuState extends MusicBeatState
 							(letter.text == 'Sick! Hit Window') ? true : false,
 							(letter.text == 'Good Hit Window') ? true : false,
 							(letter.text == 'Bad Hit Window') ? true : false,
-							(letter.text == 'Shit Hit Window') ? true : false);
+							(letter.text == 'Shit Hit Window') ? true : false,
+							(letter.text == 'Hitsound Volume') ? true : false);
 
 						extrasMap.set(letter, selector);
 					default:
@@ -483,6 +486,7 @@ class OptionsMenuState extends MusicBeatState
 		var goodhw = selector.goodHW;
 		var badhw = selector.badHW;
 		var shithw = selector.shitHW;
+		var hitVol = selector.hitVol;
 
 		if (fps)
 		{
@@ -629,7 +633,31 @@ class OptionsMenuState extends MusicBeatState
 			Init.trueSettings.set(activeSubgroup.members[curSelection].text, ogMil);
 			Init.saveSettings();
 		}
-		else if (!fps && !bgdark && !sickhw && !goodhw && !badhw && !shithw)
+		else if (hitVol)
+		{
+			// lazily hardcoded hitsound volume
+			var originalSV = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+			var increase = 5 * updateBy;
+			if (originalSV + increase < 0)
+				increase = 0;
+			// high hitsound volume cap
+			if (originalSV + increase > 100)
+				increase = 0;
+
+			if (updateBy == -1)
+				selector.selectorPlay('left', 'press');
+			else
+				selector.selectorPlay('right', 'press');
+
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+
+			originalSV += increase;
+			selector.chosenOptionString = Std.string(originalSV);
+			selector.optionChosen.text = Std.string(originalSV);
+			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originalSV);
+			Init.saveSettings();
+		}
+		else if (!fps && !bgdark && !sickhw && !goodhw && !badhw && !shithw && !hitVol)
 		{ 
 			// get the current option as a number
 			var storedNumber:Int = 0;

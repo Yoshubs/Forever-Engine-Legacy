@@ -60,6 +60,7 @@ class PlayState extends MusicBeatState
 
 	public static var assetModifier:String = 'base';
 	public static var changeableSkin:String = 'default';
+	public static var changeableSound:String = 'default';
 
 	private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
@@ -174,6 +175,7 @@ class PlayState extends MusicBeatState
 
 		assetModifier = 'base';
 		changeableSkin = 'default';
+		changeableSound = 'default';
 
 		// stop any existing music tracks playing
 		resetMusic();
@@ -285,6 +287,7 @@ class PlayState extends MusicBeatState
 		stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
+		changeableSound = Init.trueSettings.get("Sound Type");
 		if ((curStage.startsWith("school")) && ((determinedChartType == "FNF")))
 			assetModifier = 'pixel';
 
@@ -443,6 +446,8 @@ class PlayState extends MusicBeatState
 
 		if (assetModifier == 'pixel')
 			stageSuffix = '-pixel';
+
+		if((Init.trueSettings.get('Hitsound Volume')) > 0) Paths.sound('hitsounds/$changeableSound/hit');
 
 		// cache songs
 		Paths.music('breakfast');
@@ -1056,6 +1061,10 @@ class PlayState extends MusicBeatState
 	{
 		if (!coolNote.wasGoodHit) 
 		{
+			if (Init.trueSettings.get('Hitsound Volume') > 0 && coolNote.canBeHit && !coolNote.isSustainNote) {
+				FlxG.sound.play(Paths.sound('hitsounds/$changeableSound/hit'), Init.trueSettings.get('Hitsound Volume'));
+			}
+
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 
