@@ -16,10 +16,10 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import gameObjects.background.*;
 import meta.CoolUtil;
+import meta.data.ChartParser;
 import meta.data.Conductor;
 import meta.data.dependency.FNFSprite;
 import states.PlayState;
-import meta.data.ChartLoader;
 
 using StringTools;
 
@@ -71,13 +71,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		super();
 		this.curStage = curStage;
 
-		switch (ChartLoader.songType)
+		switch (ChartParser.songType)
 		{
 			case FNF:
 				// placeholder
 			case FOREVER:
-				// placeholder
-			case PSYCH:
 				// placeholder
 			case FNF_LEGACY:
 				/// get hardcoded stage type if chart is fnf style
@@ -107,7 +105,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 				PlayState.curStage = curStage;
 
-			case FOREVER_UNDERSCORE:
+			case FOREVER_UNDERSCORE | PSYCH:
 				if(curStage == null || curStage.length < 1)
 				{
 					// get hardcoded values *if* the chart json has no data on it for them
@@ -539,61 +537,26 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	// return the girlfriend's type
 	public function returnGFtype(curStage)
 	{
-		switch (ChartLoader.songType)
+		switch (curStage)
 		{
-			case FNF:
-				// placeholder
-			case FOREVER:
-				// placeholder
-			case PSYCH:
-				// placeholder
-			case FNF_LEGACY:
-				switch (curStage)
-				{
-					case 'highway':
-						gfVersion = 'gf-car';
-					case 'mall' | 'mallEvil':
-						gfVersion = 'gf-christmas';
-					case 'school':
-						gfVersion = 'gf-pixel';
-					case 'schoolEvil':
-						gfVersion = 'gf-pixel';
-				}
-
-				switch (PlayState.SONG.song.toLowerCase())
-				{
-					case 'ugh' | 'guns':
-						gfVersion = 'gf-tankmen';
-					case 'stress':
-						gfVersion = 'pico-speaker';
-				}
-
-			case FOREVER_UNDERSCORE:
-				if(gfVersion == null || gfVersion.length < 1)
-				{
-					switch (curStage)
-					{
-						case 'limo':
-							gfVersion = 'gf-car';
-						case 'mall' | 'mallEvil':
-							gfVersion = 'gf-christmas';
-						case 'school' | 'schoolEvil':
-							gfVersion = 'gf-pixel';
-						default:
-							gfVersion = 'gf';
-					}
-
-					switch (PlayState.SONG.song.toLowerCase())
-					{
-						case 'ugh' | 'guns':
-							gfVersion = 'gf-tankmen';
-						case 'stress':
-							gfVersion = 'pico-speaker';
-					}
-					PlayState.SONG.gfVersion = gfVersion;
-				}
+			case 'highway':
+				gfVersion = 'gf-car';
+			case 'mall' | 'mallEvil':
+				gfVersion = 'gf-christmas';
+			case 'school':
+				gfVersion = 'gf-pixel';
+			case 'schoolEvil':
+				gfVersion = 'gf-pixel';
 		}
 
+		switch (PlayState.SONG.song.toLowerCase())
+		{
+			case 'ugh' | 'guns':
+				gfVersion = 'gf-tankmen';
+			case 'stress':
+			gfVersion = 'pico-speaker';
+		}
+		
 		return gfVersion;
 	}
 

@@ -1,5 +1,6 @@
 package meta.data;
 
+import Paths.ChartType;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
@@ -11,21 +12,20 @@ import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import states.PlayState;
 import states.charting.ChartingState;
-import Paths.ChartType;
 
 /**
-	This is the chartloader class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
+	This is the ChartParser class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
 	say the base game type loads the base game's charts, the forever chart type loads a custom forever structure chart with custom features,
 	and so on. This class will handle both saving and loading of charts with useful features and scripts that will make things much easier
 	to handle and load, as well as much more modular!
 **/
 
-class ChartLoader
+class ChartParser
 {
 	public static var songType:ChartType = FOREVER_UNDERSCORE;
 	
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
-	public static function generateChartType(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
+	public static function loadChart(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
 	{
 		var unspawnNotes:Array<Note> = [];
 		var noteData:Array<SwagSection>;

@@ -1,5 +1,6 @@
 package states;
 
+import Paths.ChartType;
 import flixel.FlxBasic;
 import flixel.FlxCamera;
 import flixel.FlxG;
@@ -30,7 +31,6 @@ import openfl.events.KeyboardEvent;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
-import Paths.ChartType;
 
 using StringTools;
 
@@ -271,7 +271,20 @@ class PlayState extends MusicBeatState
 		// set up characters here too
 		gf = new Character();
 		gf.adjustPos = false;
-		gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
+		switch (ChartParser.songType)
+		{
+			case FNF:
+				// blah
+
+			case FOREVER:
+				// blah
+
+			case FOREVER_UNDERSCORE | PSYCH:
+				gf.setCharacter(300, 100, SONG.gfVersion);
+
+			case FNF_LEGACY:
+				gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
+		}
 		gf.scrollFactor.set(0.95, 0.95);
 
 		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
@@ -1560,7 +1573,7 @@ class PlayState extends MusicBeatState
 		FlxG.sound.list.add(vocals);
 
 		// generate the chart
-		unspawnNotes = ChartLoader.generateChartType(SONG, ChartLoader.songType);
+		unspawnNotes = ChartParser.loadChart(SONG, ChartParser.songType);
 		// sometime my brain farts dont ask me why these functions were separated before
 
 		// sort through them
