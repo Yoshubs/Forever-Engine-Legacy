@@ -44,7 +44,6 @@ class Character extends FNFSprite
 	{
 		super(x, y);
 		this.isPlayer = isPlayer;
-
 		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
 	}
 
