@@ -237,7 +237,6 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.contents.boyfriendStrums.autoplay = !PlayState.contents.boyfriendStrums.autoplay;
 					PlayState.uiHUD.autoplayTxt.visible = PlayState.contents.boyfriendStrums.autoplay;
 					PlayState.uiHUD.autoplayTxt.alpha = 1;
-					PlayState.uiHUD.autoplaySine = 0;
 
 				case "Toggle Practice Mode":
 					PlayState.preventScoring = true;
