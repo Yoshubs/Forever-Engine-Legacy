@@ -44,7 +44,14 @@
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
 	<haxelib name="discord_rpc"/>
-	<haxelib name="hxCodec" if='windows || linux' />
+
+	<!--
+		NOTICE: Linux *is* supported, but you need to enable it,
+		I did this mainly so github workflows could work properly
+		add "|| linux" after 'windows' and before />
+	!-->
+
+	<haxelib name="hxCodec" if='windows' />
 
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
