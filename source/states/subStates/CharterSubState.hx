@@ -60,19 +60,19 @@ class CharterSubState extends MusicBeatSubState
 		bg.scrollFactor.set();
 		add(bg);
 
-		var levelInfo:FlxText = new FlxText(20, 15, 0, "", 32);
-		levelInfo.screenCenter(X);
-		levelInfo.text += 'Select a Chart Editor.';
-		levelInfo.scrollFactor.set();
-		levelInfo.setFormat(Paths.font('vcr.ttf'), 32);
-		levelInfo.updateHitbox();
-		add(levelInfo);
+		var select:FlxText = new FlxText(20, 15, 0, "", 32);
+		select.screenCenter(X);
+		select.text += 'Select a Chart Editor.';
+		select.scrollFactor.set();
+		select.setFormat(Paths.font('vcr.ttf'), 32);
+		select.updateHitbox();
+		add(select);
 
-		levelInfo.alpha = 0;
-		levelInfo.x = FlxG.width - (levelInfo.width + 20);
+		select.alpha = 0;
+		select.x = FlxG.width - (select.width + 20);
 
 		FlxTween.tween(bg, {alpha: 0.6}, 0.4, {ease: FlxEase.quartInOut});
-		FlxTween.tween(levelInfo, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
+		FlxTween.tween(select, {alpha: 1, y: 20}, 0.4, {ease: FlxEase.quartInOut, startDelay: 0.3});
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
