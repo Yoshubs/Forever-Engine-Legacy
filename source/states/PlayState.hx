@@ -135,7 +135,7 @@ class PlayState extends MusicBeatState
 
 	// strumlines
 	private var dadStrums:Strumline;
-	private var boyfriendStrums:Strumline;
+	public var boyfriendStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
 	public static var strumHUD:Array<FlxCamera> = [];
@@ -727,7 +727,7 @@ class PlayState extends MusicBeatState
 					//resetMusic();
 				}
 
-				if ((FlxG.keys.justPressed.FIVE)) {
+				/*if ((FlxG.keys.justPressed.FIVE)) {
 					preventScoring = true;
 					disableDeath = true;
 				}
@@ -735,7 +735,7 @@ class PlayState extends MusicBeatState
 				if ((FlxG.keys.justPressed.SIX)) {
 					preventScoring = true;
 					boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
-				}
+				}*/
 			}
 
 			///*
@@ -840,16 +840,16 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
-			if (health <= 0 || controls.RESET && !disableDeath && startedCountdown)
+			if (!disableDeath && health <= 0 || controls.RESET)
 			{
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
 				paused = true;
 
-				deaths++;
-
 				resetMusic();
+
+				deaths += 1;
 
 				var stageSuffix:String = '';
 				if (assetModifier == 'pixel')
@@ -1347,7 +1347,8 @@ class PlayState extends MusicBeatState
 		Timings.updateAccuracy(Timings.judgementsMap.get(baseRating)[3]);
 		score = Std.int(Timings.judgementsMap.get(baseRating)[2]);
 
-		songScore += score;
+		if (!disableDeath)
+			songScore += score;
 
 		popUpCombo();
 	}
@@ -1420,8 +1421,7 @@ class PlayState extends MusicBeatState
 
 	function decreaseCombo(?popMiss:Bool = false)
 	{
-		// painful if statement
-		if (((combo > 5) || (combo < 0)) && (gf.animOffsets.exists('sad')))
+		if (combo > 5 && gf.animOffsets.exists('sad'))
 			gf.playAnim('sad');
 
 		if (combo > 0)
@@ -1430,8 +1430,12 @@ class PlayState extends MusicBeatState
 			combo--;
 
 		// misses
-		songScore -= 10;
-		misses++;
+
+		if (!disableDeath)
+			songScore -= 10;
+
+		if (!endingSong)
+			misses++;
 
 		// display negative combo
 		if (popMiss)

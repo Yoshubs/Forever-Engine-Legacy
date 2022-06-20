@@ -47,6 +47,9 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
 	var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
 
+	public var autoplayTxt:FlxText;
+	public var autoplaySine:Float = 0;
+
 	private var timingsMap:Map<String, FlxText> = [];
 
 	// eep
@@ -120,6 +123,15 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 				add(textAsset);
 			}
 		}
+
+		autoplayTxt = new FlxText(400, 20, FlxG.width - 800, "AUTOPLAY", 32);
+		autoplayTxt.screenCenter(XY);
+		autoplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		autoplayTxt.scrollFactor.set();
+		autoplayTxt.borderSize = 1.25;
+		autoplayTxt.visible = PlayState.contents.boyfriendStrums.autoplay;
+		add(autoplayTxt);
+
 		updateScoreText();
 	}
 
@@ -132,6 +144,12 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	override public function update(elapsed:Float)
 	{
+		// copying psych really quick
+		if(autoplayTxt.visible) {
+			autoplaySine += 360 * elapsed;
+			autoplayTxt.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 180);
+		}
+
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
 

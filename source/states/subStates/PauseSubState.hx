@@ -33,6 +33,8 @@ class PauseSubState extends MusicBeatSubState
 
 	public static var toOptions:Bool = false;
 
+	public static var practiceText:FlxText;
+
 	public function new(x:Float, y:Float)
 	{
 		super();
@@ -40,6 +42,11 @@ class PauseSubState extends MusicBeatSubState
 		toOptions = false;
 
 		menuItems = pauseOG;
+
+		if (!PlayState.isStoryMode) {
+			pauseOG.insert(3, 'Toggle Practice Mode');
+			pauseOG.insert(4, 'Toggle Autoplay');
+		}
 
 		if (!playingPause)
 		{
@@ -88,6 +95,14 @@ class PauseSubState extends MusicBeatSubState
 		levelDeaths.updateHitbox();
 		add(levelDeaths);
 
+		practiceText = new FlxText(20, 15 + 96, 0, "PRACTICE MODE", 32);
+		practiceText.scrollFactor.set();
+		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
+		practiceText.updateHitbox();
+		practiceText.x = FlxG.width - (practiceText.width + 20);
+		practiceText.visible = PlayState.disableDeath;
+		add(practiceText);
+
 		levelInfo.alpha = 0;
 		levelDifficulty.alpha = 0;
 		levelDeaths.alpha = 0;
@@ -105,8 +120,6 @@ class PauseSubState extends MusicBeatSubState
 		add(grpMenuShit);
 
 		regenMenu();
-		changeSelection();
-
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
@@ -132,6 +145,9 @@ class PauseSubState extends MusicBeatSubState
 
 	override function update(elapsed:Float)
 	{
+		if (pauseMusic.volume < 0.5)
+			pauseMusic.volume += 0.01 * elapsed;
+		
 		super.update(elapsed);
 
 		var upP = controls.UI_UP_P;
@@ -171,15 +187,40 @@ class PauseSubState extends MusicBeatSubState
 				case "Resume":
 					close();
 				case "Restart Song":
+					//
+					PlayState.disableDeath = false;
+					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.preventScoring = false;
+					practiceText.visible = false;
+					//
 					Main.switchState(this, new PlayState());
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
 				case "Exit to Options":
 					toOptions = true;
+					
+					//
+					PlayState.disableDeath = false;
+					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.preventScoring = false;
+					practiceText.visible = false;
+					//
+					
 					Main.switchState(this, new OptionsMenuState());
 				case "Exit to menu":
 					PlayState.resetMusic();
+
+					//
+					PlayState.disableDeath = false;
+					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.preventScoring = false;
+					practiceText.visible = false;
+					//
+					
 					PlayState.deaths = 0;
 
 					if (PlayState.isStoryMode)
@@ -189,11 +230,36 @@ class PauseSubState extends MusicBeatSubState
 
 				//
 
+				// Cheats
+
+				case "Toggle Autoplay":
+					PlayState.preventScoring = true;
+					PlayState.contents.boyfriendStrums.autoplay = !PlayState.contents.boyfriendStrums.autoplay;
+					PlayState.uiHUD.autoplayTxt.visible = PlayState.contents.boyfriendStrums.autoplay;
+					PlayState.uiHUD.autoplayTxt.alpha = 1;
+					PlayState.uiHUD.autoplaySine = 0;
+
+				case "Toggle Practice Mode":
+					PlayState.preventScoring = true;
+					PlayState.disableDeath = !PlayState.disableDeath;
+					practiceText.visible = PlayState.disableDeath;
+
+				//
+
 				// Change Difficulty
 				case "EASY" | "NORMAL" | "HARD":
 					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song.toLowerCase(), curSelected), PlayState.SONG.song.toLowerCase());
 					PlayState.storyDifficulty = curSelected;
-					FlxG.resetState();
+
+					//
+					PlayState.disableDeath = false;
+					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.preventScoring = false;
+					practiceText.visible = false;
+					//
+
+					Main.switchState(this, new PlayState());
 				case "BACK":
 					menuItems = pauseOG;
 					regenMenu();
@@ -201,9 +267,6 @@ class PauseSubState extends MusicBeatSubState
 				//
 			}
 		}
-
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
 	}
 
 	override function destroy()
@@ -217,9 +280,8 @@ class PauseSubState extends MusicBeatSubState
 
 	function changeSelection(change:Int = 0):Void
 	{
-		curSelected += change;
-
 		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+		curSelected += change;
 
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;
