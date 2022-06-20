@@ -1155,7 +1155,7 @@ class PlayState extends MusicBeatState
 		var baseString = 'sing' + UIStaticArrow.getArrowFromNumber(coolNote.noteData).toUpperCase();
 
 		// I tried doing xor and it didnt work lollll
-		if (coolNote.noteAlt > 0)
+		if (coolNote.noteAlt > 0 || coolNote.noteType == ALT)
 			altString = '-alt';
 		
 		if (((SONG.notes[Math.floor(curStep / 16)] != null) && (SONG.notes[Math.floor(curStep / 16)].altAnim))
@@ -1167,7 +1167,10 @@ class PlayState extends MusicBeatState
 				altString = '';
 		}
 
-		stringArrow = baseString + altString;
+		if (coolNote.noteType != HEY)
+			stringArrow = baseString + altString;
+		else
+			stringArrow = 'hey';
 		// if (coolNote.foreverMods.get('string')[0] != "")
 		//	stringArrow = coolNote.noteString;
 
