@@ -135,7 +135,7 @@ class PlayState extends MusicBeatState
 
 	// strumlines
 	private var dadStrums:Strumline;
-	public var boyfriendStrums:Strumline;
+	public var bfStrums:Strumline;
 
 	public static var strumLines:FlxTypedGroup<Strumline>;
 	public static var strumHUD:Array<FlxCamera> = [];
@@ -368,11 +368,11 @@ class PlayState extends MusicBeatState
 		var placement = (FlxG.width / 2);
 		dadStrums = new Strumline(placement - (FlxG.width / 4), this, dadOpponent, false, true, false, 4, Init.trueSettings.get('Downscroll'));
 		dadStrums.visible = !Init.trueSettings.get('Centered Notefield');
-		boyfriendStrums = new Strumline(placement + (!Init.trueSettings.get('Centered Notefield') ? (FlxG.width / 4) : 0), this, boyfriend, true, false, true,
+		bfStrums = new Strumline(placement + (!Init.trueSettings.get('Centered Notefield') ? (FlxG.width / 4) : 0), this, boyfriend, true, false, true,
 			4, Init.trueSettings.get('Downscroll'));
 
 		strumLines.add(dadStrums);
-		strumLines.add(boyfriendStrums);
+		strumLines.add(bfStrums);
 
 		// strumline camera setup
 		strumHUD = [];
@@ -500,7 +500,7 @@ class PlayState extends MusicBeatState
 		var key:Int = getKeyFromEvent(eventKey);
 
 		if ((key >= 0)
-			&& !boyfriendStrums.autoplay
+			&& !bfStrums.autoplay
 			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED))
 			&& (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
 		{
@@ -512,7 +512,7 @@ class PlayState extends MusicBeatState
 				var possibleNoteList:Array<Note> = [];
 				var pressedNotes:Array<Note> = [];
 
-				boyfriendStrums.allNotes.forEachAlive(function(daNote:Note)
+				bfStrums.allNotes.forEachAlive(function(daNote:Note)
 				{
 					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
 						possibleNoteList.push(daNote);
@@ -537,7 +537,7 @@ class PlayState extends MusicBeatState
 
 						if (eligable) 
 						{
-							goodNoteHit(coolNote, boyfriend, boyfriendStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, boyfriend, bfStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -550,9 +550,9 @@ class PlayState extends MusicBeatState
 				Conductor.songPosition = previousTime;
 			}
 
-			if (boyfriendStrums.receptors.members[key] != null 
-			&& boyfriendStrums.receptors.members[key].animation.curAnim.name != 'confirm')
-				boyfriendStrums.receptors.members[key].playAnim('pressed');
+			if (bfStrums.receptors.members[key] != null 
+			&& bfStrums.receptors.members[key].animation.curAnim.name != 'confirm')
+				bfStrums.receptors.members[key].playAnim('pressed');
 		}
 	}
 
@@ -562,8 +562,8 @@ class PlayState extends MusicBeatState
 
 		if (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)) {
 			// receptor reset
-			if (key >= 0 && boyfriendStrums.receptors.members[key] != null)
-				boyfriendStrums.receptors.members[key].playAnim('static');
+			if (key >= 0 && bfStrums.receptors.members[key] != null)
+				bfStrums.receptors.members[key].playAnim('static');
 		}
 	}
 
@@ -734,7 +734,7 @@ class PlayState extends MusicBeatState
 
 				if ((FlxG.keys.justPressed.SIX)) {
 					preventScoring = true;
-					boyfriendStrums.autoplay = !boyfriendStrums.autoplay;
+					bfStrums.autoplay = !bfStrums.autoplay;
 				}*/
 			}
 
@@ -1034,7 +1034,7 @@ class PlayState extends MusicBeatState
 
 
 				// unoptimised asf camera control based on strums
-				strumCameraRoll(strumline.receptors, (strumline == boyfriendStrums));
+				strumCameraRoll(strumline.receptors, (strumline == bfStrums));
 			}
 			
 		}
@@ -1043,7 +1043,7 @@ class PlayState extends MusicBeatState
 		var holdControls:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
 		if ((boyfriend != null && boyfriend.animation != null)
 			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000)
-			&& (!holdControls.contains(true) || boyfriendStrums.autoplay)))
+			&& (!holdControls.contains(true) || bfStrums.autoplay)))
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing')
 			&& !boyfriend.animation.curAnim.name.endsWith('miss'))

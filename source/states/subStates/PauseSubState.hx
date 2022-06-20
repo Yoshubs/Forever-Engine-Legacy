@@ -189,7 +189,7 @@ class PauseSubState extends MusicBeatSubState
 				case "Restart Song":
 					//
 					PlayState.disableDeath = false;
-					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
 					practiceText.visible = false;
@@ -203,7 +203,7 @@ class PauseSubState extends MusicBeatSubState
 					
 					//
 					PlayState.disableDeath = false;
-					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
 					practiceText.visible = false;
@@ -215,7 +215,7 @@ class PauseSubState extends MusicBeatSubState
 
 					//
 					PlayState.disableDeath = false;
-					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
 					practiceText.visible = false;
@@ -234,8 +234,8 @@ class PauseSubState extends MusicBeatSubState
 
 				case "Toggle Autoplay":
 					PlayState.preventScoring = true;
-					PlayState.contents.boyfriendStrums.autoplay = !PlayState.contents.boyfriendStrums.autoplay;
-					PlayState.uiHUD.autoplayTxt.visible = PlayState.contents.boyfriendStrums.autoplay;
+					PlayState.contents.bfStrums.autoplay = !PlayState.contents.bfStrums.autoplay;
+					PlayState.uiHUD.autoplayTxt.visible = PlayState.contents.bfStrums.autoplay;
 					PlayState.uiHUD.autoplayTxt.alpha = 1;
 
 				case "Toggle Practice Mode":
@@ -252,7 +252,7 @@ class PauseSubState extends MusicBeatSubState
 
 					//
 					PlayState.disableDeath = false;
-					PlayState.contents.boyfriendStrums.autoplay = false;
+					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
 					practiceText.visible = false;

@@ -128,7 +128,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		autoplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		autoplayTxt.scrollFactor.set();
 		autoplayTxt.borderSize = 1.25;
-		autoplayTxt.visible = PlayState.contents.boyfriendStrums.autoplay;
+		autoplayTxt.visible = PlayState.contents.bfStrums.autoplay;
 		add(autoplayTxt);
 
 		updateScoreText();
