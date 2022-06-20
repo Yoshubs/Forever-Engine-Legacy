@@ -31,6 +31,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
+	public var barColor:Int;
 
 	public var holdTimer:Float = 0;
 
@@ -43,6 +44,8 @@ class Character extends FNFSprite
 	{
 		super(x, y);
 		this.isPlayer = isPlayer;
+		
+		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
 	}
 
 	public function setCharacter(x:Float, y:Float, character:String):Character
