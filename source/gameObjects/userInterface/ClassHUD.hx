@@ -48,7 +48,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
 
 	public var autoplayTxt:FlxText;
-	public var autoplaySine:Float = 0;
 
 	private var timingsMap:Map<String, FlxText> = [];
 
@@ -144,12 +143,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	override public function update(elapsed:Float)
 	{
-		// copying psych really quick
-		if(autoplayTxt.visible) {
-			autoplaySine += 360 * elapsed;
-			autoplayTxt.alpha = 1 - Math.sin((Math.PI * autoplaySine) / 180);
-		}
-
 		// pain, this is like the 7th attempt
 		healthBar.percent = (PlayState.health * 50);
 
