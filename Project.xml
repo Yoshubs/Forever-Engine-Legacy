@@ -46,9 +46,11 @@
 	<haxelib name="discord_rpc"/>
 
 	<!--
-		NOTICE: Linux *is* supported, but you need to enable it,
-		I did this mainly so github workflows could work properly
-		add "|| linux" after 'windows' and before />
+		SUPPORTED PLATFORMS: Windows, Linux
+		append "linux" at the end of the "if" check to enable it, dividing it with to pipe symbols
+		should look like this
+
+		<haxelib name="hxCodec" if='windows || linux' />
 	!-->
 
 	<haxelib name="hxCodec" if='windows' />
