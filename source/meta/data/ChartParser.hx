@@ -1,17 +1,11 @@
 package meta.data;
 
 import Paths.ChartType;
-import flixel.FlxG;
-import flixel.FlxSprite;
-import flixel.math.FlxMath;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
 import gameObjects.userInterface.notes.*;
 import gameObjects.userInterface.notes.Note.NoteType;
 import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import states.PlayState;
-import states.charting.ChartingState;
 
 /**
 	This is the ChartParser class. it loads in charts, but also exports charts, the chart parameters are based on the type of chart, 
