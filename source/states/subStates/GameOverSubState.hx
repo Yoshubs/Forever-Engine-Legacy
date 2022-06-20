@@ -40,12 +40,6 @@ class GameOverSubState extends MusicBeatSubState
 
 		super();
 
-		PlayState.disableDeath = false;
-		PlayState.contents.bfStrums.autoplay = false;
-		PlayState.uiHUD.autoplayTxt.visible = false;
-		PlayState.preventScoring = false;
-		PauseSubState.practiceText.visible = false;
-
 		Conductor.songPosition = 0;
 
 		bf = new Boyfriend();
