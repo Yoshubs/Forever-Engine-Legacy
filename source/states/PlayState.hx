@@ -299,8 +299,9 @@ class PlayState extends MusicBeatState
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
-		if ((curStage.startsWith("school")))
-			assetModifier = 'pixel';
+
+		if (ChartParser.songType == FOREVER_UNDERSCORE) assetModifier = SONG.assetModifier;
+		if ((curStage.startsWith("school")) && (ChartParser.songType == FNF_LEGACY)) assetModifier = 'pixel';
 
 		// add characters
 		add(gf);

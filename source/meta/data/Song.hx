@@ -22,6 +22,7 @@ typedef SwagSong =
 	var stage:String;
 	var noteSkin:String;
 	var splasSkin:String;
+	var assetModifier:String;
 	var validScore:Bool;
 }
 
