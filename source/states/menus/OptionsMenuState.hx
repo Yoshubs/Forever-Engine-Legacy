@@ -16,6 +16,7 @@ import meta.data.dependency.FNFSprite;
 import meta.data.font.Alphabet;
 import states.subStates.OptionsSubState;
 import states.subStates.PauseSubState;
+import meta.data.Highscore;
 
 /**
 	Options menu rewrite because I'm unhappy with how it was done previously
@@ -56,6 +57,7 @@ class OptionsMenuState extends MusicBeatState
 					['preferences', callNewGroup],
 					['appearance', callNewGroup],
 					['controls', openControlmenu],
+					['reset data', callNewGroup],
 					['exit', exitMenu]
 				]
 			],
@@ -87,6 +89,19 @@ class OptionsMenuState extends MusicBeatState
 					['Debug Info', getFromOption],
 				]
 			],
+			'reset data' => [
+				[
+					['Scores', null],
+					['', null],
+					['Reset Story Mode Scores', resetData('storyScore')],
+					['Reset Freeplay Scores', resetData('freeplayScore')],
+					['', null],
+					['Settings', null],
+					['', null],
+					['Reset Settings', resetData('settings')],
+					['Reset All Data', resetData('all')],
+				]
+			]
 			'appearance' => [
 				[
 					['Judgements', null],
@@ -715,6 +730,18 @@ class OptionsMenuState extends MusicBeatState
 				openSubState(new OptionsSubState());
 				lockedMovement = false;
 			});
+		}
+	}
+
+	public function resetData(which:String == '')
+	{
+		if (which == 'storyScore') //Highscore.resetStoryData(true);
+		if (which == 'freeplayScore') //Highscore.resetFreeplayData(true);
+		if (which == 'settings') //Init.trueSettings.reset();
+		if (which == 'all') {
+			//Highscore.resetStoryData(true);
+			//Highscore.resetFreeplayData(true);
+			//Init.trueSettings.reset();
 		}
 	}
 
