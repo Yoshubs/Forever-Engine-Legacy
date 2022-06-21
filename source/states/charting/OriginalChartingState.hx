@@ -595,42 +595,24 @@ class OriginalChartingState extends MusicBeatState
 		
 		// uhh weird sex sound prevention hello psych engine from shadow mario
 		var playedSound:Array<Bool> = [false, false, false, false];
-        curRenderedNotes.forEachAlive(function(note:Note)
-        {
-            if (note.strumTime < songMusic.time)
-            {
-				var data:Int = note.noteData % 4;
-
-				if (songMusic.playing && (playTicksBf.checked)
-					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos && note.mustPress)
-                {
-					var sound:String = 'soundNoteTick';
-					if (_song.player1.contains('gf'))
-						sound = 'GF_' + Std.string(data + 1);
-
-                    FlxG.sound.play(Paths.sound(sound));
-                    playedSound[data] = true;
-					//trace('beep ' + playedSound);
-                }
-            }
-        });
-
 		curRenderedNotes.forEachAlive(function(note:Note)
         {
             if (note.strumTime < songMusic.time)
             {
 				var data:Int = note.noteData % 4;
 
-				if (songMusic.playing && (playTicksDad.checked)
-					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos && !note.mustPress)
+				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
                 {
-					var sound:String = 'soundNoteTick';
-					if (_song.player1.contains('gf'))
-						sound = 'GF_' + Std.string(data + 1);
+					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
+					{
+						var sound:String = 'soundNoteTick';
+						if (_song.player1.contains('gf'))
+							sound = 'GF_' + Std.string(data + 1);
 
-                    FlxG.sound.play(Paths.sound(sound));
-                    playedSound[data] = true;
-					//trace('beep ' + playedSound);
+						FlxG.sound.play(Paths.sound(sound));
+						playedSound[data] = true;
+						trace('balls');
+					}
                 }
             }
         });
