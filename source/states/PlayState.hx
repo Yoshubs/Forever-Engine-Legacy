@@ -540,11 +540,8 @@ class PlayState extends MusicBeatState
 								eligable = false;
 						}
 
-						if (eligable) 
-						{
-							goodNoteHit(coolNote, (leftSide ? dadOpponent : boyfriend), (!leftSide ? bfStrums : dadStrums), firstNote); // then hit the note
-							pressedNotes.push(coolNote);
-						}
+						goodNoteHit(coolNote, (leftSide ? dadOpponent : boyfriend), (!leftSide ? bfStrums : dadStrums), false); // then hit the note
+						pressedNotes.push(coolNote);
 						// end of this little check
 					}
 					//
@@ -552,12 +549,13 @@ class PlayState extends MusicBeatState
 				else // else just call bad notes
 					if (!Init.trueSettings.get('Ghost Tapping'))
 						missNoteCheck(true, key, boyfriend, true);
+
 				Conductor.songPosition = previousTime;
 			}
 
-			if (bfStrums.receptors.members[key] != null 
-			&& bfStrums.receptors.members[key].animation.curAnim.name != 'confirm')
-				bfStrums.receptors.members[key].playAnim('pressed');
+			if ((!leftSide ? bfStrums : dadStrums).receptors.members[key] != null 
+				&& (!leftSide ? bfStrums : dadStrums).receptors.members[key].animation.curAnim.name != 'confirm')
+				(!leftSide ? bfStrums : dadStrums).receptors.members[key].playAnim('pressed');
 		}
 	}
 
@@ -1026,7 +1024,7 @@ class PlayState extends MusicBeatState
 					mainControls(daNote, 
 						(leftSide ? (daNote.mustPress ? dadOpponent : boyfriend) : strumline.character), 
 						(leftSide ? (!daNote.mustPress ? bfStrums : dadStrums) : strumline),
-						((leftSide && !daNote.mustPress) || (!leftSide && !daNote.mustPress)));
+						(!daNote.mustPress));
 
 					// check where the note is and make sure it is either active or inactive
 					if (daNote.y > FlxG.height) {
