@@ -44,7 +44,6 @@ class PauseSubState extends MusicBeatSubState
 		menuItems = pauseOG;
 
 		if (!PlayState.isStoryMode) {
-			pauseOG.insert(2, 'Switch Strums');
 			pauseOG.insert(3, 'Toggle Practice Mode');
 			pauseOG.insert(4, 'Toggle Autoplay');
 		}
@@ -230,9 +229,6 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.preventScoring = true;
 					PlayState.disableDeath = !PlayState.disableDeath;
 					practiceText.visible = PlayState.disableDeath;
-
-				case 'Switch Strums':
-					PlayState.contents.swapSide();
 
 				//
 
