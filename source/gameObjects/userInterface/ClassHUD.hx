@@ -37,7 +37,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 	private var healthBarBG:FlxSprite;
-	private var healthBar:FlxBar;
+	public var healthBar:FlxBar;
 
 	private var SONG = PlayState.SONG;
 	public var iconP1:HealthIcon;
@@ -161,35 +161,35 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		if (iconP1.animation.frames == 3)
 		{
 			if (healthBar.percent < 20)
-				iconP1.animation.curAnim.curFrame = 1;
+				(PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 1;
 			else if (healthBar.percent > 80)
-				iconP1.animation.curAnim.curFrame = 2;
+				(PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 2;
 			else
-				iconP1.animation.curAnim.curFrame = 0;
+				(PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 0;
 		}
 		else
 		{
 			if (healthBar.percent < 20)
-				iconP1.animation.curAnim.curFrame = 1;
+				(PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 1;
 			else
-				iconP1.animation.curAnim.curFrame = 0;
+				(PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 0;
 		}
 
 		if (iconP2.animation.frames == 3)
 		{
 			if (healthBar.percent > 80)
-				iconP2.animation.curAnim.curFrame = 1;
+				(!PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 1;
 			else if (healthBar.percent < 20)
-				iconP2.animation.curAnim.curFrame = 2;
+				(!PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 2;
 			else
-				iconP2.animation.curAnim.curFrame = 0;
+				(!PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 0;
 		}
 		else
 		{
 			if (healthBar.percent > 80)
-				iconP2.animation.curAnim.curFrame = 1;
+				(!PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 1;
 			else
-				iconP2.animation.curAnim.curFrame = 0;
+				(!PlayState.contents.leftSide ? iconP2 : iconP1).animation.curAnim.curFrame = 0;
 		}
 	}
 

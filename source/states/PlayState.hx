@@ -67,6 +67,8 @@ class PlayState extends MusicBeatState
 	private var ratingArray:Array<String> = [];
 	private var allSicks:Bool = true;
 
+	public var leftSide:Bool;
+
 	// if you ever wanna add more keys
 	private var numberOfKeys:Int = 4;
 
@@ -519,6 +521,7 @@ class PlayState extends MusicBeatState
 					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
 						possibleNoteList.push(daNote);
 				});
+
 				possibleNoteList.sort((a, b) -> Std.int(a.strumTime - b.strumTime));
 
 				// if there is a list of notes that exists for that control
@@ -539,7 +542,7 @@ class PlayState extends MusicBeatState
 
 						if (eligable) 
 						{
-							goodNoteHit(coolNote, boyfriend, bfStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, (leftSide ? dadOpponent : boyfriend), (!leftSide ? bfStrums : dadStrums), firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -880,6 +883,31 @@ class PlayState extends MusicBeatState
 
 	}
 
+	public function swapSide():Void
+	{
+		for (note in unspawnNotes)
+			note.mustPress = !note.mustPress;
+
+		for (strumLine in strumLines.members)
+			strumLine.allNotes.forEachAlive(function(note:Note)
+				note.mustPress = !note.mustPress);
+
+		leftSide = !leftSide;
+		uiHUD.healthBar.fillDirection = (leftSide ? LEFT_TO_RIGHT : RIGHT_TO_LEFT);
+		reloadBar();
+	}
+
+	function reloadBar()
+	{
+		if (leftSide)
+			uiHUD.healthBar.createFilledBar(PlayState.boyfriend.barColor, PlayState.dadOpponent.barColor);
+		else
+			uiHUD.healthBar.createFilledBar(PlayState.dadOpponent.barColor, PlayState.boyfriend.barColor);
+	
+		uiHUD.healthBar.updateBar();
+
+	}
+
 	function noteCalls()
 	{
 		// reset strums
@@ -918,13 +946,32 @@ class PlayState extends MusicBeatState
 					var psuedoY:Float = (downscrollMultiplier * -((Conductor.songPosition - daNote.strumTime) * (0.45 * roundedSpeed)));
 					var psuedoX = 25 + daNote.noteVisualOffset;
 
-					daNote.y = receptorPosY
-						+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY)
-						+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX);
-					// painful math equation
-					daNote.x = strumline.receptors.members[Math.floor(daNote.noteData)].x
-						+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
-						+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
+					if (daNote.mustPress)
+					{
+						receptorPosY = (leftSide ? dadStrums : bfStrums).receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 6;
+
+						daNote.y = receptorPosY
+							+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY)
+							+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX);
+						// painful math equation
+						daNote.x = (leftSide ? dadStrums : bfStrums).receptors.members[Math.floor(daNote.noteData)].x
+							+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
+							+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
+					}
+
+					else
+					{
+						receptorPosY = (!leftSide ? dadStrums : bfStrums).receptors.members[Math.floor(daNote.noteData)].y + Note.swagWidth / 6;
+
+						daNote.y = receptorPosY
+							+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY)
+							+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX);
+						// painful math equation
+						daNote.x = (!leftSide ? dadStrums : bfStrums).receptors.members[Math.floor(daNote.noteData)].x
+							+ (Math.cos(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoX)
+							+ (Math.sin(flixel.math.FlxAngle.asRadians(daNote.noteDirection)) * psuedoY);
+					
+					}
 
 					// also set note rotation
 					daNote.angle = -daNote.noteDirection;
@@ -974,8 +1021,12 @@ class PlayState extends MusicBeatState
 							}
 						}
 					}
+					
 					// hell breaks loose here, we're using nested scripts!
-					mainControls(daNote, strumline.character, strumline, strumline.autoplay);
+					mainControls(daNote, 
+						(leftSide ? (daNote.mustPress ? dadOpponent : boyfriend) : strumline.character), 
+						(leftSide ? (!daNote.mustPress ? bfStrums : dadStrums) : strumline),
+						((leftSide && !daNote.mustPress) || (!leftSide && !daNote.mustPress)));
 
 					// check where the note is and make sure it is either active or inactive
 					if (daNote.y > FlxG.height) {
@@ -1248,6 +1299,7 @@ class PlayState extends MusicBeatState
 					}
 					notesPressedAutoplay.push(daNote);
 				}
+
 				goodNoteHit(daNote, char, strumline, canDisplayJudgement);
 			}
 			//
@@ -1336,11 +1388,11 @@ class PlayState extends MusicBeatState
 		// set up the rating
 		var score:Int = 50;
 
-		// notesplashes
+		/*// notesplashes
 		if (baseRating == "sick")
 			// create the note splash if you hit a sick
-			createSplash(coolNote, strumline);
-		else
+			createSplash(coolNote, strumline);*/
+		//else
  			// if it isn't a sick, and you had a sick combo, then it becomes not sick :(
 			if (allSicks)
 				allSicks = false;
@@ -1845,7 +1897,7 @@ class PlayState extends MusicBeatState
 
 	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
 	{
-		#if hxCodec
+		/*#if hxCodec
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
@@ -1878,7 +1930,7 @@ class PlayState extends MusicBeatState
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
 		return;
-		#end
+		#end*/
 	}
 
 	function startAndEnd()
