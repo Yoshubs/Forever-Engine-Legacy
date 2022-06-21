@@ -605,13 +605,9 @@ class OriginalChartingState extends MusicBeatState
                 {
 					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
 					{
-						var sound:String = 'soundNoteTick';
-						if (_song.player1.contains('gf'))
-							sound = 'GF_' + Std.string(data + 1);
-
+						var sound:String = 'hitsounds/charter/hit';
 						FlxG.sound.play(Paths.sound(sound));
 						playedSound[data] = true;
-						trace('balls');
 					}
                 }
             }
