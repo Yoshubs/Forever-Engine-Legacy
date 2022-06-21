@@ -200,6 +200,7 @@ class PauseSubState extends MusicBeatSubState
 					regenMenu();
 				case 'Leave Charting Mode':
 					disableCheats(true);
+					PlayState.chartingMode = false;
 					Main.switchState(this, new PlayState());
 				case "Exit to Options":
 					toOptions = true;
