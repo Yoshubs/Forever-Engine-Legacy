@@ -49,7 +49,7 @@ class PauseSubState extends MusicBeatSubState
 		}
 
 		if (PlayState.chartingMode) {
-			pauseOG.insert(5, 'Leave Charting Mode');
+			pauseOG.insert(4, 'Leave Charting Mode');
 		}
 
 		if (!playingPause)
@@ -148,10 +148,7 @@ class PauseSubState extends MusicBeatSubState
 	}
 
 	override function update(elapsed:Float)
-	{
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
-		
+	{	
 		super.update(elapsed);
 
 		var upP = controls.UI_UP_P;
@@ -191,48 +188,27 @@ class PauseSubState extends MusicBeatSubState
 				case "Resume":
 					close();
 				case "Restart Song":
-					//
-					PlayState.disableDeath = false;
-					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayTxt.visible = false;
-					practiceText.visible = false;
-					//
+
+					if (!PlayState.chartingMode)
+						disableCheats(false);
+					else
+						disableCheats(true);
+
 					Main.switchState(this, new PlayState());
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
 				case 'Leave Charting Mode':
-					PlayState.chartingMode = false;
-					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayTxt.visible = false;
-					PlayState.preventScoring = false;
+					disableCheats(true);
 					Main.switchState(this, new PlayState());
 				case "Exit to Options":
 					toOptions = true;
-					
-					//
-					PlayState.disableDeath = false;
-					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayTxt.visible = false;
-					PlayState.preventScoring = false;
-					PlayState.chartingMode = false;
-					practiceText.visible = false;
-					//
-					
+					disableCheats(true);
 					Main.switchState(this, new OptionsMenuState());
 				case "Exit to menu":
 					PlayState.resetMusic();
-
-					//
-					PlayState.disableDeath = false;
-					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayTxt.visible = false;
-					PlayState.preventScoring = false;
-					PlayState.chartingMode = false;
-					practiceText.visible = false;
-					//
-					
 					PlayState.deaths = 0;
+					disableCheats(true);
 
 					if (PlayState.isStoryMode)
 						Main.switchState(this, new StoryMenuState());
@@ -277,15 +253,28 @@ class PauseSubState extends MusicBeatSubState
 				//
 			}
 		}
+
+		if (pauseMusic.volume < 0.5)
+			pauseMusic.volume += 0.01 * elapsed;
 	}
 
 	override function destroy()
 	{
 		pauseMusic.destroy();
-
 		playingPause = false;
-
 		super.destroy();
+	}
+
+	public static function disableCheats(scoringToo:Bool = false)
+	{
+		PlayState.disableDeath = false;
+		PlayState.contents.bfStrums.autoplay = false;
+		PlayState.uiHUD.autoplayTxt.visible = false;
+
+		if (scoringToo)
+			PlayState.preventScoring = false;
+		
+		practiceText.visible = false;
 	}
 
 	function changeSelection(change:Int = 0):Void

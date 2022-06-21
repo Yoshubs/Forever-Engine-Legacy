@@ -154,9 +154,7 @@ class CharterSubState extends MusicBeatSubState
 	override function destroy()
 	{
 		pauseMusic.destroy();
-
 		playingPause = false;
-
 		super.destroy();
 	}
 
