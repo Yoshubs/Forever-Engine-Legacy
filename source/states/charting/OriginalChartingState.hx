@@ -93,7 +93,8 @@ class OriginalChartingState extends MusicBeatState
 	var leftIcon:HealthIcon;
 	var rightIcon:HealthIcon;
 
-	var playTicks:FlxUICheckBox = null;
+	var playTicksBf:FlxUICheckBox = null;
+	var playTicksDad:FlxUICheckBox = null;
 
 	// was annoying.
 	private var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
@@ -310,8 +311,11 @@ class OriginalChartingState extends MusicBeatState
 		assetModifierDropDown.selectedLabel = _song.assetModifier;
 		blockPressWhileScrolling.push(assetModifierDropDown);
 
-		playTicks = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'Play Hitsounds (in editor)', 100);
-		playTicks.checked = false;
+		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_vocals.y + 30, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
+		playTicksBf.checked = false;
+
+		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
+		playTicksDad.checked = false;
 
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
@@ -334,7 +338,8 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(player1DropDown);
 		tab_group_song.add(player2DropDown);
 		tab_group_song.add(gfVersionDropDown);
-		tab_group_song.add(playTicks);
+		tab_group_song.add(playTicksBf);
+		tab_group_song.add(playTicksDad);
 		tab_group_song.add(stageDropDown);
 		tab_group_song.add(assetModifierDropDown);
 
@@ -596,15 +601,36 @@ class OriginalChartingState extends MusicBeatState
             {
 				var data:Int = note.noteData % 4;
 
-				if (songMusic.playing && (playTicks.checked)
-					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
+				if (songMusic.playing && (playTicksBf.checked)
+					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos && note.mustPress)
                 {
-					var sound:String = 'hitsounds/charter/hit';
+					var sound:String = 'soundNoteTick';
 					if (_song.player1.contains('gf'))
 						sound = 'GF_' + Std.string(data + 1);
 
                     FlxG.sound.play(Paths.sound(sound));
                     playedSound[data] = true;
+					//trace('beep ' + playedSound);
+                }
+            }
+        });
+
+		curRenderedNotes.forEachAlive(function(note:Note)
+        {
+            if (note.strumTime < songMusic.time)
+            {
+				var data:Int = note.noteData % 4;
+
+				if (songMusic.playing && (playTicksDad.checked)
+					&& !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos && !note.mustPress)
+                {
+					var sound:String = 'soundNoteTick';
+					if (_song.player1.contains('gf'))
+						sound = 'GF_' + Std.string(data + 1);
+
+                    FlxG.sound.play(Paths.sound(sound));
+                    playedSound[data] = true;
+					//trace('beep ' + playedSound);
                 }
             }
         });
