@@ -48,6 +48,10 @@ class PauseSubState extends MusicBeatSubState
 			pauseOG.insert(4, 'Toggle Autoplay');
 		}
 
+		if (PlayState.chartingMode) {
+			pauseOG.insert(5, 'Leave Charting Mode');
+		}
+
 		if (!playingPause)
 		{
 			playingPause = true;
@@ -191,13 +195,18 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.disableDeath = false;
 					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
-					PlayState.preventScoring = false;
 					practiceText.visible = false;
 					//
 					Main.switchState(this, new PlayState());
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
 					regenMenu();
+				case 'Leave Charting Mode':
+					PlayState.chartingMode = false;
+					PlayState.contents.bfStrums.autoplay = false;
+					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.preventScoring = false;
+					Main.switchState(this, new PlayState());
 				case "Exit to Options":
 					toOptions = true;
 					
@@ -206,6 +215,7 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
+					PlayState.chartingMode = false;
 					practiceText.visible = false;
 					//
 					
@@ -218,6 +228,7 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
+					PlayState.chartingMode = false;
 					practiceText.visible = false;
 					//
 					

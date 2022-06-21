@@ -26,6 +26,8 @@ class CharterSubState extends MusicBeatSubState
 	var pauseOG:Array<String> = ['Forever Charter', 'Original Charter'];
 	var menuItems:Array<String> = [];
 
+	public static var charter:Int = -1;
+
 	public static var playingPause:Bool = false;
 
 	public function new(x:Float, y:Float)
@@ -133,8 +135,14 @@ class CharterSubState extends MusicBeatSubState
 			switch (daSelected)
 			{
 				case "Forever Charter":
+					PlayState.chartingMode = true;
+					PlayState.preventScoring = true;
+					charter = 0;
 					Main.switchState(this, new ChartingState());
 				case "Original Charter":
+					PlayState.chartingMode = true;
+					PlayState.preventScoring = true;
+					charter = 1;
 					Main.switchState(this, new OriginalChartingState());
 			}
 		}

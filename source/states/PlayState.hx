@@ -148,6 +148,8 @@ class PlayState extends MusicBeatState
 	public static var lastCombo:Array<FlxSprite>;
 
 	public static var preventScoring:Bool = false;
+
+	public static var chartingMode:Bool = false;
 	
 	public static var disableDeath:Bool = false;
 	public static var deaths:Int = 0;
@@ -1760,10 +1762,13 @@ class PlayState extends MusicBeatState
 		if (SONG.validScore && !preventScoring)
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
 
-		if (!isStoryMode)
-		{
+
+		if (chartingMode && CharterSubState.charter == 0)
+			Main.switchState(this, new ChartingState());
+		else if (chartingMode && CharterSubState.charter == 1)
+			Main.switchState(this, new OriginalChartingState());
+		else if (!isStoryMode)
 			Main.switchState(this, new FreeplayState());
-		}
 		else
 		{
 			// set the campaign's score higher
