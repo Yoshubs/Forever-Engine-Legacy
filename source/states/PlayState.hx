@@ -1975,6 +1975,9 @@ class PlayState extends MusicBeatState
 					}
 				});
 
+			case 'test':
+				startVideo('test');
+
 			default:
 				callTextbox();
 		}

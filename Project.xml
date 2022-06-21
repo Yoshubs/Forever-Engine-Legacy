@@ -53,7 +53,7 @@
 		<haxelib name="hxCodec" if='windows || linux' />
 	!-->
 
-	<haxelib name="hxCodec" if='windows' />
+	<haxelib name="hxCodec" if='windows || linux' />
 
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
