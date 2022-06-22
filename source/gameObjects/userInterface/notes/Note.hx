@@ -62,6 +62,13 @@ class Note extends FNFSprite
 		HEY => 'NOTE_assets',
 	];
 
+	// for the Chart Editor
+	public static var noteTypeList:Array<String> = [
+		'',
+		'Alt Animation',
+		'Hey!'
+	];
+
 	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL)
 	{
 		super(x, y);

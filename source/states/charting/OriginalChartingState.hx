@@ -100,8 +100,6 @@ class OriginalChartingState extends MusicBeatState
 	private var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
 	private var blockPressWhileTypingOnStepper:Array<FlxUINumericStepper> = [];
 	private var blockPressWhileScrolling:Array<FlxUIDropDownMenuCustom> = [];
-
-	public static var noteTypeList:Array<String> = ['', 'Alt Animation', 'Hey!'];
 	
 	override function create()
 	{
@@ -431,7 +429,7 @@ class OriginalChartingState extends MusicBeatState
 		blockPressWhileTypingOnStepper.push(stepperSusLength);
 
 		// note types
-		noteTypeDropDown = new FlxUIDropDownMenuCustom(10, 65, FlxUIDropDownMenuCustom.makeStrIdLabelArray(noteTypeList, false), function(type:String)
+		noteTypeDropDown = new FlxUIDropDownMenuCustom(10, 65, FlxUIDropDownMenuCustom.makeStrIdLabelArray(Note.noteTypeList, false), function(type:String)
 		{
 			currentType = Note.noteTypeMap[type];
 		});
