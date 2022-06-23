@@ -31,67 +31,6 @@ import sys.io.Process;
 // at least that's how I think it works. I could be stupid!
 class Main extends Sprite
 {
-	/*
-		[--------------------------------------SHUBS'S NOTE--------------------------------------]
-		
-		This is the main class of the project, it basically connects everything together.
-		If you know what you're doing, go ahead and shoot! if you're looking for something more specific, however,
-		try accessing some game objects or meta files, meta files control the information (say what's playing on screen)
-		and game objects are like the boyfriend, girlfriend and the oppontent. 
-
-		Thanks for using my little modular engine project! I really appreciate it. 
-		If you've got any suggestions let me know at Shubs#0404 on discord or create a ticket on the github.
-
-		To run through the basics, I've essentially created a rewrite of Friday Night Funkin that is supposed to be
-		more modular for mod devs to use if they want to, as well as to give mod devs a couple legs up in terms of
-		things like organisation and such, since I haven't really seen any engines that are organised like this.
-		also, playstate was getting real crowded so I did a me and decided to rewrite everything instead of just
-		fixing the problems with FNF :P
-
-		yeah this is a problem I have
-		it has to be perfect or else it isn't presentable
-
-		I'm sure I'll write this down in the github, but this is an open source Friday Night Funkin' Modding engine
-		which is completely open for anyone to modify. I have a couple of requests and prerequisites however, and that is
-		that you, number one, in no way claim this engine as your own. If you're going to make an open source modification to the engine
-		you should run a pull request or fork and not create a new standalone repo for it. If you're actually going to mod the game however,
-		please, by all means, create your own repository for it instead as it would be your project then. I also request the engine is credited
-		somewhere in the project. (in the gamebanana page, wherever you'd like/is most convenient for you!)
-		if you don't wanna credit me that's fine, I just ask for the project to be in the credits somewhere 
-		I do ask that you credit me if you make an actual modification to the engine or something like that, basically what I said above
-
-		I have no idea how licenses work so pretend I'm professional or something AAAA
-		thank you for using this engine it means a lot to me :)
-
-		if you have any questions like I said, shoot me a message or something, I'm totally cool with it even if it's just help with programming or something
-		>	fair warning I'm not a very good programmer
-
-		[--------------------------------------GHOST'S NOTE--------------------------------------]
-		
-		hello, thank you for taking a look at this small little project of mine, the reason for this to exist is just because I wanted
-		a more customizable Forever Engine Build for my own other mod projects and such, Forever Engine is one of the best engines written in haxe, and I do enjoy working with it
-		I'm not a very good programmer, in fact, I do not fully understand how Forever works yet, I just wanted to make a fun little fork of it to add stuff that I like and that I might use for other mods!
-
-		don't forget to check out the official repository and the official team behind Forever, the in-game credits menu can help you to access some of their socials
-		I don't think this project can go any further than just finishing forever's chart editor
-		so make sure to also check the official Forever Engine Rewrite!
-
-		-- REWRITE
-		https://github.com/Yoshubs/FNF-Forever-Engine
-
-		-- OFFICIAL LEGACY REPOSITORY
-		https://github.com/Yoshubs/Forever-Engine-Legacy
-
-		if you have any questions about the fork, send me a message on discord, I'm fine with it
-
-		BeastlyGhost♧#9035
-
-		help with the fork is also appreciated, since again, I'm not a very good programmer!
-		
-		thank you for your time.
-
-		---------------------------------------------------------------------------------------
-	 */
 	// class action variables
 	public static var gameWidth:Int = 1280; // Width of the game in pixels (might be less / more in actual pixels depending on your zoom).
 	public static var gameHeight:Int = 720; // Height of the game in pixels (might be less / more in actual pixels depending on your zoom).
@@ -99,11 +38,11 @@ class Main extends Sprite
 	public static var mainClassState:Class<FlxState> = Init; // Determine the main class state of the game
 	public static var framerate:Int = 120; // How many frames per second the game should run at.
 
-	public static var gameVersion:String = '0.3_01'; //anything after "0.3" is the fork version
+	public static var gameVersion:String = '0.3.1';
 
 	var zoom:Float = -1; // If -1, zoom is automatically calculated to fit the window dimensions.
 	var skipSplash:Bool = true; // Whether to skip the flixel splash screen that appears in release mode.
-	var infoCounter:InfoHud; // initialize the heads up display that shows information before creating it.
+	var infoCounter:Overlay; // initialize the heads up display that shows information before creating it.
 
 	// heres gameweeks set up!
 
@@ -223,10 +162,7 @@ class Main extends Sprite
 		// test initialising the player settings
 		PlayerSettings.init();
 
-		// if you're reading this in the future I've added my own FPS counter below! hopefully...
-		// yeah dw I'm getting started on it fffff
-
-		infoCounter = new InfoHud(10, 3, 0xFFFFFF, true);
+		infoCounter = new Overlay(0, 0);
 		addChild(infoCounter);
 	}
 

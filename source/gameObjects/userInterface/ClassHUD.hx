@@ -17,7 +17,6 @@ import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
 import meta.CoolUtil;
-import meta.InfoHud;
 import meta.data.Conductor;
 import meta.data.Timings;
 import states.PlayState;
@@ -85,25 +84,29 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 
-		scoreBar = new FlxText(FlxG.width / 2, healthBarBG.y + 40, 0, scoreDisplay, 20);
-		scoreBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
+		scoreBar.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
+		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 		updateScoreText();
-		scoreBar.scrollFactor.set();
+		// scoreBar.scrollFactor.set();
+		scoreBar.antialiasing = true;
 		add(scoreBar);
 
-		// small info bar, kinda like the KE watermark
-		// based on scoretxt which I will set up as well
-		engineBar = new FlxText(0, FlxG.height - 30, 0, engineDisplay, 16);
-		engineBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		engineBar.updateHitbox();
-		engineBar.x = FlxG.width - engineBar.width - 5;
-		engineBar.scrollFactor.set();
-		add(engineBar);
+		var cornerMark:FlxText = new FlxText(0, 0, 0, 'FOREVER ENGINE v${Main.gameVersion}\n');
+		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
+		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		add(cornerMark);
+		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
+		cornerMark.antialiasing = true;
 
-		infoBar = new FlxText(5, FlxG.height - 30, 0, infoDisplay, 20);
-		infoBar.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		infoBar.scrollFactor.set();
-		add(infoBar);
+		var centerMark:FlxText = new FlxText(0, 0, 0,
+			'- ${CoolUtil.dashToSpace(PlayState.SONG.song) + " [" + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty)}] -\n');
+		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
+		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		add(centerMark);
+		centerMark.y = FlxG.height / 24;
+		centerMark.screenCenter(X);
+		centerMark.antialiasing = true;
 
 		// counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -199,7 +202,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		}
 	}
 
-	private final divider:String = ' - ';
+	private final divider:String = " • ";
 
 	public function updateScoreText()
 	{
@@ -215,8 +218,8 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
 			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
 		}
-
-		scoreBar.x = ((FlxG.width / 2) - (scoreBar.width / 2));
+		scoreBar.text += '\n';
+		scoreBar.x = Math.floor((FlxG.width / 2) - (scoreBar.width / 2));
 
 		// update counter
 		if (Init.trueSettings.get('Counter') != 'None')

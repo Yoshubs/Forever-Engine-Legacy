@@ -259,17 +259,6 @@ class PlayState extends MusicBeatState
 		stageBuild = new Stage(curStage);
 		add(stageBuild);
 
-		/*
-			Everything related to the stages aside from things done after are set in the stage class!
-			this means that the girlfriend's type, boyfriend's position, dad's position, are all there
-
-			It serves to clear clutter and can easily be destroyed later. The problem is,
-			I don't actually know if this is optimised, I just kinda roll with things and hope
-			they work. I'm not actually really experienced compared to a lot of other developers in the scene,
-			so I don't really know what I'm doing, I'm just hoping I can make a better and more optimised
-			engine for both myself and other modders to use!
-		 */
-
 		// set up characters here too
 		gf = new Character();
 		gf.adjustPos = false;
@@ -1599,8 +1588,6 @@ class PlayState extends MusicBeatState
 		unspawnNotes.sort(sortByShit);
 		// give the game the heads up to be able to start
 		generatedMusic = true;
-
-		Timings.accuracyMaxCalculation(unspawnNotes);
 	}
 
 	function sortByShit(Obj1:Note, Obj2:Note):Int
