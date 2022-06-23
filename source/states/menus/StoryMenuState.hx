@@ -2,6 +2,7 @@ package states.menus;
 
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.graphics.FlxGraphic;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.frames.FlxAtlasFrames;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -21,6 +22,7 @@ using StringTools;
 
 class StoryMenuState extends MusicBeatState
 {
+	private static var lastDifficultyName:String = '';
 	var scoreText:FlxText;
 	var curDifficulty:Int = 1;
 
@@ -160,16 +162,18 @@ class StoryMenuState extends MusicBeatState
 		leftArrow.animation.play('idle');
 		difficultySelectors.add(leftArrow);
 
-		sprDifficulty = new FlxSprite(leftArrow.x + 130, leftArrow.y);
-		sprDifficulty.frames = ui_tex;
-		for (i in CoolUtil.difficultyArray)
-			sprDifficulty.animation.addByPrefix(i.toLowerCase(), i.toUpperCase());
-		sprDifficulty.animation.play('easy');
-		changeDifficulty();
+		if(lastDifficultyName == '')
+		{
+			lastDifficultyName = 'NORMAL';
+		}
+		curDifficulty = Math.round(Math.max(0, CoolUtil.difficultyArray.indexOf(lastDifficultyName)));
+
+		sprDifficulty = new FlxSprite(0, leftArrow.y);
+		sprDifficulty.antialiasing = true;
 
 		difficultySelectors.add(sprDifficulty);
 
-		rightArrow = new FlxSprite(sprDifficulty.x + sprDifficulty.width + 50, leftArrow.y);
+		rightArrow = new FlxSprite(leftArrow.x + 376, leftArrow.y);
 		rightArrow.frames = ui_tex;
 		rightArrow.animation.addByPrefix('idle', 'arrow right');
 		rightArrow.animation.addByPrefix('press', "arrow push right", 24, false);
@@ -192,6 +196,7 @@ class StoryMenuState extends MusicBeatState
 
 		// very unprofessional yoshubs!
 
+		changeDifficulty();
 		updateText();
 	}
 
@@ -290,6 +295,7 @@ class StoryMenuState extends MusicBeatState
 		}
 	}
 
+	var tweenDifficulty:FlxTween;
 	function changeDifficulty(change:Int = 0):Void
 	{
 		curDifficulty += change;
@@ -299,26 +305,26 @@ class StoryMenuState extends MusicBeatState
 		if (curDifficulty > CoolUtil.difficultyLength - 1)
 			curDifficulty = 0;
 
-		sprDifficulty.offset.x = 0;
+		var diff:String = CoolUtil.difficultyArray[curDifficulty];
+		var newImage:FlxGraphic = Paths.image('menus/base/storymenu/difficulties/' + Paths.songPath(diff));
 
-		var difficultyString = CoolUtil.difficultyFromNumber(curDifficulty).toLowerCase();
-		sprDifficulty.animation.play(difficultyString);
-		switch (curDifficulty)
+		if(sprDifficulty.graphic != newImage)
 		{
-			case 0:
-				sprDifficulty.offset.x = 20;
-			case 1:
-				sprDifficulty.offset.x = 70;
-			case 2:
-				sprDifficulty.offset.x = 20;
+			sprDifficulty.loadGraphic(newImage);
+			sprDifficulty.x = leftArrow.x + 60;
+			sprDifficulty.x += (308 - sprDifficulty.width) / 3;
+			sprDifficulty.alpha = 0;
+			sprDifficulty.y = leftArrow.y - 15;
+
+			if(tweenDifficulty != null) tweenDifficulty.cancel();
+			tweenDifficulty = FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07, {onComplete: function(twn:FlxTween)
+			{
+				tweenDifficulty = null;
+			}});
 		}
+		lastDifficultyName = diff;
 
-		sprDifficulty.alpha = 0;
-
-		// USING THESE WEIRD VALUES SO THAT IT DOESNT FLOAT UP
-		sprDifficulty.y = leftArrow.y - 15;
 		intendedScore = Highscore.getWeekScore(curWeek, curDifficulty);
-
 		FlxTween.tween(sprDifficulty, {y: leftArrow.y + 15, alpha: 1}, 0.07);
 	}
 

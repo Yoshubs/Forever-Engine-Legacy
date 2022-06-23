@@ -303,6 +303,10 @@ class Paths
 		return inst;
 	}
 
+	inline static public function songPath(path:String) {
+		return CoolUtil.swapSpaceDash(path);
+	}
+
 	inline static public function image(key:String, ?library:String, ?textureCompression:Bool = false) {
 		var returnAsset:FlxGraphic = returnGraphic(key, library, textureCompression);
 		return returnAsset;
