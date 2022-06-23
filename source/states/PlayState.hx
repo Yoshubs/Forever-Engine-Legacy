@@ -271,18 +271,20 @@ class PlayState extends MusicBeatState
 				// blah
 
 			case FOREVER_UNDERSCORE | PSYCH:
-				gf.setCharacter(300, 100, SONG.gfVersion);
+				gf = new Character(300, 100, SONG.gfVersion);
 
 			case FNF_LEGACY:
-				gf.setCharacter(300, 100, stageBuild.returnGFtype(curStage));
+				gf = new Character(300, 100, stageBuild.returnGFtype(curStage));
+				gf.dance(true);
 		}
+		
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dadOpponent = new Character().setCharacter(50, 850, SONG.player2);
-		boyfriend = new Boyfriend();
-		boyfriend.setCharacter(750, 850, SONG.player1);
-		// if you want to change characters later use setCharacter() instead of new or it will break
-
+		dadOpponent = new Character(100, 100, SONG.player2);
+		
+		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		boyfriend.dance(true);
+		
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 
 		stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
@@ -1692,21 +1694,25 @@ class PlayState extends MusicBeatState
 
 	private function charactersDance(curBeat:Int)
 	{
-		if ((curBeat % gfSpeed == 0) 
-		&& ((gf.animation.curAnim.name.startsWith("idle")
-		|| gf.animation.curAnim.name.startsWith("dance"))))
-			gf.dance();
+		if (gf.animation.curAnim != null)
+			if ((curBeat % gfSpeed == 0) 
+			&& ((gf.animation.curAnim.name.startsWith("idle")
+			|| gf.animation.curAnim.name.startsWith("dance"))))
+				gf.dance();
 
-		if ((boyfriend.animation.curAnim.name.startsWith("idle") 
-		|| boyfriend.animation.curAnim.name.startsWith("dance")) 
-			&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
-			boyfriend.dance();
+		if (boyfriend.animation.curAnim != null)
+			if ((boyfriend.animation.curAnim.name.startsWith("idle") 
+			|| boyfriend.animation.curAnim.name.startsWith("dance")) 
+				&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
+				boyfriend.dance();
 
 		// added this for opponent cus it wasn't here before and skater would just freeze
-		if ((dadOpponent.animation.curAnim.name.startsWith("idle") 
-		|| dadOpponent.animation.curAnim.name.startsWith("dance"))  
-			&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
-			dadOpponent.dance();
+
+		if (dadOpponent.animation.curAnim != null)
+			if ((dadOpponent.animation.curAnim.name.startsWith("idle") 
+			|| dadOpponent.animation.curAnim.name.startsWith("dance"))  
+				&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
+				dadOpponent.dance();
 	}
 
 	override function beatHit()

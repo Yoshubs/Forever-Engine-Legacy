@@ -1,0 +1,12 @@
+setTex('characters/tankmanCaptain');
+
+addByPrefix('idle', 'Tankman Idle Dance instance', 24, false);
+addByPrefix('singUP', 'Tankman UP note instance', 24, false);
+addByPrefix('singRIGHT', 'Tankman Note Left instance', 24, false);
+addByPrefix('singLEFT', 'Tankman Right Note instance', 24, false);
+addByPrefix('singDOWN', 'Tankman DOWN note instance', 24, false);
+addByPrefix('singUP-alt', 'TANKMAN UGH instance', 24, false);
+addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman instance', 24, false);
+
+set('flipX', true);
+set('barColor', [255, 255, 255]);

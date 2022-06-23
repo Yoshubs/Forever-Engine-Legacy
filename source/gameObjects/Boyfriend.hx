@@ -11,12 +11,14 @@ class Boyfriend extends Character
 {
 	public var stunned:Bool = false;
 
-	public function new()
-		super(true);
+	public function new(?x:Float = 0, ?y:Float = 0, ?character:String = "bf")
+	{
+		super(x, y, true, character);
+	}
 
 	override function update(elapsed:Float)
 	{
-		if (!debugMode)
+		if (!debugMode && animation.curAnim != null)
 		{
 			if (animation.curAnim.name.startsWith('sing'))
 			{

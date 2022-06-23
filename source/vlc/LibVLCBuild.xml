@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-model href="LibVLCBuild.xsd"?>
+<xml>
+	<files id='haxe'>
+		<compilervalue name='-I' value='${haxelib:hxCodec}/lib/vlc/include/' />
+		<compilervalue name='-I' value='${haxelib:hxCodec}/lib/vlc/src/' />
+	</files>
+
+	<files id='__main__'>
+		<compilervalue name='-I' value='${haxelib:hxCodec}/lib/vlc/include/' />
+		<compilervalue name='-I' value='${haxelib:hxCodec}/lib/vlc/src/' />
+	</files>
+
+	<target id='haxe' tool='linker' toolid='exe' if='windows'>
+		<lib name='${haxelib:hxCodec}/lib/vlc/lib/Windows/libvlc.lib' />
+		<lib name='${haxelib:hxCodec}/lib/vlc/lib/Windows/libvlccore.lib' />
+	</target>
+
+	<target id='haxe' tool='linker' if='linux'>
+		<lib name='${haxelib:hxCodec}/lib/vlc/lib/Linux/libvlc.so.5' />
+		<lib name='${haxelib:hxCodec}/lib/vlc/lib/Linux/libvlccore.so.9' />
+	</target>
+
+	<target id='haxe' tool='linker' if='android'>
+		<lib name='${haxelib:hxCodec}/ndll/Android/libvlc-v7.so' if='HXCPP_ARMV7' />
+		<lib name='${haxelib:hxCodec}/ndll/Android/libvlc-64.so' if='HXCPP_ARM64' />
+	</target>
+</xml>

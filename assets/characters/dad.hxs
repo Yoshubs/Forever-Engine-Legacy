@@ -1,0 +1,7 @@
+setTex('characters/DADDY_DEAREST');
+
+addByPrefix('idle', 'Dad idle dance', 24, false);
+addByPrefix('singUP', 'Dad Sing Note UP', 24);
+addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
+addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
+addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);

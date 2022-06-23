@@ -1,0 +1,16 @@
+setTex('characters/bfPixel');
+
+addByPrefix('idle', 'BF IDLE', 24, false);
+addByPrefix('singUP', 'BF UP NOTE', 24, false);
+addByPrefix('singLEFT', 'BF LEFT NOTE', 24, false);
+addByPrefix('singRIGHT', 'BF RIGHT NOTE', 24, false);
+addByPrefix('singDOWN', 'BF DOWN NOTE', 24, false);
+addByPrefix('singUPmiss', 'BF UP MISS', 24, false);
+addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
+addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
+addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
+
+setGraphicSize(get('width') * 6);
+set('antialiasing', false);
+
+set('barColor', [49, 176, 209]);

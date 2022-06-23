@@ -1,0 +1,10 @@
+setTex('characters/Pico_FNF_assetss');
+
+addByPrefix('idle', "Pico Idle Dance", 24, false);
+addByPrefix('singUP', 'pico Up note0', 24, false);
+addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
+addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
+addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
+
+set('flipX', true);
+set('barColor', [183, 216, 85]);

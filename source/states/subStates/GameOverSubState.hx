@@ -42,8 +42,7 @@ class GameOverSubState extends MusicBeatSubState
 
 		Conductor.songPosition = 0;
 
-		bf = new Boyfriend();
-		bf.setCharacter(x, y + PlayState.boyfriend.height, daBf);
+		bf = new Boyfriend(x, y + PlayState.boyfriend.height, daBf);
 		add(bf);
 
 		PlayState.boyfriend.destroy();

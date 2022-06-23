@@ -1,0 +1,11 @@
+setPacker('characters/spirit');
+
+addByPrefix('idle', "idle spirit_", 24, false);
+addByPrefix('singUP', "up_", 24, false);
+addByPrefix('singRIGHT', "right_", 24, false);
+addByPrefix('singLEFT', "left_", 24, false);
+addByPrefix('singDOWN', "spirit down_", 24, false);
+    
+setGraphicSize(get('width') * 6);
+set('antialiasing', false);
+set('barColor', [255, 60, 110]);
