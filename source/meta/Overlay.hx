@@ -23,11 +23,6 @@ class Overlay extends TextField
 	static var displayMemory = true;
 	static var displayExtra = true;
 
-	// display info
-	static var displayFps = true;
-	static var displayMemory = true;
-	static var displayExtra = true;
-
 	public function new(x:Float, y:Float)
 	{
 		super();
