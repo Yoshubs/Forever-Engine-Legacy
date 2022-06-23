@@ -128,7 +128,8 @@ class Character extends FNFSprite
 		trace('character ${curCharacter} scale ${scale.y}');
 		y += (characterData.offsetY - (frameHeight * scale.y));
 
-		if (animation.curAnim.name.startsWith('danceLeft'))
+		if (animation.curAnim.name.startsWith('danceLeft')
+			|| animation.curAnim.name.startsWith('danceRight'))
 			playAnim('danceLeft');
 		else
 			playAnim('idle');
