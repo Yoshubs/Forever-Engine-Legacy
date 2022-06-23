@@ -13,15 +13,15 @@ import openfl.text.TextFormat;
 	https://keyreal-code.github.io/haxecoder-tutorials/17_displaying_fps_and_memory_usage_using_openfl.html
 **/
 
-// display info
-var displayFps = true;
-var displayMemory = true;
-var displayExtra = true;
-
 class Overlay extends TextField
 {
 	var times:Array<Float> = [];
 	var memPeak:Float = 0;
+
+	// display info
+	static var displayFps = true;
+	static var displayMemory = true;
+	static var displayExtra = true;
 
 	public function new(x:Float, y:Float)
 	{
