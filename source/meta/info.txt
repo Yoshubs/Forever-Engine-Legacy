@@ -1,7 +1,0 @@
-States are main game states, like "rooms" per se. Substates are not exactly like that, 
-they would be more like the gameover state and such, that doesn't override the entire game.
-
-Additional meta files are related to controls and variables or information. Those are neither states 
-nor substates, but are still important for information and such.
-
-lmao look at me being all professiona- oh shit I ruined it

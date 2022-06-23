@@ -1,3 +1,0 @@
-Hey, Shubs again. Just a little note in the source code, whenever you add stuff in here, stuff in the gameObjects folder will be loaded
-universally in the playState and such, so everything you want specifically for certain stages and such should be added in the EXCLUDE folder
-within this folder. Within that folder you'll find more assortments of folders for things that should be loaded in separately.

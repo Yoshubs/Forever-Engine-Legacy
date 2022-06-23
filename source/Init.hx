@@ -4,7 +4,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
 import flixel.input.keyboard.FlxKey;
 import meta.CoolUtil;
-import meta.InfoHud;
+import meta.Overlay;
 import meta.data.Highscore;
 import meta.data.dependency.Discord;
 import states.*;
@@ -330,8 +330,6 @@ class Init extends FlxState
 
 	public static function updateAll()
 	{
-		InfoHud.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
-
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 
 		#if !html5
