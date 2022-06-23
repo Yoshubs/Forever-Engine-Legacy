@@ -31,7 +31,7 @@ jobs:
         run: |
           haxelib setup ~/haxelib
           haxelib install hxcpp > /dev/null
-          haxelib install lime 7.9.0
+          haxelib install lime
           haxelib install openfl
           haxelib install flixel
           haxelib install flixel-ui
@@ -45,8 +45,6 @@ jobs:
           haxelib git polymod https://github.com/larsiusprime/polymod.git
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
-      - name: Create APIStuff
-        run: echo "package;class APIStuff{public static var API:String = '';public static var EncKey:String = '';}" > source/APIStuff.hx
       - name: Compile
         run: haxelib run lime build mac 
       - name: Publish Artifact

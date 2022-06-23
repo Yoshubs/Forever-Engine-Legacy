@@ -32,7 +32,7 @@ jobs:
           haxelib setup C:/haxelib
           haxelib install lime 
           haxelib install openfl
-          haxelib install flixel 4.11.0
+          haxelib install flixel
           haxelib install flixel-ui
           haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
           haxelib install hscript
@@ -45,8 +45,6 @@ jobs:
           haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
           haxelib list
         shell: cmd
-      - name: Create APIStuff
-        run: echo "package;class APIStuff{public static var API:String = '';public static var EncKey:String = '';}" > source/APIStuff.hx
       - name: Compile
         run: haxelib run lime build windows
       - name: Publish Artifact
