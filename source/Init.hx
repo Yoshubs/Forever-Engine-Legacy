@@ -332,6 +332,8 @@ class Init extends FlxState
 	{
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 
+		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
+
 		#if !html5
 		Main.updateFramerate(trueSettings.get("Framerate Cap"));
 		#end
