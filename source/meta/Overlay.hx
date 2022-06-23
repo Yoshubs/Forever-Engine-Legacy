@@ -17,6 +17,11 @@ class Overlay extends TextField
 {
 	var times:Array<Float> = [];
 	var memPeak:Float = 0;
+	
+	// display info
+	static var displayFps = true;
+	static var displayMemory = true;
+	static var displayExtra = true;
 
 	// display info
 	static var displayFps = true;
