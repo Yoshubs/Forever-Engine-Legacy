@@ -832,7 +832,66 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
-			if (!disableDeath && health <= 0 || controls.RESET)
+			// song events
+
+			if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
+			{
+				doThenDance('hey', boyfriend, 0.6, true);
+			}
+
+			if (curBeat % 16 == 15 && SONG.song.toLowerCase() == 'tutorial'
+				&& dadOpponent.curCharacter == 'gf' && curBeat > 16 && curBeat < 48)
+			{
+				if (boyfriend.animOffsets.exists('hey'))
+					boyfriend.playAnim('hey', true);
+				if (dadOpponent.animOffsets.exists('cheer'))
+					dadOpponent.playAnim('cheer', true);
+			}
+
+			if (curSong.toLowerCase() == 'fresh')
+			{
+				switch (curBeat)
+				{
+					case 16:
+						gfSpeed = 2;
+					case 48:
+						gfSpeed = 1;
+					case 80:
+						gfSpeed = 2;
+					case 112:
+						gfSpeed = 1;
+				}
+			}
+
+			if (curSong.toLowerCase() == 'bopeebo')
+			{
+				switch (curBeat)
+				{
+					case 128, 129, 130:
+						vocals.volume = 0;
+				}
+			}
+
+			/*if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && !Init.trueSettings.get('Reduced Movements') && FlxG.camera.zoom < 1.35)
+			{
+				FlxG.camera.zoom += 0.015;
+				for (hud in allUIs)
+					hud.zoom += 0.03;
+			}*/
+
+			//
+
+			// Controls
+
+			// RESET = Quick Game Over Screen
+			if (controls.RESET && !startingSong && !isStoryMode) {
+				health = 0;
+				trace("RESET = True");
+			}
+
+			//
+
+			if (!disableDeath && health <= 0)
 			{
 				// startTimer.active = false;
 				persistentUpdate = false;
