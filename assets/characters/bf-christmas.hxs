@@ -11,4 +11,4 @@ addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 addByPrefix('hey', 'BF HEY', 24, false);
 
-set('barColor', [49, 176, 209]);
+setBarcolor( [49, 176, 209]);

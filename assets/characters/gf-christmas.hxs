@@ -15,4 +15,4 @@ addByIndices('hairFall', "GF Dancing Beat Hair Landing", [0, 1, 2, 3, 4, 5, 6, 7
 
 playAnim('danceRight');
 
-set('barColor', [165, 0, 77]);
+setBarcolor( [165, 0, 77]);

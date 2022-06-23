@@ -7,4 +7,4 @@ addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
 addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
 
 set('flipX', true);
-set('barColor', [183, 216, 85]);
+setBarcolor( [183, 216, 85]);

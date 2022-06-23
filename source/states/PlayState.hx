@@ -280,7 +280,7 @@ class PlayState extends MusicBeatState
 		
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dadOpponent = new Character(100, 100, SONG.player2);
+		dadOpponent = new Character(100, 100, false, SONG.player2);
 		
 		boyfriend = new Boyfriend(770, 450, SONG.player1);
 		boyfriend.dance(true);

@@ -8,4 +8,4 @@ addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
                 
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
-set('barColor', [255, 170, 111]);
+setBarcolor( [255, 170, 111]);

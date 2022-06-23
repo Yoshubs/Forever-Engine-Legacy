@@ -9,4 +9,4 @@ addByPrefix('singUP-alt', 'TANKMAN UGH instance', 24, false);
 addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman instance', 24, false);
 
 set('flipX', true);
-set('barColor', [255, 255, 255]);
+setBarcolor( [255, 255, 255]);

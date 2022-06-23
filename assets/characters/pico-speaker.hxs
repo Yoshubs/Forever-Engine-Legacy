@@ -11,4 +11,4 @@ addOffset('shoot2', -1, -128);
 addOffset('shoot3', 412, -64);
 addOffset('shoot4', 439, -19);
 
-set('barColor', [183, 216, 85]);
+setBarcolor( [183, 216, 85]);

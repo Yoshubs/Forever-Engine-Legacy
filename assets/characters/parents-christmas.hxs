@@ -10,4 +10,4 @@ addByPrefix('singDOWN-alt', 'Parent Down Note Mom', 24, false);
 addByPrefix('singLEFT-alt', 'Parent Left Note Mom', 24, false);
 addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
-set('barColor', [196, 94, 174]);
+setBarcolor( [196, 94, 174]);

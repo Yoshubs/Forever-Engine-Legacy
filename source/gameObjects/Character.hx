@@ -91,6 +91,12 @@ class Character extends FNFSprite
 			characterData.offsetY = y;
 		});
 
+		charScript.set('setBarcolor', function(rgb:Array<Int>)
+		{
+			barColor = rgb;
+			return true;
+		});
+
 		charScript.set('get', function(variable:String)
 		{
 			return Reflect.getProperty(this, variable);
