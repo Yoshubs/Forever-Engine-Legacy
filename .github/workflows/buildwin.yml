@@ -30,9 +30,9 @@ jobs:
       - name: Install Haxelib
         run: |
           haxelib setup C:/haxelib
-          haxelib install lime 7.8.0
+          haxelib install lime 
           haxelib install openfl
-          haxelib install flixel 4.8.1
+          haxelib install flixel 4.11.0
           haxelib install flixel-ui
           haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
           haxelib install hscript
