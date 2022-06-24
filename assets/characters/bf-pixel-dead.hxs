@@ -11,3 +11,5 @@ addOffset('deathConfirm', -30, -12);
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 set('flipX', true);
+
+setOffsets(0, 180);

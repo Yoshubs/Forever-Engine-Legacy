@@ -93,6 +93,17 @@ class Character extends FNFSprite
 			characterData.offsetY = y;
 		});
 
+		charScript.set('setCamOffsets', function(x:Float, y:Float)
+		{
+			characterData.camOffsetX = x;
+			characterData.camOffsetY = y;
+		});
+
+		charSprit.set('quickDancer', function(quick:Bool)
+		{
+			quickDancer = bool;
+		});
+
 		charScript.set('setBarColor', function(hex:Int)
 		{
 			if (Init.trueSettings.get('Icon Colored Health Bar'))

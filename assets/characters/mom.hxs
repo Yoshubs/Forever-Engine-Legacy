@@ -13,4 +13,6 @@ addOffset('singDOWN', 20, -160);
 addOffset('singLEFT', 250, -23);
 addOffset('singRIGHT', 10, -60);
 
+setCamOffsets(0, 100);
+
 setBarColor(0xFFd8558e);

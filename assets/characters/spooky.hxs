@@ -15,3 +15,4 @@ addOffset('singLEFT', 130, -10);
 addOffset('singDOWN', -50, -130);
 
 setBarColor(0xFFd57e00);
+quickDancer(true);
