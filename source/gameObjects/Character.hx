@@ -99,7 +99,7 @@ class Character extends FNFSprite
 			characterData.camOffsetY = y;
 		});
 
-		charSprit.set('quickDancer', function(quick:Bool)
+		charScript.set('quickDancer', function(quick:Bool)
 		{
 			quickDancer = bool;
 		});
