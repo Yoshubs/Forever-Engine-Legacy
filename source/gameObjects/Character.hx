@@ -101,7 +101,7 @@ class Character extends FNFSprite
 
 		charScript.set('quickDancer', function(quick:Bool)
 		{
-			characterData.quickDancer = bool;
+			characterData.quickDancer = quick;
 		});
 
 		charScript.set('setBarColor', function(hex:Int)
