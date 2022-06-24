@@ -26,7 +26,9 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
-	<!-- _____________________________ Underscore Personalization ____________________________ -->
+	<!-- _____________________________ Underscore Custom Defines ____________________________ -->
+
+	<!-- mess around with these defines all you want and feel free to create new ones if needed -->
 
 	<define name="DISCORD_RPC" if="desktop" />
 	<define name="VIDEO_PLUGIN" if="windows || linux" unless="32bits" />
@@ -48,7 +50,7 @@
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
 	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
 
 	<!-- Show debug traces for hxCodec -->
