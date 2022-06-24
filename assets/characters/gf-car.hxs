@@ -8,4 +8,4 @@ addOffset('idleHair', 0, 0);
 addOffset('danceLeft', 0, 0);
 addOffset('danceRight', 0, 0);
 
-setBarColor(0xFFa5004d);
+setBarColor([165, 0, 77]);

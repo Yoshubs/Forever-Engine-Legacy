@@ -17,4 +17,4 @@ addOffset('singLEFTmiss', 62, 64);
 addOffset('singDOWNmiss', 210, -28);
 
 set('flipX', true);
-setBarColor(0xFFb7d855);
+setBarColor([183, 216, 85]);

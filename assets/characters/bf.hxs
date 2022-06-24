@@ -13,5 +13,4 @@ addByPrefix('hey', 'BF HEY', 24, false);
 addByPrefix('scared', 'BF idle shaking', 24);
 
 setOffsets(0, 70);
-
-setBarColor(0xFF31b0d1);
+setBarColor([175, 102, 206]);

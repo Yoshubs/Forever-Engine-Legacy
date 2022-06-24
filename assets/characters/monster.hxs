@@ -12,4 +12,4 @@ addOffset('singDOWN', -50, -80);
 addOffset('singLEFT', -30, 20);
 addOffset('singRIGHT', -51, 30);
 
-setBarColor(0xFFf3ff6e);
+setBarColor([243, 255, 110]);

@@ -22,4 +22,4 @@ addOffset('singDOWNmiss', -10, -10);
 addOffset('singLEFTmiss', 12, 7);
 addOffset('singRIGHTmiss', -41, 23);
 
-setBarColor(0xFF31b0d1);
+setBarColor([49, 176, 209]);

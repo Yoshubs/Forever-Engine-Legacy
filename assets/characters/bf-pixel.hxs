@@ -24,4 +24,4 @@ setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 set('flipX', true);
 
-setBarColor(0xFF7bd6f6);
+setBarColor([49, 176, 209]);

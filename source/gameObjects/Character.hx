@@ -33,7 +33,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
-	public var barColor:Int;
+	public var barColor:Array<Int> = [];
 
 	public var holdTimer:Float = 0;
 
@@ -49,7 +49,7 @@ class Character extends FNFSprite
 		this.character = character;
 		curCharacter = character;
 
-		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
+		barColor = isPlayer ? [102, 255, 51] : [255, 0, 0];
 
 		characterData = {
 			offsetY: 0,
@@ -104,10 +104,10 @@ class Character extends FNFSprite
 			characterData.quickDancer = quick;
 		});
 
-		charScript.set('setBarColor', function(hex:Int)
+		charScript.set('setBarColor', function(rgb:Array<Int>)
 		{
 			if (Init.trueSettings.get('Icon Colored Health Bar'))
-				barColor = hex;
+				barColor = rgb;
 			return true;
 		});
 

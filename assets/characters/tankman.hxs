@@ -21,4 +21,4 @@ addOffset('singUPalt', 24, 56);
 addOffset('singDOWNalt', 98, -90);
 
 set('flipX', true);
-setBarColor(0xFFffffff);
+setBarColor([255, 255, 255]);
