@@ -141,13 +141,23 @@ class OriginalChartingState extends MusicBeatState
 		leftIcon.setGraphicSize(0, 45);
 		rightIcon.setGraphicSize(0, 45);
 
-		rightIcon.flipX = true;
-
 		add(leftIcon);
 		add(rightIcon);
 
-		leftIcon.setPosition(0, -100);
-		rightIcon.setPosition(gridBG.width / 2, -100);
+		if (!_song.notes[curSection].mustHitSection)
+		{
+			leftIcon.setPosition(gridBG.width / 2, -100);
+			rightIcon.setPosition(0, -100);
+			leftIcon.flipX = true;
+			rightIcon.flipX = false;
+		}
+		else
+		{
+			leftIcon.setPosition(0, -100);
+			rightIcon.setPosition(gridBG.width / 2, -100);
+			leftIcon.flipX = false;
+			rightIcon.flipX = true;
+		}
 
 		FlxG.mouse.visible = true;
 		FlxG.save.bind('funkin', 'ninjamuffin99');
@@ -988,15 +998,19 @@ class OriginalChartingState extends MusicBeatState
 
 	function updateHeads():Void
 	{
-		if (check_mustHitSection.checked)
+		if (!_song.notes[curSection].mustHitSection)
 		{
-			leftIcon.animation.play(_song.player1);
-			rightIcon.animation.play(_song.player2);
+			leftIcon.setPosition(gridBG.width / 2, -100);
+			rightIcon.setPosition(0, -100);
+			leftIcon.flipX = true;
+			rightIcon.flipX = false;
 		}
 		else
 		{
-			leftIcon.animation.play(_song.player2);
-			rightIcon.animation.play(_song.player1);
+			leftIcon.setPosition(0, -100);
+			rightIcon.setPosition(gridBG.width / 2, -100);
+			leftIcon.flipX = false;
+			rightIcon.flipX = true;
 		}
 	}
 

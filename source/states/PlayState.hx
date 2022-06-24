@@ -691,8 +691,8 @@ class PlayState extends MusicBeatState
 				return Reflect.getProperty(this, variable);
 			});
 
-			for (i in scriptArray)
-				i.execute();
+			//for (i in scriptArray)
+			//	i.execute();
 		}
 
 		if (!inCutscene) 
