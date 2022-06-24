@@ -8,4 +8,4 @@ addByPrefix('singDOWN', "spirit down_", 24, false);
     
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
-setBarcolor( [255, 60, 110]);
+setBarColor([255, 60, 110]);

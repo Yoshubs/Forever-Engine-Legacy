@@ -8,4 +8,4 @@ addByPrefix('singDOWN', 'SENPAI DOWN NOTE', 24, false);
                 
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
-setBarcolor( [255, 170, 111]);
+setBarColor([255, 170, 111]);

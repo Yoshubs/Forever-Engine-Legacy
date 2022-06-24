@@ -10,4 +10,4 @@ addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
 addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 
-setBarcolor( [49, 176, 209]);
+setBarColor([49, 176, 209]);

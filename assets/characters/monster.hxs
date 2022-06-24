@@ -6,4 +6,4 @@ addByPrefix('singDOWN', 'monster down', 24, false);
 addByPrefix('singLEFT', 'Monster Right note', 24, false);
 addByPrefix('singRIGHT', 'Monster left note', 24, false);
 
-setBarcolor( [243, 255, 110]);
+setBarColor([243, 255, 110]);
