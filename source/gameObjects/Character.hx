@@ -33,7 +33,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
-	public var barColor:Array<Int> = [];
+	public var barColor:Array<Float> = [];
 
 	public var holdTimer:Float = 0;
 
@@ -102,7 +102,7 @@ class Character extends FNFSprite
 			characterData.quickDancer = quick;
 		});
 
-		charScript.set('setBarColor', function(rgb:Array<Int>)
+		charScript.set('setBarColor', function(rgb:Array<Float>)
 		{
 			barColor = rgb;
 			return true;
