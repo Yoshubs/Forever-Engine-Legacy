@@ -8,5 +8,17 @@ addByPrefix('singDOWN', 'Tankman DOWN note instance', 24, false);
 addByPrefix('singUP-alt', 'TANKMAN UGH instance', 24, false);
 addByPrefix('singDOWN-alt', 'PRETTY GOOD tankman instance', 24, false);
 
+addOffset('idle', 0, 0);
+addOffset('singUP', 24, 56);
+addOffset('singRIGHT', -1, -7);
+addOffset('singLEFT', 100, -14);
+addOffset('singDOWN', 98, -90);
+addOffset('singUPmiss', 53, 84);
+addOffset('singRIGHTmiss', -1, -3);
+addOffset('singLEFTmiss', -30, 16);
+addOffset('singDOWNmiss', 69, -99);
+addOffset('singUPalt', 24, 56);
+addOffset('singDOWNalt', 98, -90);
+
 set('flipX', true);
 setBarColor(0xFFffffff);

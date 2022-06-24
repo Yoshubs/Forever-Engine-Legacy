@@ -10,4 +10,14 @@ addByPrefix('singDOWN-alt', 'Parent Down Note Mom', 24, false);
 addByPrefix('singLEFT-alt', 'Parent Left Note Mom', 24, false);
 addByPrefix('singRIGHT-alt', 'Parent Right Note Mom', 24, false);
 
+addOffset('idle' 0 0);
+addOffset('singUP' -47 24);
+addOffset('singRIGHT' -1 -23);
+addOffset('singLEFT' -30 16)
+addOffset('singDOWN' -31 -29);
+addOffset('singUP-alt' -47 24);
+addOffset('singRIGHT-alt' -1 -24);
+addOffset('singLEFT-alt' -30 15);
+addOffset('singDOWN-alt' -30 -27);
+
 setBarColor(0xFFc45eae);

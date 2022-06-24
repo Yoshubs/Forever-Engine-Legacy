@@ -3,7 +3,13 @@ setTex('characters/monsterChristmas');
 addByPrefix('idle', 'monster idle', 24, false);
 addByPrefix('singUP', 'monster up note', 24, false);
 addByPrefix('singDOWN', 'monster down', 24, false);
-addByPrefix('singRIGHT', 'Monster left note', 24, false);
 addByPrefix('singLEFT', 'Monster Right note', 24, false);
+addByPrefix('singRIGHT', 'Monster left note', 24, false);
+
+addOffset('idle', 0, 0);
+addOffset('singUP', -20, 50);
+addOffset('singDOWN', -40, -94);
+addOffset('singLEFT', -30, 0);
+addOffset('singRIGHT', -51, 0);
 
 setBarColor(0xFFf3ff6e);

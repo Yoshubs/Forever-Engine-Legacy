@@ -5,6 +5,12 @@ addByPrefix('singUP', 'Angry Senpai UP NOTE', 24, false);
 addByPrefix('singLEFT', 'Angry Senpai LEFT NOTE', 24, false);
 addByPrefix('singRIGHT', 'Angry Senpai RIGHT NOTE', 24, false);
 addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
+
+addOffset('idle', 0, 0);
+addOffset('singUP', 5, 37);
+addOffset('singRIGHT', 0, 0);
+addOffset('singLEFT', 40, 0);
+addOffset('singDOWN', 14, 0);
                 
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);

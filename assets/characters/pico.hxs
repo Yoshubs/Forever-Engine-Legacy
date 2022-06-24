@@ -6,5 +6,15 @@ addByPrefix('singDOWN', 'Pico Down Note0', 24, false);
 addByPrefix('singLEFT', 'Pico Note Right0', 24, false);
 addByPrefix('singRIGHT', 'Pico NOTE LEFT0', 24, false);
 
+addOffset('idle', 0, 0);
+addOffset('singUP', -29, 27);
+addOffset('singRIGHT', -68, -7);
+addOffset('singLEFT', 65, 9);
+addOffset('singDOWN', 200, -70);
+addOffset('singUPmiss', -19, 67);
+addOffset('singRIGHTmiss', -60, 41);
+addOffset('singLEFTmiss', 62, 64);
+addOffset('singDOWNmiss', 210, -28);
+
 set('flipX', true);
 setBarColor(0xFFb7d855);

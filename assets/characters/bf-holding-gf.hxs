@@ -10,4 +10,16 @@ addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
 addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 
+addOffset('idle', 0, 0);
+addOffset('bfCatch', 0, 0);
+addOffset('singUP', -29, 10);
+addOffset('singDOWN', -10, -10);
+addOffset('singLEFT', 12, 7);
+addOffset('singRIGHT', -41, 23);
+
+addOffset('singUPmiss', -29, 10);
+addOffset('singDOWNmiss', -10, -10);
+addOffset('singLEFTmiss', 12, 7);
+addOffset('singRIGHTmiss', -41, 23);
+
 setBarColor(0xFF31b0d1);

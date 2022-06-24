@@ -6,4 +6,10 @@ addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
 addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
 addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
 
+addOffset('idle', -5, 0);
+addOffset('singUP', -6, 50);
+addOffset('singDOWN', 0, -30);
+addOffset('singLEFT', -10, 10);
+addOffset('singRIGHT', 0, 27);
+
 setBarColor(0xFFaf66ce);
