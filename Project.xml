@@ -26,9 +26,10 @@
 	<!--Mobile-specific-->
 	<window if="mobile" orientation="landscape" fullscreen="true" width="0" height="0" />
 
-	<!-- _____________________________ Forever Personalization ____________________________ -->
+	<!-- _____________________________ Underscore Personalization ____________________________ -->
 
-	<!-- nothing! -->
+	<define name="DISCORD_RPC" if="desktop" />
+	<define name="VIDEO_PLUGIN" if="windows || linux" unless="32bits" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -47,17 +48,8 @@
 	<haxelib name="hscript" />
 	<haxelib name="flixel-ui" />
 	<haxelib name="polymod"/>
-	<haxelib name="discord_rpc"/>
-
-	<!--
-		SUPPORTED PLATFORMS: Windows, Linux
-		append "linux" at the end of the "if" check to enable it, dividing it with to pipe symbols
-		should look like this
-
-		<haxelib name="hxCodec" if='windows || linux' />
-	!-->
-
-	<haxelib name="hxCodec" if='windows' />
+	<haxelib name="discord_rpc" if="desktop"/>
+	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
 
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />

@@ -49,7 +49,7 @@ class CreditsMenu extends MusicBeatState
 
         creditsData = Json.parse(Paths.getTextFromFile('credits.json'));
 
-        #if !html5
+		#if DISCORD_RPC
         Discord.changePresence('MENU SCREEN', 'Credits Menu');
         #end
 

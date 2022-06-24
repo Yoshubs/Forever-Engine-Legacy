@@ -35,8 +35,11 @@ import states.subStates.*;
 using StringTools;
 
 #if !html5
-import meta.data.dependency.Discord;
 import sys.FileSystem;
+#end
+
+#if DISCORD_RPC
+import meta.data.dependency.Discord;
 #end
 
 class PlayState extends MusicBeatState
@@ -1367,7 +1370,7 @@ class PlayState extends MusicBeatState
 
 	public static function updateRPC(pausedRPC:Bool)
 	{
-		#if !html5
+		#if DISCORD_RPC
 		var displayRPC:String = (pausedRPC) ? detailsPausedText : songDetails;
 
 		if (health > 0)
@@ -1601,7 +1604,7 @@ class PlayState extends MusicBeatState
 
 			resyncVocals();
 
-			#if !html5
+			#if DISCORD_RPC
 			// Song duration in a float, useful for the time left feature
 			songLength = songMusic.length;
 
@@ -1900,7 +1903,7 @@ class PlayState extends MusicBeatState
 
 	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
 	{
-		#if (!mac && hxCodec)
+		#if VIDEO_PLUGIN
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);

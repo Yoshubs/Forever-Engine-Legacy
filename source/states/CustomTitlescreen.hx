@@ -27,8 +27,8 @@ import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
-import states.menus.*;
 import openfl.Assets;
+import states.menus.*;
 
 using StringTools;
 
@@ -69,7 +69,7 @@ class CustomTitlescreen extends MusicBeatState
 		if (!initialized)
 		{
 			///*
-			#if !html5
+			#if DISCORD_RPC
 			Discord.changePresence('TITLE SCREEN', 'Main Menu');
 			#end
 
