@@ -49,8 +49,6 @@ class Character extends FNFSprite
 		this.character = character;
 		curCharacter = character;
 
-		barColor = isPlayer ? [102, 255, 51] : [255, 0, 0];
-
 		characterData = {
 			offsetY: 0,
 			offsetX: 0,

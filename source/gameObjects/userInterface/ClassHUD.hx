@@ -71,10 +71,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
-		healthBar.createFilledBar(
-			FlxColor.fromRGB(PlayState.dadOpponent.barColor[0], PlayState.dadOpponent.barColor[1], PlayState.dadOpponent.barColor[2]), 
-			FlxColor.fromRGB(PlayState.boyfriend.barColor[0], PlayState.boyfriend.barColor[1], PlayState.boyfriend.barColor[2])
-		);
+		if (Init.trueSettings.get('Icon Colored Health Bar')) {
+			healthBar.createFilledBar(
+				FlxColor.fromRGB(PlayState.dadOpponent.barColor[0], PlayState.dadOpponent.barColor[1], PlayState.dadOpponent.barColor[2]), 
+				FlxColor.fromRGB(PlayState.boyfriend.barColor[0], PlayState.boyfriend.barColor[1], PlayState.boyfriend.barColor[2])
+			);
+		} else {
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		}
 		updateBar();
 		// healthBar
 		add(healthBar);
@@ -241,10 +245,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	public function updateBar()
 	{
-		healthBar.createFilledBar(
-			FlxColor.fromRGBFloat(PlayState.dadOpponent.barColor[0], PlayState.dadOpponent.barColor[1], PlayState.dadOpponent.barColor[2]),
-			FlxColor.fromRGBFloat(PlayState.boyfriend.barColor[0], PlayState.boyfriend.barColor[1], PlayState.boyfriend.barColor[2])
-		);
+		if (Init.trueSettings.get('Icon Colored Health Bar')) {
+			healthBar.createFilledBar(
+				FlxColor.fromRGB(PlayState.dadOpponent.barColor[0], PlayState.dadOpponent.barColor[1], PlayState.dadOpponent.barColor[2]), 
+				FlxColor.fromRGB(PlayState.boyfriend.barColor[0], PlayState.boyfriend.barColor[1], PlayState.boyfriend.barColor[2])
+			);
+		} else {
+			healthBar.createFilledBar(0xFFFF0000, 0xFF66FF33);
+		}
 			
 		healthBar.updateBar();
 	}
