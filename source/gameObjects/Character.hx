@@ -33,7 +33,7 @@ class Character extends FNFSprite
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
-	public var barColor:Array<Int> = [];
+	public var barColor:Int;
 
 	public var holdTimer:Float = 0;
 
@@ -48,6 +48,8 @@ class Character extends FNFSprite
 		this.isPlayer = isPlayer;
 		this.character = character;
 		curCharacter = character;
+
+		barColor = isPlayer ? 0xFF66FF33 : 0xFFFF0000;
 
 		characterData = {
 			offsetY: 0,
@@ -91,9 +93,9 @@ class Character extends FNFSprite
 			characterData.offsetY = y;
 		});
 
-		charScript.set('setBarColor', function(rgb:Array<Int>)
+		charScript.set('setBarColor', function(hex:Int)
 		{
-			barColor = rgb;
+			barColor = hex;
 			return true;
 		});
 

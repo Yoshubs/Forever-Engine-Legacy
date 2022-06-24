@@ -5,3 +5,5 @@ addByPrefix('singUP', 'Dad Sing Note UP', 24);
 addByPrefix('singRIGHT', 'Dad Sing Note RIGHT', 24);
 addByPrefix('singDOWN', 'Dad Sing Note DOWN', 24);
 addByPrefix('singLEFT', 'Dad Sing Note LEFT', 24);
+
+setBarColor(0xFFaf66ce);

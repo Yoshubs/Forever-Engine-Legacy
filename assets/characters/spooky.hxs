@@ -7,4 +7,4 @@ addByPrefix('singRIGHT', 'spooky sing right', 24, false);
 addByIndices('danceLeft', 'spooky dance idle', [0, 2, 6], 12, false);
 addByIndices('danceRight', 'spooky dance idle', [8, 10, 12, 14], 12, false);
 
-setBarColor([213, 126, 0]);
+setBarColor(0xFFd57e00);

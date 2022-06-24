@@ -12,4 +12,4 @@ addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 addByPrefix('hey', 'BF HEY', 24, false);
 addByPrefix('scared', 'BF idle shaking', 24);
 
-setBarColor([175, 102, 206]);
+setBarColor(0xFF31b0d1);
