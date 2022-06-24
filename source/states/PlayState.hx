@@ -32,15 +32,19 @@ import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
 
-using StringTools;
+import openfl.display.GraphicsShader;
+import openfl.filters.ShaderFilter;
 
 #if !html5
+import sys.io.File;
 import sys.FileSystem;
 #end
 
 #if DISCORD_RPC
 import meta.data.dependency.Discord;
 #end
+
+using StringTools;
 
 class PlayState extends MusicBeatState
 {
@@ -93,6 +97,7 @@ class PlayState extends MusicBeatState
 	public static var combo:Int = 0;
 
 	public static var misses:Int = 0;
+	public static var ghostMisses:Int = 0;
 
 	public var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -171,6 +176,7 @@ class PlayState extends MusicBeatState
 		combo = 0;
 		health = 1;
 		misses = 0;
+		ghostMisses = 0;
 		// sets up the combo object array
 		lastCombo = [];
 
@@ -542,6 +548,7 @@ class PlayState extends MusicBeatState
 					//
 				}
 				else // else just call bad notes
+					ghostMisses++;
 					if (!Init.trueSettings.get('Ghost Tapping'))
 						missNoteCheck(true, key, boyfriend, true);
 
@@ -640,6 +647,7 @@ class PlayState extends MusicBeatState
 			
 			set('score', songScore);
 			set('misses', misses);
+			set('ghostMisses', ghostMisses);
 			set('health', health);
 			set('combo', combo);
 
@@ -694,8 +702,8 @@ class PlayState extends MusicBeatState
 				return Reflect.getProperty(this, variable);
 			});
 
-			//for (i in scriptArray)
-			//	i.execute();
+			for (i in scriptArray)
+				i.execute();
 		}
 
 		if (!inCutscene) 
