@@ -11,12 +11,12 @@ import flixel.util.FlxTimer;
 import gameObjects.userInterface.menu.Checkmark;
 import gameObjects.userInterface.menu.Selector;
 import meta.MusicBeat.MusicBeatState;
+import meta.data.Highscore;
 import meta.data.dependency.Discord;
 import meta.data.dependency.FNFSprite;
 import meta.data.font.Alphabet;
 import states.subStates.OptionsSubState;
 import states.subStates.PauseSubState;
-import meta.data.Highscore;
 
 /**
 	Options menu rewrite because I'm unhappy with how it was done previously
@@ -108,6 +108,7 @@ class OptionsMenuState extends MusicBeatState
 					['', null],
 					['Accessibility Settings', null],
 					['', null],
+					['Icon Colored Health Bar', getFromOption],
 					['Filter', getFromOption],
 					['Disable Antialiasing', getFromOption],
 					["Stage Opacity", getFromOption],

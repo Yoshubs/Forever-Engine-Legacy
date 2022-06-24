@@ -7,10 +7,10 @@ import meta.CoolUtil;
 import meta.Overlay;
 import meta.data.Highscore;
 import meta.data.dependency.Discord;
-import states.*;
-import states.charting.*;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
+import states.*;
+import states.charting.*;
 
 using StringTools;
 
@@ -155,6 +155,8 @@ class Init extends FlxState
 
 		"Sound Type" => ['default', Selector, 'Choose the Hitsound you prefer, you can create new sounds by adding yours to the sounds/hitsounds folder.', NOT_FORCED, ''],
 		'Hitsound Volume' => [Checkmark, Selector, 'Enables a Hitsound for when you Hit a Note.', NOT_FORCED],
+
+		'Icon Colored Health Bar' => [false, Checkmark, "Whether the Health Bar should follow the Character Icon colors.", NOT_FORCED],
 
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],

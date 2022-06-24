@@ -95,7 +95,8 @@ class Character extends FNFSprite
 
 		charScript.set('setBarColor', function(hex:Int)
 		{
-			barColor = hex;
+			if (Init.trueSettings.get('Icon Colored Health Bar'))
+				barColor = hex;
 			return true;
 		});
 
