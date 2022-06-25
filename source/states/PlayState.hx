@@ -32,8 +32,13 @@ import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
 
+// shit for blend mode and shaders
+import openfl.display.BlendMode;
+import openfl.display.BlendModeEffect;
 import openfl.display.GraphicsShader;
 import openfl.filters.ShaderFilter;
+import flixel.OverlayShader;
+//
 
 #if !html5
 import sys.io.File;

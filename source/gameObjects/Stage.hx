@@ -21,6 +21,14 @@ import meta.data.Conductor;
 import meta.data.dependency.FNFSprite;
 import states.PlayState;
 
+// shit for blend mode and shaders
+import openfl.display.BlendMode;
+import openfl.display.BlendModeEffect;
+import openfl.display.GraphicsShader;
+import openfl.filters.ShaderFilter;
+import flixel.OverlayShader;
+//
+
 using StringTools;
 
 /**
