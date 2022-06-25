@@ -15,6 +15,8 @@ addOffset('singDOWN', 14, 0);
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 
+playAnim('idle');
+
 setCamOffsets(-200, -330);
 setBarColor([255, 170, 111]);
 quickDancer(true);

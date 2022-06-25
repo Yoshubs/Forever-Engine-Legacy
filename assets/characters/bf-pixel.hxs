@@ -20,6 +20,8 @@ addOffset('singDOWNmiss', 0, 0);
 addOffset('singLEFTmiss', 0, 0);
 addOffset('singRIGHTmiss', 0, 0);
 
+playAnim('idle');
+
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 set('flipX', true);

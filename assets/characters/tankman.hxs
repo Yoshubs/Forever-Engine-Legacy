@@ -20,5 +20,7 @@ addOffset('singDOWNmiss', 69, -99);
 addOffset('singUPalt', 24, 56);
 addOffset('singDOWNalt', 98, -90);
 
+playAnim('idle');
+
 set('flipX', true);
 setBarColor([255, 255, 255]);

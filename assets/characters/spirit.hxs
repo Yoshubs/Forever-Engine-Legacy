@@ -15,5 +15,7 @@ addOffset('singDOWN', 170, 110);
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 
+playAnim('idle');
+
 setCamOffsets(100, 50);
 setBarColor([255, 60, 110]);

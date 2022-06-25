@@ -8,4 +8,6 @@ addOffset('idleHair', 0, 0);
 addOffset('danceLeft', 0, 0);
 addOffset('danceRight', 0, 0);
 
+playAnim('danceRight');
+
 setBarColor([165, 0, 77]);

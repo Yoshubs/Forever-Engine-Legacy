@@ -22,4 +22,6 @@ addOffset('singDOWNmiss', -11, -19);
 addOffset('singLEFTmiss', 12, 24);
 addOffset('singRIGHTmiss', -30, 21);
 
+playAnim('idle');
+
 setBarColor([49, 176, 209]);
