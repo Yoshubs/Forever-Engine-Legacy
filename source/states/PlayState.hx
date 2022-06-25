@@ -552,10 +552,11 @@ class PlayState extends MusicBeatState
 					}
 					//
 				}
-				else // else just call bad notes
+				else { // else just call bad notes
 					ghostMisses++;
 					if (!Init.trueSettings.get('Ghost Tapping'))
 						missNoteCheck(true, key, boyfriend, true);
+				}
 
 				Conductor.songPosition = previousTime;
 			}
