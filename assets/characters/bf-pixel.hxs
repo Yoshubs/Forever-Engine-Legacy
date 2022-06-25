@@ -10,15 +10,15 @@ addByPrefix('singDOWNmiss', 'BF DOWN MISS', 24, false);
 addByPrefix('singLEFTmiss', 'BF LEFT MISS', 24, false);
 addByPrefix('singRIGHTmiss', 'BF RIGHT MISS', 24, false);
 
-addOffset('idle', 0, 0);
-addOffset('singUP', 0, 0);
-addOffset('singDOWN', 0, 0);
-addOffset('singLEFT', 0, 0);
-addOffset('singRIGHT', 0, 0);
-addOffset('singUPmiss', 0, 0);
-addOffset('singDOWNmiss', 0, 0);
-addOffset('singLEFTmiss', 0, 0);
-addOffset('singRIGHTmiss', 0, 0);
+addOffset('idle', 0, 50);
+addOffset('singUP', 0, 50);
+addOffset('singDOWN', 0, 50);
+addOffset('singLEFT', 0, 50);
+addOffset('singRIGHT', 0, 50);
+addOffset('singUPmiss', 0, 50);
+addOffset('singDOWNmiss', 0, 50);
+addOffset('singLEFTmiss', 0, 50);
+addOffset('singRIGHTmiss', 0, 50);
 
 playAnim('idle');
 
@@ -27,3 +27,4 @@ set('antialiasing', false);
 set('flipX', true);
 
 setBarColor([49, 176, 209]);
+setCamOffsets(50, -100);

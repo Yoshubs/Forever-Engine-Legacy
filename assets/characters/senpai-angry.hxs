@@ -6,16 +6,16 @@ addByPrefix('singLEFT', 'Angry Senpai LEFT NOTE', 24, false);
 addByPrefix('singRIGHT', 'Angry Senpai RIGHT NOTE', 24, false);
 addByPrefix('singDOWN', 'Angry Senpai DOWN NOTE', 24, false);
 
-addOffset('idle', 0, 0);
-addOffset('singUP', 5, 37);
-addOffset('singRIGHT', 0, 0);
-addOffset('singLEFT', 40, 0);
-addOffset('singDOWN', 14, 0);
+addOffset('idle', 110, 280);
+addOffset('singUP', 115, 272);
+addOffset('singRIGHT', 110, 280);
+addOffset('singLEFT', 150, 280);
+addOffset('singDOWN', 124, 280);
 
 setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 
 playAnim('idle');
 
-setCamOffsets(-200, -330);
+setCamOffsets(-230, -590);
 setBarColor([255, 170, 111]);
