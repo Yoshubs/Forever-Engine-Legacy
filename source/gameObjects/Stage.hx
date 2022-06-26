@@ -6,6 +6,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxState;
+import flixel.OverlayShader;
 import flixel.addons.effects.FlxTrail;
 import flixel.addons.effects.chainable.FlxWaveEffect;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -18,16 +19,13 @@ import gameObjects.background.*;
 import meta.CoolUtil;
 import meta.data.ChartParser;
 import meta.data.Conductor;
+import meta.data.HaxeScript;
 import meta.data.dependency.FNFSprite;
-import states.PlayState;
-
-// shit for blend mode and shaders
 import openfl.display.BlendMode;
 import openfl.display.BlendModeEffect;
 import openfl.display.GraphicsShader;
 import openfl.filters.ShaderFilter;
-import flixel.OverlayShader;
-//
+import states.PlayState;
 
 using StringTools;
 
@@ -540,6 +538,54 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				// add to the final array
 				add(stageCurtains);
 		}
+
+		/*
+		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
+
+		stageScript.set('loadGraphic', function(thing:FNFSprite, path:String)
+		{
+			thing.loadGraphic(Paths.image(path));
+		});
+
+		stageScript.set('pos', function(thing:FNFSprite, ?x:Float = 0, ?y:Float = 0)
+		{
+			thing.x = x;
+			thing.y = y;
+		});
+
+		stageScript.set('defaultCamZoom', function(?val:Float = 0.9)
+		{
+			PlayState.defaultCamZoom = val;
+		});
+
+		stageScript.set('setScrollFactor', function(thing:FNFSprite, ?val1:Float = 0, ?val2:Float = 0)
+		{
+			thing.scrollFactor.set(val1, val2);
+		});
+
+		stageScript.set('curStage', function(?str:String = 'stage')
+		{
+			curStage = str;
+		});
+
+		stageScript.set('get', function(variable:String)
+		{
+			return Reflect.getProperty(this, variable);
+		});
+
+		stageScript.set('set', function(name:String, value:Dynamic)
+		{
+			Reflect.setProperty(this, name, value);
+		});
+
+		stageScript.set('setGraphicSize', function(thing:FNFSprite, width:Int = 0, height:Int = 0)
+		{
+			thing.setGraphicSize(width, height);
+			thing.updateHitbox();
+		});
+
+		stageScript.execute();
+		*/
 	}
 
 	// return the girlfriend's type
@@ -562,7 +608,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case 'ugh' | 'guns':
 				gfVersion = 'gf-tankmen';
 			case 'stress':
-			gfVersion = 'pico-speaker';
+				gfVersion = 'pico-speaker';
 		}
 		
 		return gfVersion;
