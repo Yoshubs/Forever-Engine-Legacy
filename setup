@@ -6,13 +6,13 @@
 haxelib install lime
 haxelib install openfl
 haxelib install flixel
-haxelib install flixel-addons
 haxelib install flixel-ui
+haxelib install flixel-tools
 haxelib install hscript
 haxelib install newgrounds
-haxelib install flixel-tools
-haxelib run flixel-tools setup
-haxelib run lime setup flixel
+haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
+haxelib git hxCodec https://github.com/polybiusproxy/hxCodec
 haxelib git polymod https://github.com/larsiusprime/polymod.git
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
-haxelib git flixel-addons https://github.com/HaxeFlixel/flixel-addons
+haxelib run flixel-tools setup
+haxelib run lime setup flixel
