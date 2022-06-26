@@ -7,6 +7,7 @@ import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
+import flixel.OverlayShader;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
@@ -27,29 +28,28 @@ import meta.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Song.SwagSong;
+import openfl.display.BlendMode;
+import openfl.display.BlendModeEffect;
+import openfl.display.GraphicsShader;
 import openfl.events.KeyboardEvent;
+import openfl.filters.ShaderFilter;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
 
+using StringTools;
 // shit for blend mode and shaders
-import openfl.display.BlendMode;
-import openfl.display.BlendModeEffect;
-import openfl.display.GraphicsShader;
-import openfl.filters.ShaderFilter;
-import flixel.OverlayShader;
 //
 
 #if !html5
-import sys.io.File;
 import sys.FileSystem;
+import sys.io.File;
 #end
 
 #if DISCORD_RPC
 import meta.data.dependency.Discord;
 #end
 
-using StringTools;
 
 class PlayState extends MusicBeatState
 {
@@ -118,7 +118,7 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
-	public var scriptArray:Array<HaxeScript> = [];
+	public var scriptArray:Array<SScript> = [];
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -224,16 +224,16 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script')
 		];
 		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
 		var pushedScripts:Array<String> = [];
 
 		for (i in scripts)
 		{
-			if (FileSystem.exists(i) && !pushedScripts.contains(i))
+			if (FileSystem.exists(i + '.hxs') && !pushedScripts.contains(i))
 			{
-				var script:HaxeScript = new HaxeScript(i);
+				var script:SScript = new SScript(i, '.hxs');
 				scriptArray.push(script);
 				pushedScripts.push(i);
 			}
@@ -251,7 +251,7 @@ class PlayState extends MusicBeatState
 
 					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:HaxeScript = new HaxeScript(scriptFile);
+						var script:SScript = new SScript(scriptFile.replace('.hxs', ''), '.hxs');
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}

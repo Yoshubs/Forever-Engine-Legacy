@@ -19,7 +19,6 @@ import gameObjects.background.*;
 import meta.CoolUtil;
 import meta.data.ChartParser;
 import meta.data.Conductor;
-import meta.data.HaxeScript;
 import meta.data.dependency.FNFSprite;
 import openfl.display.BlendMode;
 import openfl.display.BlendModeEffect;
@@ -540,7 +539,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		}
 
 		/*
-		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
+		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 
 		stageScript.set('loadGraphic', function(thing:FNFSprite, path:String)
 		{
