@@ -19,14 +19,11 @@ cls
 haxelib run flixel-tools setup
 cls
 echo Make sure you have git installed. You can download it here: https://git-scm.com/downloads
-echo Press any key to install polymod.
+echo Press any key to install necessary libraries.
 pause >nul
 title FNF Setup - Installing libraries
+haxelib git SScript https://github.com/TahirRollingArch/SScript.git
 haxelib git polymod https://github.com/larsiusprime/polymod.git
-cls
-echo Press any key to install discord rpc.
-pause >nul
-title FNF Setup - Installing libraries
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 cls
 goto UserActions1
