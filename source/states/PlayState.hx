@@ -593,9 +593,12 @@ class PlayState extends MusicBeatState
 		return -1;
 	}
 
-	override public function destroy() {
+	override public function destroy() 
+	{
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		
+		SDestroyUtil.destroyMultiple(scriptArray);
 
 		super.destroy();
 	}
