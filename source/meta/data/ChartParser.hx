@@ -16,7 +16,7 @@ import states.PlayState;
 
 class ChartParser
 {
-	public static var songType:ChartType = FOREVER_UNDERSCORE;
+	public static var songType:ChartType = UNDERSCORE;
 	
 	// hopefully this makes it easier for people to load and save chart features and such, y'know the deal lol
 	public static function loadChart(songData:SwagSong, songType:ChartType = FNF_LEGACY):Array<Note>
@@ -109,7 +109,7 @@ class ChartParser
 			case FOREVER:
 			// placeholder
 
-			case FOREVER_UNDERSCORE:
+			case UNDERSCORE:
 				/**
 					a copy of FNF_LEGACY, except we have notetypes, that's all
 					I don't exactly know how fnf charts work, so I'm leaving it like this for the time being

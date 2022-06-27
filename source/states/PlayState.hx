@@ -164,7 +164,7 @@ class PlayState extends MusicBeatState
 
 	public static var chartingMode:Bool = false;
 	
-	public static var disableDeath:Bool = false;
+	public static var practiceMode:Bool = false;
 	public static var deaths:Int = 0;
 
 	// at the beginning of the playstate
@@ -284,8 +284,9 @@ class PlayState extends MusicBeatState
 			case FOREVER:
 				// blah
 
-			case FOREVER_UNDERSCORE | PSYCH:
+			case UNDERSCORE | PSYCH:
 				gf = new Character(300, 100, SONG.gfVersion);
+				gf.dance(true);
 
 			case FNF_LEGACY:
 				gf = new Character(300, 100, stageBuild.returnGFtype(curStage));
@@ -307,7 +308,7 @@ class PlayState extends MusicBeatState
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
 
-		if (ChartParser.songType == FOREVER_UNDERSCORE) assetModifier = SONG.assetModifier;
+		if (ChartParser.songType == UNDERSCORE) assetModifier = SONG.assetModifier;
 		if ((curStage.startsWith("school")) && (ChartParser.songType == FNF_LEGACY)) assetModifier = 'pixel';
 
 		// add characters
@@ -643,6 +644,7 @@ class PlayState extends MusicBeatState
 			set('FlxG', FlxG);
 			set('FlxBasic', FlxBasic);
 			set('FlxObject', FlxObject);
+			set('FlxCamera', FlxCamera);
 			set('FlxSprite', FlxSprite);
 			set('FlxTween', FlxTween);
 			set('FlxEase', FlxEase);
@@ -652,6 +654,11 @@ class PlayState extends MusicBeatState
 			set('curSong', PlayState.contents.curSong);
 			set('curStep', curStep);
 			set('curBeat', curBeat);
+			set('cameraSpeed', cameraSpeed);
+			set('preventScoring', preventScoring);
+			set('chartingMode', chartingMode);
+			set('practiceMode', practiceMode);
+			set('autoplay', bfStrums.autoplay);
 			set('hud', uiHUD);
 			
 			set('score', songScore);
@@ -743,7 +750,7 @@ class PlayState extends MusicBeatState
 
 				/*if ((FlxG.keys.justPressed.FIVE)) {
 					preventScoring = true;
-					disableDeath = true;
+					practiceMode = true;
 				}
 
 				if ((FlxG.keys.justPressed.SIX)) {
@@ -913,7 +920,7 @@ class PlayState extends MusicBeatState
 
 			//
 
-			if (!disableDeath && health <= 0)
+			if (!practiceMode && health <= 0)
 			{
 				// startTimer.active = false;
 				persistentUpdate = false;
@@ -1422,7 +1429,7 @@ class PlayState extends MusicBeatState
 		Timings.updateAccuracy(Timings.judgementsMap.get(baseRating)[3]);
 		score = Std.int(Timings.judgementsMap.get(baseRating)[2]);
 
-		if (!disableDeath)
+		if (!practiceMode)
 			songScore += score;
 
 		popUpCombo();
@@ -1506,7 +1513,7 @@ class PlayState extends MusicBeatState
 
 		// misses
 
-		if (!disableDeath)
+		if (!practiceMode)
 			songScore -= 10;
 
 		if (!endingSong)

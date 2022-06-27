@@ -104,7 +104,7 @@ class PauseSubState extends MusicBeatSubState
 		practiceText.setFormat(Paths.font('vcr.ttf'), 32);
 		practiceText.updateHitbox();
 		practiceText.x = FlxG.width - (practiceText.width + 20);
-		practiceText.visible = PlayState.disableDeath;
+		practiceText.visible = PlayState.practiceMode;
 		add(practiceText);
 
 		levelInfo.alpha = 0;
@@ -228,8 +228,8 @@ class PauseSubState extends MusicBeatSubState
 
 				case "Toggle Practice Mode":
 					PlayState.preventScoring = true;
-					PlayState.disableDeath = !PlayState.disableDeath;
-					practiceText.visible = PlayState.disableDeath;
+					PlayState.practiceMode = !PlayState.practiceMode;
+					practiceText.visible = PlayState.practiceMode;
 
 				//
 
@@ -239,7 +239,7 @@ class PauseSubState extends MusicBeatSubState
 					PlayState.storyDifficulty = curSelected;
 
 					//
-					PlayState.disableDeath = false;
+					PlayState.practiceMode = false;
 					PlayState.contents.bfStrums.autoplay = false;
 					PlayState.uiHUD.autoplayTxt.visible = false;
 					PlayState.preventScoring = false;
@@ -268,7 +268,7 @@ class PauseSubState extends MusicBeatSubState
 
 	public static function disableCheats(scoringToo:Bool = false)
 	{
-		PlayState.disableDeath = false;
+		PlayState.practiceMode = false;
 		PlayState.contents.bfStrums.autoplay = false;
 		PlayState.uiHUD.autoplayTxt.visible = false;
 

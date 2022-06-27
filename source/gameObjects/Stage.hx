@@ -80,8 +80,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			case FNF:
 				// placeholder
-			case FOREVER:
-				// placeholder
 			case FNF_LEGACY:
 				/// get hardcoded stage type if chart is fnf style
 				// this is because I want to avoid editing the fnf chart type
@@ -110,7 +108,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 				PlayState.curStage = curStage;
 
-			case FOREVER_UNDERSCORE | PSYCH:
+			case UNDERSCORE | PSYCH | FOREVER:
 				if(curStage == null || curStage.length < 1)
 				{
 					// get hardcoded values *if* the chart json has no data on it for them

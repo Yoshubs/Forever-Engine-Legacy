@@ -27,7 +27,7 @@ import sys.io.File;
 	var FNF;
 	var FNF_LEGACY;
 	var FOREVER;
-	var FOREVER_UNDERSCORE;
+	var UNDERSCORE;
 	var PSYCH;
 }
 

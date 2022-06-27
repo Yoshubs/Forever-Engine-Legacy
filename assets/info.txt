@@ -1,7 +1,7 @@
 you might notice that there's a lot of new files in here
 keep in mind that by default, only the "characterList" actually works
 for "stageList" and "assetModifiersList" to work, simply go into the source code
-go to "meta/data/ChartParser.hx", and change the songType variable to "FOREVER_UNDERSCORE" (without quotes)
+go to "meta/data/ChartParser.hx", and change the songType variable to "UNDERSCORE" (without quotes)
 
 you will then be able to use stuff such as Asset Skins
 Switch Stages and GF Versions using the Chart Editor
