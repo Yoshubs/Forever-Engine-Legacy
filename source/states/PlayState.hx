@@ -224,16 +224,16 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
 		];
 		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
 		var pushedScripts:Array<String> = [];
 
 		for (i in scripts)
 		{
-			if (FileSystem.exists(i + '.hxs') && !pushedScripts.contains(i))
+			if (FileSystem.exists(i) && !pushedScripts.contains(i))
 			{
-				var script:SScript = new SScript(i, '.hxs');
+				var script:SScript = new SScript(i);
 				scriptArray.push(script);
 				pushedScripts.push(i);
 			}
@@ -251,7 +251,7 @@ class PlayState extends MusicBeatState
 
 					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:SScript = new SScript(scriptFile.replace('.hxs', ''), '.hxs');
+						var script:SScript = new SScript(scriptFile);
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}
