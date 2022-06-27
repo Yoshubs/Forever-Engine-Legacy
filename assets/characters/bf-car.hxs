@@ -1,4 +1,4 @@
-setTex('characters/bfPixel');
+setTex('characters/bfCar');
 
 addByPrefix('idle', 'BF idle dance', 24, false);
 addByPrefix('singUP', 'BF NOTE UP0', 24, false);
@@ -10,17 +10,17 @@ addByPrefix('singDOWNmiss', 'BF NOTE DOWN MISS', 24, false);
 addByPrefix('singLEFTmiss', 'BF NOTE LEFT MISS', 24, false);
 addByPrefix('singRIGHTmiss', 'BF NOTE RIGHT MISS', 24, false);
 
-addOffset('idle', -5, 0);
-addOffset('idleHair', -5, 0);
-addOffset('singUP', -29, 27);
-addOffset('singDOWN', -10, -50);
-addOffset('singLEFT', 12, -6);
-addOffset('singRIGHT', -38, -7);
+addOffset('idle', -5, 30);
+addOffset('idleHair', -5, 30);
+addOffset('singUP', -29, 57);
+addOffset('singDOWN', -10, -20);
+addOffset('singLEFT', 12, 24);
+addOffset('singRIGHT', -38, 23);
 
-addOffset('singUPmiss', -29, 27);
-addOffset('singDOWNmiss', -11, -19);
-addOffset('singLEFTmiss', 12, 24);
-addOffset('singRIGHTmiss', -30, 21);
+addOffset('singUPmiss', -29, 57);
+addOffset('singDOWNmiss', -11, 11);
+addOffset('singLEFTmiss', 12, 54);
+addOffset('singRIGHTmiss', -30, 51);
 
 playAnim('idle');
 
