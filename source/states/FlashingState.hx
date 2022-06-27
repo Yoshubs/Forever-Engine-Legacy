@@ -14,14 +14,21 @@ import meta.MusicBeat.MusicBeatState;
 
 class FlashingState extends MusicBeatState
 {
-	public static var leftState:Bool = false;
-
+	var bg:FlxSprite;
 	var warnText:FlxText;
+
 	override function create()
 	{
 		super.create();
 
-		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		bg = new FlxSprite();
+		bg.loadGraphic(Paths.image('menus/base/menuDesat'));
+		bg.alpha = 0.4;
+		bg.color = 0xFFFF56B3;
+		bg.setGraphicSize(Std.int(bg.width * 1.1));
+		bg.updateHitbox();
+		bg.screenCenter();
+		bg.antialiasing = true;
 		add(bg);
 
 		warnText = new FlxText(0, 0, FlxG.width,
@@ -47,20 +54,22 @@ class FlashingState extends MusicBeatState
 			Main.switchState(this, new CustomTitlescreen());
 		else
 			Main.switchState(this, new TitleState());
+
+		// set leftState
+		Init.trueSettings.set('Left State', true);
+		Init.saveSettings();
 	}
 
 	override function update(elapsed:Float)
 	{
-		if(!leftState) {
+		if(!Init.trueSettings.get("Left State")) {
 			var accept:Bool = controls.ACCEPT;
 			var back:Bool = controls.BACK;
 
 			if (accept || back)
 			{
-				leftState = true;
 				if(!back) {
 					Init.trueSettings.set('Disable Flashing Lights', true);
-					Init.saveSettings();
 					FlxG.sound.play(Paths.sound('confirmMenu'));
 					FlxTween.tween(warnText, {alpha: 0}, 1, {
 						onComplete: function (twn:FlxTween) {

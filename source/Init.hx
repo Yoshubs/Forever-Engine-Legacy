@@ -160,6 +160,8 @@ class Init extends FlxState
 
 		'Disable Flashing Lights' => [false, Checkmark, "Whether flashing elements on the menus should be disabled.", NOT_FORCED],
 
+		'Left State' => [false, Checkmark, "for Leaving the Flashing State", NOT_FORCED],
+
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],
 		"Good Hit Window" => [80, Selector, 'Define your desired Hit Window for getting a "Good" Judgement.', NOT_FORCED, ['']],
@@ -242,7 +244,7 @@ class Init extends FlxState
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 
-		if (!FlashingState.leftState)
+		if (!trueSettings.get("Left State"))
 			Main.switchState(this, new FlashingState());
 		else
 			gotoTitleScreen();

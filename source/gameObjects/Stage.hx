@@ -546,7 +546,17 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			thing.loadGraphic(Paths.image(path));
 		});
 
-		stageScript.set('pos', function(thing:FNFSprite, ?x:Float = 0, ?y:Float = 0)
+		stageScript.set('setTex', function(thing:FNFSprite, name:String)
+		{
+			thing.frames = Paths.getSparrowAtlas(name);
+		});
+
+		stageScript.set('addByPrefix', function(thing:FNFSprite, name:String, prefix:String, ?frames:Int = 24, ?loop:Bool = false)
+		{
+			thing.animation.addByPrefix(name, prefix, frames, loop);
+		});
+
+		stageScript.set('setPosition', function(thing:FNFSprite, ?x:Float = 0, ?y:Float = 0)
 		{
 			thing.x = x;
 			thing.y = y;
