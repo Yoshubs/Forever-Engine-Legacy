@@ -108,12 +108,13 @@ class OptionsMenuState extends MusicBeatState
 					['', null],
 					['Accessibility Settings', null],
 					['', null],
-					['Icon Colored Health Bar', getFromOption],
-					['Filter', getFromOption],
 					['Disable Antialiasing', getFromOption],
+					['Disable Flashing Lights', getFromOption],
+					['Icon Colored Health Bar', getFromOption],
+					['Reduced Movements', getFromOption],
+					['Filter', getFromOption],
 					["Stage Opacity", getFromOption],
 					["Opacity Type", getFromOption],
-					['Reduced Movements', getFromOption],
 				]
 			]
 		];

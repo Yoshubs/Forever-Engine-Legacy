@@ -130,7 +130,7 @@ class MainMenuState extends MusicBeatState
 
 		// from the base game lol
 
-		var versionShit:FlxText = new FlxText(5, FlxG.height - 20, 0, "Forever Engine v" + Main.gameVersion, 12);
+		var versionShit:FlxText = new FlxText(5, FlxG.height - 20, 0, "Forever Engine v" + Main.gameVersion + ' - Underscore v' + Main.gameVersion2, 12);
 		versionShit.scrollFactor.set();
 		versionShit.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		add(versionShit);
@@ -213,7 +213,10 @@ class MainMenuState extends MusicBeatState
 			selectedSomethin = true;
 			FlxG.sound.play(Paths.sound('confirmMenu'));
 
-			FlxFlicker.flicker(magenta, 0.8, 0.1, false);
+			var flickerVal:Float = 0.06;
+			
+			if (Init.trueSettings.get('Disable Flashing Lights')) flickerVal = 1;
+			if (!Init.trueSettings.get('Disable Flashing Lights')) FlxFlicker.flicker(magenta, 0.8, 0.1, false);
 
 			menuItems.forEach(function(spr:FlxSprite)
 			{
@@ -229,7 +232,7 @@ class MainMenuState extends MusicBeatState
 				}
 				else
 				{
-					FlxFlicker.flicker(spr, 1, 0.06, false, false, function(flick:FlxFlicker)
+					FlxFlicker.flicker(spr, 1, flickerVal, false, false, function(flick:FlxFlicker)
 					{
 						var daChoice:String = optionShit[Math.floor(curSelected)];
 
