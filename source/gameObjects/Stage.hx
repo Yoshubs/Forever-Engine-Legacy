@@ -537,28 +537,27 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				add(stageCurtains);
 		}
 
-		/*
 		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 
-		stageScript.set('loadGraphic', function(thing:FNFSprite, path:String)
+		stageScript.set('createSprite', function(image:Dynamic, obj:String, x:Float, y:Float)
 		{
-			thing.loadGraphic(Paths.image(path));
+			image.loadGraphic(Paths.image(obj));
+			image.x = x;
+			image.y = y;
+			add(image);
 		});
 
-		stageScript.set('setTex', function(thing:FNFSprite, name:String)
+		stageScript.set('createAnimatedSprite', function(anim:Dynamic, obj:String, x:Float, y:Float)
 		{
-			thing.frames = Paths.getSparrowAtlas(name);
+			anim.loadGraphic(Paths.getSparrowAtlas(obj));
+			anim.x = x;
+			anim.y = y;
+			add(anim);
 		});
 
-		stageScript.set('addByPrefix', function(thing:FNFSprite, name:String, prefix:String, ?frames:Int = 24, ?loop:Bool = false)
+		stageScript.set('addByPrefix', function(image:Dynamic, prefix:String, ?frames:Int = 24, ?loop:Bool = false)
 		{
-			thing.animation.addByPrefix(name, prefix, frames, loop);
-		});
-
-		stageScript.set('setPosition', function(thing:FNFSprite, ?x:Float = 0, ?y:Float = 0)
-		{
-			thing.x = x;
-			thing.y = y;
+			image.animation.addByPrefix(image, prefix, frames, loop);
 		});
 
 		stageScript.set('defaultCamZoom', function(?val:Float = 0.9)
@@ -566,9 +565,9 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			PlayState.defaultCamZoom = val;
 		});
 
-		stageScript.set('setScrollFactor', function(thing:FNFSprite, ?val1:Float = 0, ?val2:Float = 0)
+		stageScript.set('setScrollFactor', function(image:Dynamic, ?val1:Float = 0, ?val2:Float = 0)
 		{
-			thing.scrollFactor.set(val1, val2);
+			image.scrollFactor.set(val1, val2);
 		});
 
 		stageScript.set('curStage', function(?str:String = 'stage')
@@ -586,14 +585,13 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			Reflect.setProperty(this, name, value);
 		});
 
-		stageScript.set('setGraphicSize', function(thing:FNFSprite, width:Int = 0, height:Int = 0)
+		stageScript.set('setGraphicSize', function(image:Dynamic, width:Int = 0, height:Int = 0, updateHitbox:Bool, false)
 		{
-			thing.setGraphicSize(width, height);
-			thing.updateHitbox();
+			image.setGraphicSize(width, height);
+			if(updateHitbox) image.updateHitbox();
 		});
 
 		stageScript.execute();
-		*/
 	}
 
 	// return the girlfriend's type
