@@ -30,13 +30,13 @@ class CharterSubState extends MusicBeatSubState
 
 	public static var playingPause:Bool = false;
 
-	public function new(x:Float, y:Float)
+	public function new(x:Float = 0, y:Float = 0, playSong:Bool = true)
 	{
 		super();
 
 		menuItems = pauseOG;
 
-		if (!playingPause)
+		if (!playingPause && playSong)
 		{
 			playingPause = true;
 			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
@@ -54,8 +54,6 @@ class CharterSubState extends MusicBeatSubState
 					pauseMusic = i;
 			}
 		}
-
-		FlxG.sound.list.add(pauseMusic);
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -135,26 +133,32 @@ class CharterSubState extends MusicBeatSubState
 			switch (daSelected)
 			{
 				case "Forever Charter":
+					charter = 0;
 					PlayState.chartingMode = true;
 					PlayState.preventScoring = true;
-					charter = 0;
+					if (FlxG.sound.music != null) FlxG.sound.music.stop();
 					Main.switchState(this, new ChartingState());
 				case "Original Charter":
+					charter = 1;
 					PlayState.chartingMode = true;
 					PlayState.preventScoring = true;
-					charter = 1;
+					if (FlxG.sound.music != null) FlxG.sound.music.stop();
 					Main.switchState(this, new OriginalChartingState());
 			}
 		}
 
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
+		if (playingPause) {
+			if (pauseMusic.volume < 0.5)
+				pauseMusic.volume += 0.01 * elapsed;
+		}
 	}
 
 	override function destroy()
 	{
-		pauseMusic.destroy();
-		playingPause = false;
+		if (playingPause) {
+			pauseMusic.destroy();
+			playingPause = false;
+		}
 		super.destroy();
 	}
 

@@ -536,7 +536,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				add(stageCurtains);
 		}
 
-		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
+		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 
 		stageScript.set('createSprite', function(image:Dynamic, obj:String, x:Float, y:Float)
 		{
@@ -584,7 +584,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			Reflect.setProperty(this, name, value);
 		});
 
-		stageScript.set('setGraphicSize', function(image:Dynamic, width:Int = 0, height:Int = 0, updateHitbox:Bool, false)
+		stageScript.set('setGraphicSize', function(image:Dynamic, width:Int = 0, height:Int = 0, updateHitbox:Bool = false)
 		{
 			image.setGraphicSize(width, height);
 			if(updateHitbox) image.updateHitbox();

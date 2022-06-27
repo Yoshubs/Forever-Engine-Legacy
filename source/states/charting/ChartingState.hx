@@ -49,6 +49,7 @@ import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
 import states.subStates.charting.*;
+import states.menus.FreeplayState;
 
 using StringTools;
 
@@ -372,6 +373,15 @@ class ChartingState extends MusicBeatState
 			PlayState.SONG = _song;
 			ForeverTools.killMusic([songMusic, vocals]);
 			Main.switchState(this, new PlayState());
+		}
+		
+		if (FlxG.keys.justPressed.BACKSPACE)
+		{
+			songPosition = songMusic.time;
+
+			PlayState.SONG = _song;
+			ForeverTools.killMusic([songMusic, vocals]);
+			Main.switchState(this, new FreeplayState());
 		}
 	}
 

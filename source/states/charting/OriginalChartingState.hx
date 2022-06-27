@@ -39,6 +39,7 @@ import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
 import states.charting.data.*;
+import states.menus.FreeplayState;
 
 using StringTools;
 
@@ -444,7 +445,6 @@ class OriginalChartingState extends MusicBeatState
 			currentType = Note.noteTypeMap[type];
 		});
 
-
 		blockPressWhileScrolling.push(noteTypeDropDown);
 
 		tab_group_note.add(new FlxText(10, 10, 0, 'Sustain length:'));
@@ -724,9 +724,18 @@ class OriginalChartingState extends MusicBeatState
 				lastSection = curSection;
 
 				PlayState.SONG = _song;
-				songMusic.stop();
-				vocals.stop();
+				ForeverTools.killMusic([songMusic, vocals]);
 				Main.switchState(this, new PlayState());
+			}
+
+			if (FlxG.keys.justPressed.BACKSPACE)
+			{
+				autosaveSong();
+				lastSection = curSection;
+
+				PlayState.SONG = _song;
+				ForeverTools.killMusic([songMusic, vocals]);
+				Main.switchState(this, new FreeplayState());
 			}
 
 			if (FlxG.keys.justPressed.E)

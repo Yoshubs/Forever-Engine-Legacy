@@ -24,6 +24,7 @@ import openfl.media.Sound;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import states.subStates.CharterSubState;
 
 using StringTools;
 
@@ -149,13 +150,19 @@ class FreeplayState extends MusicBeatState
 		changeSelection();
 		changeDiff();
 
-		// FlxG.sound.playMusic(Paths.music('title'), 0);
-		// FlxG.sound.music.fadeIn(2, 0, 0.8);
-		selector = new FlxText();
+		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
+		textBG.alpha = 0.6;
+		add(textBG);
 
-		selector.size = 40;
-		selector.text = ">";
-		// add(selector);
+		var leText:String = "- SHIFT = Open Charting Menu. -";
+		var size:Int = 18;
+		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
+		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+		text.scrollFactor.set();
+		add(text);
+
+		FlxTween.tween(text,{y: FlxG.height - 25}, 2, {ease: FlxEase.elasticInOut});
+		FlxTween.tween(textBG,{y: FlxG.height - 28}, 2, {ease: FlxEase.elasticInOut});
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
@@ -226,23 +233,10 @@ class FreeplayState extends MusicBeatState
 		}
 
 		if (accepted)
-		{
-			var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(),
-				CoolUtil.difficultyArray.indexOf(existingDifficulties[curSelected][curDifficulty]));
-
-			PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
-			PlayState.isStoryMode = false;
-			PlayState.storyDifficulty = curDifficulty;
-
-			PlayState.storyWeek = songs[curSelected].week;
-			trace('CUR WEEK' + PlayState.storyWeek);
-
-			if (FlxG.sound.music != null)
-				FlxG.sound.music.stop();
-
-			threadActive = false;
-
-			Main.switchState(this, new PlayState());
+			loadSong(true, true);
+		else if (FlxG.keys.justPressed.SHIFT) {
+			loadSong(false, false);
+			openSubState(new CharterSubState(0, 0, false));
 		}
 
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
@@ -266,6 +260,25 @@ class FreeplayState extends MusicBeatState
 			songToPlay = null;
 		}
 		mutex.release();
+	}
+
+	function loadSong(go:Bool = true, stopThread:Bool = true)
+	{
+		var poop:String = Highscore.formatSong(songs[curSelected].songName.toLowerCase(),
+			CoolUtil.difficultyArray.indexOf(existingDifficulties[curSelected][curDifficulty]));
+
+		PlayState.SONG = Song.loadFromJson(poop, songs[curSelected].songName.toLowerCase());
+		PlayState.isStoryMode = false;
+		PlayState.storyDifficulty = curDifficulty;
+
+		PlayState.storyWeek = songs[curSelected].week;
+		trace('CUR WEEK' + PlayState.storyWeek);
+
+		if (stopThread) {
+			if (FlxG.sound.music != null) FlxG.sound.music.stop();
+			threadActive = false;
+		}
+		if (go) Main.switchState(this, new PlayState());
 	}
 
 	var lastDifficulty:String;
@@ -298,8 +311,6 @@ class FreeplayState extends MusicBeatState
 			curSelected = songs.length - 1;
 		if (curSelected >= songs.length)
 			curSelected = 0;
-
-		// selector.y = (70 * curSelected) + 30;
 
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
 
