@@ -28,6 +28,7 @@ import meta.*;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
 import meta.data.Song.SwagSong;
+import meta.data.dependency.*;
 import openfl.display.BlendMode;
 import openfl.display.BlendModeEffect;
 import openfl.display.GraphicsShader;
@@ -38,6 +39,8 @@ import states.menus.*;
 import states.subStates.*;
 
 using StringTools;
+//import vlc.VideoHandler;
+
 // shit for blend mode and shaders
 //
 
@@ -74,6 +77,8 @@ class PlayState extends MusicBeatState
 	public static var assetModifier:String = 'base';
 	public static var changeableSkin:String = 'default';
 	public static var changeableSound:String = 'default';
+
+	public static var GraphicMap:Map<String, FNFSprite> = new Map<String, FNFSprite>();
 
 	private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
@@ -234,6 +239,7 @@ class PlayState extends MusicBeatState
 			if (FileSystem.exists(i) && !pushedScripts.contains(i))
 			{
 				var script:SScript = new SScript(i);
+				trace(script.interp == null ? "Something terrible occured!" : "");
 				scriptArray.push(script);
 				pushedScripts.push(i);
 			}
@@ -247,7 +253,7 @@ class PlayState extends MusicBeatState
 			{
 				for (e in foolPath)
 				{
-					var scriptFile:String = Paths.getPreloadPath('scripts/$e');
+					var scriptFile:String = Paths.getPreloadPath('scripts/$e.hxs');
 
 					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
@@ -598,7 +604,7 @@ class PlayState extends MusicBeatState
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		
-		SDestroyUtil.destroyMultiple(scriptArray);
+		GraphicMap.clear();
 
 		super.destroy();
 	}
@@ -1927,7 +1933,7 @@ class PlayState extends MusicBeatState
 
 	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
 	{
-		#if VIDEO_PLUGIN
+		/*#if VIDEO_PLUGIN
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
@@ -1960,7 +1966,7 @@ class PlayState extends MusicBeatState
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
 		return;
-		#end
+		#end*/
 	}
 
 	function startAndEnd()
@@ -2218,5 +2224,11 @@ class PlayState extends MusicBeatState
 			i.set(key, value);
 
 		return true;
+	}
+
+	function call(func:String, args:Array<Dynamic>)
+	{
+		for (i in scriptArray)
+			i.call(this, func, args);
 	}
 }

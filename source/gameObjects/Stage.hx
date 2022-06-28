@@ -537,59 +537,40 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		}
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
-
-		stageScript.set('createSprite', function(image:Dynamic, obj:String, x:Float, y:Float)
+		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
+			size:Float = 1, image:String)
 		{
-			image.loadGraphic(Paths.image(obj));
-			image.x = x;
-			image.y = y;
-			add(image);
+			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
+			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
+			madeGraphic.updateHitbox();
+			PlayState.GraphicMap.set(id, madeGraphic);
+			add(madeGraphic);
+		});
+	
+		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
+			size:Float, image:String, anims:Array<Array<Dynamic>>, defaultAnim:String)
+		{
+			var madeGraphic:FNFSprite = new FNFSprite(x, y);
+			madeGraphic.frames = Paths.getSparrowAtlas(image);
+
+			for (anim in anims)
+			{
+				madeGraphic.animation.addByPrefix(anim[0], anim[1], anim[3], anim[4]);
+			}
+
+			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
+			madeGraphic.updateHitbox();
+			madeGraphic.animation.play(defaultAnim);
+			PlayState.GraphicMap.set(id, madeGraphic);
+			add(madeGraphic);
 		});
 
-		stageScript.set('createAnimatedSprite', function(anim:Dynamic, obj:String, x:Float, y:Float)
+		stageScript.set('addOffsetByID', function(id:String, anim:String, x:Float, y:Float)
 		{
-			anim.loadGraphic(Paths.getSparrowAtlas(obj));
-			anim.x = x;
-			anim.y = y;
-			add(anim);
+			var getSprite:FNFSprite = PlayState.GraphicMap.get(id);
+			getSprite.addOffset(anim, x, y);
 		});
-
-		stageScript.set('addByPrefix', function(image:Dynamic, prefix:String, ?frames:Int = 24, ?loop:Bool = false)
-		{
-			image.animation.addByPrefix(image, prefix, frames, loop);
-		});
-
-		stageScript.set('defaultCamZoom', function(?val:Float = 0.9)
-		{
-			PlayState.defaultCamZoom = val;
-		});
-
-		stageScript.set('setScrollFactor', function(image:Dynamic, ?val1:Float = 0, ?val2:Float = 0)
-		{
-			image.scrollFactor.set(val1, val2);
-		});
-
-		stageScript.set('curStage', function(?str:String = 'stage')
-		{
-			curStage = str;
-		});
-
-		stageScript.set('get', function(variable:String)
-		{
-			return Reflect.getProperty(this, variable);
-		});
-
-		stageScript.set('set', function(name:String, value:Dynamic)
-		{
-			Reflect.setProperty(this, name, value);
-		});
-
-		stageScript.set('setGraphicSize', function(image:Dynamic, width:Int = 0, height:Int = 0, updateHitbox:Bool = false)
-		{
-			image.setGraphicSize(width, height);
-			if(updateHitbox) image.updateHitbox();
-		});
-
+	
 		stageScript.execute();
 	}
 
