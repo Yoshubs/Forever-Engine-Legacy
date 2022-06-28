@@ -24,6 +24,7 @@ typedef SwagSong =
 	var splasSkin:String;
 	var assetModifier:String;
 	var validScore:Bool;
+	var six:Bool;
 }
 
 class Song

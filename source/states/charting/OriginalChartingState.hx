@@ -78,6 +78,7 @@ class OriginalChartingState extends MusicBeatState
 	var curRenderedSustains:FlxTypedGroup<FlxSprite>;
 
 	var gridBG:FlxSprite;
+	var gridBlackLine:FlxSprite;
 
 	var _song:SwagSong;
 
@@ -96,6 +97,7 @@ class OriginalChartingState extends MusicBeatState
 
 	var playTicksBf:FlxUICheckBox = null;
 	var playTicksDad:FlxUICheckBox = null;
+	var sixKeyChart:FlxUICheckBox = null;
 
 	// was annoying.
 	private var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
@@ -111,7 +113,7 @@ class OriginalChartingState extends MusicBeatState
 		gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
 		add(gridBG);
 
-		var gridBlackLine:FlxSprite = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
+		gridBlackLine = new FlxSprite(gridBG.x + gridBG.width / 2).makeGraphic(2, Std.int(gridBG.height), FlxColor.BLACK);
 		add(gridBlackLine);
 
 		curRenderedNotes = new FlxTypedGroup<Note>();
@@ -198,7 +200,7 @@ class OriginalChartingState extends MusicBeatState
 		UI_box = new FlxUITabMenu(null, tabs, true);
 
 		UI_box.resize(300, 400);
-		UI_box.x = FlxG.width / 2;
+		UI_box.x = FlxG.width / 2 + 40;
 		UI_box.y = 20;
 		add(UI_box);
 
@@ -326,6 +328,16 @@ class OriginalChartingState extends MusicBeatState
 		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
 		playTicksDad.checked = false;
 
+		sixKeyChart = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y + 50, null, null, '6k Chart', 100);
+		sixKeyChart.callback = function()
+		{
+			_song.six = sixKeyChart.checked;
+			updateGrid();
+			updateHeads();
+			trace('CHECKED!');
+		};
+		sixKeyChart.checked = false;
+
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
@@ -349,6 +361,7 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(playTicksBf);
 		tab_group_song.add(playTicksDad);
+		//tab_group_song.add(sixKeyChart);
 		tab_group_song.add(stageDropDown);
 		tab_group_song.add(assetModifierDropDown);
 
@@ -394,7 +407,16 @@ class OriginalChartingState extends MusicBeatState
 			for (i in 0..._song.notes[curSection].sectionNotes.length)
 			{
 				var note = _song.notes[curSection].sectionNotes[i];
-				note[1] = (note[1] + 4) % 8;
+
+				// must press
+				var keys = 4;
+				if (_song.six) keys = 6;
+
+				// in total
+				var tolKeys = 8;
+				if (_song.six) keys = 12;
+
+				note[1] = (note[1] + keys) % tolKeys;
 				_song.notes[curSection].sectionNotes[i] = note;
 				updateGrid();
 			}
@@ -600,9 +622,35 @@ class OriginalChartingState extends MusicBeatState
 		curStep = recalculateSteps();
 
 		Conductor.songPosition = songMusic.time;
+
+		if (_song.six && gridBG.width != GRID_SIZE * 12)
+		{
+			remove(gridBG);
+			gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16);
+			add(gridBG);
+		}
+		if (!_song.six && gridBG.width != GRID_SIZE * 8)
+		{
+			remove(gridBG);
+			gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
+			add(gridBG);
+		}
+		gridBlackLine.x = gridBG.x + gridBG.width / 2;
+		leftIcon.setPosition(0, -100);
+		rightIcon.setPosition(gridBG.width / 2, -100);
+		UI_box.x = FlxG.width / 2;
+		UI_box.y = 20;
+		if (_song.six)
+		{
+			UI_box.x = FlxG.width / 2 + 160;
+			UI_box.y = 100;
+		}
 		
 		// uhh weird sex sound prevention hello psych engine from shadow mario
-		var playedSound:Array<Bool> = [false, false, false, false];
+		var playedSound:Array<Bool> = [];
+		for (i in 0...(_song.six ? 12 : 8)) {
+			playedSound.push(false);
+		}
 		curRenderedNotes.forEachAlive(function(note:Note)
         {
             if (note.strumTime < songMusic.time)
@@ -1082,6 +1130,9 @@ class OriginalChartingState extends MusicBeatState
 
 			trace('Current note type is $daNoteType.');
 
+			var keys = 4;
+			if (_song.six) keys = 6;
+
 			var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, daNoteType);
 			note.sustainLength = daSus;
 			note.noteType = daNoteType;
@@ -1125,7 +1176,7 @@ class OriginalChartingState extends MusicBeatState
 
 		for (i in _song.notes[curSection].sectionNotes)
 		{
-			if (i.strumTime == note.strumTime && i.noteData % 4 == note.noteData)
+			if (i.strumTime == note.strumTime && i.noteData % (_song.six ? 6 : 4) == note.noteData)
 			{
 				curSelectedNote = _song.notes[curSection].sectionNotes[swagNum];
 			}
@@ -1142,7 +1193,7 @@ class OriginalChartingState extends MusicBeatState
 		var data:Null<Int> = note.noteData;
 
 		if (data > -1 && note.mustPress != _song.notes[curSection].mustHitSection)
-			data += 4;
+			data += (_song.six ? 6 : 4);
 
 		if (data > -1)
 		{

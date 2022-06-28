@@ -86,16 +86,34 @@ class UIStaticArrow extends FlxSprite
 		// yeah no I'm not writing the same shit 4 times over
 		// take it or leave it my guy
 		var stringSect:String = '';
-		switch (numb)
-		{
-			case(0):
-				stringSect = 'left';
-			case(1):
-				stringSect = 'down';
-			case(2):
-				stringSect = 'up';
-			case(3):
-				stringSect = 'right';
+		if (PlayState.SONG.six) {
+			switch (numb)
+			{
+				case(0):
+					stringSect = 'left';
+				case(1):
+					stringSect = 'down';
+				case(2):
+					stringSect = 'right';
+				case(3):
+					stringSect = 'left';
+				case(4):
+					stringSect = 'up';
+				case(5):
+					stringSect = 'right';
+			}
+		} else {
+			switch (numb)
+			{
+				case(0):
+					stringSect = 'left';
+				case(1):
+					stringSect = 'down';
+				case(2):
+					stringSect = 'up';
+				case(3):
+					stringSect = 'right';
+			}
 		}
 		return stringSect;
 		//
@@ -105,16 +123,34 @@ class UIStaticArrow extends FlxSprite
 	public static function getColorFromNumber(numb:Int)
 	{
 		var stringSect:String = '';
-		switch (numb)
-		{
-			case(0):
-				stringSect = 'purple';
-			case(1):
-				stringSect = 'blue';
-			case(2):
-				stringSect = 'green';
-			case(3):
-				stringSect = 'red';
+		if (PlayState.SONG.six) {
+			switch (numb)
+			{
+				case(0):
+					stringSect = 'purple';
+				case(1):
+					stringSect = 'blue';
+				case(2):
+					stringSect = 'red';
+				case(3):
+					stringSect = 'purple';
+				case(4):
+					stringSect = 'green';
+				case(5):
+					stringSect = 'red';
+			}
+		} else {
+			switch (numb)
+			{
+				case(0):
+					stringSect = 'purple';
+				case(1):
+					stringSect = 'blue';
+				case(2):
+					stringSect = 'green';
+				case(3):
+					stringSect = 'red';
+			}
 		}
 		return stringSect;
 		//

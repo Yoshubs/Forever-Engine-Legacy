@@ -538,11 +538,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
-			size:Float = 1, image:String)
+			size:Float = 1, scrollOne:Float, scrollTwo:Float, image:String)
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
 			madeGraphic.updateHitbox();
+			madeGraphic.scrollFactor.set(scrollOne, scrollTwo);
 			PlayState.GraphicMap.set(id, madeGraphic);
 			add(madeGraphic);
 		});
@@ -569,6 +570,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			var getSprite:FNFSprite = PlayState.GraphicMap.get(id);
 			getSprite.addOffset(anim, x, y);
+		});
+
+		stageScript.set('configStage', function(daStage:String, desiredZoom:Float)
+		{
+			curStage = daStage;
+			PlayState.defaultCamZoom = desiredZoom;
 		});
 	
 		stageScript.execute();

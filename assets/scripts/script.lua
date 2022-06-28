@@ -1,3 +1,3 @@
 function update(elapsed)
-    trace(health)
+    --trace(health)
 end
