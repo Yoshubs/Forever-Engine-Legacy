@@ -1250,9 +1250,9 @@ class PlayState extends MusicBeatState
 				altString = '';
 		}
 
-		if (coolNote.noteType != HEY)
+		if (coolNote.noteType != HEY || coolNote.noteType != NO_ANIM)
 			stringArrow = baseString + altString;
-		else {
+		else if (coolNote.noteType == HEY) {
 			stringArrow = 'hey';
 
 			new FlxTimer().start(0.6, function(danceTimer:FlxTimer)

@@ -13,6 +13,7 @@ enum NoteType
 	NORMAL; // Normal Notes
 	ALT; // Alt Animation Notes
 	HEY; // Hey Notes
+	NO_ANIM; // No Animation Notes
 }
 
 class Note extends FNFSprite
@@ -53,20 +54,23 @@ class Note extends FNFSprite
 	public static var noteTypeMap:Map<String, NoteType> = [
 		'' => NORMAL,
 		'Alt Animation' => ALT,
-		'Hey!' => HEY
+		'Hey!' => HEY,
+		'No Animation' => NO_ANIM
 	];
 
 	static var noteSkinMap:Map<NoteType, String> = [
 		NORMAL => 'NOTE_assets',
 		ALT => 'NOTE_assets',
 		HEY => 'NOTE_assets',
+		NO_ANIM => 'NOTE_assets',
 	];
 
 	// for the Chart Editor
 	public static var noteTypeList:Array<String> = [
 		'',
 		'Alt Animation',
-		'Hey!'
+		'Hey!',
+		'No Animation'
 	];
 
 	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL)
