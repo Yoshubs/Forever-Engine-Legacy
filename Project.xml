@@ -32,7 +32,7 @@
 
 	<define name="DISCORD_RPC" if="desktop" />
 	<define name="VIDEO_PLUGIN" if="windows" unless="32bits" />
-	<define name="ALLOW_SCRIPTS" unless="web"/>
+	<define name="ALLOW_SCRIPTS" unless="web" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
