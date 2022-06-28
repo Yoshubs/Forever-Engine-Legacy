@@ -2,7 +2,7 @@
     "menuBG": "menus/base/menuDesat",
     
     "data": [
-        ["FE Underscore Team"],
+        ["Underscore Team"],
         [
             "BeastlyGhost",
             "ghost",
@@ -12,11 +12,19 @@
             -180, 0, null
         ],
         [
+            "Satoru",
+            "",
+            "Main Artist", null,
+            "",
+            [252, 58, 236],
+            -180, 0, null
+        ],
+        [
             "TahirArch",
             "macxp",
             "Additional Coder", null,
             "",
-            [255, 247, 0],
+            [135, 57, 63],
             -180, -3, 1.2
         ],
         [""],
@@ -50,14 +58,14 @@
             "",
             "Lead Programmer", null,
             "https://twitter.com/yoshubs",
-            [39, 154, 220]
+            [94, 153, 223]
         ],
         [
             "Pixloen",
             "",
             "Forever Engine's Custom Assets", null,
             "https://github.com/PixlJacket",
-            [147, 90, 224]
+            [172, 117, 244]
         ],
         [
             "Gedehari",
@@ -71,21 +79,21 @@
             "",
             "Issue Fixes.", null,
             "https://github.com/ImCodist",
-            [173, 35, 51]
+            [175, 68, 65]
         ],
         [
             "Scarlett",
             "",
             "Programmer, Wrote the Math Formula for Note Quants.", null,
             "https://github.com/SomeKitten",
-            [237, 28, 36]
+            [247, 147, 30]
         ],
         [
             "Oneilr",
             "",
             "Forever Engine's Custom Assets.", null,
             "https://oneilr.newgrounds.com",
-            [255, 247, 0]
+            [204, 177, 73]
         ],
         [
             "HelloSammu",
