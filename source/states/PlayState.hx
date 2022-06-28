@@ -651,6 +651,7 @@ class PlayState extends MusicBeatState
 
 			// PlayState values
 			set('song', PlayState.SONG.song);
+			set('game', PlayState.contents);
 			set('curSong', PlayState.contents.curSong);
 			set('curStep', curStep);
 			set('curBeat', curBeat);
