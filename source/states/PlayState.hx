@@ -124,6 +124,7 @@ class PlayState extends MusicBeatState
 	var songTime:Float = 0;
 
 	public var scriptArray:Array<SScript> = [];
+	public var luaArray:Array<LLua> = [];
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -264,6 +265,33 @@ class PlayState extends MusicBeatState
 				}
 			}
 		}
+
+		var luas:Array<Array<String>> = [
+			FileSystem.readDirectory(FileSystem.absolutePath(Paths.getPreloadPath('scripts/')))
+		];
+		var lluaArray:Array<String> = [];
+		var luaPath:String = Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ',  '-')}/script.lua');
+		
+		for (lua in luas)
+		{
+			if (lua != null)
+				for (llua in lua)
+				{
+					if (llua.endsWith('.lua'))
+					{
+						var lluaPath:String = Paths.getPreloadPath('scripts/$llua');
+						
+						if (FileSystem.exists(lluaPath) && !lluaArray.contains(llua))
+						{
+							luaArray.push(new LLua(lluaPath));
+							lluaArray.push(llua);
+						}
+					}
+				}
+		}
+
+		if (FileSystem.exists(luaPath))
+			luaArray.push(new LLua(luaPath));
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
@@ -615,9 +643,9 @@ class PlayState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
-		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
-
 		super.update(elapsed);
+
+		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
 
 		if (health > 2)
 			health = 2;
@@ -727,6 +755,11 @@ class PlayState extends MusicBeatState
 
 			for (i in scriptArray)
 				i.execute();
+
+			////////////////////////////////////////////////////////////////////////////////////
+
+			setLLua('health', health);
+			callLLua('update', [elapsed]);
 		}
 
 		if (!inCutscene) 
@@ -2227,9 +2260,24 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
-	function call(func:String, args:Array<Dynamic>)
+	public function callLLua(evt:String, args:Array<Dynamic>)
 	{
-		for (i in scriptArray)
-			i.call(this, func, args);
+		var returnVar:Dynamic = 0;
+
+		for (i in 0...luaArray.length)
+		{
+			var ret:Dynamic = luaArray[i].call(evt, args);
+
+			if (ret != 0)
+				returnVar = ret;
+		}
+
+		return returnVar;
+	}
+
+	function setLLua(variable:String, arg:Dynamic)
+	{
+		for (i in 0...luaArray.length)
+			luaArray[i].set(variable, arg);
 	}
 }

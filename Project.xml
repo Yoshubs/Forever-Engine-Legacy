@@ -33,6 +33,7 @@
 	<define name="DISCORD_RPC" if="desktop" />
 	<define name="VIDEO_PLUGIN" if="windows" unless="32bits" />
 	<define name="ALLOW_SCRIPTS" unless="web" />
+	<define name="ALLOW_LUA" unless="web" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 
@@ -54,6 +55,7 @@
 	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
 	<haxelib name="hxCodec" if="VIDEO_PLUGIN" />
 	<haxelib name="SScript" if="ALLOW_SCRIPTS"/>
+	<haxelib name="linc_luajit" if='ALLOW_LUA' />
 
 	<!-- Show debug traces for hxCodec -->
 	<haxedef name="HXC_DEBUG_TRACE" if="debug" />
