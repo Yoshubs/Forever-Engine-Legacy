@@ -520,9 +520,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			}
 
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
-			madeGraphic.scrollFactor.set(scrollOne, scrollTwo);
-			madeGraphic.updateHitbox();
 			madeGraphic.scrollFactor.set(scrollX, scrollY);
+			madeGraphic.updateHitbox();
 			madeGraphic.animation.play(defaultAnim);
 			madeGraphic.antialiasing = true;
 			PlayState.GraphicMap.set(id, madeGraphic);
