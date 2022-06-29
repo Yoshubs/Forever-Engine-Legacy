@@ -492,7 +492,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
-			size:Float = 1, scrollX:Float, scrollY:Float, image:String)
+			size:Float = 1, scrollX:Float, scrollY:Float, image:String, foreground:Bool = false)
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
@@ -500,12 +500,16 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			madeGraphic.updateHitbox();
 			madeGraphic.antialiasing = true;
 			PlayState.GraphicMap.set(id, madeGraphic);
-			add(madeGraphic);
+
+			if (foreground)
+				foreground.add(madeGraphic);
+			else
+				add(madeGraphic);
 		});
 	
 		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
 			size:Float, scrollX:Float, scrollY:Float, image:String,
-			anims:Array<Array<Dynamic>>, defaultAnim:String)
+			anims:Array<Array<Dynamic>>, defaultAnim:String, foreground:Bool = false)
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y);
 			madeGraphic.frames = Paths.getSparrowAtlas(image);
@@ -522,7 +526,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			madeGraphic.animation.play(defaultAnim);
 			madeGraphic.antialiasing = true;
 			PlayState.GraphicMap.set(id, madeGraphic);
-			add(madeGraphic);
+			if (foreground)
+				foreground.add(madeGraphic);
+			else
+				add(madeGraphic);
 		});
 
 		stageScript.set('addOffsetByID', function(id:String, anim:String, x:Float, y:Float)

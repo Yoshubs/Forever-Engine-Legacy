@@ -10,5 +10,6 @@ createAnimatedGraphic(
     0.9, 0.9, // scroll factor x and scroll factor y
     'backgrounds/' + curStage + '/halloween_bg', // image path
     [['lightning', 'halloweem bg lightning strike0025', 24, false]], // [['animation id', 'animation name on XML', fps, whether it loops or not]
-    'lightning' // default animation (uses animation ID)
+    'lightning', // default animation (uses animation ID)
+    false // spawn on foreground
 );
