@@ -162,6 +162,14 @@ class Init extends FlxState
 
 		'Left State' => [false, Checkmark, "for Leaving the Flashing State", NOT_FORCED],
 
+		'Menu Music' => [
+			'freakyMenu',
+			Selector,
+			'Choose the Menu Song you prefer.' /*, you can create custom ones by adding them to the assets/music folder.'*/,
+			NOT_FORCED,
+			['freakyMenu', 'foreverMenu']
+		],
+
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],
 		"Good Hit Window" => [80, Selector, 'Define your desired Hit Window for getting a "Good" Judgement.', NOT_FORCED, ['']],
@@ -294,20 +302,23 @@ class Init extends FlxState
 			trueSettings.set("Hitsound Volume", 0);
 
 		// 'hardcoded' ui skins
-		gameSettings.get("UI Skin")[4] = CoolUtil.returnAssetsLibrary('UI');
+		gameSettings.get("UI Skin")[4] = CoolUtil.returnLibrary('UI');
 		if (!gameSettings.get("UI Skin")[4].contains(trueSettings.get("UI Skin")))
 			trueSettings.set("UI Skin", 'default');
 
-		gameSettings.get("Note Skin")[4] = CoolUtil.returnAssetsLibrary('noteskins/notes');
+		gameSettings.get("Note Skin")[4] = CoolUtil.returnLibrary('noteskins/notes');
 		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
 			trueSettings.set("Note Skin", 'default');
 
-		gameSettings.get("Sound Type")[4] = CoolUtil.returnSoundsLibrary('hitsounds');
+		gameSettings.get("Sound Type")[4] = CoolUtil.returnLibrary('sounds/hitsounds', 'assets');
 		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
 			trueSettings.set("Sound Type", 'default');
 
-		saveSettings();
+		/*gameSettings.get("Menu Music")[4] = CoolUtil.returnLibrary('music/menu', 'assets');
+		if (!gameSettings.get("Menu Music")[4].contains(trueSettings.get("Menu Music")))
+			trueSettings.set("Menu Music", 'freakyMenu');*/
 
+		saveSettings();
 		updateAll();
 
 		FlxG.sound.volume = FlxG.save.data.volume;

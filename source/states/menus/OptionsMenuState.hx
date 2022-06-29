@@ -71,6 +71,7 @@ class OptionsMenuState extends MusicBeatState
 					['Display Accuracy', getFromOption],
 					['Sound Type', getFromOption],
 					['Hitsound Volume', getFromOption],
+					['Menu Music', getFromOption],
 					['Skip Text', getFromOption],
 					['', null],
 					/*['Player Judgements'],

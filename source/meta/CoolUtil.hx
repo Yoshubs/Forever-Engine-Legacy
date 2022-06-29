@@ -65,26 +65,7 @@ class CoolUtil
 		return swagOffsets;
 	}
 
-	public static function returnAssetsLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
-	{
-		//
-		var libraryArray:Array<String> = [];
-		#if !html5
-		var unfilteredLibrary = FileSystem.readDirectory('$subDir/$library');
-
-		for (folder in unfilteredLibrary)
-		{
-			if (!folder.contains('.'))
-				libraryArray.push(folder);
-		}
-		trace(libraryArray);
-		#end
-
-		return libraryArray;
-	}
-
-	// literally just copy and pasted from the above
-	public static function returnSoundsLibrary(library:String, ?subDir:String = 'assets/sounds'):Array<String>
+	public static function returnLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
 	{
 		//
 		var libraryArray:Array<String> = [];
