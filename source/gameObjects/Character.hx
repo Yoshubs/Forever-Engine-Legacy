@@ -146,6 +146,8 @@ class Character extends FNFSprite
 			playAnim(name, force, reversed, frames);
 		});
 
+		charScript.set('isPlayer', isPlayer);
+
 		charScript.execute();
 
 		if (isPlayer) // fuck you ninjamuffin lmao

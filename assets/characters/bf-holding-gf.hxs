@@ -25,4 +25,4 @@ addOffset('singRIGHTmiss', -41, 23);
 playAnim('idle');
 
 setBarColor([49, 176, 209]);
-setDeathChar('bf-holding-gf-dead');
+if (isPlayer) setDeathChar('bf-holding-gf-dead');

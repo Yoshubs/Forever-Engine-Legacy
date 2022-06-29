@@ -28,4 +28,4 @@ set('flipX', true);
 
 setBarColor([49, 176, 209]);
 setCamOffsets(50, -100);
-setDeathChar('bf-pixel-dead', 'fnf_loss_sfx-pixel', 'gameOver-pixel', 'gameOverEnd-pixel');
+if (isPlayer) setDeathChar('bf-pixel-dead', 'fnf_loss_sfx-pixel', 'gameOver-pixel', 'gameOverEnd-pixel');
