@@ -207,6 +207,7 @@ class PlayState extends MusicBeatState
 			FlxG.sound.music.stop();
 
 		startCaching();
+		GameOverSubState.resetGameOver();
 
 		// create the game camera
 		camGame = new FlxCamera();
@@ -971,15 +972,11 @@ class PlayState extends MusicBeatState
 
 				deaths += 1;
 
-				var stageSuffix:String = '';
-				if (assetModifier == 'pixel')
-					stageSuffix = '-pixel';
-
 				new FlxTimer().start(0.1, function(soundTime:FlxTimer)
 				{
-					FlxG.sound.play(Paths.sound('fnf_loss_sfx' + stageSuffix));
+					FlxG.sound.play(Paths.sound(GameOverSubState.deathSound));
 				});
-				openSubState(new GameOverSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+				openSubState(new GameOverSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y, camFollowPos.x, camFollowPos.y));
 
 				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
 			}

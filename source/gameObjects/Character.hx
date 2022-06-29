@@ -14,6 +14,7 @@ import meta.data.*;
 import meta.data.dependency.FNFSprite;
 import openfl.utils.Assets as OpenFlAssets;
 import states.PlayState;
+import states.subStates.GameOverSubState;
 
 using StringTools;
 
@@ -40,7 +41,7 @@ class Character extends FNFSprite
 	public var characterData:CharacterData;
 	public var adjustPos:Bool = true;
 
-	public var animationDisabled:Bool = false;
+	public var positionArray:Array<Float> = [0, 0];
 
 	public function new(?x:Float = 0, ?y:Float = 0, ?isPlayer:Bool = false, ?character:String = 'bf')
 	{
@@ -79,6 +80,7 @@ class Character extends FNFSprite
 		charScript.set('addOffset', function(?name:String = "idle", ?x:Float = 0, ?y:Float = 0)
 		{
 			addOffset(name, x, y);
+			positionArray = [x, y];
 		});
 
 		charScript.set('set', function(name:String, value:Dynamic)
@@ -107,6 +109,15 @@ class Character extends FNFSprite
 		{
 			barColor = rgb;
 			return true;
+		});
+
+		charScript.set('setDeathChar', function(char:String = 'bf-dead', lossSfx:String = 'fnf_loss_sfx',
+			song:String = 'gameOver', confirmSound:String = 'gameOverEnd')
+		{
+			GameOverSubState.character = char;
+			GameOverSubState.deathSound = lossSfx;
+			GameOverSubState.deathMusic = song;
+			GameOverSubState.deathConfirm = confirmSound;
 		});
 
 		charScript.set('get', function(variable:String)
@@ -223,21 +234,18 @@ class Character extends FNFSprite
 
 	override public function playAnim(AnimName:String, Force:Bool = false, Reversed:Bool = false, Frame:Int = 0):Void
 	{
-		if (!animationDisabled)
+		if (animation.getByName(AnimName) != null)
+			super.playAnim(AnimName, Force, Reversed, Frame);
+
+		if (curCharacter == 'gf')
 		{
-			if (animation.getByName(AnimName) != null)
-				super.playAnim(AnimName, Force, Reversed, Frame);
+			if (AnimName == 'singLEFT')
+				danced = true;
+			else if (AnimName == 'singRIGHT')
+				danced = false;
 
-			if (curCharacter == 'gf')
-			{
-				if (AnimName == 'singLEFT')
-					danced = true;
-				else if (AnimName == 'singRIGHT')
-					danced = false;
-
-				if (AnimName == 'singUP' || AnimName == 'singDOWN')
-					danced = !danced;
-			}
+			if (AnimName == 'singUP' || AnimName == 'singDOWN')
+				danced = !danced;
 		}
 	}
 
