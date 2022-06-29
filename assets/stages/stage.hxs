@@ -9,7 +9,7 @@ createGraphic(
     1, // size
     0.9, 0.9, // scroll factor x and scroll factor y
     'backgrounds/' + curStage + '/stageback', // image path
-    false // spawn on foregroun
+    false // spawn on foreground
 );
 createGraphic(
     'stagefront',

@@ -636,8 +636,8 @@ class OriginalChartingState extends MusicBeatState
 			add(gridBG);
 		}
 		gridBlackLine.x = gridBG.x + gridBG.width / 2;
-		leftIcon.setPosition(0, -100);
-		rightIcon.setPosition(gridBG.width / 2, -100);
+		//leftIcon.setPosition(0, -100);
+		//rightIcon.setPosition(gridBG.width / 2, -100);
 		UI_box.x = FlxG.width / 2;
 		UI_box.y = 20;
 		if (_song.six)
@@ -917,14 +917,6 @@ class OriginalChartingState extends MusicBeatState
 			+ "\nBeat: " + curBeat
 			+ "\nStep: " + curStep;
 
-		if (_song.notes[curSection].mustHitSection) {
-			secTxt.text = 'in Player Section';
-			secTxt.color = 0xFF66FF33;
-		} else {
-			secTxt.text = 'in Opponent Section';
-			secTxt.color = 0xFFFF0000;
-		}
-
 		super.update(elapsed);
 
 		lastSongPos = Conductor.songPosition;
@@ -1057,6 +1049,8 @@ class OriginalChartingState extends MusicBeatState
 	{
 		if (!_song.notes[curSection].mustHitSection)
 		{
+			secTxt.text = 'in Opponent Section';
+			secTxt.color = 0xFFFF0000;
 			leftIcon.setPosition(gridBG.width / 2, -100);
 			rightIcon.setPosition(0, -100);
 			leftIcon.flipX = true;
@@ -1064,6 +1058,8 @@ class OriginalChartingState extends MusicBeatState
 		}
 		else
 		{
+			secTxt.text = 'in Player Section';
+			secTxt.color = 0xFF66FF33;
 			leftIcon.setPosition(0, -100);
 			rightIcon.setPosition(gridBG.width / 2, -100);
 			leftIcon.flipX = false;
