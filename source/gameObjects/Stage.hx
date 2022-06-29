@@ -518,7 +518,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		});
 	
 		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
-			size:Float, image:String, anims:Array<Array<Dynamic>>, defaultAnim:String)
+			size:Float, scrollX:Float, scrollY:Float, image:String, anims:Array<Array<Dynamic>>, defaultAnim:String)
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y);
 			madeGraphic.frames = Paths.getSparrowAtlas(image);
@@ -530,6 +530,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
 			madeGraphic.updateHitbox();
+			madeGraphic.scrollFactor.set(scrollX, scrollY);
 			madeGraphic.animation.play(defaultAnim);
 			PlayState.GraphicMap.set(id, madeGraphic);
 			add(madeGraphic);
