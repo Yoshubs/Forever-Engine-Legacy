@@ -503,37 +503,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				tankdude3.antialiasing = true;
 				tankdude3.scrollFactor.set(3.5, 2.5);
 				foreground.add(tankdude3);
-
-			default:
-				PlayState.defaultCamZoom = 0.9;
-				curStage = 'stage';
-				var bg:FNFSprite = new FNFSprite(-600, -200).loadGraphic(Paths.image('backgrounds/' + curStage + '/stageback'));
-				bg.antialiasing = true;
-				bg.scrollFactor.set(0.9, 0.9);
-				bg.active = false;
-
-				// add to the final array
-				add(bg);
-
-				var stageFront:FNFSprite = new FNFSprite(-650, 600).loadGraphic(Paths.image('backgrounds/' + curStage + '/stagefront'));
-				stageFront.setGraphicSize(Std.int(stageFront.width * 1.1));
-				stageFront.updateHitbox();
-				stageFront.antialiasing = true;
-				stageFront.scrollFactor.set(0.9, 0.9);
-				stageFront.active = false;
-
-				// add to the final array
-				add(stageFront);
-
-				var stageCurtains:FNFSprite = new FNFSprite(-500, -300).loadGraphic(Paths.image('backgrounds/' + curStage + '/stagecurtains'));
-				stageCurtains.setGraphicSize(Std.int(stageCurtains.width * 0.9));
-				stageCurtains.updateHitbox();
-				stageCurtains.antialiasing = true;
-				stageCurtains.scrollFactor.set(1.3, 1.3);
-				stageCurtains.active = false;
-
-				// add to the final array
-				add(stageCurtains);
 		}
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
@@ -577,8 +546,14 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			curStage = daStage;
 			PlayState.defaultCamZoom = desiredZoom;
 		});
-	
+
+		stageScript.set('curStage', function()
+		{
+			return curStage;
+		});
+
 		stageScript.execute();
+		trace('should be good to go!');
 	}
 
 	// return the girlfriend's type
