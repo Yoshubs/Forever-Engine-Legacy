@@ -143,21 +143,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		//
 		switch (curStage)
 		{
-			case 'spooky':
-				curStage = 'spooky';
-				// halloweenLevel = true;
-
-				var hallowTex = Paths.getSparrowAtlas('backgrounds/' + curStage + '/halloween_bg');
-
-				halloweenBG = new FNFSprite(-200, -100);
-				halloweenBG.frames = hallowTex;
-				halloweenBG.animation.addByPrefix('idle', 'halloweem bg0');
-				halloweenBG.animation.addByPrefix('lightning', 'halloweem bg lightning strike', 24, false);
-				halloweenBG.animation.play('idle');
-				halloweenBG.antialiasing = true;
-				add(halloweenBG);
-
-			// isHalloween = true;
 			case 'philly':
 				curStage = 'philly';
 
@@ -511,14 +496,16 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
-			madeGraphic.updateHitbox();
 			madeGraphic.scrollFactor.set(scrollOne, scrollTwo);
+			madeGraphic.updateHitbox();
+			madeGraphic.antialiasing = true;
 			PlayState.GraphicMap.set(id, madeGraphic);
 			add(madeGraphic);
 		});
 	
 		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
-			size:Float, image:String, anims:Array<Array<Dynamic>>, defaultAnim:String)
+			size:Float, scrollOne:Float, scrollTwo:Float, image:String,
+			anims:Array<Array<Dynamic>>, defaultAnim:String)
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y);
 			madeGraphic.frames = Paths.getSparrowAtlas(image);
@@ -529,8 +516,10 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			}
 
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
+			madeGraphic.scrollFactor.set(scrollOne, scrollTwo);
 			madeGraphic.updateHitbox();
 			madeGraphic.animation.play(defaultAnim);
+			madeGraphic.antialiasing = true;
 			PlayState.GraphicMap.set(id, madeGraphic);
 			add(madeGraphic);
 		});
@@ -541,7 +530,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			getSprite.addOffset(anim, x, y);
 		});
 
-		stageScript.set('configStage', function(daStage:String, desiredZoom:Float)
+		stageScript.set('configStage', function(daStage:String = 'stage', desiredZoom:Float = 1.05)
 		{
 			curStage = daStage;
 			PlayState.defaultCamZoom = desiredZoom;
@@ -550,7 +539,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		stageScript.set('curStage', curStage);
 
 		stageScript.execute();
-		trace('should be good to go!');
 	}
 
 	// return the girlfriend's type
