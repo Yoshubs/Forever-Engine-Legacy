@@ -61,7 +61,6 @@ class OriginalChartingState extends MusicBeatState
 	public static var lastSection:Int = 0;
 
 	var bpmTxt:FlxText;
-	var secTxt:FlxText;
 
 	var strumLine:FlxSprite;
 	var curSong:String = 'Dadbattle';
@@ -147,24 +146,7 @@ class OriginalChartingState extends MusicBeatState
 		add(leftIcon);
 		add(rightIcon);
 
-		if (!_song.notes[curSection].mustHitSection)
-		{
-			secTxt.text = 'in Opponent Section';
-			secTxt.color = 0xFFFF0000;
-			leftIcon.setPosition(gridBG.width / 2, -100);
-			rightIcon.setPosition(0, -100);
-			leftIcon.flipX = true;
-			rightIcon.flipX = false;
-		}
-		else
-		{
-			secTxt.text = 'in Player Section';
-			secTxt.color = 0xFF66FF33;
-			leftIcon.setPosition(0, -100);
-			rightIcon.setPosition(gridBG.width / 2, -100);
-			leftIcon.flipX = false;
-			rightIcon.flipX = true;
-		}
+		updateHeads();
 
 		FlxG.mouse.visible = true;
 		FlxG.save.bind('funkin', 'ninjamuffin99');
@@ -184,10 +166,6 @@ class OriginalChartingState extends MusicBeatState
 		bpmTxt = new FlxText(1000, 50, 0, "", 16);
 		bpmTxt.scrollFactor.set();
 		add(bpmTxt);
-
-		secTxt = new FlxText(bpmTxt.x, bpmTxt.y - 30, 0, "", 16);
-		secTxt.scrollFactor.set();
-		add(secTxt);
 
 		strumLine = new FlxSprite(0, 50).makeGraphic(Std.int(FlxG.width / 2), 4);
 		add(strumLine);
@@ -1053,8 +1031,6 @@ class OriginalChartingState extends MusicBeatState
 	{
 		if (!_song.notes[curSection].mustHitSection)
 		{
-			secTxt.text = 'in Opponent Section';
-			secTxt.color = 0xFFFF0000;
 			leftIcon.setPosition(gridBG.width / 2, -100);
 			rightIcon.setPosition(0, -100);
 			leftIcon.flipX = true;
@@ -1062,8 +1038,6 @@ class OriginalChartingState extends MusicBeatState
 		}
 		else
 		{
-			secTxt.text = 'in Player Section';
-			secTxt.color = 0xFF66FF33;
 			leftIcon.setPosition(0, -100);
 			rightIcon.setPosition(gridBG.width / 2, -100);
 			leftIcon.flipX = false;
