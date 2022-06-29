@@ -547,10 +547,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			PlayState.defaultCamZoom = desiredZoom;
 		});
 
-		stageScript.set('curStage', function()
-		{
-			return curStage;
-		});
+		stageScript.set('curStage', curStage);
 
 		stageScript.execute();
 		trace('should be good to go!');
