@@ -149,6 +149,8 @@ class OriginalChartingState extends MusicBeatState
 
 		if (!_song.notes[curSection].mustHitSection)
 		{
+			secTxt.text = 'in Opponent Section';
+			secTxt.color = 0xFFFF0000;
 			leftIcon.setPosition(gridBG.width / 2, -100);
 			rightIcon.setPosition(0, -100);
 			leftIcon.flipX = true;
@@ -156,6 +158,8 @@ class OriginalChartingState extends MusicBeatState
 		}
 		else
 		{
+			secTxt.text = 'in Player Section';
+			secTxt.color = 0xFF66FF33;
 			leftIcon.setPosition(0, -100);
 			rightIcon.setPosition(gridBG.width / 2, -100);
 			leftIcon.flipX = false;
