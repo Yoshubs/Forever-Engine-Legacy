@@ -693,6 +693,7 @@ class PlayState extends MusicBeatState
 			set('FlxSprite', FlxSprite);
 			set('FlxTween', FlxTween);
 			set('FlxEase', FlxEase);
+			set('saveData', FlxG.save.data);
 
 			// PlayState values
 			set('song', PlayState.SONG.song);
