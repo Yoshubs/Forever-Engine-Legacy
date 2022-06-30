@@ -83,56 +83,14 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case FNF_LEGACY:
 				/// get hardcoded stage type if chart is fnf style
 				// this is because I want to avoid editing the fnf chart type
-				// custom stage stuffs will come with forever charts
-				switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
-				{
-					case 'spookeez' | 'south' | 'monster':
-						curStage = 'spooky';
-					case 'pico' | 'blammed' | 'philly-nice':
-						curStage = 'philly';
-					case 'milf' | 'satin-panties' | 'high':
-						curStage = 'highway';
-					case 'cocoa' | 'eggnog':
-						curStage = 'mall';
-					case 'winter-horrorland':
-						curStage = 'mallEvil';
-					case 'senpai' | 'roses':
-						curStage = 'school';
-					case 'thorns':
-						curStage = 'schoolEvil';
-					case 'ugh' | 'guns' | 'stress':
-						curStage = 'military';
-					default:
-						curStage = 'stage';
-				}
+				returnBySong();
 
 				PlayState.curStage = curStage;
 
 			case UNDERSCORE | PSYCH | FOREVER:
 				if(curStage == null || curStage.length < 1)
 				{
-					// get hardcoded values *if* the chart json has no data on it for them
-					switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
-					{
-						case 'spookeez' | 'south' | 'monster':
-							curStage = 'spooky';
-						case 'pico' | 'blammed' | 'philly-nice':
-							curStage = 'philly';
-						case 'milf' | 'satin-panties' | 'high':
-							curStage = 'highway';
-						case 'cocoa' | 'eggnog':
-							curStage = 'mall';
-						case 'winter-horrorland':
-							curStage = 'mallEvil';
-						case 'senpai' | 'roses':
-							curStage = 'school';
-						case 'thorns':
-							curStage = 'schoolEvil';
-						case 'ugh' | 'guns' | 'stress':
-							curStage = 'military';
-						default:
-							curStage = 'stage';
-					}
+					returnBySong();
 				}
 				PlayState.curStage = PlayState.SONG.stage;
 		}
@@ -810,6 +768,31 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		tankGround.angle = (tankAngle - 90 + 15);
 		tankGround.x = tankX + 1500 * Math.cos(Math.PI / 180 * (1 * tankAngle + 180));
 		tankGround.y = 1300 + 1100 * Math.sin(Math.PI / 180 * (1 * tankAngle + 180));
+	}
+
+	function returnBySong()
+	{
+		return switch (CoolUtil.spaceToDash(PlayState.SONG.song.toLowerCase()))
+		{
+			case 'spookeez' | 'south' | 'monster':
+				curStage = 'spooky';
+			case 'pico' | 'blammed' | 'philly-nice':
+				curStage = 'philly';
+			case 'milf' | 'satin-panties' | 'high':
+				curStage = 'highway';
+			case 'cocoa' | 'eggnog':
+				curStage = 'mall';
+			case 'winter-horrorland':
+				curStage = 'mallEvil';
+			case 'senpai' | 'roses':
+				curStage = 'school';
+			case 'thorns':
+				curStage = 'schoolEvil';
+			case 'ugh' | 'guns' | 'stress':
+				curStage = 'military';
+			default:
+				curStage = 'stage';
+		}
 	}
 
 	override function add(Object:FlxBasic):FlxBasic
