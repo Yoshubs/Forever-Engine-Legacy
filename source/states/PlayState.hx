@@ -765,6 +765,17 @@ class PlayState extends MusicBeatState
 				return Reflect.getProperty(this, variable);
 			});
 
+			set('getSetting', function(key:String)
+			{
+				var trueSettings = Init.trueSettings;
+				trueSettings.get(key);
+			});
+			set('setSetting', function(key:String, value:Dynamic)
+			{
+				var trueSettings = Init.trueSettings;
+				trueSettings.set(key, value);
+			});
+
 			for (i in scriptArray)
 				i.execute();
 
