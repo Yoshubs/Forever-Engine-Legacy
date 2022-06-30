@@ -231,9 +231,9 @@ class Init extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.save.bind('foreverengine-options');
+		FlxG.save.bind('foreverengine-settings', 'yoshubs');
+		
 		Highscore.load();
-
 		loadSettings();
 		loadControls();
 
@@ -325,8 +325,13 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
-			gameControls = FlxG.save.data.gameControls;
+		FlxG.save.bind('foreverengine-controls', 'yoshubs');
+
+		if (FlxG.save != null && FlxG.save.data.gameControls != null)
+		{
+			if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
+				gameControls = FlxG.save.data.gameControls;
+		}
 
 		saveControls();
 	}
@@ -334,24 +339,28 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
+		FlxG.save.bind('foreverengine-settings', 'yoshubs');
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
+		trace('Settings Saved!');
 		updateAll();
 	}
 
 	public static function saveControls():Void
 	{
-		FlxG.save.data.gameControls = gameControls;
+		// binding this to a separate save so you can easily delete it without losing your settings
+		FlxG.save.bind('foreverengine-controls', 'yoshubs');
+		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
+		
+		trace('Controls Saved!');
 	}
 
 	public static function updateAll()
 	{
 		FlxG.autoPause = trueSettings.get('Auto Pause');
 		
-		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
-
 		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
 
 		#if !html5

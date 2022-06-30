@@ -3,13 +3,13 @@ package states;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
-import flixel.text.FlxText;
-import flixel.util.FlxColor;
-import flixel.effects.FlxFlicker;
-import lime.app.Application;
 import flixel.addons.transition.FlxTransitionableState;
+import flixel.effects.FlxFlicker;
+import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import lime.app.Application;
 import meta.MusicBeat.MusicBeatState;
 
 class FlashingState extends MusicBeatState
@@ -20,6 +20,9 @@ class FlashingState extends MusicBeatState
 	override function create()
 	{
 		super.create();
+
+		// bind save
+		FlxG.save.bind('foreverengine-settings', 'yoshubs');
 
 		// set up state save, this ensures that you did leave this state once BACK or ACCEPT was pressed
 		if (FlxG.save.data.leftFlashing == null)
@@ -89,6 +92,9 @@ class FlashingState extends MusicBeatState
 					});
 				}
 			}
+		} else {
+			// anti "haha u suck here now lmao!!!"
+			gotoTitleScreen();
 		}
 		super.update(elapsed);
 	}
