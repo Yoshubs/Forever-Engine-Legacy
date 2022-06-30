@@ -93,7 +93,7 @@ class FlashingState extends MusicBeatState
 				}
 			}
 		} else {
-			// anti "haha u suck here now lmao!!!"
+			// anti "haha u stuck here now lmao!!!"
 			gotoTitleScreen();
 		}
 		super.update(elapsed);
