@@ -767,13 +767,11 @@ class PlayState extends MusicBeatState
 
 			set('getSetting', function(key:String)
 			{
-				var trueSettings = Init.trueSettings;
-				trueSettings.get(key);
+				Init.trueSettings.get(key);
 			});
 			set('setSetting', function(key:String, value:Dynamic)
 			{
-				var trueSettings = Init.trueSettings;
-				trueSettings.set(key, value);
+				Init.trueSettings.set(key, value);
 			});
 
 			for (i in scriptArray)
