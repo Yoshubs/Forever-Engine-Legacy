@@ -296,8 +296,11 @@ class PlayState extends MusicBeatState
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
+		
+		var stageExists:Bool = FileSystem.exists(Paths.getPreloadPath('stages/' + SONG.stage.toLowerCase() + '.hxs'));
+		
 		// call the song's stage if it exists
-		if (SONG.stage != null)
+		if (SONG.stage != null && stageExists)
 			curStage = SONG.stage;
 
 		// cache shit
@@ -307,6 +310,10 @@ class PlayState extends MusicBeatState
 
 		stageBuild = new Stage(curStage);
 		add(stageBuild);
+
+		var bfExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.player1.toLowerCase() + '.hxs'));
+		var dadExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.player2.toLowerCase() + '.hxs'));
+		var gfExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.gfVersion.toLowerCase() + '.hxs'));
 
 		// set up characters here too
 		gf = new Character();
@@ -320,7 +327,7 @@ class PlayState extends MusicBeatState
 				// blah
 
 			case UNDERSCORE | PSYCH:
-				gf = new Character(300, 100, SONG.gfVersion);
+				gf = new Character(300, 100, gfExists ? SONG.gfVersion : 'gf');
 				gf.dance(true);
 
 			case FNF_LEGACY:
@@ -330,9 +337,9 @@ class PlayState extends MusicBeatState
 		
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dadOpponent = new Character(100, 100, false, SONG.player2);
+		dadOpponent = new Character(100, 100, false, dadExists ? SONG.player2 : 'dad');
 		
-		boyfriend = new Boyfriend(770, 450, SONG.player1);
+		boyfriend = new Boyfriend(770, 450, bfExists ? SONG.player1 : 'bf');
 		boyfriend.dance(true);
 		
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
@@ -343,7 +350,10 @@ class PlayState extends MusicBeatState
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
 
-		if (ChartParser.songType == UNDERSCORE) assetModifier = SONG.assetModifier;
+		if (ChartParser.songType == UNDERSCORE
+			&& SONG.assetModifier != null
+			&& SONG.assetModifier.length > 1) assetModifier = SONG.assetModifier;
+
 		if ((curStage.startsWith("school")) && (ChartParser.songType == FNF_LEGACY)) assetModifier = 'pixel';
 
 		// add characters
