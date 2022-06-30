@@ -1984,7 +1984,7 @@ class PlayState extends MusicBeatState
 
 	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
 	{
-		#if VIDEO_PLUGIN
+		/*#if VIDEO_PLUGIN
 		inCutscene = true;
 
 		var filepath:String = Paths.video(name);
@@ -2017,7 +2017,7 @@ class PlayState extends MusicBeatState
 		FlxG.log.warn('Platform not supported!');
 		startAndEnd();
 		return;
-		#end
+		#end*/
 	}
 
 	function startAndEnd()
