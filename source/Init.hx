@@ -160,8 +160,6 @@ class Init extends FlxState
 
 		'Disable Flashing Lights' => [false, Checkmark, "Whether flashing elements on the menus should be disabled.", NOT_FORCED],
 
-		'Left State' => [false, Checkmark, "for Leaving the Flashing State", NOT_FORCED],
-
 		'Menu Music' => [
 			'freakyMenu',
 			Selector,
@@ -252,7 +250,7 @@ class Init extends FlxState
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 
-		if (!trueSettings.get("Left State"))
+		if (!FlxG.save.data.leftFlashing)
 			Main.switchState(this, new FlashingState());
 		else
 			gotoTitleScreen();

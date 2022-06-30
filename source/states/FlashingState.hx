@@ -21,6 +21,10 @@ class FlashingState extends MusicBeatState
 	{
 		super.create();
 
+		// set up state save, this ensures that you did leave this state once BACK or ACCEPT was pressed
+		if (FlxG.save.data.leftFlashing == null)
+			FlxG.save.data.leftFlashing = false;
+
 		bg = new FlxSprite();
 		bg.loadGraphic(Paths.image('menus/base/menuDesat'));
 		bg.alpha = 0.4;
@@ -55,14 +59,14 @@ class FlashingState extends MusicBeatState
 		else
 			Main.switchState(this, new TitleState());
 
-		// set leftState
-		Init.trueSettings.set('Left State', true);
-		Init.saveSettings();
+		// set it to true, since you don't wanna go back to this state
+		FlxG.save.data.leftFlashing = true;
+		//FlxG.save.flush();
 	}
 
 	override function update(elapsed:Float)
 	{
-		if(!Init.trueSettings.get("Left State")) {
+		if(!FlxG.save.data.leftFlashing) {
 			var accept:Bool = controls.ACCEPT;
 			var back:Bool = controls.BACK;
 
