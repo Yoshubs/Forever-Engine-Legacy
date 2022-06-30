@@ -926,7 +926,7 @@ class PlayState extends MusicBeatState
 
 			if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
 			{
-				doThenDance('hey', boyfriend, 0.6, true);
+				doThenDance('hey', boyfriend);
 			}
 
 			if (curBeat % 16 == 15 && SONG.song.toLowerCase() == 'tutorial'
@@ -942,13 +942,9 @@ class PlayState extends MusicBeatState
 			{
 				switch (curBeat)
 				{
-					case 16:
+					case 16 | 80:
 						gfSpeed = 2;
-					case 48:
-						gfSpeed = 1;
-					case 80:
-						gfSpeed = 2;
-					case 112:
+					case 48 | 112:
 						gfSpeed = 1;
 				}
 			}
@@ -1759,21 +1755,15 @@ class PlayState extends MusicBeatState
 		//*/
 	}
 
-	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0)
+	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0):Void
 	{
 		if (char.animOffsets.exists(anim))
 			char.playAnim(anim, force, reverse, frame);
 
-		if (time != null)
+		new FlxTimer().start((time == null ? 0.6 : time), function(danceTimer:FlxTimer)
 		{
-			new FlxTimer().start(time, function(danceTimer:FlxTimer)
-			{
-				char.dance();
-			});
-		} else {
-			if (char.animation.curAnim.name == anim && char.animation.curAnim.finished)
-				char.dance();
-		}
+			char.dance();
+		});
 	}
 
 	private function charactersDance(curBeat:Int)
