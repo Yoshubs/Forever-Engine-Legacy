@@ -85,11 +85,15 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// healthBar
 		add(healthBar);
 
-		iconP1 = new HealthIcon(SONG.player1, true);
+
+		var dad:Character = new Character(0, 0, false, SONG.player2);
+		var bf:Character = new Character(0, 0, false, SONG.player1);
+
+		iconP1 = new HealthIcon(bf.icon, true);
 		iconP1.y = healthBar.y - (iconP1.height / 2);
 		add(iconP1);
 
-		iconP2 = new HealthIcon(SONG.player2, false);
+		iconP2 = new HealthIcon(dad.icon, false);
 		iconP2.y = healthBar.y - (iconP2.height / 2);
 		add(iconP2);
 

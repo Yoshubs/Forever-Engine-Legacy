@@ -38,6 +38,8 @@ class Character extends FNFSprite
 
 	public var holdTimer:Float = 0;
 
+	public var icon:String;
+
 	public var characterData:CharacterData;
 	public var adjustPos:Bool = true;
 
@@ -101,6 +103,9 @@ class Character extends FNFSprite
 			characterData.camOffsetY = y;
 		});
 
+		charScript.set('setIcon', function(swag:String)
+			icon = swag);
+
 		charScript.set('quickDancer', function(quick:Bool)
 		{
 			characterData.quickDancer = quick;
@@ -157,6 +162,9 @@ class Character extends FNFSprite
 			flipX = !flipX;
 		}
 
+		if (icon == null)
+			icon = curCharacter;
+		
 		x += characterData.offsetX;
 		trace('character ${curCharacter} scale ${scale.y}');
 		y += (characterData.offsetY - (frameHeight * scale.y));

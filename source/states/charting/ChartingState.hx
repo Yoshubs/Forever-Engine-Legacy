@@ -37,6 +37,8 @@ import haxe.io.Bytes;
 import lime.media.AudioBuffer;
 import meta.MusicBeat.MusicBeatState;
 import meta.data.*;
+import meta.data.Conductor.BPMChangeEvent;
+import meta.data.Conductor;
 import meta.data.Section.SwagSection;
 import meta.data.Song.SwagSong;
 import meta.data.dependency.*;
@@ -48,8 +50,8 @@ import openfl.geom.Rectangle;
 import openfl.media.Sound;
 import openfl.net.FileReference;
 import openfl.utils.ByteArray;
-import states.subStates.charting.*;
 import states.menus.FreeplayState;
+import states.subStates.charting.*;
 
 using StringTools;
 
@@ -76,11 +78,14 @@ class ChartingState extends MusicBeatState
 	var camGame:FlxCamera;
 	var strumLineCam:FlxObject;
 
+	var currentSection:Null<Int> = 0;
+
 	var curSelectedNote:Note;
 
 	public static var songPosition:Float = 0;
 	public static var curSong:SwagSong;
 
+	var gridBG:FlxSprite;
 	public static var gridSize:Int = 50;
 
 	var dummyArrow:FlxSprite;
@@ -107,15 +112,6 @@ class ChartingState extends MusicBeatState
 
 		generateBackground();
 
-		//x, y, text on button, text size, child (optional), size ("", "big", or "small"), 
-		//function that will be called when pressed (optional)
-		buttonArray = [
-			[FlxG.width - 180, 20, "Reload Song", 20, null, "", null],
-			[FlxG.width - 240, 70, "Swap Section Notes", 20, null, "", null],
-			[FlxG.width - 240, 120, "Copy Section Notes", 20, null, "", null],
-			[FlxG.width - 240, 170, "Paste Section Notes", 20, null, "", null]
-		];
-
 		if (PlayState.SONG != null)
 			_song = PlayState.SONG;
 		else
@@ -135,13 +131,15 @@ class ChartingState extends MusicBeatState
 		add(buttonTextGroup);
 
 		generateButtons();
-		generateGrid();
-
+		//generateGrid();
+		recreateGrid();
+		
 		curRenderedNotes = new FlxTypedGroup<Note>();
 		curRenderedSustains = new FlxTypedGroup<Note>();
 		curRenderedSections = new FlxTypedGroup<FlxBasic>();
 
-		generateNotes();
+		//generateNotes();
+		updateGrid();
 
 		add(curRenderedSections);
 		add(curRenderedSustains);
@@ -181,8 +179,11 @@ class ChartingState extends MusicBeatState
 		add(arrowGroup);
 		arrowGroup.x -= 1;
 
-		bfIcon = new HealthIcon(_song.player1);
-		dadIcon = new HealthIcon(_song.player2);
+		var dad:Character = new Character(0, 0, false, _song.player2);
+		var bf:Character = new Character(0, 0, false, _song.player1);
+
+		bfIcon = new HealthIcon(bf.icon);
+		dadIcon = new HealthIcon(dad.icon);
 		bfIcon.scrollFactor.set(1, 1);
 		dadIcon.scrollFactor.set(1, 1);
 
@@ -212,7 +213,7 @@ class ChartingState extends MusicBeatState
 		FlxG.cameras.add(camHUD);
 		FlxCamera.defaultCameras = [camGame];
 
-		FlxG.camera.follow(strumLineCam);
+		FlxG.camera.follow(strumLine);
 
 		bpmTxt = new FlxText(5, FlxG.height - 30, 0, "", 16);
 		bpmTxt.setFormat(Paths.font("vcr.ttf"), 16, FlxColor.WHITE, LEFT);
@@ -227,6 +228,10 @@ class ChartingState extends MusicBeatState
 
 	override public function update(elapsed:Float)
 	{
+		super.update(elapsed);
+
+		curStep = recalculateSteps();
+		
 		if (FlxG.keys.justPressed.SPACE)
 		{
 			if (songMusic.playing)
@@ -276,7 +281,8 @@ class ChartingState extends MusicBeatState
 		// strumline camera stuffs!
 		Conductor.songPosition = songMusic.time;
 
-		strumLine.y = getYfromStrum(Conductor.songPosition);
+		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[currentSection].lengthInSteps));
+		trace(strumLine.y);
 		strumLineCam.y = strumLine.y + (FlxG.height / 3);
 		arrowGroup.y = strumLine.y;
 
@@ -286,27 +292,34 @@ class ChartingState extends MusicBeatState
 		bfIcon.y = strumLineCam.y - (FlxG.height / 2);
 		dadIcon.y = strumLineCam.y - (FlxG.height / 2);
 
-		super.update(elapsed);
+		if (curBeat % 4 == 0 && curStep >= 16 * (currentSection + 1))
+			changeSection(currentSection + 1, false);
 
-		if (FlxG.mouse.overlaps(buttonGroup))
-		{
-			buttonGroup.forEach(function(button:CoolAssButton)
+		else if (strumLine.y < -15)
+			changeSection(currentSection - 1, false);
+
+		if (FlxG.mouse.justPressed)
+			if (FlxG.mouse.overlaps(buttonGroup))
 			{
-				if (FlxG.mouse.overlaps(button))
+				buttonGroup.forEach(function(button:CoolAssButton)
 				{
-					button.onClick();
-				}
-			});
-		}
+					if (FlxG.mouse.overlaps(button))
+					{
+						button.onClick(null);
+					}
+				});
+			}
 
 		///*
-		if (FlxG.mouse.x > (fullGrid.x)
-			&& FlxG.mouse.x < (fullGrid.x + fullGrid.width)
+		if (FlxG.mouse.x > (gridBG.x)
+			&& FlxG.mouse.x < (gridBG.x + gridBG.width)
 			&& FlxG.mouse.y > 0
-			&& FlxG.mouse.y < (getYfromStrum(songMusic.length)))
+			&& FlxG.mouse.y < gridBG.y + (gridSize * _song.notes[currentSection].lengthInSteps))
 		{
-			var fakeMouseX = FlxG.mouse.x - fullGrid.x;
-			dummyArrow.x = (Math.floor((fakeMouseX) / gridSize) * gridSize) + fullGrid.x;
+			var fakeMouseX = FlxG.mouse.x - gridBG.x;
+
+			dummyArrow.x = (Math.floor((fakeMouseX) / gridSize) * gridSize) + gridBG.x;
+
 			if (FlxG.keys.pressed.SHIFT)
 				dummyArrow.y = FlxG.mouse.y;
 			else
@@ -321,7 +334,7 @@ class ChartingState extends MusicBeatState
 					var noteStrum = getStrumTime(dummyArrow.y);
 
 					var notesSection = Math.floor(noteStrum / (Conductor.stepCrochet * 16));
-					var noteData = adjustSide(Math.floor((dummyArrow.x - fullGrid.x) / gridSize), _song.notes[notesSection].mustHitSection);
+					var noteData = adjustSide(Math.floor((dummyArrow.x - gridBG.x) / gridSize), _song.notes[notesSection].mustHitSection);
 					var noteSus = 0; // ninja you will NOT get away with this
 
 					//noteCleanup(notesSection, noteStrum, noteData);
@@ -383,6 +396,21 @@ class ChartingState extends MusicBeatState
 			ForeverTools.killMusic([songMusic, vocals]);
 			Main.switchState(this, new FreeplayState());
 		}
+
+		if (FlxG.keys.anyPressed([W, S]))
+		{
+			songMusic.pause();
+			vocals.pause();
+
+			var daTime:Float = 700 * FlxG.elapsed;
+
+			if (FlxG.keys.pressed.W)
+				songMusic.time -= daTime;
+			else
+				songMusic.time += daTime;
+
+			vocals.time = songMusic.time;
+		}
 	}
 
 	function deleteNote(note:Note)
@@ -437,34 +465,88 @@ class ChartingState extends MusicBeatState
 		super.stepHit();
 	}
 
+	function changeSection(?sec:Int = 0, ?stop:Bool = false):Void
+	{
+		currentSection = sec;
+
+		updateGrid();
+
+		if (stop)
+		{
+			vocals.stop();
+			songMusic.stop();
+		}
+
+		Conductor.songPosition = songMusic.time;
+	}
+
+	function sectionStartTime(add:Int = 0):Float
+	{
+		var daBPM:Float = _song.bpm;
+		var daPos:Float = 0;
+		for (i in 0...currentSection + add)
+		{
+			if (_song.notes[i] != null)
+			{
+				if (_song.notes[i].changeBPM)
+				{
+					daBPM = _song.notes[i].bpm;
+				}
+				daPos += 4 * (1000 * 60 / daBPM);
+			}
+		}
+		return daPos;
+	}
+
 	function getStrumTime(yPos:Float):Float
 	{
-		return FlxMath.remapToRange(yPos, 0, (songMusic.length / Conductor.stepCrochet) * gridSize, 0, songMusic.length);
+		return FlxMath.remapToRange(yPos, gridBG.y, gridBG.y + gridBG.height, 0, 16 * Conductor.stepCrochet);
 	}
 
 	function getYfromStrum(strumTime:Float):Float
 	{
-		return FlxMath.remapToRange(strumTime, 0, songMusic.length, 0, (songMusic.length / Conductor.stepCrochet) * gridSize);
+		return FlxMath.remapToRange(strumTime, 0, 16 * Conductor.stepCrochet, gridBG.y, gridBG.y + gridBG.height);
 	}
 
-	var fullGrid:FlxTiledSprite;
-
-	function generateGrid()
+	function updateGrid():Void
 	{
-		// create new sprite
-		var base:FlxSprite = FlxGridOverlay.create(gridSize, gridSize, gridSize * 2, gridSize * 2, true, FlxColor.WHITE, FlxColor.BLACK);
-		fullGrid = new FlxTiledSprite(null, gridSize * keysTotal, gridSize);
-		// base graphic change data
-		var newAlpha = (26 / 255);
-		base.graphic.bitmap.colorTransform(base.graphic.bitmap.rect, new ColorTransform(1, 1, 1, newAlpha));
-		fullGrid.loadGraphic(base.graphic);
-		fullGrid.screenCenter(X);
+		curRenderedNotes.clear();
+		curRenderedSustains.clear();
 
-		// fullgrid height
-		fullGrid.height = (songMusic.length / Conductor.stepCrochet) * gridSize;
+		var sectionInfo:Array<Dynamic> = _song.notes[currentSection].sectionNotes;
 
-		add(fullGrid);
+		for (i in sectionInfo)
+		{
+			var daNoteInfo = i[1];
+			var daStrumTime = i[0];
+			var daSus = i[2];
+			var daNoteType:NoteType = i[3];
+
+			trace('Current note type is $daNoteType.');
+
+			var keys = 4;
+			
+			if (_song.six)
+				keys = 6;
+
+			generateChartNote(daNoteInfo, daStrumTime, daSus, 0, currentSection, false);
+		}
 	}
+
+	function recreateGrid():Void
+	{
+		gridGroup.clear();
+
+		var gayBG:FlxSprite = FlxGridOverlay.create(gridSize, gridSize, gridSize * 8, Std.int(gridSize * 16));
+		gayBG.graphic.bitmap.colorTransform(gayBG.graphic.bitmap.rect, new ColorTransform(1, 1, 1, (32 / 255)));
+
+		gridBG = new FlxTiledSprite(null, gridSize * keysTotal, gridSize);
+		gridBG.loadGraphic(gayBG.graphic);
+		gridBG.screenCenter(X);
+		gridBG.height = Std.int(gridSize * 16);
+		gridGroup.add(gridBG);
+	}
+
 
 	public var sectionLineGraphic:FlxGraphic;
 	public var sectionCameraGraphic:FlxGraphic;
@@ -549,7 +631,8 @@ class ChartingState extends MusicBeatState
 
 	var extraSize = 6;
 
-	function generateSection() { 
+	function generateSection() 
+	{ 
 		// pregenerate assets so it doesnt destroy your ram later
 		sectionLineGraphic = FlxG.bitmap.create(gridSize * keysTotal + extraSize, 2, FlxColor.WHITE);
 		sectionCameraGraphic = FlxG.bitmap.create(Std.int(gridSize * (keysTotal / 2)), 16 * gridSize, FlxColor.fromRGB(43, 116, 219));
@@ -598,13 +681,11 @@ class ChartingState extends MusicBeatState
 		note.sustainLength = daSus;
 		note.setGraphicSize(gridSize, gridSize);
 		note.updateHitbox();
-
 		note.screenCenter(X);
-		note.x -= ((gridSize * (keysTotal / 2)) - (gridSize / 2));
-		note.x += Math.floor(adjustSide(daNoteInfo, _song.notes[noteSection].mustHitSection) * gridSize);
-		note.mustPress = _song.notes[noteSection].mustHitSection;
-		note.y = Math.floor(getYfromStrum(daStrumTime));
-
+		note.x = Math.ffloor(daNoteInfo * gridSize) + gridSize;
+		note.x += 300;
+		note.y = Math.ffloor(getYfromStrum((daStrumTime - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[currentSection].lengthInSteps)));	
+		
 		if (shouldPush)
 		{
 			_song.notes[noteSection].sectionNotes.push([daStrumTime, (daNoteInfo + 4) % 8, daSus, NORMAL]);
@@ -670,6 +751,16 @@ class ChartingState extends MusicBeatState
 
 	function generateButtons():Void
 	{
+		// x, y, text on button, text size, child (optional), size ("" (medium), "big", or "small"),
+		// function that will be called when pressed (optional)
+		
+		buttonArray = [
+			[FlxG.width - 180, 20, "Reload Song", 20, null, "", null],
+			[FlxG.width - 240, 70, "Swap Section Notes", 20, null, "", null],
+			[FlxG.width - 240, 120, "Copy Section Notes", 20, null, "", null],
+			[FlxG.width - 240, 170, "Paste Section Notes", 20, null, "", null]
+		];
+
 		buttonGroup.clear();
 		buttonTextGroup.clear();
 
@@ -679,24 +770,50 @@ class ChartingState extends MusicBeatState
 		{
 			if (i != null)
 			{
+				trace(i);
+
 				switch (i[2].toLowerCase())
 				{
-					case 'load song':
+					case 'reload song':
 						void = function()
 						{
-							loadSong(_song.song);
+							loadSong(PlayState.SONG.song);
 							FlxG.resetState();
+						};
+
+					case 'swap section notes':
+						void = function()
+						{
+							for (i in 0..._song.notes[currentSection].sectionNotes.length)
+							{
+								var note = _song.notes[currentSection].sectionNotes[i];
+
+								// must press
+								var keys = 4;
+								if (_song.six)
+									keys = 6;
+
+								// in total
+								var tolKeys = 8;
+								if (_song.six)
+									keys = 12;
+
+								note[1] = (note[1] + keys) % tolKeys;
+								_song.notes[currentSection].sectionNotes[i] = note;
+								updateGrid();
+							}
 						};
 
 					default:
 						void = i[6];
 				}
 
-				var button:CoolAssButton = new CoolAssButton(i[0], i[1], i[5], void);
+				var button:CoolAssButton = new CoolAssButton(i[0], i[1], i[5], null);
 				button.child = i[4];
+				button.clickThing = void;
 				buttonGroup.add(button);
 
-				var text:AbsoluteText = new AbsoluteText(i[2], i[3], button);
+				var text:AbsoluteText = new AbsoluteText(i[2], i[3], button, 10, 10);
 				text.scrollFactor.set();
 				buttonTextGroup.add(text);
 			}
@@ -707,6 +824,25 @@ class ChartingState extends MusicBeatState
 	function adjustSide(noteData:Int, sectionTemp:Bool)
 	{
 		return (sectionTemp ? ((noteData + 4) % 8) : noteData);
+	}
+
+	function recalculateSteps():Int
+	{
+		var lastChange:BPMChangeEvent = {
+			stepTime: 0,
+			songTime: 0,
+			bpm: 0
+		}
+		for (i in 0...Conductor.bpmChangeMap.length)
+		{
+			if (songMusic.time > Conductor.bpmChangeMap[i].songTime)
+				lastChange = Conductor.bpmChangeMap[i];
+		}
+
+		curStep = lastChange.stepTime + Math.floor((songMusic.time - lastChange.songTime) / Conductor.stepCrochet);
+		updateBeat();
+
+		return curStep;
 	}
 
 	function pauseMusic()

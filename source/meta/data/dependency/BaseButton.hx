@@ -4,7 +4,7 @@ import flixel.FlxSprite;
 
 class BaseButton extends FlxSprite
 {
-    var clickThing:Void -> Void;
+    public var clickThing:Void -> Void;
     public var size:String = "";
     public var child(default, set):String;
 
@@ -43,7 +43,7 @@ class CoolAssButton extends BaseButton
     override public function onClick(?value:Dynamic)
     {
         if (value != null)
-		    Reflect.setField(this, child, value);
+            child = value;    
         
         super.onClick();
     }
