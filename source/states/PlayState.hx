@@ -302,6 +302,8 @@ class PlayState extends MusicBeatState
 		// call the song's stage if it exists
 		if (SONG.stage != null && SONG.stage.length > 1 && stageExists)
 			curStage = SONG.stage;
+		else
+			curStage = 'stage';
 
 		// cache shit
 		displayRating('sick', 'early', true);
