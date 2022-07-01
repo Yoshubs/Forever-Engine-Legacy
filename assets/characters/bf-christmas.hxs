@@ -1,4 +1,4 @@
-setTex('characters/bfChristmas');
+setTex('characters/base/bfChristmas');
 
 addByPrefix('idle', 'BF idle dance', 24, false);
 addByPrefix('singUP', 'BF NOTE UP0', 24, false);

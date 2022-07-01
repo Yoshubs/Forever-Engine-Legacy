@@ -1,4 +1,4 @@
-setPacker('characters/spirit');
+setPacker('characters/base/spirit');
 
 addByPrefix('idle', "idle spirit_", 24, false);
 addByPrefix('singUP', "up_", 24, false);

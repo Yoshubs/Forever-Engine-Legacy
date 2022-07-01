@@ -1,4 +1,4 @@
-setTex('characters/Monster_Assets');
+setTex('characters/base/Monster_Assets');
 
 addByPrefix('idle', 'monster idle', 24, false);
 addByPrefix('singUP', 'monster up note', 24, false);

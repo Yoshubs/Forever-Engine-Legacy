@@ -1,4 +1,4 @@
-setTex('characters/picoSpeaker');
+setTex('characters/base/picoSpeaker');
 
 addByIndices('idle', 'Pico shoot 1', [10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24], 24, true);
 addByIndices('shoot1', 'Pico shoot 1', [0, 1, 2, 3, 4, 5, 6, 7], 24, true);

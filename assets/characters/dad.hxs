@@ -1,4 +1,4 @@
-setTex('characters/DADDY_DEAREST');
+setTex('characters/base/DADDY_DEAREST');
 
 addByPrefix('idle', 'Dad idle dance', 24, false);
 addByPrefix('singUP', 'Dad Sing Note UP', 24);

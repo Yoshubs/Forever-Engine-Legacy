@@ -1,4 +1,4 @@
-setTex('characters/Pico_FNF_assetss');
+setTex('characters/base/Pico_FNF_assetss');
 
 addByPrefix('idle', "Pico Idle Dance", 24, false);
 addByPrefix('singUP', 'pico Up note0', 24, false);

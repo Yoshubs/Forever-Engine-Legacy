@@ -1,4 +1,4 @@
-setTex('characters/senpai');
+setTex('characters/base/senpai');
 
 addByPrefix('idle', 'Senpai Idle', 24, false);
 addByPrefix('singUP', 'SENPAI UP NOTE', 24, false);

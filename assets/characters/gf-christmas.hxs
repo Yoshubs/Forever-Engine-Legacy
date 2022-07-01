@@ -1,4 +1,4 @@
-setTex('characters/gfChristmas');
+setTex('characters/base/gfChristmas');
 
 addByPrefix('cheer', 'GF Cheer', 24, false);
 addByPrefix('singLEFT', 'GF left note', 24, false);

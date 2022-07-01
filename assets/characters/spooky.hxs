@@ -1,4 +1,4 @@
-setTex('characters/spooky_kids_assets');
+setTex('characters/base/spooky_kids_assets');
 
 addByPrefix('singUP', 'spooky UP NOTE', 24, false);
 addByPrefix('singDOWN', 'spooky DOWN note', 24, false);

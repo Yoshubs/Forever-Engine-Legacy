@@ -1,4 +1,4 @@
-setTex('characters/bfAndGF');
+setTex('characters/base/bfAndGF');
 
 addByPrefix('idle', 'BF idle dance w gf', 24, false);
 addByPrefix('singUP', 'BF NOTE UP0', 24, false);

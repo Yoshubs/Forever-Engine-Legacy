@@ -1,4 +1,4 @@
-setTex('characters/bfHoldingGF-DEAD');
+setTex('characters/base/bfHoldingGF-DEAD');
 
 addByPrefix('firstDeath', "BF Dies with GF", 24, false);
 addByPrefix('deathLoop', "BF Dead with GF Loop", 24, true);

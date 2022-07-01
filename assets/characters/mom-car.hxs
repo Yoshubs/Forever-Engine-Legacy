@@ -1,4 +1,4 @@
-setTex('characters/momCar');
+setTex('characters/base/momCar');
 
 addByPrefix('idle', "Mom Idle", 24, false);
 addByPrefix('singUP', "Mom Up Pose", 24, false);

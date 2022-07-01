@@ -1,4 +1,4 @@
-setTex('characters/tankmanCaptain');
+setTex('characters/base/tankmanCaptain');
 
 addByPrefix('idle', 'Tankman Idle Dance instance', 24, false);
 addByPrefix('singUP', 'Tankman UP note instance', 24, false);

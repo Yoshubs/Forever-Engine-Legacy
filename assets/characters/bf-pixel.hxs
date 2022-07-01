@@ -1,4 +1,4 @@
-setTex('characters/bfPixel');
+setTex('characters/base/bfPixel');
 
 addByPrefix('idle', 'BF IDLE', 24, false);
 addByPrefix('singUP', 'BF UP NOTE', 24, false);

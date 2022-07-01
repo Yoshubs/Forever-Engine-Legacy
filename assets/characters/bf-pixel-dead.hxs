@@ -1,4 +1,4 @@
-setTex('characters/bfPixelsDEAD');
+setTex('characters/base/bfPixelsDEAD');
 
 addByPrefix('firstDeath', "BF Dies pixel", 24, false);
 addByPrefix('deathLoop', "Retry Loop", 24, true);

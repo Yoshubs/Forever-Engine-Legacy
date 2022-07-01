@@ -1,4 +1,4 @@
-setTex('characters/mom_dad_christmas_assets');
+setTex('characters/base/mom_dad_christmas_assets');
 
 addByPrefix('idle', 'Parent Christmas Idle', 24, false);
 addByPrefix('singUP', 'Parent Up Note Dad', 24, false);
