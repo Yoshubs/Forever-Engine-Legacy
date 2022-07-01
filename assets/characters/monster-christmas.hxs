@@ -14,4 +14,4 @@ addOffset('singRIGHT', -51, 0);
 
 playAnim('idle');
 
-setBarColor([243, 255, 110]);
+setBarColor([243,255,110]);

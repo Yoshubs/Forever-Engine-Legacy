@@ -16,4 +16,4 @@ addOffset('singRIGHT', 10, -60);
 playAnim('idle');
 
 setCamOffsets(0, 100);
-setBarColor(0xFFd8558e);
+setBarColor([216,85,142]);

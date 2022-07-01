@@ -144,70 +144,25 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		// colorTest += 0.125;
-		// bg.color = FlxColor.fromHSB(colorTest, 100, 100, 0.5);
-
-		var up = controls.UI_UP;
-		var down = controls.UI_DOWN;
-		var up_p = controls.UI_UP_P;
-		var down_p = controls.UI_DOWN_P;
-		var controlArray:Array<Bool> = [up, down, up_p, down_p];
-
-		if ((controlArray.contains(true)) && (!selectedSomethin))
+		if (controls.UI_UP_P)
 		{
-			for (i in 0...controlArray.length)
-			{
-				// here we check which keys are pressed
-				if (controlArray[i] == true)
-				{
-					// if single press
-					if (i > 1)
-					{
-						// up is 2 and down is 3
-						// paaaaaiiiiiiinnnnn
-						if (i == 2)
-							curSelected--;
-						else if (i == 3)
-							curSelected++;
-
-						FlxG.sound.play(Paths.sound('scrollMenu'));
-					}
-					/* idk something about it isn't working yet I'll rewrite it later
-						else
-						{
-							// paaaaaaaiiiiiiiinnnn
-							var curDir:Int = 0;
-							if (i == 0)
-								curDir = -1;
-							else if (i == 1)
-								curDir = 1;
-
-							if (counterControl < 2)
-								counterControl += 0.05;
-
-							if (counterControl >= 1)
-							{
-								curSelected += (curDir * (counterControl / 24));
-								if (curSelected % 1 == 0)
-									FlxG.sound.play(Paths.sound('scrollMenu'));
-							}
-					}*/
-
-					if (curSelected < 0)
-						curSelected = optionShit.length - 1;
-					else if (curSelected >= optionShit.length)
-						curSelected = 0;
-				}
-				//
-			}
-		}
-		else
-		{
-			// reset variables
-			counterControl = 0;
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			updateSelection(-1);
 		}
 
-		if ((controls.ACCEPT) && (!selectedSomethin))
+		if (controls.UI_DOWN_P)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'));
+			updateSelection(1);
+		}
+
+		if(FlxG.mouse.wheel != 0)
+		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+			updateSelection(-FlxG.mouse.wheel);
+		}
+
+		if ((controls.ACCEPT || FlxG.mouse.justPressed) && (!selectedSomethin))
 		{
 			//
 			selectedSomethin = true;
@@ -267,8 +222,15 @@ class MainMenuState extends MusicBeatState
 
 	var lastCurSelected:Int = 0;
 
-	private function updateSelection()
+	private function updateSelection(hey:Int = 0)
 	{
+		curSelected += hey;
+
+		if (curSelected < 0)
+			curSelected = optionShit.length - 1;
+		else if (curSelected >= optionShit.length)
+			curSelected = 0;
+
 		// reset all selections
 		menuItems.forEach(function(spr:FlxSprite)
 		{

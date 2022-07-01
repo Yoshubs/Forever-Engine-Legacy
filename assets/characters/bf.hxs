@@ -17,5 +17,5 @@ playAnim('idle');
 addOffset('hey', -3);
 
 setOffsets(0, 0);
-setBarColor([175, 102, 206]);
+setBarColor([49,176,209]);
 setCamOffsets(0, -50);

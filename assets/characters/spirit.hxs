@@ -18,4 +18,4 @@ set('antialiasing', false);
 playAnim('idle');
 
 setCamOffsets(100, 50);
-setBarColor([255, 60, 110]);
+setBarColor([255,60,110]);

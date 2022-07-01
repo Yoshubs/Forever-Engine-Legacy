@@ -154,7 +154,7 @@ class FreeplayState extends MusicBeatState
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		var leText:String = "- SHIFT = Open Charting Menu. -";
+		var leText:String = "- ALT = Open Charting Menu. -";
 		var size:Int = 18;
 		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
 		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
@@ -200,6 +200,7 @@ class FreeplayState extends MusicBeatState
 		}
 	}
 
+	var holdTime:Float = 0;
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
@@ -215,36 +216,63 @@ class FreeplayState extends MusicBeatState
 		var upP = controls.UI_UP_P;
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
+		var alt = FlxG.keys.justPressed.ALT;
 
-		if (upP)
-			changeSelection(-1);
-		else if (downP)
-			changeSelection(1);
+		var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
+		if(songs.length > 1)
+		{
+			if (upP)
+			{
+				changeSelection(-shiftMult);
+				holdTime = 0;
+			}
+			if (downP)
+			{
+				changeSelection(shiftMult);
+				holdTime = 0;
+			}
+
+			if(controls.UI_DOWN || controls.UI_UP)
+			{
+				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+				holdTime += elapsed;
+				var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+				if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+				{
+					changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+					changeDiff();
+				}
+			}
+
+			if(FlxG.mouse.wheel != 0)
+			{
+				changeSelection(-shiftMult * FlxG.mouse.wheel);
+				changeDiff();
+			}
+		}
 
 		if (controls.UI_LEFT_P)
 			changeDiff(-1);
-		if (controls.UI_RIGHT_P)
+		else if (controls.UI_RIGHT_P)
 			changeDiff(1);
 
-		if (controls.BACK)
+		if (controls.BACK || FlxG.mouse.justPressedRight)
 		{
 			threadActive = false;
 			Main.switchState(this, new MainMenuState());
 		}
 
-		if (accepted)
+		if (accepted || FlxG.mouse.justPressed)
 			loadSong(true, true);
-		else if (FlxG.keys.justPressed.SHIFT) {
+		else if (alt) {
 			loadSong(false, false);
 			openSubState(new CharterSubState(0, 0, false));
 		}
 
-		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
-		scoreText.x = FlxG.width - scoreText.width - 5;
-		scoreBG.width = scoreText.width + 8;
-		scoreBG.x = FlxG.width - scoreBG.width;
-		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+		repositionHighscore();
 
 		mutex.acquire();
 		if (songToPlay != null)
@@ -395,6 +423,16 @@ class FreeplayState extends MusicBeatState
 	}
 
 	var playingSongs:Array<FlxSound> = [];
+
+	private function repositionHighscore()
+	{
+		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
+		scoreText.text = "PERSONAL BEST:" + lerpScore;
+		scoreText.x = FlxG.width - scoreText.width - 5;
+		scoreBG.width = scoreText.width + 8;
+		scoreBG.x = FlxG.width - scoreBG.width;
+		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+	}
 }
 
 class SongMetadata

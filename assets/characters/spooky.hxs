@@ -16,5 +16,5 @@ addOffset('singDOWN', -50, -130);
 
 playAnim('danceRight');
 
-setBarColor([213, 126, 0]);
+setBarColor([213,126,0]);
 quickDancer(true);

@@ -25,4 +25,4 @@ addOffset('singRIGHTmiss', -30, 21);
 
 playAnim('idle');
 
-setBarColor([49, 176, 209]);
+setBarColor([49,176,209]);

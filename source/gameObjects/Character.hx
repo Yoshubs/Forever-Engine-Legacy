@@ -148,6 +148,7 @@ class Character extends FNFSprite
 		});
 
 		charScript.set('isPlayer', isPlayer);
+		charScript.set('curStage', PlayState.curStage);
 
 		charScript.execute();
 

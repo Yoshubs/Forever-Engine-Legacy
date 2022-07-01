@@ -22,4 +22,4 @@ addOffset('singDOWN-alt' -30 -27);
 
 playAnim('idle');
 
-setBarColor([196, 94, 174]);
+setBarColor([196,94,174]);

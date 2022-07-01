@@ -243,13 +243,19 @@ class StoryMenuState extends MusicBeatState
 					changeDifficulty(1);
 				if (controls.UI_LEFT_P)
 					changeDifficulty(-1);
+
+				if(FlxG.mouse.wheel != 0)
+				{
+					changeWeek(-FlxG.mouse.wheel);
+					changeDifficulty();
+				}
 			}
 
-			if (controls.ACCEPT)
+			if (controls.ACCEPT || FlxG.mouse.justPressed)
 				selectWeek();
 		}
 
-		if (controls.BACK && !movedBack && !selectedWeek)
+		if (controls.BACK || FlxG.mouse.justPressedRight && !movedBack && !selectedWeek)
 		{
 			FlxG.sound.play(Paths.sound('cancelMenu'));
 			movedBack = true;

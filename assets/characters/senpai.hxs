@@ -18,5 +18,5 @@ set('antialiasing', false);
 playAnim('idle');
 
 setCamOffsets(-230, -590);
-setBarColor([255, 170, 111]);
+setBarColor([255,170,111]);
 quickDancer(true);

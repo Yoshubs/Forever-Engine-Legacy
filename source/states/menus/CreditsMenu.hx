@@ -101,20 +101,43 @@ class CreditsMenu extends MusicBeatState
         changeSelection();
     }
 
+    var holdTime:Float = 0;
     override function update(elapsed:Float)
     {
         super.update(elapsed);
 
-        if (controls.UI_UP_P) 
-            changeSelection(-1);
+        var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
 
-        if (controls.UI_DOWN_P) 
-            changeSelection(1);
+        if (controls.UI_UP_P) {
+            changeSelection(-shiftMult);
+            holdTime = 0;
+        }
 
-        if (controls.BACK) 
+        if (controls.UI_DOWN_P) {
+            changeSelection(shiftMult);
+            holdTime = 0;
+        }
+
+        if(controls.UI_DOWN || controls.UI_UP)
+		{
+			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
+			holdTime += elapsed;
+			var checkNewHold:Int = Math.floor((holdTime - 0.5) * 10);
+
+			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
+			{
+				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+			}
+		}
+
+        if(FlxG.mouse.wheel != 0)
+            changeSelection(-shiftMult * FlxG.mouse.wheel);
+
+        if (controls.BACK || FlxG.mouse.justPressedRight) 
             Main.switchState(this, new MainMenuState());
 
-        if (controls.ACCEPT && selectableItem(curSelected) && creditsData.data[curSelected][4] != null
+        if (controls.ACCEPT || FlxG.mouse.justPressed && selectableItem(curSelected) && creditsData.data[curSelected][4] != null
             && creditsData.data[curSelected][4] != '') 
             CoolUtil.browserLoad(creditsData.data[curSelected][4]);
     }

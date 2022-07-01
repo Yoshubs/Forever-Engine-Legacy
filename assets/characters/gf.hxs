@@ -28,4 +28,4 @@ addOffset('hairFall', 0, -9);
 
 playAnim('danceRight');
 
-setBarColor([165, 0, 77]);
+setBarColor([165,0,77]);

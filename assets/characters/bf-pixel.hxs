@@ -26,6 +26,6 @@ setGraphicSize(get('width') * 6);
 set('antialiasing', false);
 set('flipX', true);
 
-setBarColor([49, 176, 209]);
+setBarColor([123,214,246]);
 setCamOffsets(50, -100);
 if (isPlayer) setDeathChar('bf-pixel-dead', 'fnf_loss_sfx-pixel', 'gameOver-pixel', 'gameOverEnd-pixel');

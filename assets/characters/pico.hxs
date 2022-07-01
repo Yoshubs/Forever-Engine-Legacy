@@ -19,5 +19,5 @@ addOffset('singDOWNmiss', 210, -331);
 playAnim('idle');
 
 set('flipX', true);
-setBarColor([183, 216, 85]);
+setBarColor([183,216,85]);
 setCamOffsets(30, 300);

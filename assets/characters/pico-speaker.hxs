@@ -13,4 +13,4 @@ addOffset('shoot4', 439, -19);
 
 playAnim('shoot1');
 
-setBarColor([183, 216, 85]);
+setBarColor([183,216,85]);
