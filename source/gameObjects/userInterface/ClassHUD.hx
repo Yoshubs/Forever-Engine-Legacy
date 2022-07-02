@@ -27,14 +27,13 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
 	var scoreBar:FlxText;
-
 	var scoreLast:Float = -1;
-
-	var cornerMark:FlxText; // engine mark at the upper right corner
-	var centerMark:FlxText; // song display name and difficulty at the center
 
 	// fnf mods
 	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
+
+	var cornerMark:FlxText; // engine mark at the upper right corner
+	var centerMark:FlxText; // song display name and difficulty at the center
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -120,7 +119,10 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(centerMark);
-		centerMark.y = FlxG.height / 24;
+		if (Init.trueSettings.get('Downscroll'))
+			centerMark.y = (FlxG.height - centerMark.height / 2) - 30;
+		else
+			centerMark.y = (FlxG.height / 24) - 10;
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
 
