@@ -951,10 +951,7 @@ class PlayState extends MusicBeatState
 			if (curBeat % 16 == 15 && SONG.song.toLowerCase() == 'tutorial'
 				&& dadOpponent.curCharacter == 'gf' && curBeat > 16 && curBeat < 48)
 			{
-				if (boyfriend.animOffsets.exists('hey'))
-					boyfriend.playAnim('hey', true);
-				if (dadOpponent.animOffsets.exists('cheer'))
-					dadOpponent.playAnim('cheer', true);
+				doThenDance('hey', boyfriend);
 			}
 
 			if (curSong.toLowerCase() == 'fresh')
