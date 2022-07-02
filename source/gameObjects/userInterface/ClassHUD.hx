@@ -26,11 +26,12 @@ using StringTools;
 class ClassHUD extends FlxTypedGroup<FlxBasic>
 {
 	// set up variables and stuff here
-	var infoBar:FlxText; // small side bar like kade engine that tells you engine info
-	var engineBar:FlxText;
 	var scoreBar:FlxText;
 
 	var scoreLast:Float = -1;
+
+	var cornerMark:FlxText; // engine mark at the upper right corner
+	var centerMark:FlxText; // song display name and difficulty at the center
 
 	// fnf mods
 	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
@@ -45,12 +46,15 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 
 	private var stupidHealth:Float = 0;
 
-	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song) + ' - ' + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
-	var engineDisplay:String = "Forever Engine v" + Main.gameVersion;
+	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
+	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
+	var engineDisplay:String = "FOREVER ENGINE v" + Main.gameVersion;
 
 	public var autoplayTxt:FlxText;
 
 	private var timingsMap:Map<String, FlxText> = [];
+
+	private var fillDirection = RIGHT_TO_LEFT;
 
 	// eep
 	public function new()
@@ -69,7 +73,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		healthBarBG.scrollFactor.set();
 		add(healthBarBG);
 
-		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, RIGHT_TO_LEFT, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
+		healthBar = new FlxBar(healthBarBG.x + 4, healthBarBG.y + 4, fillDirection, Std.int(healthBarBG.width - 8), Std.int(healthBarBG.height - 8));
 		healthBar.scrollFactor.set();
 		if (Init.trueSettings.get('Icon Colored Health Bar')) 
 		{
@@ -105,15 +109,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		scoreBar.antialiasing = true;
 		add(scoreBar);
 
-		var cornerMark:FlxText = new FlxText(0, 0, 0, 'FOREVER ENGINE v${Main.gameVersion}\n');
+		cornerMark = new FlxText(0, 0, 0, engineDisplay);
 		cornerMark.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 		cornerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(cornerMark);
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		cornerMark.antialiasing = true;
 
-		var centerMark:FlxText = new FlxText(0, 0, 0,
-			'- ${CoolUtil.dashToSpace(PlayState.SONG.song) + " [" + CoolUtil.difficultyFromNumber(PlayState.storyDifficulty)}] -\n');
+		centerMark = new FlxText(0, 0, 0, '- ${infoDisplay + " [" + diffDisplay}] -');
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(centerMark);

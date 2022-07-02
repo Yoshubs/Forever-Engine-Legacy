@@ -725,6 +725,8 @@ class PlayState extends MusicBeatState
 			set('chartingMode', chartingMode);
 			set('practiceMode', practiceMode);
 			set('autoplay', bfStrums.autoplay);
+			set('dadStrums', dadStrums);
+			set('bfStrums', bfStrums);
 			set('hud', uiHUD);
 			
 			set('score', songScore);
