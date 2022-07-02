@@ -21,10 +21,10 @@ import meta.data.Song.SwagSong;
 import meta.data.dependency.Discord;
 import meta.data.font.Alphabet;
 import openfl.media.Sound;
+import states.subStates.CharterSubState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
-import states.subStates.CharterSubState;
 
 using StringTools;
 
@@ -43,7 +43,7 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
-	var finalRank:String;
+	var intendedRank:String;
 
 	var songThread:Thread;
 	var threadActive:Bool = true;
@@ -331,9 +331,9 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 0;
 
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
-		finalRank = Highscore.getRank(songs[curSelected].songName, curDifficulty);
+		intendedRank = Highscore.getRank(songs[curSelected].songName, curDifficulty);
 
-		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' - ' + finalRank + ' >';
+		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' - ' + intendedRank + ' >';
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
@@ -349,6 +349,7 @@ class FreeplayState extends MusicBeatState
 			curSelected = 0;
 
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		intendedRank = Highscore.getRank(songs[curSelected].songName, curDifficulty);
 
 		// set up color stuffs
 		mainColor = songs[curSelected].songColor;

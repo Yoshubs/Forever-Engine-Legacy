@@ -40,7 +40,7 @@ class Highscore
 			setScore(daWeek, score);
 	}
 
-	public static function saveRank(song:String, rank:String = 'F', ?diff:Int = 0):Void
+	public static function saveRank(song:String, rank:String, ?diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);
 
@@ -103,21 +103,14 @@ class Highscore
 	public static function getRank(song:String, diff:Int):String
 	{
 		if (!songRanks.exists(formatSong(song, diff)))
-			setRank(formatSong(song, diff), Std.string(Timings.returnScoreRating().toUpperCase()));
+			setRank(formatSong(song, diff), Timings.returnScoreRating().toUpperCase());
 
 		return songRanks.get(formatSong(song, diff));
 	}
 
 	public static function load():Void
 	{
-		if (FlxG.save.data.songScores != null)
-		{
-			songScores = FlxG.save.data.songScores;
-		}
-
-		if (FlxG.save.data.songRanks != null)
-		{
-			songRanks = FlxG.save.data.songRanks;
-		}
+		if (FlxG.save.data.songScores != null) songScores = FlxG.save.data.songScores;
+		if (FlxG.save.data.songRanks != null) songRanks = FlxG.save.data.songRanks;
 	}
 }
