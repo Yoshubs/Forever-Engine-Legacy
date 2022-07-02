@@ -217,9 +217,12 @@ class FreeplayState extends MusicBeatState
 		var downP = controls.UI_DOWN_P;
 		var accepted = controls.ACCEPT;
 		var alt = FlxG.keys.justPressed.ALT;
+		var shift = FlxG.keys.justPressed.SHIFT;
+		var shiftP = FlxG.keys.pressed.SHIFT;
+		var ctrl = FlxG.keys.justPressed.CONTROL;
 
 		var shiftMult:Int = 1;
-		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+		if(shiftP) shiftMult = 3;
 
 		if(songs.length > 1)
 		{
@@ -261,7 +264,9 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK || FlxG.mouse.justPressedRight)
 		{
+			if (FlxG.sound.music != null) FlxG.sound.music.stop();
 			threadActive = false;
+			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 			Main.switchState(this, new MainMenuState());
 		}
 
@@ -375,6 +380,7 @@ class FreeplayState extends MusicBeatState
 		trace("curSelected: " + curSelected);
 
 		changeDiff();
+
 		changeSongPlaying();
 	}
 
