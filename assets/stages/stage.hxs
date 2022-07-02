@@ -1,7 +1,7 @@
-// here we set the stage name and default zoom
-configStage('stage', 0.9);
+configStage('stage', 0.9); // set the stage name and default zoom
+resetKey(false); // makes it so F5 restarts the song, useful for debugging
 
-// and here we create graphics for the stage
+// create graphics for the stage
 createGraphic(
     'bg', // graphic id
     -600, // position x

@@ -1,7 +1,7 @@
-// here we set the stage name and default zoom
-configStage('spooky');
+// set the stage name and default zoom
+configStage('spooky', 0.9);
 
-// and here we create graphics for the stage
+// create graphics for the stage
 createAnimatedGraphic(
     'halloweenBG', // graphic id
     -200, // x position

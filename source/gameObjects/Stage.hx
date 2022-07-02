@@ -503,6 +503,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		stageScript.set('curStage', curStage);
 
+		stageScript.set('resetKey', function(button:Bool)
+		{
+			PlayState.resetKey = button;
+		});
+
 		stageScript.execute();
 	}
 

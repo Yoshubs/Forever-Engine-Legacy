@@ -173,6 +173,8 @@ class PlayState extends MusicBeatState
 	public static var practiceMode:Bool = false;
 	public static var deaths:Int = 0;
 
+	public static var resetKey:Bool = false;
+
 	// at the beginning of the playstate
 	override public function create()
 	{
@@ -680,7 +682,22 @@ class PlayState extends MusicBeatState
 				else
 					dialogueBox.updateDialog();
 			}
+		}
 
+		if (FlxG.keys.justPressed.F5 && resetKey) {
+			// pause game
+			paused = true;
+
+			// skip transition
+			FlxTransitionableState.skipNextTransIn = true;
+			FlxTransitionableState.skipNextTransOut = true;
+
+			// reset state
+			Main.switchState(this, new PlayState());
+
+			// turn skips off
+			FlxTransitionableState.skipNextTransIn = false;
+			FlxTransitionableState.skipNextTransOut = false;
 		}
 
 		if (generatedMusic)
