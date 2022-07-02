@@ -534,10 +534,12 @@ class PlayState extends MusicBeatState
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
+				// pause first
+				paused = true;
+				
 				// update drawing stuffs
 				persistentUpdate = false;
 				persistentDraw = true;
-				paused = true;
 
 				// open pause substate
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
