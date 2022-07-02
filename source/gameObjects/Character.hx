@@ -83,7 +83,7 @@ class Character extends FNFSprite
 		charScript.set('addOffset', function(?name:String = "idle", ?x:Float = 0, ?y:Float = 0)
 		{
 			addOffset(name, x, y);
-			positionArray = [x, y];
+			if (name == 'idle') positionArray = [x, y];
 		});
 
 		charScript.set('set', function(name:String, value:Dynamic)

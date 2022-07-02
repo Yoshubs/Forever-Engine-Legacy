@@ -207,8 +207,6 @@ class PlayState extends MusicBeatState
 		resetMusic();
 		if (FlxG.sound.music != null)
 			FlxG.sound.music.stop();
-
-		startCaching();
 		GameOverSubState.resetGameOver();
 
 		// create the game camera
@@ -507,27 +505,6 @@ class PlayState extends MusicBeatState
 		var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
 		FlxG.camera.setFilters([new ShaderFilter(shader)]);
 		*/
-	}
-
-	function startCaching()
-	{
-		var stageSuffix = '';
-
-		if (assetModifier == 'pixel')
-			stageSuffix = '-pixel';
-
-		if((Init.trueSettings.get('Hitsound Volume')) > 0) Paths.sound('hitsounds/$changeableSound/hit');
-
-		// cache songs
-		Paths.music('breakfast');
-		Paths.music('gameOver' + stageSuffix);
-		Paths.music('gameOverEnd' + stageSuffix);
-
-		// cache sounds
-		Paths.sound('missnote1');
-		Paths.sound('missnote2');
-		Paths.sound('missnote3');
-		Paths.sound('fnf_loss_sfx' + stageSuffix);
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
