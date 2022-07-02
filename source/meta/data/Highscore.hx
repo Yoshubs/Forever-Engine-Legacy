@@ -8,8 +8,10 @@ class Highscore
 {
 	#if (haxe >= "4.0.0")
 	public static var songScores:Map<String, Int> = new Map();
+	public static var songRanks:Map<String, String> = new Map();
 	#else
 	public static var songScores:Map<String, Int> = new Map<String, Int>();
+	public static var songRanks:Map<String, String> = new Map<String, String>();
 	#end
 
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
@@ -38,6 +40,19 @@ class Highscore
 			setScore(daWeek, score);
 	}
 
+	public static function saveRank(song:String, rank:String = 'F', ?diff:Int = 0):Void
+	{
+		var daSong:String = formatSong(song, diff);
+
+		if (songRanks.exists(daSong))
+		{
+			if (songRanks.get(daSong) != null)
+				setRank(daSong, rank);
+		}
+		else
+			setRank(daSong, rank);
+	}
+
 	/**
 	 * YOU SHOULD FORMAT SONG WITH formatSong() BEFORE TOSSING IN SONG VARIABLE
 	 */
@@ -46,6 +61,14 @@ class Highscore
 		// Reminder that I don't need to format this song, it should come formatted!
 		songScores.set(song, score);
 		FlxG.save.data.songScores = songScores;
+		FlxG.save.flush();
+	}
+
+	static function setRank(song:String, rank:String):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songRanks.set(song, rank);
+		FlxG.save.data.songRanks = songRanks;
 		FlxG.save.flush();
 	}
 
@@ -77,11 +100,24 @@ class Highscore
 		return songScores.get(formatSong('week' + week, diff));
 	}
 
+	public static function getRank(song:String, diff:Int):String
+	{
+		if (!songRanks.exists(formatSong(song, diff)))
+			setRank(formatSong(song, diff), Std.string(Timings.returnScoreRating().toUpperCase()));
+
+		return songRanks.get(formatSong(song, diff));
+	}
+
 	public static function load():Void
 	{
 		if (FlxG.save.data.songScores != null)
 		{
 			songScores = FlxG.save.data.songScores;
+		}
+
+		if (FlxG.save.data.songRanks != null)
+		{
+			songRanks = FlxG.save.data.songRanks;
 		}
 	}
 }

@@ -1881,8 +1881,10 @@ class PlayState extends MusicBeatState
 		endingSong = true;
 		songMusic.volume = 0;
 		vocals.volume = 0;
-		if (SONG.validScore && !preventScoring)
+		if (SONG.validScore && !preventScoring) {
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
+			Highscore.saveRank(SONG.song, Std.string(Timings.returnScoreRating().toUpperCase()), storyDifficulty);
+		}
 
 
 		if (chartingMode && CharterSubState.charter == 0)

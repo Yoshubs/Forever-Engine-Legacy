@@ -26,6 +26,7 @@ class PauseSubState extends MusicBeatSubState
 
 	var pauseOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to Options', 'Exit to menu'];
 	var difficultyChoices:Array<String> = ['EASY', 'NORMAL', 'HARD', 'BACK'];
+	var menuItemsPrefs = ['Toggle Practice Mode', 'Toggle Autoplay', 'BACK'];
 
 	var menuItems:Array<String> = [];
 
@@ -44,12 +45,11 @@ class PauseSubState extends MusicBeatSubState
 		menuItems = pauseOG;
 
 		if (!PlayState.isStoryMode) {
-			pauseOG.insert(3, 'Toggle Practice Mode');
-			pauseOG.insert(4, 'Toggle Autoplay');
+			pauseOG.insert(3, 'Preferences');
 		}
 
 		if (PlayState.chartingMode) {
-			pauseOG.insert(4, 'Leave Charting Mode');
+			menuItemsPrefs.insert(2, 'Leave Charting Mode');
 		}
 
 		if (!playingPause)
@@ -197,6 +197,9 @@ class PauseSubState extends MusicBeatSubState
 					Main.switchState(this, new PlayState());
 				case 'Change Difficulty':
 					menuItems = difficultyChoices;
+					regenMenu();
+				case 'Preferences':
+					menuItems = menuItemsPrefs;
 					regenMenu();
 				case 'Leave Charting Mode':
 					disableCheats(true);

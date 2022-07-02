@@ -43,6 +43,8 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
+	var finalRank:String;
+
 	var songThread:Thread;
 	var threadActive:Bool = true;
 	var mutex:Mutex;
@@ -329,8 +331,9 @@ class FreeplayState extends MusicBeatState
 			curDifficulty = 0;
 
 		intendedScore = Highscore.getScore(songs[curSelected].songName, curDifficulty);
+		finalRank = Highscore.getRank(songs[curSelected].songName, curDifficulty);
 
-		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' >';
+		diffText.text = '< ' + existingDifficulties[curSelected][curDifficulty] + ' - ' + finalRank + ' >';
 		lastDifficulty = existingDifficulties[curSelected][curDifficulty];
 	}
 
