@@ -275,10 +275,18 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK || FlxG.mouse.justPressedRight)
 		{
-			if (FlxG.sound.music != null) FlxG.sound.music.stop();
-			threadActive = false;
-			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
-			Main.switchState(this, new MainMenuState());
+			if (presses < 0) {
+				if (FlxG.sound.music != null) FlxG.sound.music.stop();
+				threadActive = false;
+				FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
+				Main.switchState(this, new MainMenuState());
+			}
+
+			if (presses > 0) {
+				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
+				barTxt.text = '- Data Destruction was Interrupted! -';
+				endBullshit();
+			}
 		}
 
 		if (accepted || FlxG.mouse.justPressed)
@@ -486,20 +494,24 @@ class FreeplayState extends MusicBeatState
 			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
 			iconArray[curSelected].animation.curAnim.curFrame = 1;
 			Highscore.clearData(songs[curSelected].songName, curDifficulty);
-
-			new FlxTimer().start(1, function(resetText:FlxTimer)
-			{
-				barTxt.text = leText;
-				presses = 0;
-				noSound = false;
-				iconArray[curSelected].animation.curAnim.curFrame = 0;
-				FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
-			});
-
-			FlxTween.color(bg, 0.35, bg.color, mainColor);
-
-			changeSelection();
+			noSound = false;
+			endBullshit();
 		}
+	}
+
+	private function endBullshit()
+	{
+		new FlxTimer().start(1, function(resetText:FlxTimer)
+		{
+			barTxt.text = leText;
+			presses = 0;
+			iconArray[curSelected].animation.curAnim.curFrame = 0;
+			FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
+		});
+
+		FlxTween.color(bg, 0.35, bg.color, mainColor);
+
+		changeSelection();
 	}
 }
 

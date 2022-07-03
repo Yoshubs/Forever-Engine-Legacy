@@ -1237,7 +1237,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!coolNote.isSustainNote) 
+				if (!coolNote.isSustainNote && coolNote.noteType != HURT) 
 				{
 					increaseCombo(foundRating, coolNote.noteData, character);
 					popUpScore(foundRating, ratingTiming, characterStrums, coolNote);
@@ -1284,9 +1284,9 @@ class PlayState extends MusicBeatState
 		var altString:String = '';
 
 		var baseString = 'sing' + UIStaticArrow.getArrowFromNumber(coolNote.noteData).toUpperCase();
-
+		
 		// I tried doing xor and it didnt work lollll
-		if (coolNote.noteAlt > 0 || coolNote.noteType == ALT)
+		if (coolNote.noteAlt > 0)
 			altString = '-alt';
 		
 		if (((SONG.notes[Math.floor(curStep / 16)] != null) && (SONG.notes[Math.floor(curStep / 16)].altAnim))
@@ -1298,16 +1298,25 @@ class PlayState extends MusicBeatState
 				altString = '';
 		}
 
-		if (coolNote.noteType == HEY) {
-			stringArrow = 'hey';
+		switch (coolNote.noteType)
+		{
+			case ALT:
+				altString = '-alt';
+			case HEY:
+				stringArrow = 'hey';
 
-			new FlxTimer().start(0.6, function(danceTimer:FlxTimer)
-			{
-				character.dance();
-			});
+				new FlxTimer().start(0.6, function(danceTimer:FlxTimer)
+				{
+					character.dance();
+				});
+			case NO_ANIM:
+				stringArrow = '';
+			case HURT:
+				stringArrow = baseString + 'miss';
+			default:
+				stringArrow = baseString + altString;
 		}
-		else if (coolNote.noteType != NO_ANIM)
-			stringArrow = baseString + altString;
+
 		// if (coolNote.foreverMods.get('string')[0] != "")
 		//	stringArrow = coolNote.noteString;
 
@@ -1347,7 +1356,7 @@ class PlayState extends MusicBeatState
 		if (autoplay)
 		{
 			// check if the note was a good hit
-			if (daNote.strumTime <= Conductor.songPosition)
+			if (daNote.strumTime <= Conductor.songPosition && daNote.noteType != HURT)
 			{
 				// use a switch thing cus it feels right idk lol
 				// make sure the strum is played for the autoplay stuffs
