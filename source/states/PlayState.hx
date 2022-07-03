@@ -79,6 +79,7 @@ class PlayState extends MusicBeatState
 	public static var changeableSound:String = 'default';
 
 	public static var GraphicMap:Map<String, FNFSprite> = new Map<String, FNFSprite>();
+	public static var FlixelGraphicMap:Map<String, FlxSprite> = new Map<String, FlxSprite>();
 
 	private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
@@ -325,12 +326,6 @@ class PlayState extends MusicBeatState
 		gf.adjustPos = false;
 		switch (ChartParser.songType)
 		{
-			case FNF:
-				// blah
-
-			case FOREVER:
-				// blah
-
 			case UNDERSCORE | PSYCH:
 				gf = new Character(300, 100, gfExists ? SONG.gfVersion : 'gf');
 				gf.dance(true);
@@ -338,6 +333,9 @@ class PlayState extends MusicBeatState
 			case FNF_LEGACY:
 				gf = new Character(300, 100, stageBuild.returnGFtype(curStage));
 				gf.dance(true);
+			
+			default:
+				// blah
 		}
 		
 		gf.scrollFactor.set(0.95, 0.95);
@@ -508,6 +506,141 @@ class PlayState extends MusicBeatState
 		var shader:GraphicsShader = new GraphicsShader("", File.getContent("./assets/shaders/vhs.frag"));
 		FlxG.camera.setFilters([new ShaderFilter(shader)]);
 		*/
+
+		//////////////////////////////////////////////////////////////
+
+		// Flixel values.
+		set('FlxG', FlxG);
+		set('FlxBasic', FlxBasic);
+		set('FlxObject', FlxObject);
+		set('FlxCamera', FlxCamera);
+		set('FlxSprite', FlxSprite);
+		set('FlxTween', FlxTween);
+		set('FlxEase', FlxEase);
+		set('FlxMath', FlxMath);
+		set('saveData', FlxG.save.data);
+
+		// PlayState values
+		set('song', PlayState.SONG.song);
+		set('game', PlayState.contents);
+		set('curSong', PlayState.contents.curSong);
+		set('curStep', curStep);
+		set('curBeat', curBeat);
+		set('cameraSpeed', cameraSpeed);
+		set('preventScoring', preventScoring);
+		set('chartingMode', chartingMode);
+		set('practiceMode', practiceMode);
+		set('autoplay', bfStrums.autoplay);
+		set('dadStrums', dadStrums);
+		set('bfStrums', bfStrums);
+		set('hud', uiHUD);
+			
+		set('score', songScore);
+		set('misses', misses);
+		set('ghostMisses', ghostMisses);
+		set('health', health);
+		set('combo', combo);
+
+		// Timings.hx values
+		set('comboRating', Timings.comboDisplay);
+		set('getAccuracy', Math.floor(Timings.getAccuracy() * 100) / 100);
+		set('getRank', Timings.returnScoreRating().toUpperCase());
+			
+		// Character values
+		set('bf', boyfriend);
+		set('gf', gf);
+		set('dad', dadOpponent);
+		set('curBf', boyfriend.curCharacter);
+		set('curGf', gf.curCharacter);
+		set('curDad', dadOpponent.curCharacter);
+		set('gfSpeed', gfSpeed);
+
+		//functions
+		set('set', function(key:String, value:Dynamic)
+		{
+			var dotList:Array<String> = key.split('.');
+			if (dotList.length >  1)
+			{
+				var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
+
+				for (i in 1...dotList.length - 1)
+					suckCock = Reflect.getProperty(suckCock, dotList[i]);
+
+				Reflect.setProperty(suckCock, dotList[dotList.length - 1], value);
+				return true;
+			}
+
+			Reflect.setProperty(this, key, value);
+			return true;
+		});
+
+		set('get', function(variable:String)
+		{
+			var dotList:Array<String> = variable.split('.');
+
+			if (dotList.length > 1)
+			{
+				var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
+
+				for (i in 1...dotList.length - 1)
+					suckCock = Reflect.getProperty(suckCock, dotList[i]);
+
+				return Reflect.getProperty(suckCock, dotList[dotList.length - 1]);
+			}
+
+			return Reflect.getProperty(this, variable);
+		});
+
+		set('getSetting', function(key:String)
+		{
+			Init.trueSettings.get(key);
+		});
+		set('setSetting', function(key:String, value:Dynamic)
+		{
+			Init.trueSettings.set(key, value);
+		});
+
+		// hscript graphic stuffs
+		set('createGraphic', function(id:String, x:Float, y:Float, size:Float = 1, scrollX:Float, scrollY:Float, image:String, setToHUD:Bool = false)
+		{
+			var madeGraphic:FlxSprite = new FlxSprite(x, y).loadGraphic(Paths.image(image));
+			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
+			madeGraphic.scrollFactor.set(scrollX, scrollY);
+			madeGraphic.updateHitbox();
+			madeGraphic.antialiasing = true;
+			if (setToHUD)
+				madeGraphic.cameras = [camHUD];
+			FlixelGraphicMap.set(id, madeGraphic);
+			add(madeGraphic);
+		});
+
+		set('createAnimatedGraphic',
+		function(id:String, x:Float, y:Float, size:Float, scrollX:Float, scrollY:Float, image:String, anims:Array<Array<Dynamic>>, defaultAnim:String,
+				setToHUD:Bool = false)
+		{
+			var madeGraphic:FlxSprite = new FlxSprite(x, y);
+			madeGraphic.frames = Paths.getSparrowAtlas(image);
+			for (anim in anims)
+			{
+				madeGraphic.animation.addByPrefix(anim[0], anim[1], anim[3], anim[4]);
+			}
+			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
+			madeGraphic.scrollFactor.set(scrollX, scrollY);
+			madeGraphic.updateHitbox();
+			madeGraphic.animation.play(defaultAnim);
+			madeGraphic.antialiasing = true;
+			if (setToHUD)
+				madeGraphic.cameras = [camHUD];
+			FlixelGraphicMap.set(id, madeGraphic);
+			add(madeGraphic);
+		});
+
+		for (i in scriptArray)
+			i.execute();
+
+		//////////////////////////////////////////////////////////////
+
+		callLLua('create', [null]);
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
@@ -628,6 +761,7 @@ class PlayState extends MusicBeatState
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 		
 		GraphicMap.clear();
+		FlixelGraphicMap.clear();
 
 		super.destroy();
 	}
@@ -664,6 +798,10 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		set('elapsed', elapsed);
+		setLLua('health', health);
+		callLLua('update', [elapsed]);
+
 		if (FlxG.keys.justPressed.F5 && resetKey) {
 			// pause game
 			paused = true;
@@ -678,113 +816,6 @@ class PlayState extends MusicBeatState
 			// turn skips off
 			FlxTransitionableState.skipNextTransIn = false;
 			FlxTransitionableState.skipNextTransOut = false;
-		}
-
-		if (generatedMusic)
-		{
-			// NOTE: later on, we should create a class specifically for setting script values
-
-			// Flixel values.
-			set('FlxG', FlxG);
-			set('FlxBasic', FlxBasic);
-			set('FlxObject', FlxObject);
-			set('FlxCamera', FlxCamera);
-			set('FlxSprite', FlxSprite);
-			set('FlxTween', FlxTween);
-			set('FlxEase', FlxEase);
-			set('FlxMath', FlxMath);
-			set('saveData', FlxG.save.data);
-
-			// PlayState values
-			set('song', PlayState.SONG.song);
-			set('game', PlayState.contents);
-			set('curSong', PlayState.contents.curSong);
-			set('curStep', curStep);
-			set('curBeat', curBeat);
-			set('cameraSpeed', cameraSpeed);
-			set('preventScoring', preventScoring);
-			set('chartingMode', chartingMode);
-			set('practiceMode', practiceMode);
-			set('autoplay', bfStrums.autoplay);
-			set('dadStrums', dadStrums);
-			set('bfStrums', bfStrums);
-			set('hud', uiHUD);
-			
-			set('score', songScore);
-			set('misses', misses);
-			set('ghostMisses', ghostMisses);
-			set('health', health);
-			set('combo', combo);
-
-			// Timings.hx values
-			set('comboRating', Timings.comboDisplay);
-			set('getAccuracy', Math.floor(Timings.getAccuracy() * 100) / 100);
-			set('getRank', Timings.returnScoreRating().toUpperCase());
-			
-			// Character values
-			set('bf', boyfriend);
-			set('gf', gf);
-			set('dad', dadOpponent);
-			set('curBf', boyfriend.curCharacter);
-			set('curGf', gf.curCharacter);
-			set('curDad', dadOpponent.curCharacter);
-			set('gfSpeed', gfSpeed);
-
-			//functions
-			set('set', function(key:String, value:Dynamic)
-			{
-				var dotList:Array<String> = key.split('.');
-
-				if (dotList.length >  1)
-				{
-					var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
-
-					for (i in 1...dotList.length - 1)
-						suckCock = Reflect.getProperty(suckCock, dotList[i]);
-
-					Reflect.setProperty(suckCock, dotList[dotList.length - 1], value);
-					return true;
-				}
-
-				Reflect.setProperty(this, key, value);
-				return true;
-			});
-
-			set('get', function(variable:String)
-			{
-				var dotList:Array<String> = variable.split('.');
-
-				if (dotList.length > 1)
-				{
-					var suckCock:Dynamic = Reflect.getProperty(this, dotList[0]);
-
-					for (i in 1...dotList.length - 1)
-						suckCock = Reflect.getProperty(suckCock, dotList[i]);
-
-					return Reflect.getProperty(suckCock, dotList[dotList.length - 1]);
-				}
-
-				return Reflect.getProperty(this, variable);
-			});
-
-			set('getSetting', function(key:String)
-			{
-				Init.trueSettings.get(key);
-			});
-			set('setSetting', function(key:String, value:Dynamic)
-			{
-				Init.trueSettings.set(key, value);
-			});
-
-			set('elapsed', elapsed);
-
-			for (i in scriptArray)
-				i.execute();
-
-			////////////////////////////////////////////////////////////////////////////////////
-
-			setLLua('health', health);
-			callLLua('update', [elapsed]);
 		}
 
 		if (!inCutscene) 
