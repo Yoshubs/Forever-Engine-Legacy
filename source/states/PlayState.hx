@@ -1751,15 +1751,19 @@ class PlayState extends MusicBeatState
 		//*/
 	}
 
+	// TODO: replace this function with something like "animation.finishcallback";
 	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0):Void
 	{
-		if (char.animOffsets.exists(anim))
-			char.playAnim(anim, force, reverse, frame);
-
-		new FlxTimer().start((time == null ? 0.6 : time), function(danceTimer:FlxTimer)
+		if (!paused && !endingSong)
 		{
-			char.dance();
-		});
+			if (char.animOffsets.exists(anim))
+				char.playAnim(anim, force, reverse, frame);
+
+			new FlxTimer().start((time == null ? 0.6 : time), function(danceTimer:FlxTimer)
+			{
+				char.dance();
+			});
+		}
 	}
 
 	private function charactersDance(curBeat:Int)
