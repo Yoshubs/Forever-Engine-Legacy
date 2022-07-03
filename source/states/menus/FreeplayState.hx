@@ -317,7 +317,6 @@ class FreeplayState extends MusicBeatState
 	}
 
 	var lastDifficulty:String;
-
 	function changeDiff(change:Int = 0)
 	{
 		curDifficulty += change;

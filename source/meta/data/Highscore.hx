@@ -46,7 +46,7 @@ class Highscore
 
 		if (songRanks.exists(daSong))
 		{
-			if (songRanks.get(daSong) != null)
+			if (songRanks.get(daSong) == null)
 				setRank(daSong, rank);
 		}
 		else
@@ -110,7 +110,10 @@ class Highscore
 
 	public static function load():Void
 	{
-		if (FlxG.save.data.songScores != null) songScores = FlxG.save.data.songScores;
-		if (FlxG.save.data.songRanks != null) songRanks = FlxG.save.data.songRanks;
+		if (FlxG.save.data.songScores != null)
+			songScores = FlxG.save.data.songScores;
+
+		if (FlxG.save.data.songRanks != null) 
+			songRanks = FlxG.save.data.songRanks;
 	}
 }
