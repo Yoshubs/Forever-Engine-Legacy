@@ -46,7 +46,7 @@ class Highscore
 
 		if (songRanks.exists(daSong))
 		{
-			if (songRanks.get(daSong) == null)
+			if (songRanks.get(daSong) != null)
 				setRank(daSong, rank);
 		}
 		else
