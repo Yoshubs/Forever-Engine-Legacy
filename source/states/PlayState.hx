@@ -524,9 +524,6 @@ class PlayState extends MusicBeatState
 		set('song', PlayState.SONG.song);
 		set('game', PlayState.contents);
 		set('curSong', PlayState.contents.curSong);
-		set('curStep', curStep);
-		set('curBeat', curBeat);
-		set('cameraSpeed', cameraSpeed);
 		set('preventScoring', preventScoring);
 		set('chartingMode', chartingMode);
 		set('practiceMode', practiceMode);
@@ -553,7 +550,6 @@ class PlayState extends MusicBeatState
 		set('curBf', boyfriend.curCharacter);
 		set('curGf', gf.curCharacter);
 		set('curDad', dadOpponent.curCharacter);
-		set('gfSpeed', gfSpeed);
 
 		//functions
 		set('set', function(key:String, value:Dynamic)
@@ -799,6 +795,9 @@ class PlayState extends MusicBeatState
 		}
 
 		set('elapsed', elapsed);
+		set('gfSpeed', gfSpeed);
+		set('cameraSpeed', cameraSpeed);
+
 		setLLua('health', health);
 		callLLua('update', [elapsed]);
 
@@ -1754,6 +1753,8 @@ class PlayState extends MusicBeatState
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
 		//*/
+
+		set('curStep', curStep);
 	}
 
 	private function charactersDance(curBeat:Int)
@@ -1856,6 +1857,8 @@ class PlayState extends MusicBeatState
 
 		// stage stuffs
 		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
+
+		set('curBeat', curBeat);
 	}
 
 	//
