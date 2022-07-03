@@ -275,7 +275,7 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK || FlxG.mouse.justPressedRight)
 		{
-			if (presses < 0) {
+			if (presses <= 0) {
 				if (FlxG.sound.music != null) FlxG.sound.music.stop();
 				threadActive = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
@@ -467,8 +467,6 @@ class FreeplayState extends MusicBeatState
 
 	private function resetScore(noSound:Bool = false)
 	{
-		trace('presses: ' + presses);
-
 		if (!noSound)
 			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 
