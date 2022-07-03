@@ -484,7 +484,7 @@ class FreeplayState extends MusicBeatState
 			noSound = true;
 			barTxt.text = '- Data Destroyed! -';
 			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
-			iconArray[curSelected].animation.curAnim.curFrame = 0;
+			iconArray[curSelected].animation.curAnim.curFrame = 1;
 			Highscore.clearData(songs[curSelected].songName, curDifficulty);
 
 			new FlxTimer().start(1, function(resetText:FlxTimer)
