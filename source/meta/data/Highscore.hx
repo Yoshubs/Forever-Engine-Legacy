@@ -63,22 +63,6 @@ class Highscore
 	/**
 	 * YOU SHOULD FORMAT SONG WITH formatSong() BEFORE TOSSING IN SONG VARIABLE
 	 */
-	static function setScore(song:String, score:Int):Void
-	{
-		// Reminder that I don't need to format this song, it should come formatted!
-		songScores.set(song, score);
-		FlxG.save.data.songScores = songScores;
-		FlxG.save.flush();
-	}
-
-	static function setRank(song:String, rank:String):Void
-	{
-		// Reminder that I don't need to format this song, it should come formatted!
-		songRanks.set(song, rank);
-		FlxG.save.data.songRanks = songRanks;
-		FlxG.save.flush();
-	}
-
 	public static function formatSong(song:String, diff:Int):String
 	{
 		var daSong:String = song;
@@ -115,12 +99,30 @@ class Highscore
 		return songRanks.get(formatSong(song, diff));
 	}
 
+	static function setScore(song:String, score:Int):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songScores.set(song, score);
+		FlxG.save.data.songScores = songScores;
+		FlxG.save.flush();
+	}
+
+	static function setRank(song:String, rank:String):Void
+	{
+		// Reminder that I don't need to format this song, it should come formatted!
+		songRanks.set(song, rank);
+		FlxG.save.data.songRanks = songRanks;
+		FlxG.save.flush();
+	}
+
 	public static function load():Void
 	{
-		if (FlxG.save.data.songScores != null)
+		if (FlxG.save.data.songScores != null) {
 			songScores = FlxG.save.data.songScores;
+		}
 
-		if (FlxG.save.data.songRanks != null) 
+		if (FlxG.save.data.songRanks != null) {
 			songRanks = FlxG.save.data.songRanks;
+		}
 	}
 }

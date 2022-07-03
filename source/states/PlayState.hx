@@ -140,6 +140,8 @@ class PlayState extends MusicBeatState
 
 	public static var songScore:Int = 0;
 
+	public static var rank:String = 'N/A';
+
 	var storyDifficultyText:String = "";
 
 	public static var iconRPC:String = "";
@@ -186,6 +188,7 @@ class PlayState extends MusicBeatState
 
 		// reset any values and variables that are static
 		songScore = 0;
+		rank = 'N/A';
 		combo = 0;
 		health = 1;
 		misses = 0;
@@ -1877,15 +1880,17 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		// set ranking
+		rank = Std.string(Timings.returnScoreRating().toUpperCase());
+
 		canPause = false;
 		endingSong = true;
 		songMusic.volume = 0;
 		vocals.volume = 0;
-		var songRank = Std.string(Timings.returnScoreRating().toUpperCase());
 		
 		if (SONG.validScore && !preventScoring) {
 			Highscore.saveScore(SONG.song, songScore, storyDifficulty);
-			Highscore.saveRank(SONG.song, songRank, storyDifficulty);
+			Highscore.saveRank(SONG.song, rank, storyDifficulty);
 		}
 
 		if (chartingMode && CharterSubState.charter == 0)
