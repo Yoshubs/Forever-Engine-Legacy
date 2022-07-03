@@ -464,7 +464,7 @@ class FreeplayState extends MusicBeatState
 		if (!noSound)
 			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 
-		if (!noSound) // shut.
+		if (!noSound && !Init.trueSettings.get('Disable Flashing Lights')) // shut.
 			FlxTween.color(bg, 0.50, FlxColor.GRAY, bg.color);
 
 		if (presses < 0 || presses > 3)
