@@ -1,6 +1,5 @@
 package;
 
-import gameObjects.userInterface.notes.Note.NoteType;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -8,6 +7,7 @@ import flixel.util.FlxColor;
 import gameObjects.userInterface.*;
 import gameObjects.userInterface.menu.*;
 import gameObjects.userInterface.notes.*;
+import gameObjects.userInterface.notes.Note.NoteType;
 import gameObjects.userInterface.notes.Note.NoteType;
 import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
 import meta.data.Conductor;

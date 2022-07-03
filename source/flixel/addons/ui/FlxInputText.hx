@@ -1,18 +1,18 @@
 package flixel.addons.ui;
 
-import lime.system.Clipboard;
 import flash.errors.Error;
 import flash.events.KeyboardEvent;
 import flash.geom.Rectangle;
-import flixel.addons.ui.FlxUI.NamedString;
 import flixel.FlxG;
 import flixel.FlxSprite;
+import flixel.addons.ui.FlxUI.NamedString;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxDestroyUtil;
 import flixel.util.FlxTimer;
+import lime.system.Clipboard;
 
 /**
  * FlxInputText v1.11, ported to Haxe
