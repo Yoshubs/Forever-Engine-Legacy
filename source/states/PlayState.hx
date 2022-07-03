@@ -692,6 +692,7 @@ class PlayState extends MusicBeatState
 			set('FlxSprite', FlxSprite);
 			set('FlxTween', FlxTween);
 			set('FlxEase', FlxEase);
+			set('FlxMath', FlxMath);
 			set('saveData', FlxG.save.data);
 
 			// PlayState values
@@ -774,6 +775,8 @@ class PlayState extends MusicBeatState
 			{
 				Init.trueSettings.set(key, value);
 			});
+
+			set('elapsed', elapsed);
 
 			for (i in scriptArray)
 				i.execute();
@@ -922,46 +925,6 @@ class PlayState extends MusicBeatState
 			FlxG.camera.angle = FlxMath.lerp(0 + forceZoom[2], FlxG.camera.angle, easeLerp);
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
-
-			// song events
-
-			if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
-			{
-				doThenDance('hey', boyfriend);
-			}
-
-			if (curBeat % 16 == 15 && SONG.song.toLowerCase() == 'tutorial'
-				&& dadOpponent.curCharacter == 'gf' && curBeat > 16 && curBeat < 48)
-			{
-				doThenDance('hey', boyfriend);
-			}
-
-			if (curSong.toLowerCase() == 'fresh')
-			{
-				switch (curBeat)
-				{
-					case 16 | 80:
-						gfSpeed = 2;
-					case 48 | 112:
-						gfSpeed = 1;
-				}
-			}
-
-			if (curSong.toLowerCase() == 'bopeebo')
-			{
-				switch (curBeat)
-				{
-					case 128, 129, 130:
-						vocals.volume = 0;
-				}
-			}
-
-			/*if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200 && !Init.trueSettings.get('Reduced Movements') && FlxG.camera.zoom < 1.35)
-			{
-				FlxG.camera.zoom += 0.015;
-				for (hud in allUIs)
-					hud.zoom += 0.03;
-			}*/
 
 			//
 
@@ -1526,6 +1489,7 @@ class PlayState extends MusicBeatState
 			var numScore = ForeverAssets.generateCombo('combo', stringArray[scoreInt], (!negative ? allSicks : false), assetModifier, changeableSkin, 'UI',
 				negative, createdColor, scoreInt);
 			add(numScore);
+			set('numScore', numScore);
 			// hardcoded lmao
 			if (!Init.trueSettings.get('Simply Judgements'))
 			{
@@ -1615,6 +1579,7 @@ class PlayState extends MusicBeatState
 		 */
 		var rating = ForeverAssets.generateRating('$daRating', (daRating == 'sick' ? allSicks : false), timing, assetModifier, changeableSkin, 'UI');
 		add(rating);
+		set('rating', rating);
 
 		if (!Init.trueSettings.get('Simply Judgements'))
 		{
@@ -1760,21 +1725,6 @@ class PlayState extends MusicBeatState
 		//*/
 	}
 
-	// TODO: replace this function with something like "animation.finishcallback";
-	private function doThenDance(anim:String, char:Character, time:Float = null, force:Bool = false, reverse:Bool = false, frame:Int = 0):Void
-	{
-		if (!paused && !endingSong)
-		{
-			if (char.animOffsets.exists(anim))
-				char.playAnim(anim, force, reverse, frame);
-
-			new FlxTimer().start((time == null ? 0.6 : time), function(danceTimer:FlxTimer)
-			{
-				char.dance();
-			});
-		}
-	}
-
 	private function charactersDance(curBeat:Int)
 	{
 		if (gf.animation.curAnim != null)
@@ -1822,6 +1772,56 @@ class PlayState extends MusicBeatState
 
 		//
 		charactersDance(curBeat);
+
+		/*if (curBeat % 16 == 15
+			&& SONG.song.toLowerCase() == 'tutorial'
+			&& dadOpponent.curCharacter == 'gf'
+			&& curBeat > 16
+			&& curBeat < 48)
+		{
+			if (boyfriend.animOffsets.exists('hey'))
+				boyfriend.playAnim('hey');
+
+			if (gf.animOffsets.exists('cheer'))
+				gf.playAnim('cheer');
+		}*/
+
+		if (curSong.toLowerCase() == 'bopeebo')
+		{
+			switch (curBeat)
+			{
+				case 128, 129, 130:
+					vocals.volume = 0;
+			}
+		}
+
+		/*if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
+		{
+			if (boyfriend.animOffsets.exists('hey'))
+				boyfriend.playAnim('hey');
+		}*/
+
+		if (curSong.toLowerCase() == 'fresh')
+		{
+			switch (curBeat)
+			{
+				case 16 | 80:
+					gfSpeed = 2;
+				case 48 | 112:
+					gfSpeed = 1;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'milf'
+			&& curBeat >= 168
+			&& curBeat < 200
+			&& !Init.trueSettings.get('Reduced Movements')
+			&& FlxG.camera.zoom < 1.35)
+		{
+			FlxG.camera.zoom += 0.015;
+			for (hud in allUIs)
+				hud.zoom += 0.03;
+		}
 
 		// stage stuffs
 		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
