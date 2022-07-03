@@ -14,6 +14,13 @@ class Highscore
 	public static var songRanks:Map<String, String> = new Map<String, String>();
 	#end
 
+	public static function clearData(song:String, diff:Int = 0):Void
+	{
+		var daSong:String = formatSong(song, diff);
+		setScore(daSong, 0);
+		setRank(daSong, 'N/A');
+	}
+
 	public static function saveScore(song:String, score:Int = 0, ?diff:Int = 0):Void
 	{
 		var daSong:String = formatSong(song, diff);

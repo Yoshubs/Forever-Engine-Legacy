@@ -12,6 +12,7 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import gameObjects.userInterface.HealthIcon;
 import lime.utils.Assets;
 import meta.CoolUtil;
@@ -38,6 +39,8 @@ class FreeplayState extends MusicBeatState
 	var curSongPlaying:Int = -1;
 	var curDifficulty:Int = 1;
 
+	var presses:Int = 0;
+
 	var scoreText:FlxText;
 	var diffText:FlxText;
 	var lerpScore:Int = 0;
@@ -62,9 +65,14 @@ class FreeplayState extends MusicBeatState
 	private var existingSongs:Array<String> = [];
 	private var existingDifficulties:Array<Array<String>> = [];
 
+	var leText:String;
+	var barTxt:FlxText;
+
 	override function create()
 	{
 		super.create();
+
+		presses = 0;
 
 		mutex = new Mutex();
 
@@ -151,19 +159,20 @@ class FreeplayState extends MusicBeatState
 
 		changeSelection();
 		changeDiff();
+		resetScore(true);
 
 		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		var leText:String = "- ALT = Open Charting Menu. -";
+		leText = "- ALT = Open Charting Menu. - RESET = Reset Score. -";
 		var size:Int = 18;
-		var text:FlxText = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
-		text.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
-		text.scrollFactor.set();
-		add(text);
+		barTxt = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
+		barTxt.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
+		barTxt.scrollFactor.set();
+		add(barTxt);
 
-		FlxTween.tween(text,{y: FlxG.height - 25}, 2, {ease: FlxEase.elasticInOut});
+		FlxTween.tween(barTxt,{y: FlxG.height - 25}, 2, {ease: FlxEase.elasticInOut});
 		FlxTween.tween(textBG,{y: FlxG.height - 28}, 2, {ease: FlxEase.elasticInOut});
 	}
 
@@ -277,6 +286,11 @@ class FreeplayState extends MusicBeatState
 		else if (alt) {
 			loadSong(false, false);
 			openSubState(new CharterSubState(0, 0, false));
+		}
+		else if (controls.RESET && presses < 3)
+		{
+			presses++;
+			resetScore();
 		}
 
 		repositionHighscore();
@@ -441,6 +455,51 @@ class FreeplayState extends MusicBeatState
 		scoreBG.width = scoreText.width + 8;
 		scoreBG.x = FlxG.width - scoreBG.width;
 		diffText.x = scoreBG.x + (scoreBG.width / 2) - (diffText.width / 2);
+	}
+
+	private function resetScore(noSound:Bool = false)
+	{
+		trace('presses: ' + presses);
+
+		if (!noSound)
+			FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
+
+		if (!noSound) // shut.
+			FlxTween.color(bg, 0.50, FlxColor.GRAY, bg.color);
+
+		if (presses < 0 || presses > 3)
+			presses = 0;
+
+		if (presses == 1)
+			barTxt.text = '- Are you Sure? -';
+
+		if (presses == 2)
+		{
+			barTxt.text = '- Really Sure? -';
+			FlxG.sound.music.volume = 0.3;
+		}
+
+		if (presses == 3)
+		{
+			noSound = true;
+			barTxt.text = '- Data Destroyed! -';
+			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
+			iconArray[curSelected].animation.curAnim.curFrame = 0;
+			Highscore.clearData(songs[curSelected].songName, curDifficulty);
+
+			new FlxTimer().start(1, function(resetText:FlxTimer)
+			{
+				barTxt.text = leText;
+				presses = 0;
+				noSound = false;
+				iconArray[curSelected].animation.curAnim.curFrame = 0;
+				FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
+			});
+
+			FlxTween.color(bg, 0.35, bg.color, mainColor);
+
+			changeSelection();
+		}
 	}
 }
 
