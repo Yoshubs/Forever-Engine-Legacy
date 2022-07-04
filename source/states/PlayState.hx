@@ -8,7 +8,6 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.OverlayShader;
-import flixel.text.FlxText;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
@@ -16,6 +15,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
+import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
@@ -44,7 +44,7 @@ using StringTools;
 #if !html5
 import sys.FileSystem;
 import sys.io.File;
-//import vlc.VideoHandler
+//import vlc.VideoHandler;
 #end
 #if DISCORD_RPC
 import meta.data.dependency.Discord;

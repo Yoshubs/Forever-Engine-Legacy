@@ -165,7 +165,7 @@ class FreeplayState extends MusicBeatState
 		textBG.alpha = 0.6;
 		add(textBG);
 
-		leText = "- ALT = Open Charting Menu. - RESET = Reset Score. -";
+		leText = "- ALT = Open Charting Menu. - RESET = Reset Score and Ranking. -";
 		var size:Int = 18;
 		barTxt = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
 		barTxt.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
@@ -301,6 +301,7 @@ class FreeplayState extends MusicBeatState
 			resetScore();
 		}
 
+		scoreText.text = "PERSONAL BEST:" + lerpScore;
 		repositionHighscore();
 
 		mutex.acquire();
@@ -458,7 +459,6 @@ class FreeplayState extends MusicBeatState
 	private function repositionHighscore()
 	{
 		// Adhere the position of all the things (I'm sorry it was just so ugly before I had to fix it Shubs)
-		scoreText.text = "PERSONAL BEST:" + lerpScore;
 		scoreText.x = FlxG.width - scoreText.width - 5;
 		scoreBG.width = scoreText.width + 8;
 		scoreBG.x = FlxG.width - scoreBG.width;
