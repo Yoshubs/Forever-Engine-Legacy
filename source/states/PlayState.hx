@@ -709,6 +709,7 @@ class PlayState extends MusicBeatState
 			set('dadStrums', dadStrums);
 			set('bfStrums', bfStrums);
 			set('hud', uiHUD);
+			set('defaultCamZoom', defaultCamZoom);
 
 			set('score', songScore);
 			set('misses', misses);

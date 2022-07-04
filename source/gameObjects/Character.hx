@@ -91,29 +91,32 @@ class Character extends FNFSprite
 			Reflect.setProperty(this, name, value);
 		});
 
-		charScript.set('setOffsets', function(x:Float, y:Float)
+		charScript.set('setOffsets', function(?x:Float = 0, ?y:Float = 0)
 		{
 			characterData.offsetX = x;
 			characterData.offsetY = y;
 		});
 
-		charScript.set('setCamOffsets', function(x:Float, y:Float)
+		charScript.set('setCamOffsets', function(?x:Float = 0, ?y:Float = 0)
 		{
 			characterData.camOffsetX = x;
 			characterData.camOffsetY = y;
 		});
 
-		charScript.set('setIcon', function(swag:String)
+		charScript.set('setIcon', function(swag:String = 'face')
 			icon = swag);
 
-		charScript.set('quickDancer', function(quick:Bool)
+		charScript.set('quickDancer', function(quick:Bool = false)
 		{
 			characterData.quickDancer = quick;
 		});
 
 		charScript.set('setBarColor', function(rgb:Array<Float>)
 		{
-			barColor = rgb;
+			if (barColor != null)
+				barColor = rgb;
+			else
+				barColor = [161,161,161];
 			return true;
 		});
 
