@@ -8,6 +8,7 @@ import flixel.FlxObject;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
 import flixel.OverlayShader;
+import flixel.text.FlxText;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
@@ -74,6 +75,7 @@ class PlayState extends MusicBeatState
 	public static var changeableSound:String = 'default';
 
 	public static var GraphicMap:Map<String, FNFSprite> = new Map<String, FNFSprite>();
+	public static var TextMap:Map<String, FlxText> = new Map<String, FlxText>();
 
 	private var unspawnNotes:Array<Note> = [];
 	private var ratingArray:Array<String> = [];
@@ -627,6 +629,7 @@ class PlayState extends MusicBeatState
 		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
 
 		GraphicMap.clear();
+		TextMap.clear();
 
 		super.destroy();
 	}
@@ -2283,7 +2286,7 @@ class PlayState extends MusicBeatState
 		return super.add(Object);
 	}
 
-	function set(key:String, value:Dynamic):Bool
+	public function set(key:String, value:Dynamic):Bool
 	{
 		for (i in scriptArray)
 			i.set(key, value);

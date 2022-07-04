@@ -157,6 +157,19 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		autoplayTxt.visible = PlayState.contents.bfStrums.autoplay;
 		add(autoplayTxt);
 
+		/*PlayState.contents.set('createText', function(id:String = 'text', x:Float = 0, y:Float = 0, z:Float = 0,
+			text:String = 'balls', size:Int = 1, color:String = '0xFFFFFFFF', borderType:FlxTextBorderStyle = OUTLINE,
+			borderColor:FlxColor = FlxColor.BLACK, borderSizeS:Float = 1, borderQualityS:Float = 1)
+		{
+			var scriptText:FlxText = new FlxText(x, y, z, text, size);
+			scriptText.setFormat(Paths.font("vcr.ttf"), size, color);
+			scriptText.setBorderStyle(borderType, borderColor, borderSizeS, borderQualityS);
+			scriptText.antialiasing = true;
+			scriptText.scrollFactor.set();
+			PlayState.TextMap.set(id, scriptText);
+			add(scriptText);
+		});*/
+
 		updateScoreText();
 		updateBar();
 	}
