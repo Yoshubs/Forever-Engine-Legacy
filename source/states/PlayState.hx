@@ -354,7 +354,7 @@ class PlayState extends MusicBeatState
 		if (ChartParser.songType == UNDERSCORE && SONG.assetModifier != null && SONG.assetModifier.length > 1)
 			assetModifier = SONG.assetModifier;
 
-		if ((curStage.startsWith("school")) && (ChartParser.songType == FNF_LEGACY))
+		if ((curStage.startsWith("school")) || (curStage == "thorns") && (ChartParser.songType == FNF_LEGACY))
 			assetModifier = 'pixel';
 
 		// add characters

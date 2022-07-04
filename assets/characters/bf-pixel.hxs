@@ -27,5 +27,6 @@ set('antialiasing', false);
 set('flipX', true);
 
 setBarColor([123,214,246]);
-setCamOffsets(50, -100);
+if (curStage == 'school') setCamOffsets(50, -100);
+if (curStage == 'thorns') setCamOffsets(200, -220);
 if (isPlayer) setDeathChar('bf-pixel-dead', 'fnf_loss_sfx-pixel', 'gameOver-pixel', 'gameOverEnd-pixel');

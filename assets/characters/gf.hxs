@@ -18,7 +18,7 @@ addOffset('singDOWN', 0, -20);
 addOffset('singLEFT', 0, -19);
 addOffset('singRIGHT', 0, -20);
 
-addOffset('sad', -2, 21);
+addOffset('sad', -2, -20);
 addOffset('cheer', 0, 0);
 addOffset('scared', -2, 17);
 addOffset('danceLeft', 0, -9);

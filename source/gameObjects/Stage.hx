@@ -239,8 +239,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
 				santa.antialiasing = true;
 				add(santa);
-			case 'mallEvil':
-				curStage = 'mallEvil';
+			case 'winterhorror': // had to change it, else the game would freak out and send you to week 1
+				curStage = 'winterhorror';
 				var bg:FNFSprite = new FNFSprite(-400, -500).loadGraphic(Paths.image('backgrounds/mall/evilBG'));
 				bg.antialiasing = true;
 				bg.scrollFactor.set(0.2, 0.2);
@@ -320,7 +320,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				bgGirls.setGraphicSize(Std.int(bgGirls.width * daPixelZoom));
 				bgGirls.updateHitbox();
 				add(bgGirls);
-			case 'schoolEvil':
+			case 'thorns': // same deal as winter horrorland
+				curStage = 'thorns';
 				var posX = 400;
 				var posY = 200;
 				var bg:FNFSprite = new FNFSprite(posX, posY);
@@ -518,11 +519,9 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			case 'highway':
 				gfVersion = 'gf-car';
-			case 'mall' | 'mallEvil':
+			case 'mall' | 'winterhorror':
 				gfVersion = 'gf-christmas';
-			case 'school':
-				gfVersion = 'gf-pixel';
-			case 'schoolEvil':
+			case 'school' | 'thorns':
 				gfVersion = 'gf-pixel';
 		}
 
@@ -577,7 +576,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				dad.x -= 400;
 				dad.y += 20;
 
-			case 'mallEvil':
+			case 'winterhorror':
 				boyfriend.x += 320;
 			case 'school':
 				boyfriend.x += 200;
@@ -586,7 +585,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				dad.y += 580;
 				gf.x += 200;
 				gf.y += 320;
-			case 'schoolEvil':
+			case 'thorns':
 				dad.x -= 150;
 				dad.y += 50;
 				boyfriend.x += 200;
@@ -788,11 +787,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case 'cocoa' | 'eggnog':
 				curStage = 'mall';
 			case 'winter-horrorland':
-				curStage = 'mallEvil';
+				curStage = 'winterhorror';
 			case 'senpai' | 'roses':
 				curStage = 'school';
 			case 'thorns':
-				curStage = 'schoolEvil';
+				curStage = 'thorns';
 			case 'ugh' | 'guns' | 'stress':
 				curStage = 'military';
 			default:

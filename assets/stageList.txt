@@ -3,7 +3,7 @@ spooky
 philly
 highway
 mall
-mallEvil
+winterhorror
 school
-schoolEvil
+thorns
 military
