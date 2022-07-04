@@ -315,17 +315,13 @@ class PlayState extends MusicBeatState
 		stageBuild = new Stage(curStage);
 		add(stageBuild);
 
-		var bfExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.player1.toLowerCase() + '.hxs'));
-		var dadExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.player2.toLowerCase() + '.hxs'));
-		var gfExists:Bool = FileSystem.exists(Paths.getPreloadPath('characters/' + SONG.gfVersion.toLowerCase() + '.hxs'));
-
 		// set up characters here too
 		gf = new Character();
 		gf.adjustPos = false;
 		switch (ChartParser.songType)
 		{
 			case UNDERSCORE | PSYCH:
-				gf = new Character(300, 100, gfExists ? SONG.gfVersion : 'gf');
+				gf = new Character(300, 100, SONG.gfVersion);
 				gf.dance(true);
 
 			case FNF_LEGACY:
@@ -338,9 +334,9 @@ class PlayState extends MusicBeatState
 
 		gf.scrollFactor.set(0.95, 0.95);
 
-		dadOpponent = new Character(100, 100, false, dadExists ? SONG.player2 : 'dad');
+		dadOpponent = new Character(100, 100, false, SONG.player2);
 
-		boyfriend = new Boyfriend(770, 450, bfExists ? SONG.player1 : 'bf');
+		boyfriend = new Boyfriend(770, 450, SONG.player1);
 		boyfriend.dance(true);
 
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
