@@ -343,7 +343,7 @@ class Init extends FlxState
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
-		trace('Settings Saved!');
+		//trace('Settings Saved!');
 		updateAll();
 	}
 
@@ -354,7 +354,7 @@ class Init extends FlxState
 		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
 		
-		trace('Controls Saved!');
+		//trace('Controls Saved!');
 	}
 
 	public static function updateAll()
