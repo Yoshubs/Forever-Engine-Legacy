@@ -144,16 +144,19 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (controls.UI_UP_P)
+		if (!selectedSomethin)
 		{
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-			updateSelection(-1);
-		}
+			if (controls.UI_UP_P)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				updateSelection(-1);
+			}
 
-		if (controls.UI_DOWN_P)
-		{
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-			updateSelection(1);
+			if (controls.UI_DOWN_P)
+			{
+				FlxG.sound.play(Paths.sound('scrollMenu'));
+				updateSelection(1);
+			}
 		}
 
 		if(FlxG.mouse.wheel != 0)
@@ -162,7 +165,7 @@ class MainMenuState extends MusicBeatState
 			updateSelection(-FlxG.mouse.wheel);
 		}
 
-		if ((controls.ACCEPT || FlxG.mouse.justPressed) && (!selectedSomethin))
+		if ((!selectedSomethin) && (controls.ACCEPT || FlxG.mouse.justPressed))
 		{
 			//
 			selectedSomethin = true;
