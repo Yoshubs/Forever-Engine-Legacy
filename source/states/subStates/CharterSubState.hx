@@ -23,8 +23,7 @@ class CharterSubState extends MusicBeatSubState
 	var curSelected:Int = 0;
 	var pauseMusic:FlxSound;
 
-	var pauseOG:Array<String> = ['Forever Charter', 'Original Charter'];
-	var menuItems:Array<String> = [];
+	var menuItems:Array<String> = ['Forever Charter', 'Original Charter'];
 
 	public static var charter:Int = -1;
 
@@ -33,8 +32,6 @@ class CharterSubState extends MusicBeatSubState
 	public function new(x:Float = 0, y:Float = 0, playSong:Bool = true)
 	{
 		super();
-
-		menuItems = pauseOG;
 
 		if (!playingPause && playSong)
 		{
@@ -76,20 +73,7 @@ class CharterSubState extends MusicBeatSubState
 
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
-
-		regenMenu();
-		changeSelection();
-
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-	}
-
-	private function regenMenu()
-	{
-		while (grpMenuShit.members.length > 0)
-		{
-			grpMenuShit.remove(grpMenuShit.members[0], true);
-		}
-
+		
 		for (i in 0...menuItems.length)
 		{
 			var menuItem:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
@@ -100,34 +84,36 @@ class CharterSubState extends MusicBeatSubState
 			grpMenuShit.add(menuItem);
 		}
 
-		curSelected = 0;
-
 		changeSelection();
+
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function update(elapsed:Float)
 	{
 		super.update(elapsed);
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-		var accepted = controls.ACCEPT;
-		var esc = controls.BACK;
+		if (playingPause) {
+			if (pauseMusic.volume < 0.5)
+				pauseMusic.volume += 0.01 * elapsed;
+		}
 
-		if (upP)
+		if (controls.UI_UP_P)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 			changeSelection(-1);
 		}
-		if (downP)
+		if (controls.UI_DOWN_P)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 			changeSelection(1);
 		}
-		if (esc)
+		if (controls.BACK)
 		{
 			close();
 		}
 
-		if (accepted)
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 			switch (daSelected)
@@ -146,11 +132,6 @@ class CharterSubState extends MusicBeatSubState
 					Main.switchState(this, new OriginalChartingState());
 			}
 		}
-
-		if (playingPause) {
-			if (pauseMusic.volume < 0.5)
-				pauseMusic.volume += 0.01 * elapsed;
-		}
 	}
 
 	override function destroy()
@@ -165,8 +146,6 @@ class CharterSubState extends MusicBeatSubState
 	function changeSelection(change:Int = 0):Void
 	{
 		curSelected += change;
-
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 
 		if (curSelected < 0)
 			curSelected = menuItems.length - 1;

@@ -793,10 +793,11 @@ class PlayState extends MusicBeatState
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
+				paused = true;
+
 				// update drawing stuffs
 				persistentUpdate = false;
 				persistentDraw = true;
-				paused = true;
 
 				// open pause substate
 				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
@@ -944,10 +945,11 @@ class PlayState extends MusicBeatState
 
 			if (!practiceMode && health <= 0)
 			{
+				paused = true;
+
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
-				paused = true;
 
 				resetMusic();
 
@@ -1890,6 +1892,8 @@ class PlayState extends MusicBeatState
 			updateRPC(false);
 			// */
 		}
+
+		Paths.clearUnusedMemory();
 
 		super.closeSubState();
 	}

@@ -26,7 +26,7 @@ class PauseSubState extends MusicBeatSubState
 
 	var pauseOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to Options', 'Exit to menu'];
 	var difficultyChoices:Array<String> = ['EASY', 'NORMAL', 'HARD', 'BACK'];
-	var menuItemsPrefs = ['Toggle Practice Mode', 'Toggle Autoplay', 'BACK'];
+	var menuPrefs = ['Toggle Practice Mode', 'Toggle Autoplay', 'BACK'];
 
 	var menuItems:Array<String> = [];
 
@@ -42,14 +42,12 @@ class PauseSubState extends MusicBeatSubState
 
 		toOptions = false;
 
-		menuItems = pauseOG;
-
 		if (!PlayState.isStoryMode) {
 			pauseOG.insert(3, 'Preferences');
 		}
 
 		if (PlayState.chartingMode) {
-			menuItemsPrefs.insert(2, 'Leave Charting Mode');
+			menuPrefs.insert(2, 'Leave Charting Mode');
 		}
 
 		if (!playingPause)
@@ -123,8 +121,10 @@ class PauseSubState extends MusicBeatSubState
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-		regenMenu();
 		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
+
+		menuItems = pauseOG;
+		regenMenu();
 	}
 
 	private function regenMenu()
@@ -151,20 +151,23 @@ class PauseSubState extends MusicBeatSubState
 	{	
 		super.update(elapsed);
 
-		var upP = controls.UI_UP_P;
-		var downP = controls.UI_DOWN_P;
-		var accepted = controls.ACCEPT;
+		if (playingPause) {
+			if (pauseMusic.volume < 0.5)
+				pauseMusic.volume += 0.01 * elapsed;
+		}
 
-		if (upP)
+		if (controls.UI_UP_P)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 			changeSelection(-1);
 		}
-		if (downP)
+		if (controls.UI_DOWN_P)
 		{
+			FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 			changeSelection(1);
 		}
 
-		if (accepted)
+		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
 			if (menuItems == difficultyChoices)
@@ -199,7 +202,7 @@ class PauseSubState extends MusicBeatSubState
 					menuItems = difficultyChoices;
 					regenMenu();
 				case 'Preferences':
-					menuItems = menuItemsPrefs;
+					menuItems = menuPrefs;
 					regenMenu();
 				case 'Leave Charting Mode':
 					disableCheats(true);
@@ -257,9 +260,6 @@ class PauseSubState extends MusicBeatSubState
 				//
 			}
 		}
-
-		if (pauseMusic.volume < 0.5)
-			pauseMusic.volume += 0.01 * elapsed;
 	}
 
 	override function destroy()
@@ -283,7 +283,6 @@ class PauseSubState extends MusicBeatSubState
 
 	function changeSelection(change:Int = 0):Void
 	{
-		FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
 		curSelected += change;
 
 		if (curSelected < 0)
