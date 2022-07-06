@@ -796,7 +796,7 @@ class ChartingState extends MusicBeatState
 								// in total
 								var tolKeys = 8;
 								if (_song.six)
-									keys = 12;
+									tolKeys = 12;
 
 								note[1] = (note[1] + keys) % tolKeys;
 								_song.notes[currentSection].sectionNotes[i] = note;
