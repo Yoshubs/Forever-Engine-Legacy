@@ -8,15 +8,15 @@
             "ghost",
             "Main Coder", "Forever Engine my beloved.",
             "https://twitter.com/Fan_de_RPG",
-            [0, 255, 191],
+            [176, 206, 255],
             -180, 0, null
         ],
         [
             "Satoru",
-            "",
+            "satoru",
             "Main Artist", null,
             "",
-            [252, 58, 236],
+            [255, 159, 212],
             -180, 0, null
         ],
         [
@@ -24,8 +24,8 @@
             "macxp",
             "Additional Coder", null,
             "",
-            [135, 57, 63],
-            -180, -3, 1.2
+            [182, 84, 82],
+            -180, -3, null
         ],
         [""],
         ["Special Thanks"],
@@ -48,8 +48,8 @@
             "vito",
             "Emotional Support", "Jo necessito sexo.",
             "https://twitter.com/NxtVithor",
-            [231, 142, 230],
-            -180, 0, null
+            [245, 108, 255],
+            -180, -5, 0.9
         ],
         [""],
         ["Forever Engine Team"],
