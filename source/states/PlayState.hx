@@ -312,8 +312,11 @@ class PlayState extends MusicBeatState
 		popUpCombo(true);
 		//
 
-		stageBuild = new Stage(curStage);
-		add(stageBuild);
+		if (Init.trueSettings.get('Stage Opacity') > 0)
+		{
+			stageBuild = new Stage(curStage);
+			add(stageBuild);
+		}
 
 		// set up characters here too
 		gf = new Character();
@@ -341,8 +344,11 @@ class PlayState extends MusicBeatState
 
 		var camPos:FlxPoint = new FlxPoint(gf.getMidpoint().x - 100, boyfriend.getMidpoint().y - 100);
 
-		stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
-		stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
+		if (Init.trueSettings.get('Stage Opacity') > 0)
+		{
+			stageBuild.repositionPlayers(curStage, boyfriend, dadOpponent, gf);
+			stageBuild.dadPosition(curStage, boyfriend, dadOpponent, gf, camPos);
+		}
 
 		changeableSkin = Init.trueSettings.get("UI Skin");
 		changeableSound = Init.trueSettings.get("Sound Type");
@@ -354,16 +360,18 @@ class PlayState extends MusicBeatState
 			assetModifier = 'pixel';
 
 		// add characters
-		add(gf);
+		if (Init.trueSettings.get('Stage Opacity') > 0)
+		{
+			add(gf);
 
-		// add limo cus dumb layering
-		if (curStage == 'highway')
-			add(stageBuild.limo);
+			// add limo cus dumb layering
+			if (curStage == 'highway')
+				add(stageBuild.limo);
 
-		add(dadOpponent);
-		add(boyfriend);
-
-		add(stageBuild.foreground);
+			add(dadOpponent);
+			add(boyfriend);
+			add(stageBuild.foreground);
+		}
 
 		// force them to dance
 		dadOpponent.dance();
@@ -638,7 +646,7 @@ class PlayState extends MusicBeatState
 	{
 		super.update(elapsed);
 
-		stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
+		if (Init.trueSettings.get('Stage Opacity') > 0) stageBuild.stageUpdateConstant(elapsed, boyfriend, gf, dadOpponent);
 
 		if (health > 2)
 			health = 2;
@@ -1835,7 +1843,7 @@ class PlayState extends MusicBeatState
 		}
 
 		// stage stuffs
-		stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
+		if (Init.trueSettings.get('Stage Opacity') > 0) stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
 	}
 
 	//
