@@ -229,8 +229,8 @@ class PauseSubState extends MusicBeatSubState
 				case "Toggle Autoplay":
 					PlayState.preventScoring = true;
 					PlayState.contents.bfStrums.autoplay = !PlayState.contents.bfStrums.autoplay;
-					PlayState.uiHUD.autoplayTxt.visible = PlayState.contents.bfStrums.autoplay;
-					PlayState.uiHUD.autoplayTxt.alpha = 1;
+					PlayState.uiHUD.autoplayMark.visible = PlayState.contents.bfStrums.autoplay;
+					PlayState.uiHUD.autoplayMark.alpha = 1;
 
 				case "Toggle Practice Mode":
 					PlayState.preventScoring = true;
@@ -247,7 +247,7 @@ class PauseSubState extends MusicBeatSubState
 					//
 					PlayState.practiceMode = false;
 					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayTxt.visible = false;
+					PlayState.uiHUD.autoplayMark.visible = false;
 					PlayState.preventScoring = false;
 					practiceText.visible = false;
 					//
@@ -273,7 +273,7 @@ class PauseSubState extends MusicBeatSubState
 	{
 		PlayState.practiceMode = false;
 		PlayState.contents.bfStrums.autoplay = false;
-		PlayState.uiHUD.autoplayTxt.visible = false;
+		PlayState.uiHUD.autoplayMark.visible = false;
 
 		if (scoringToo)
 			PlayState.preventScoring = false;

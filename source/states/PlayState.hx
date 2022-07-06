@@ -801,15 +801,7 @@ class PlayState extends MusicBeatState
 			// pause the game if the game is allowed to pause and enter is pressed
 			if (FlxG.keys.justPressed.ENTER && startedCountdown && canPause)
 			{
-				paused = true;
-
-				// update drawing stuffs
-				persistentUpdate = false;
-				persistentDraw = true;
-
-				// open pause substate
-				openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-				updateRPC(true);
+				pauseGame();
 			}
 
 			// make sure you're not cheating lol
@@ -1418,6 +1410,22 @@ class PlayState extends MusicBeatState
 		//
 	}
 
+	public function pauseGame()
+	{
+		// pause discord rpc
+		updateRPC(true);
+
+		// pause game
+		paused = true;
+
+		// update drawing stuffs
+		persistentUpdate = false;
+		persistentDraw = true;
+
+		// open pause substate
+		openSubState(new PauseSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
+	}
+
 	override public function onFocus():Void
 	{
 		if (!paused)
@@ -1427,7 +1435,7 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		updateRPC(true);
+		pauseGame();
 		super.onFocusLost();
 	}
 

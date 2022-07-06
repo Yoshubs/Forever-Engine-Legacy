@@ -49,7 +49,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
 	var engineDisplay:String = "FOREVER ENGINE v" + Main.gameVersion;
 
-	public var autoplayTxt:FlxText;
+	public var autoplayMark:FlxText;
 
 	private var timingsMap:Map<String, FlxText> = [];
 
@@ -103,8 +103,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		scoreBar = new FlxText(FlxG.width / 2, Math.floor(healthBarBG.y + 40), 0, scoreDisplay);
 		scoreBar.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 		scoreBar.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
-		updateScoreText();
-		// scoreBar.scrollFactor.set();
 		scoreBar.antialiasing = true;
 		add(scoreBar);
 
@@ -149,13 +147,14 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			}
 		}
 
-		autoplayTxt = new FlxText(400, 20, FlxG.width - 800, "AUTOPLAY", 32);
-		autoplayTxt.screenCenter(XY);
-		autoplayTxt.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
-		autoplayTxt.scrollFactor.set();
-		autoplayTxt.borderSize = 1.25;
-		autoplayTxt.visible = PlayState.contents.bfStrums.autoplay;
-		add(autoplayTxt);
+		autoplayMark = new FlxText(400, 20, FlxG.width - 800, "AUTOPLAY", 32);
+		autoplayMark.screenCenter(XY);
+		autoplayMark.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
+		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
+		autoplayMark.scrollFactor.set();
+		autoplayMark.borderSize = 2;
+		autoplayMark.visible = PlayState.contents.bfStrums.autoplay;
+		add(autoplayMark);
 
 		/*PlayState.contents.set('createText', function(id:String = 'text', x:Float = 0, y:Float = 0, z:Float = 0,
 			text:String = 'balls', size:Int = 1, color:String = '0xFFFFFFFF', borderType:FlxTextBorderStyle = OUTLINE,
@@ -240,16 +239,27 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		var importSongScore = PlayState.songScore;
 		var importPlayStateCombo = PlayState.combo;
 		var importMisses = PlayState.misses;
-		scoreBar.text = 'Score: $importSongScore';
+
 		// testing purposes
 		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
-		if (displayAccuracy)
+
+		switch (PlayState.SONG.song.toLowerCase())
 		{
-			scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + Timings.comboDisplay;
-			scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
-			scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
+			/*case 'bopeebo':
+				scoreBar.text = 'Score: $importSongScore';
+				scoreBar.text += divider + 'Combo: $importPlayStateCombo';
+				scoreBar.text += divider + 'Misses: $importMisses';*/
+
+			default:
+				scoreBar.text = 'Score: $importSongScore';
+				if (displayAccuracy)
+				{
+					scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + Timings.comboDisplay;
+					scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
+					scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
+				}
+				scoreBar.text += '\n';
 		}
-		scoreBar.text += '\n';
 		scoreBar.x = Math.floor((FlxG.width / 2) - (scoreBar.width / 2));
 
 		// update counter
