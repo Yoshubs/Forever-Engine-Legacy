@@ -453,13 +453,15 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
-			size:Float = 1, scrollX:Float, scrollY:Float, image:String, fore:Bool = false)
+			size:Float = 1, scrollX:Float, scrollY:Float, image:String, fore:Bool = false,
+			blendString:String = 'normal')
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
 			madeGraphic.setGraphicSize(Std.int(madeGraphic.width * size));
 			madeGraphic.scrollFactor.set(scrollX, scrollY);
 			madeGraphic.updateHitbox();
 			madeGraphic.antialiasing = true;
+			madeGraphic.blend = getBlend(blendString);
 			PlayState.GraphicMap.set(id, madeGraphic);
 
 			if (fore)
@@ -467,10 +469,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			else
 				add(madeGraphic);
 		});
-	
+
 		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
 			size:Float, scrollX:Float, scrollY:Float, image:String,
-			anims:Array<Array<Dynamic>>, defaultAnim:String, fore:Bool = false)
+			anims:Array<Array<Dynamic>>, defaultAnim:String, fore:Bool = false,
+			blendString:String = 'normal')
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y);
 			madeGraphic.frames = Paths.getSparrowAtlas(image);
@@ -485,6 +488,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			madeGraphic.updateHitbox();
 			madeGraphic.animation.play(defaultAnim);
 			madeGraphic.antialiasing = true;
+			madeGraphic.blend = getBlend(blendString);
 			PlayState.GraphicMap.set(id, madeGraphic);
 			if (fore)
 				foreground.add(madeGraphic);
@@ -517,6 +521,25 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		});
 
 		stageScript.execute();
+	}
+
+	function getBlend(str:String):BlendMode
+	{
+		return switch (str)
+		{
+			case "normal": BlendMode.NORMAL;
+			case "darken": BlendMode.DARKEN;
+			case "multiply": BlendMode.MULTIPLY;
+			case "lighten": BlendMode.LIGHTEN;
+			case "screen": BlendMode.SCREEN;
+			case "overlay": BlendMode.OVERLAY;
+			case "hardlight": BlendMode.HARDLIGHT;
+			case "difference": BlendMode.DIFFERENCE;
+			case "add": BlendMode.ADD;
+			case "subtract": BlendMode.SUBTRACT;
+			case "invert": BlendMode.INVERT;
+			case _: BlendMode.NORMAL;
+		}
 	}
 
 	// return the girlfriend's type
