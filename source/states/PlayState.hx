@@ -120,8 +120,7 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
-	public var scriptArray:Array<SScript> = [];
-	public var luaArray:Array<LLua> = [];
+	public var scriptArray:Array<HaxeScript> = [];
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -242,7 +241,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FileSystem.exists(i) && !pushedScripts.contains(i))
 			{
-				var script:SScript = new SScript(i);
+				var script:HaxeScript = new HaxeScript(i);
 				trace(script.interp == null ? "Something terrible occured!" : "");
 				scriptArray.push(script);
 				pushedScripts.push(i);
@@ -257,44 +256,18 @@ class PlayState extends MusicBeatState
 			{
 				for (e in foolPath)
 				{
-					var scriptFile:String = Paths.getPreloadPath('scripts/$e.hxs');
+					var c = Paths.getPreloadPath('scripts/$e.hxs');
 
-					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
+					if (FileSystem.exists(c) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:SScript = new SScript(scriptFile);
+						var script:HaxeScript = new HaxeScript(c);
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}
+					trace("Scripts: " + pushedScripts);
 				}
 			}
 		}
-
-		var luas:Array<Array<String>> = [
-			FileSystem.readDirectory(FileSystem.absolutePath(Paths.getPreloadPath('scripts/')))
-		];
-		var lluaArray:Array<String> = [];
-		var luaPath:String = Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.lua');
-
-		for (lua in luas)
-		{
-			if (lua != null)
-				for (llua in lua)
-				{
-					if (llua.endsWith('.lua'))
-					{
-						var lluaPath:String = Paths.getPreloadPath('scripts/$llua');
-
-						if (FileSystem.exists(lluaPath) && !lluaArray.contains(llua))
-						{
-							luaArray.push(new LLua(lluaPath));
-							lluaArray.push(llua);
-						}
-					}
-				}
-		}
-
-		if (FileSystem.exists(luaPath))
-			luaArray.push(new LLua(luaPath));
 
 		// set up a class for the stage type in here afterwards
 		curStage = "";
@@ -638,6 +611,27 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
+	function getColFromFlixel(str:String):FlxColor
+	{
+		return switch (str)
+		{
+			case "black": FlxColor.BLACK;
+			case "white": FlxColor.WHITE;
+			case "blue": FlxColor.BLUE;
+			case "brown": FlxColor.BROWN;
+			case "cyan": FlxColor.CYAN;
+			case "gray": FlxColor.GRAY;
+			case "green": FlxColor.GREEN;
+			case "lime": FlxColor.LIME;
+			case "magenta": FlxColor.MAGENTA;
+			case "orange": FlxColor.ORANGE;
+			case "pink": FlxColor.PINK;
+			case "purple": FlxColor.PURPLE;
+			case "red": FlxColor.RED;
+			case "transparent" | _: FlxColor.TRANSPARENT;
+		}
+	}
+
 	var staticDisplace:Int = 0;
 
 	var lastSection:Int = 0;
@@ -690,8 +684,6 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
-			// NOTE: later on, we should create a class specifically for setting script values
-
 			// Flixel values.
 			set('FlxG', FlxG);
 			set('FlxBasic', FlxBasic);
@@ -784,16 +776,15 @@ class PlayState extends MusicBeatState
 			{
 				Init.trueSettings.set(key, value);
 			});
+			set('getColor', function(color:String)
+			{
+				getColFromFlixel(color);
+			});
 
 			set('elapsed', elapsed);
 
 			for (i in scriptArray)
 				i.execute();
-
-			////////////////////////////////////////////////////////////////////////////////////
-
-			setLLua('health', health);
-			callLLua('update', [elapsed]);
 		}
 
 		if (!inCutscene)
@@ -2313,24 +2304,9 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
-	public function callLLua(evt:String, args:Array<Dynamic>)
+	/*public function call(func:String, args:Array<Dynamic>)
 	{
-		var returnVar:Dynamic = 0;
-
-		for (i in 0...luaArray.length)
-		{
-			var ret:Dynamic = luaArray[i].call(evt, args);
-
-			if (ret != 0)
-				returnVar = ret;
-		}
-
-		return returnVar;
-	}
-
-	function setLLua(variable:String, arg:Dynamic)
-	{
-		for (i in 0...luaArray.length)
-			luaArray[i].set(variable, arg);
-	}
+		for (i in scriptArray)
+			i.call(this, func, args);
+	}*/
 }
