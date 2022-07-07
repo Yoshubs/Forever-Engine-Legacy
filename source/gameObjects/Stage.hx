@@ -71,6 +71,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 	public var foreground:FlxTypedGroup<FlxBasic>;
 
+	public var spawnGirlfriend:Bool = true;
+
 	public function new(curStage)
 	{
 		super();
@@ -507,6 +509,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		stageScript.set('resetKey', function(button:Bool)
 		{
 			PlayState.resetKey = button;
+		});
+
+		stageScript.set('spawnGirlfriend', function(button:Bool)
+		{
+			spawnGirlfriend = button;
 		});
 
 		stageScript.execute();

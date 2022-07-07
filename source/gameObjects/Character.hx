@@ -23,6 +23,8 @@ typedef CharacterData = {
 	var offsetY:Float;
 	var camOffsetX:Float;
 	var camOffsetY:Float;
+	var scaleX:Float;
+	var scaleY:Float;
 	var quickDancer:Bool;
 }
 
@@ -57,6 +59,8 @@ class Character extends FNFSprite
 			offsetX: 0,
 			camOffsetY: 0,
 			camOffsetX: 0,
+			scaleX: 0,
+			scaleY: 0,
 			quickDancer: false
 		};
 
@@ -103,8 +107,14 @@ class Character extends FNFSprite
 			characterData.camOffsetY = y;
 		});
 
-		charScript.set('setIcon', function(swag:String = 'face')
-			icon = swag);
+		charScript.set('setScale', function(?x:Float = 1, ?y:Float = 1)
+		{
+			characterData.scaleX = x;
+			characterData.scaleY = y;
+			scale.set(characterData.scaleX, characterData.scaleY);
+		});
+
+		charScript.set('setIcon', function(swag:String = 'face') icon = swag);
 
 		charScript.set('quickDancer', function(quick:Bool = false)
 		{
@@ -165,12 +175,13 @@ class Character extends FNFSprite
 			flipX = !flipX;
 		}
 
-		if (icon == null)
-			icon = curCharacter;
-		
-		x += characterData.offsetX;
-		trace('character ${curCharacter} scale ${scale.y}');
-		y += (characterData.offsetY - (frameHeight * scale.y));
+		if (icon == null) icon = curCharacter;
+
+		if (adjustPos) {
+			x += characterData.offsetX;
+			trace('character ${curCharacter} scale ${scale.y}');
+			y += (characterData.offsetY - (frameHeight * scale.y));
+		}
 
 		if(animation.getByName('danceLeft') != null)
 			playAnim('danceLeft');

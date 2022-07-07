@@ -362,7 +362,7 @@ class PlayState extends MusicBeatState
 		// add characters
 		if (Init.trueSettings.get('Stage Opacity') > 0)
 		{
-			add(gf);
+			if (stageBuild.spawnGirlfriend) add(gf);
 
 			// add limo cus dumb layering
 			if (curStage == 'highway')
