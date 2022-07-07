@@ -115,6 +115,7 @@ class CharterSubState extends MusicBeatSubState
 
 		if (controls.ACCEPT)
 		{
+			FlxG.resizeWindow(1280, 720);
 			var daSelected:String = menuItems[curSelected];
 			switch (daSelected)
 			{

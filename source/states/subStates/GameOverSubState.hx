@@ -80,6 +80,7 @@ class GameOverSubState extends MusicBeatSubState
 
 		if (controls.BACK)
 		{
+			FlxG.resizeWindow(1280, 720);
 			FlxG.sound.music.stop();
 			PlayState.deaths = 0;
 
