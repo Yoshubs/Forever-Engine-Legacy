@@ -1,7 +1,7 @@
 configStage('stage', 0.9); // set the stage name and default zoom (ZOOM IS OPTIONAL)
 resetKey(false); // makes it so F5 restarts the song, useful for debugging (OPTIONAL)
 spawnGirlfriend(true); // whether to spawn girlfriend, usually true (OPTIONAL)
-screenResolution('1280x720'); // the window resolution for this stage, will be set to default once the song ends (OPTIONAL)
+changeResolution('1280x720'); // the window resolution for this stage, will be set to default once the song ends (OPTIONAL)
 
 /**
     Blend Modes, for all your image effect needs
