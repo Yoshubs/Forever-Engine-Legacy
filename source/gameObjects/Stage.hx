@@ -453,7 +453,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
-			size:Float = 1, scrollX:Float, scrollY:Float, image:String, fore:Bool = false,
+			size:Float = 1, scrollX:Float, scrollY:Float, alphaValue:Float = 1, image:String, fore:Bool = false,
 			blendString:String = 'normal')
 		{
 			var madeGraphic:FNFSprite = new FNFSprite(x, y).loadGraphic(Paths.image(image));
@@ -462,6 +462,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			madeGraphic.updateHitbox();
 			madeGraphic.antialiasing = true;
 			madeGraphic.blend = getBlend(blendString);
+			madeGraphic.alpha = alphaValue;
 			PlayState.GraphicMap.set(id, madeGraphic);
 
 			if (fore)
@@ -471,7 +472,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		});
 
 		stageScript.set('createAnimatedGraphic', function(id:String, x:Float, y:Float, 
-			size:Float, scrollX:Float, scrollY:Float, image:String,
+			size:Float, scrollX:Float, scrollY:Float, alphaValue:Float = 1, image:String,
 			anims:Array<Array<Dynamic>>, defaultAnim:String, fore:Bool = false,
 			blendString:String = 'normal')
 		{
@@ -489,6 +490,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			madeGraphic.animation.play(defaultAnim);
 			madeGraphic.antialiasing = true;
 			madeGraphic.blend = getBlend(blendString);
+			madeGraphic.alpha = alphaValue;
 			PlayState.GraphicMap.set(id, madeGraphic);
 			if (fore)
 				foreground.add(madeGraphic);

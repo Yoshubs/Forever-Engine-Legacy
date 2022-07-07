@@ -1,15 +1,17 @@
-// set the stage name and default zoom
-configStage('spooky');
+configStage('spooky'); // set the stage name and default zoom (ZOOM IS OPTIONAL)
+resetKey(false); // makes it so F5 restarts the song, useful for debugging (OPTIONAL)
+spawnGirlfriend(true); // whether to spawn girlfriend, usually true (OPTIONAL)
 
-// create graphics for the stage
+// creating an animated graphic, as this stage uses one
+
+//
 createAnimatedGraphic(
     'halloweenBG', // graphic id
-    -200, // x position
-    -100, // y position
-    1, // size
+    -200, -100, 1, // position x and position y and size
     0.9, 0.9, // scroll factor x and scroll factor y
+    1, // object opacity
     'backgrounds/' + curStage + '/halloween_bg', // image path
-    [['lightning', 'halloweem bg lightning strike0025', 24, false]], // [['animation id', 'animation name on XML', fps, whether it loops or not]
+    [['lightning', 'halloweem bg lightning strike0025', 24, false]], // [['animation id', 'animation name on XML(can include the exact frame)', fps, whether to loop the animation]
     'lightning', // default animation (uses animation ID)
     false // spawn on foreground
 );
