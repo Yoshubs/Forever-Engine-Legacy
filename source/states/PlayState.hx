@@ -1925,6 +1925,8 @@ class PlayState extends MusicBeatState
 		// set ranking
 		rank = Std.string(Timings.returnScoreRating().toUpperCase());
 
+		FlxG.resizeWindow(1280, 720);
+
 		canPause = false;
 		endingSong = true;
 		songMusic.volume = 0;

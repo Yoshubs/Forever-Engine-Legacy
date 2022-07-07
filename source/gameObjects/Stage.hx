@@ -73,6 +73,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 	public var spawnGirlfriend:Bool = true;
 
+	public static var screenRes:String = '1280x720';
+
 	public function new(curStage)
 	{
 		super();
@@ -520,6 +522,13 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		stageScript.set('spawnGirlfriend', function(button:Bool)
 		{
 			spawnGirlfriend = button;
+		});
+		
+		stageScript.set('changeResolution', function(value:String)
+		{
+			screenRes = value;
+			var res = screenRes.split('x');
+			FlxG.resizeWindow(Std.parseInt(res[0]), Std.parseInt(res[1]));
 		});
 
 		stageScript.execute();
