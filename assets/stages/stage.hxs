@@ -27,7 +27,7 @@ createGraphic(
     0.9, 0.9, // scroll factor x and scroll factor y
     1, // object opacity
     'backgrounds/' + curStage + '/stageback', // image path
-    false // spawn on foreground
+    false, // spawn on foreground
     "normal" // object blend effect, usually "normal" (OPTIONAL)
 );
 
