@@ -1435,7 +1435,7 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		if (canPause) pauseGame();
+		if (canPause && !paused) pauseGame();
 		super.onFocusLost();
 	}
 
