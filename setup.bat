@@ -24,6 +24,7 @@ echo Make sure you have git installed. You can download it here: https://git-scm
 echo Press any key to install necessary libraries.
 pause >nul
 title FNF Setup - Installing libraries
+haxelib git SScript https://github.com/TahirRollingArch/SScript.git
 haxelib git polymod https://github.com/larsiusprime/polymod.git
 haxelib git discord_rpc https://github.com/Aidan63/linc_discord-rpc
 cls

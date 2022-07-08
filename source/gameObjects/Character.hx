@@ -71,7 +71,7 @@ class Character extends FNFSprite
 
 		antialiasing = true;
 
-		var charScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('characters/' + curCharacter.toLowerCase() + '.hxs'));
+		var charScript:SScript = new SScript(Paths.getPreloadPath('characters/' + curCharacter.toLowerCase() + '.hxs'));
 
 		//trace(charScript.interp, charScript.script);
 		charScript.set('addByPrefix', function(name:String, prefix:String, ?frames:Int = 24, ?loop:Bool = false)

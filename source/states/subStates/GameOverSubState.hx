@@ -12,7 +12,6 @@ import meta.data.Conductor.BPMChangeEvent;
 import meta.data.Conductor;
 import states.*;
 import states.menus.*;
-import meta.CoolUtil;
 
 class GameOverSubState extends MusicBeatSubState
 {
