@@ -537,11 +537,16 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			var stageRes = screenRes.split('x');
 			screenRes = desiredRes;
 			FlxG.resizeWindow(Std.parseInt(stageRes[0]), Std.parseInt(stageRes[1]));
-			// stage scales, so they won't look weird when changing resolutions
+
 			var stageScal:StageSizeScaleMode;
 			stageScal = new StageSizeScaleMode();
 			FlxG.scaleMode = stageScal;
-			trace('Changed Resolution on: ' + curStage);
+
+			// shitty workaround for buggy scales
+			PlayState.changedRes = true;
+			if (PlayState.changedRes && !PlayState.alreadyChanged) {
+				FlxG.resetState();
+			}
 		});
 
 		stageScript.execute();

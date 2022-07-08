@@ -168,13 +168,15 @@ class PlayState extends MusicBeatState
 	public static var lastCombo:Array<FlxSprite>;
 
 	public static var preventScoring:Bool = false;
-
 	public static var chartingMode:Bool = false;
-
 	public static var practiceMode:Bool = false;
-	public static var deaths:Int = 0;
-
 	public static var resetKey:Bool = false;
+
+	// shitty stage res workaround
+	public static var changedRes:Bool = false;
+	public static var alreadyChanged:Bool = false;
+
+	public static var deaths:Int = 0;
 
 	// at the beginning of the playstate
 	override public function create()
@@ -183,6 +185,7 @@ class PlayState extends MusicBeatState
 
 		FlxG.mouse.visible = false;
 
+		// for scripts
 		contents = this;
 
 		// reset any values and variables that are static
@@ -298,6 +301,11 @@ class PlayState extends MusicBeatState
 
 		callLLua('create', []);
 
+		// cache shit
+		displayRating('sick', 'early', true);
+		popUpCombo(true);
+		//
+
 		// set up a class for the stage type in here afterwards
 		curStage = "";
 
@@ -309,15 +317,16 @@ class PlayState extends MusicBeatState
 		else
 			curStage = 'stage';
 
-		// cache shit
-		displayRating('sick', 'early', true);
-		popUpCombo(true);
-		//
-
 		if (Init.trueSettings.get('Stage Opacity') > 0)
 		{
-			stageBuild = new Stage(curStage);
+			stageBuild = new Stage(PlayState.curStage);
 			add(stageBuild);
+		}
+
+		if (changedRes)
+		{
+			alreadyChanged = true;
+			changedRes = false;
 		}
 
 		// set up characters here too
