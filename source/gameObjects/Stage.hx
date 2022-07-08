@@ -13,12 +13,14 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.group.FlxSpriteGroup;
 import flixel.math.FlxPoint;
 import flixel.system.FlxSound;
+import flixel.system.scaleModes.*;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import gameObjects.background.*;
 import meta.CoolUtil;
 import meta.data.ChartParser;
 import meta.data.Conductor;
+import meta.data.HaxeScript;
 import meta.data.dependency.FNFSprite;
 import openfl.display.BlendMode;
 import openfl.display.BlendModeEffect;
@@ -453,7 +455,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				foreground.add(tankdude3);
 		}
 
-		var stageScript:SScript = new SScript(Paths.getPreloadPath('stages/$curStage.hxs'));
+		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
 			size:Float = 1, scrollX:Float, scrollY:Float, alphaValue:Float = 1, image:String, fore:Bool = false,
 			blendString:String = 'normal')
@@ -506,6 +508,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			getSprite.addOffset(anim, x, y);
 		});
 
+		stageScript.set('applyBlendByID', function(id:String, blendString:String)
+		{
+			var getSprite:FNFSprite = PlayState.GraphicMap.get(id);
+			getSprite.blend = getBlend(blendString);
+		});
+
 		stageScript.set('configStage', function(daStage:String = 'stage', desiredZoom:Float = 1.05)
 		{
 			curStage = daStage;
@@ -523,12 +531,17 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			spawnGirlfriend = button;
 		});
-		
-		stageScript.set('changeResolution', function(value:String)
+
+		stageScript.set('changeResolution', function(desiredRes:String)
 		{
-			screenRes = value;
-			var res = screenRes.split('x');
-			FlxG.resizeWindow(Std.parseInt(res[0]), Std.parseInt(res[1]));
+			var stageRes = screenRes.split('x');
+			screenRes = desiredRes;
+			FlxG.resizeWindow(Std.parseInt(stageRes[0]), Std.parseInt(stageRes[1]));
+			// stage scales, so they won't look weird when changing resolutions
+			var stageScal:StageSizeScaleMode;
+			stageScal = new StageSizeScaleMode();
+			FlxG.scaleMode = stageScal;
+			trace('Changed Resolution on: ' + curStage);
 		});
 
 		stageScript.execute();

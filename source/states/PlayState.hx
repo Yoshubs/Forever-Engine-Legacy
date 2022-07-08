@@ -120,7 +120,7 @@ class PlayState extends MusicBeatState
 	var lastReportedPlayheadPosition:Int = 0;
 	var songTime:Float = 0;
 
-	public var scriptArray:Array<SScript> = [];
+	public var scriptArray:Array<HaxeScript> = [];
 	public var luaArray:Array<LLua> = [];
 
 	public static var camHUD:FlxCamera;
@@ -242,7 +242,7 @@ class PlayState extends MusicBeatState
 		{
 			if (FileSystem.exists(i) && !pushedScripts.contains(i))
 			{
-				var script:SScript = new SScript(i);
+				var script:HaxeScript = new HaxeScript(i);
 				trace(script.interp == null ? "Something terrible occured!" : "");
 				scriptArray.push(script);
 				pushedScripts.push(i);
@@ -261,7 +261,7 @@ class PlayState extends MusicBeatState
 
 					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:SScript = new SScript(scriptFile);
+						var script:HaxeScript = new HaxeScript(scriptFile);
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}
