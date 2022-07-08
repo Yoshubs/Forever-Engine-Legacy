@@ -508,6 +508,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			getSprite.addOffset(anim, x, y);
 		});
 
+		stageScript.set('applyBlendByID', function(id:String, blendString:String)
+		{
+			var getSprite:FNFSprite = PlayState.GraphicMap.get(id);
+			getSprite.blend = getBlend(blendString);
+		});
+
 		stageScript.set('configStage', function(daStage:String = 'stage', desiredZoom:Float = 1.05)
 		{
 			curStage = daStage;
@@ -533,7 +539,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			FlxG.resizeWindow(Std.parseInt(stageRes[0]), Std.parseInt(stageRes[1]));
 			// stage scales, so they won't look weird when changing resolutions
 			var stageScal:StageSizeScaleMode;
-			stageScal = new StageSizeScaleMode();FlxG.scaleMode = stageScal;
+			stageScal = new StageSizeScaleMode();
+			FlxG.scaleMode = stageScal;
 			trace('Changed Resolution on: ' + curStage);
 		});
 
