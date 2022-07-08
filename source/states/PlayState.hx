@@ -638,6 +638,27 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
+	function getColFromFlixel(str:String):FlxColor
+	{
+		return switch (str)
+		{
+			case "black": FlxColor.BLACK;
+			case "white": FlxColor.WHITE;
+			case "blue": FlxColor.BLUE;
+			case "brown": FlxColor.BROWN;
+			case "cyan": FlxColor.CYAN;
+			case "gray": FlxColor.GRAY;
+			case "green": FlxColor.GREEN;
+			case "lime": FlxColor.LIME;
+			case "magenta": FlxColor.MAGENTA;
+			case "orange": FlxColor.ORANGE;
+			case "pink": FlxColor.PINK;
+			case "purple": FlxColor.PURPLE;
+			case "red": FlxColor.RED;
+			case "transparent" | _: FlxColor.TRANSPARENT;
+		}
+	}
+
 	var staticDisplace:Int = 0;
 
 	var lastSection:Int = 0;
@@ -690,8 +711,6 @@ class PlayState extends MusicBeatState
 
 		if (generatedMusic)
 		{
-			// NOTE: later on, we should create a class specifically for setting script values
-
 			// Flixel values.
 			set('FlxG', FlxG);
 			set('FlxBasic', FlxBasic);
@@ -783,6 +802,10 @@ class PlayState extends MusicBeatState
 			set('setSetting', function(key:String, value:Dynamic)
 			{
 				Init.trueSettings.set(key, value);
+			});
+			set('getColor', function(color:String)
+			{
+				getColFromFlixel(color);
 			});
 
 			set('elapsed', elapsed);
