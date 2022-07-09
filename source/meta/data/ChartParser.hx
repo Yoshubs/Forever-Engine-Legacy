@@ -33,7 +33,8 @@ class ChartParser
 				// load fnf style charts (PRE 0.3)
 				var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
-				for (section in noteData) {
+				for (section in noteData)
+				{
 					var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
 					for (songNotes in section.sectionNotes)

@@ -40,5 +40,4 @@ class Boyfriend extends Character
 
 		super.update(elapsed);
 	}
-
 }

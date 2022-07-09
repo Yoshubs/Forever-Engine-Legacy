@@ -27,7 +27,7 @@ import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;
 import openfl.media.Sound;
-#if !html5
+#if sys
 import sys.thread.Thread;
 #end
 
@@ -48,25 +48,24 @@ class TestState extends MusicBeatState
 
 		generateBackground();
 
-
 		/*
-		var groupOfItems:FlxTypedGroup<FlxBasic> = new FlxTypedGroup<FlxBasic>();
-		add(groupOfItems);
+			var groupOfItems:FlxTypedGroup<FlxBasic> = new FlxTypedGroup<FlxBasic>();
+			add(groupOfItems);
 
-		var tabs = [
-			{name: "Song", label: 'Song'},
-			{name: "Section", label: 'Section'},
-			{name: "Note", label: 'Note'}
-		];
+			var tabs = [
+				{name: "Song", label: 'Song'},
+				{name: "Section", label: 'Section'},
+				{name: "Note", label: 'Note'}
+			];
 
-		var baseBox = new FlxUI9SliceSprite(0, 0, Paths.image('UI/forever/base/chart editor/box_ui'), new Rectangle(0, 0, 200, 200), [10, 10, 90, 90]);
-		UI_box = new FlxUITabMenu(baseBox, tabs, true);
+			var baseBox = new FlxUI9SliceSprite(0, 0, Paths.image('UI/forever/base/chart editor/box_ui'), new Rectangle(0, 0, 200, 200), [10, 10, 90, 90]);
+			UI_box = new FlxUITabMenu(baseBox, tabs, true);
 
-		UI_box.resize(300, 400);
-		UI_box.x = 916;
-		UI_box.y = 160;
-		add(UI_box);
-		*/
+			UI_box.resize(300, 400);
+			UI_box.x = 916;
+			UI_box.y = 160;
+			add(UI_box);
+		 */
 
 		// var tab_group_section = new UIBox(null, UI_box);
 		// tab_group_section.name = 'Section';

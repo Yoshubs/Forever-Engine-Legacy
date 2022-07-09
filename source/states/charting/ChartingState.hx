@@ -55,7 +55,7 @@ import states.subStates.charting.*;
 
 using StringTools;
 
-#if !html5
+#if sys
 import sys.thread.Thread;
 #end
 
@@ -162,8 +162,8 @@ class ChartingState extends MusicBeatState
 			if (typeReal > 3)
 				typeReal -= 4;
 
-			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((i - 1) * gridSize),
-				-76, typeReal, 'chart editor');
+			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((i - 1) * gridSize), -76,
+				typeReal, 'chart editor');
 
 			newArrow.ID = i;
 			newArrow.setGraphicSize(gridSize);
@@ -337,13 +337,13 @@ class ChartingState extends MusicBeatState
 					var noteData = adjustSide(Math.floor((dummyArrow.x - gridBG.x) / gridSize), _song.notes[notesSection].mustHitSection);
 					var noteSus = 0; // ninja you will NOT get away with this
 
-					//noteCleanup(notesSection, noteStrum, noteData);
-					//_song.notes[notesSection].sectionNotes.push([noteStrum, noteData, noteSus]);
+					// noteCleanup(notesSection, noteStrum, noteData);
+					// _song.notes[notesSection].sectionNotes.push([noteStrum, noteData, noteSus]);
 
 					generateChartNote(noteData, noteStrum, noteSus, 0, notesSection);
 
-					//updateSelection(_song.notes[notesSection].sectionNotes[_song.notes[notesSection].sectionNotes.length - 1], notesSection, true);
-					//isPlacing = true;
+					// updateSelection(_song.notes[notesSection].sectionNotes[_song.notes[notesSection].sectionNotes.length - 1], notesSection, true);
+					// isPlacing = true;
 				}
 
 				else
@@ -360,11 +360,11 @@ class ChartingState extends MusicBeatState
 							else
 							{
 								// delete the epic note
-								//var notesSection = getSectionfromY(note.y);
+								// var notesSection = getSectionfromY(note.y);
 								// persona 3 mass destruction
-								//destroySustain(note, notesSection);
+								// destroySustain(note, notesSection);
 
-								//noteCleanup(notesSection, note.strumTime, note.rawNoteData);
+								// noteCleanup(notesSection, note.strumTime, note.rawNoteData);
 
 								note.kill();
 								curRenderedNotes.remove(note);
@@ -589,8 +589,7 @@ class ChartingState extends MusicBeatState
 		for (i in 1...Std.int(_song.notes[section].lengthInSteps / 4))
 		{
 			// create a smaller section stepper
-			var sectionStep:FlxSprite = new FlxSprite(FlxG.width / 2 - (gridSize * (keysTotal / 2)) - (extraSize / 2),
-				placement + (i * (gridSize * 4)));
+			var sectionStep:FlxSprite = new FlxSprite(FlxG.width / 2 - (gridSize * (keysTotal / 2)) - (extraSize / 2), placement + (i * (gridSize * 4)));
 			sectionStep.frames = sectionStepGraphic.imageFrame;
 			sectionStep.alpha = sectionLine.alpha;
 			curRenderedSections.add(sectionStep);
@@ -607,7 +606,7 @@ class ChartingState extends MusicBeatState
 		curRenderedNotes.clear();
 		curRenderedSustains.clear();
 
-		//sectionsMax = 1;
+		// sectionsMax = 1;
 		generateSection();
 		for (section in 0..._song.notes.length)
 		{
@@ -623,10 +622,9 @@ class ChartingState extends MusicBeatState
 
 				generateChartNote(i[1], i[0], i[2], daNoteAlt, section, false);
 			}
-			
 		}
 		// lolll
-		//sectionsMax--;
+		// sectionsMax--;
 	}
 
 	var extraSize = 6;

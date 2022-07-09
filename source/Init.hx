@@ -50,7 +50,18 @@ class Init extends FlxState
 			'Whether to have the strumline vertically flipped in gameplay.',
 			NOT_FORCED
 		],
-		'Auto Pause' => [true, Checkmark, 'Whether to pause the game automatically if the window is unfocused.', NOT_FORCED],
+		'Controller Mode' => [
+			false,
+			Checkmark,
+			'Whether to use a controller instead of the keyboard to play.',
+			NOT_FORCED
+		],
+		'Auto Pause' => [
+			true,
+			Checkmark,
+			'Whether to pause the game automatically if the window is unfocused.',
+			NOT_FORCED
+		],
 		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS counter.', NOT_FORCED],
 		'Memory Counter' => [
 			true,
@@ -58,7 +69,12 @@ class Init extends FlxState
 			'Whether to display approximately how much memory is being used.',
 			NOT_FORCED
 		],
-		'Debug Info' => [false, Checkmark, 'Whether to display information like your game state.', NOT_FORCED],
+		'Debug Info' => [
+			false,
+			Checkmark,
+			'Whether to display information like your game state.',
+			NOT_FORCED
+		],
 		'Reduced Movements' => [
 			false,
 			Checkmark,
@@ -113,12 +129,28 @@ class Init extends FlxState
 			NOT_FORCED,
 			['none', 'Deuteranopia', 'Protanopia', 'Tritanopia']
 		],
-		"Clip Style" => ['stepmania', Selector, "Chooses a style for hold note clippings; StepMania: Holds under Receptors; FNF: Holds over receptors", NOT_FORCED, 
-			['StepMania', 'FNF']],
-		"UI Skin" => ['default', Selector, 'Choose a UI Skin for judgements, combo, etc.', NOT_FORCED, ''],
+		"Clip Style" => [
+			'stepmania',
+			Selector,
+			"Chooses a style for hold note clippings; StepMania: Holds under Receptors; FNF: Holds over receptors",
+			NOT_FORCED,
+			['StepMania', 'FNF']
+		],
+		"UI Skin" => [
+			'default',
+			Selector,
+			'Choose a UI Skin for judgements, combo, etc.',
+			NOT_FORCED,
+			''
+		],
 		"Note Skin" => ['default', Selector, 'Choose a note skin.', NOT_FORCED, ''],
 		"Framerate Cap" => [120, Selector, 'Define your maximum FPS.', NOT_FORCED, ['']],
-		"Opaque Arrows" => [false, Checkmark, "Makes the arrows at the top of the screen opaque again.", NOT_FORCED],
+		"Opaque Arrows" => [
+			false,
+			Checkmark,
+			"Makes the arrows at the top of the screen opaque again.",
+			NOT_FORCED
+		],
 		"Opaque Holds" => [false, Checkmark, "Huh, why isnt the trail cut off?", NOT_FORCED],
 		'Ghost Tapping' => [
 			false,
@@ -143,7 +175,7 @@ class Init extends FlxState
 		'Fixed Judgements' => [
 			false,
 			Checkmark,
-			"Fixes the judgements to the camera instead of to the world itself, making them easier to read.", 
+			"Fixes the judgements to the camera instead of to the world itself, making them easier to read.",
 			NOT_FORCED
 		],
 		'Simply Judgements' => [
@@ -257,7 +289,7 @@ class Init extends FlxState
 	}
 
 	private function gotoTitleScreen()
-	{	
+	{
 		if (trueSettings.get("Custom Titlescreen"))
 			Main.switchState(this, new CustomTitlescreen());
 		else
@@ -360,7 +392,7 @@ class Init extends FlxState
 	public static function updateAll()
 	{
 		FlxG.autoPause = trueSettings.get('Auto Pause');
-		
+
 		Overlay.updateDisplayInfo(trueSettings.get('FPS Counter'), trueSettings.get('Debug Info'), trueSettings.get('Memory Counter'));
 
 		#if !html5

@@ -479,8 +479,11 @@ class PlayState extends MusicBeatState
 			copyKey(Init.gameControls.get('RIGHT')[0])
 		];
 
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		if (!Init.trueSettings.get('Controller Mode'))
+		{
+			FlxG.stage.addEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			FlxG.stage.addEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		}
 
 		Paths.clearUnusedMemory();
 
@@ -552,7 +555,7 @@ class PlayState extends MusicBeatState
 
 		if ((key >= 0)
 			&& !bfStrums.autoplay
-			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED))
+			&& (FlxG.keys.checkStatus(eventKey, JUST_PRESSED) || Init.trueSettings.get('Controller Mode'))
 			&& (FlxG.keys.enabled && !paused && (FlxG.state.active || FlxG.state.persistentUpdate)))
 		{
 			if (generatedMusic)
@@ -606,7 +609,8 @@ class PlayState extends MusicBeatState
 				Conductor.songPosition = previousTime;
 			}
 
-			if (bfStrums.receptors.members[key] != null && bfStrums.receptors.members[key].animation.curAnim.name != 'confirm')
+			if (bfStrums.receptors.members[key] != null
+				&& bfStrums.receptors.members[key].animation.curAnim.name != 'confirm')
 				bfStrums.receptors.members[key].playAnim('pressed');
 		}
 	}
@@ -643,8 +647,11 @@ class PlayState extends MusicBeatState
 	override public function destroy()
 	{
 		callLLua('destroy', []);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
-		FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		if (!Init.trueSettings.get('Controller Mode'))
+		{
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
+			FlxG.stage.removeEventListener(KeyboardEvent.KEY_UP, onKeyRelease);
+		}
 
 		GraphicMap.clear();
 		TextMap.clear();
@@ -969,24 +976,18 @@ class PlayState extends MusicBeatState
 			for (hud in allUIs)
 				hud.angle = FlxMath.lerp(0 + forceZoom[3], hud.angle, easeLerp);
 
-			//
-
 			// Controls
 
 			// RESET = Quick Game Over Screen
-			if (controls.RESET && !startingSong && !isStoryMode)
-			{
+			if (controls.RESET && !startingSong && !isStoryMode) {
 				health = 0;
-				trace("RESET = True");
 			}
-
-			//
 
 			if (!practiceMode && health <= 0)
 			{
 				callLLua('onGameOver', []);
-				paused = true;
 
+				paused = true;
 				// startTimer.active = false;
 				persistentUpdate = false;
 				persistentDraw = false;
@@ -1012,6 +1013,45 @@ class PlayState extends MusicBeatState
 			}
 
 			noteCalls();
+
+			if (Init.trueSettings.get('Controller Mode'))
+				controllerInput();
+		}
+	}
+
+	// maybe theres a better place to put this, idk -saw
+	function controllerInput()
+	{
+		var justPressArray:Array<Bool> = [
+			controls.LEFT_P,
+			controls.DOWN_P,
+			controls.UP_P,
+			controls.RIGHT_P
+		];
+
+		var justReleaseArray:Array<Bool> = [
+			controls.LEFT_R,
+			controls.DOWN_R,
+			controls.UP_R,
+			controls.RIGHT_R
+		];
+
+		if (justPressArray.contains(true))
+		{
+			for (i in 0...justPressArray.length)
+			{
+				if (justPressArray[i])
+					onKeyPress(new KeyboardEvent(KeyboardEvent.KEY_DOWN, true, true, -1, keysArray[i][0]));
+			}
+		}
+
+		if (justReleaseArray.contains(true))
+		{
+			for (i in 0...justReleaseArray.length)
+			{
+				if (justReleaseArray[i])
+					onKeyRelease(new KeyboardEvent(KeyboardEvent.KEY_UP, true, true, -1, keysArray[i][0]));
+			}
 		}
 	}
 
@@ -1021,7 +1061,6 @@ class PlayState extends MusicBeatState
 		for (strumline in strumLines)
 		{
 			// handle strumline stuffs
-			var i = 0;
 			for (uiNote in strumline.receptors)
 			{
 				if (strumline.autoplay)
@@ -1186,7 +1225,8 @@ class PlayState extends MusicBeatState
 		// reset bf's animation
 		var holdControls:Array<Bool> = [controls.LEFT, controls.DOWN, controls.UP, controls.RIGHT];
 		if ((boyfriend != null && boyfriend.animation != null)
-			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000) && (!holdControls.contains(true) || bfStrums.autoplay)))
+			&& (boyfriend.holdTimer > Conductor.stepCrochet * (4 / 1000)
+				&& (!holdControls.contains(true) || bfStrums.autoplay)))
 		{
 			if (boyfriend.animation.curAnim.name.startsWith('sing') && !boyfriend.animation.curAnim.name.endsWith('miss'))
 				boyfriend.dance();
@@ -1450,9 +1490,11 @@ class PlayState extends MusicBeatState
 		//
 	}
 
+
 	public function pauseGame()
 	{
 		callLLua('onPause', []);
+
 		// pause discord rpc
 		updateRPC(true);
 
@@ -1476,7 +1518,7 @@ class PlayState extends MusicBeatState
 
 	override public function onFocusLost():Void
 	{
-		if (canPause && !paused) pauseGame();
+		if (canPause && !paused && !Init.trueSettings.get('Auto Pause')) pauseGame();
 		super.onFocusLost();
 	}
 
@@ -1553,8 +1595,8 @@ class PlayState extends MusicBeatState
 		for (scoreInt in 0...stringArray.length)
 		{
 			// numScore.loadGraphic(Paths.image('UI/' + pixelModifier + 'num' + stringArray[scoreInt]));
-			var numScore = ForeverAssets.generateCombo('combo', stringArray[scoreInt], (!negative ? allSicks : false), assetModifier, changeableSkin, 'UI',
-				negative, createdColor, scoreInt);
+			var numScore = ForeverAssets.generateCombo('combo', stringArray[scoreInt], (!negative ? allSicks : false), assetModifier, changeableSkin,
+				'UI', negative, createdColor, scoreInt);
 			add(numScore);
 			set('numScore', numScore);
 			// hardcoded lmao
@@ -1801,22 +1843,18 @@ class PlayState extends MusicBeatState
 
 	private function charactersDance(curBeat:Int)
 	{
-		if (gf.animation.curAnim != null)
-			if ((curBeat % gfSpeed == 0)
-				&& ((gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))))
-				gf.dance();
+		if ((curBeat % gfSpeed == 0)
+			&& ((gf.animation.curAnim.name.startsWith("idle") || gf.animation.curAnim.name.startsWith("dance"))))
+			gf.dance();
 
-		if (boyfriend.animation.curAnim != null)
-			if ((boyfriend.animation.curAnim.name.startsWith("idle") || boyfriend.animation.curAnim.name.startsWith("dance"))
-				&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
-				boyfriend.dance();
+		if ((boyfriend.animation.curAnim.name.startsWith("idle") || boyfriend.animation.curAnim.name.startsWith("dance"))
+			&& (curBeat % 2 == 0 || boyfriend.characterData.quickDancer))
+			boyfriend.dance();
 
 		// added this for opponent cus it wasn't here before and skater would just freeze
-
-		if (dadOpponent.animation.curAnim != null)
-			if ((dadOpponent.animation.curAnim.name.startsWith("idle") || dadOpponent.animation.curAnim.name.startsWith("dance"))
-				&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
-				dadOpponent.dance();
+		if ((dadOpponent.animation.curAnim.name.startsWith("idle") || dadOpponent.animation.curAnim.name.startsWith("dance"))
+			&& (curBeat % 2 == 0 || dadOpponent.characterData.quickDancer))
+			dadOpponent.dance();
 	}
 
 	override function beatHit()
@@ -1899,6 +1937,35 @@ class PlayState extends MusicBeatState
 
 		setLLua('curBeat', curBeat);
 		callLLua('onBeatHit', []);
+
+		if (curSong.toLowerCase() == 'bopeebo')
+		{
+			switch (curBeat)
+			{
+				case 128, 129, 130:
+					vocals.volume = 0;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'fresh')
+		{
+			switch (curBeat)
+			{
+				case 16 | 80:
+					gfSpeed = 2;
+				case 48 | 112:
+					gfSpeed = 1;
+			}
+		}
+
+		if (curSong.toLowerCase() == 'milf' && curBeat >= 168 && curBeat < 200
+			&& !Init.trueSettings.get('Reduced Movements')
+			&& FlxG.camera.zoom < 1.35)
+		{
+			FlxG.camera.zoom += 0.015;
+			for (hud in allUIs)
+				hud.zoom += 0.03;
+		}
 	}
 
 	//

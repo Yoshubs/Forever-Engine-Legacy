@@ -18,7 +18,8 @@ import states.subStates.GameOverSubState;
 
 using StringTools;
 
-typedef CharacterData = {
+typedef CharacterData =
+{
 	var offsetX:Float;
 	var offsetY:Float;
 	var camOffsetX:Float;
@@ -177,7 +178,8 @@ class Character extends FNFSprite
 
 		if (icon == null) icon = curCharacter;
 
-		if (adjustPos) {
+		if (adjustPos)
+		{
 			x += characterData.offsetX;
 			trace('character ${curCharacter} scale ${scale.y}');
 			y += (characterData.offsetY - (frameHeight * scale.y));
@@ -245,7 +247,8 @@ class Character extends FNFSprite
 					}
 				default:
 					// Left/right dancing, think Skid & Pump
-					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null) {
+					if (animation.getByName('danceLeft') != null && animation.getByName('danceRight') != null)
+					{
 						danced = !danced;
 						if (danced)
 							playAnim('danceRight', forced);

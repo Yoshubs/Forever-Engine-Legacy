@@ -35,7 +35,6 @@ enum abstract Action(String) to String from String
 	var UI_LEFT_R = "ui_left-release";
 	var UI_RIGHT_R = "ui_right-release";
 	var UI_DOWN_R = "ui_down-release";
-	
 	var UP = "up";
 	var LEFT = "left";
 	var RIGHT = "right";
@@ -195,7 +194,7 @@ class Controls extends FlxActionSet
 
 	inline function get_UI_DOWN_R()
 		return _ui_downR.check();
-	
+
 	public var UP(get, never):Bool;
 
 	inline function get_UP()
@@ -680,7 +679,7 @@ class Controls extends FlxActionSet
 
 		#if (haxe >= "4.0.0")
 		for (control => buttons in buttonMap)
-			inline bindButtons(control, id, buttons);
+		inline bindButtons(control, id, buttons);
 		#else
 		for (control in buttonMap.keys())
 			bindButtons(control, id, buttonMap[control]);
@@ -693,7 +692,7 @@ class Controls extends FlxActionSet
 
 		#if (haxe >= "4.0.0")
 		for (control => buttons in buttonMap)
-			inline bindButtons(control, id, buttons);
+		inline bindButtons(control, id, buttons);
 		#else
 		for (control in buttonMap.keys())
 			bindButtons(control, id, buttonMap[control]);
