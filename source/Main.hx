@@ -231,7 +231,7 @@ class Main extends Sprite
 		dateNow = StringTools.replace(dateNow, " ", "_");
 		dateNow = StringTools.replace(dateNow, ":", "'");
 
-		path = "./crash/" + "FE_" + dateNow + ".txt";
+		path = "crash/" + "FE_" + dateNow + ".txt";
 
 		for (stackItem in callStack)
 		{
@@ -246,8 +246,8 @@ class Main extends Sprite
 
 		errMsg += "\nUncaught Error: " + e.error + "\nPlease report this error to the GitHub page: https://github.com/BeastlyGhost/Forever-Engine-Underscore\non the \"next\" branch\n\n>Crash Handler written by: sqirra-rng";
 
-		if (!FileSystem.exists("./crash/"))
-			FileSystem.createDirectory("./crash/");
+		if (!FileSystem.exists("crash/"))
+			FileSystem.createDirectory("crash/");
 
 		File.saveContent(path, errMsg + "\n");
 
@@ -263,10 +263,6 @@ class Main extends Sprite
 		if (FileSystem.exists("./" + crashDialoguePath))
 		{
 			Sys.println("Found crash dialog: " + crashDialoguePath);
-
-			#if linux
-			crashDialoguePath = "./" + crashDialoguePath;
-			#end
 			new Process(crashDialoguePath, [path]);
 		}
 		else

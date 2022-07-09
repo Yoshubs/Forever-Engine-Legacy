@@ -115,6 +115,7 @@ class OptionsSubState extends MusicBeatSubState
 		{
 			arrayTemp[Init.gameControls.get(controlString)[1]] = controlString;
 		}
+		// hiding this on neko platforms, as you can't even use offsets on those -Ghost
 		#if !neko arrayTemp.push("EDIT OFFSET"); #end // append edit offset to the end of the array
 
 		for (i in 0...arrayTemp.length)

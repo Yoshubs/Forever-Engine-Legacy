@@ -21,6 +21,9 @@ class FlashingState extends MusicBeatState
 	{
 		super.create();
 
+		// reset volume
+		FlxG.sound.volume = 1;
+
 		// bind save
 		FlxG.save.bind('foreverengine-settings', 'yoshubs');
 
@@ -69,6 +72,8 @@ class FlashingState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
+		super.update(elapsed);
+
 		if(!FlxG.save.data.leftFlashing) {
 			var accept:Bool = controls.ACCEPT;
 			var back:Bool = controls.BACK;
@@ -96,6 +101,5 @@ class FlashingState extends MusicBeatState
 			// anti "haha u stuck here now lmao!!!"
 			gotoTitleScreen();
 		}
-		super.update(elapsed);
 	}
 }

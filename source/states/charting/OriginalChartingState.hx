@@ -320,6 +320,12 @@ class OriginalChartingState extends MusicBeatState
 		};
 		sixKeyChart.checked = false;
 
+		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
+		playTicksBf.checked = false;
+
+		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
+		playTicksDad.checked = false;
+
 		var tab_group_song = new FlxUI(null, UI_box);
 		tab_group_song.name = "Song";
 		tab_group_song.add(UI_songTitle);
@@ -596,9 +602,7 @@ class OriginalChartingState extends MusicBeatState
 		return daPos;
 	}
 
-	//make it null first because FlxG.sound.music can be null
 	var lastSongPos:Null<Float> = null;
-	
 	override function update(elapsed:Float)
 	{
 		curStep = recalculateSteps();
@@ -652,6 +656,28 @@ class OriginalChartingState extends MusicBeatState
         });
 
 		_song.song = typingShit.text;
+
+		// real thanks for the help with this ShadowMario, you are the best -Ghost
+		var playedSound:Array<Bool> = [];
+		for (i in 0...8) {
+			playedSound.push(false);
+		}
+		curRenderedNotes.forEachAlive(function(note:Note)
+        {
+            if (note.strumTime < songMusic.time)
+            {
+				var data:Int = note.noteData % 4;
+
+				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
+                {
+					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
+					{
+						FlxG.sound.play(Paths.sound('soundNoteTick'));
+						playedSound[data] = true;
+					}
+                }
+            }
+        });
 
 		strumLine.y = getYfromStrum((Conductor.songPosition - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[curSection].lengthInSteps));
 
@@ -895,10 +921,12 @@ class OriginalChartingState extends MusicBeatState
 		bpmTxt.text = bpmTxt.text = Std.string(FlxMath.roundDecimal(Conductor.songPosition / 1000, 2))
 			+ " / "
 			+ Std.string(FlxMath.roundDecimal(songMusic.length / 1000, 2))
-			+ "\n\nSection: " + curSection
-			+ "\nBeat: " + curBeat
-			+ "\nStep: " + curStep;
-
+			+ "\nSection: "
+			+ curSection
+			+ "\nBeat: "
+			+ curBeat
+			+ "\nStep: "
+			+ curStep;
 		super.update(elapsed);
 
 		lastSongPos = Conductor.songPosition;
@@ -1033,15 +1061,11 @@ class OriginalChartingState extends MusicBeatState
 		{
 			leftIcon.setPosition(gridBG.width / 2, -100);
 			rightIcon.setPosition(0, -100);
-			leftIcon.flipX = true;
-			rightIcon.flipX = false;
 		}
 		else
 		{
 			leftIcon.setPosition(0, -100);
 			rightIcon.setPosition(gridBG.width / 2, -100);
-			leftIcon.flipX = false;
-			rightIcon.flipX = true;
 		}
 	}
 

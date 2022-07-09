@@ -15,6 +15,7 @@ import flixel.math.FlxMath;
 import flixel.math.FlxPoint;
 import flixel.math.FlxRect;
 import flixel.system.FlxSound;
+import flixel.system.scaleModes.RatioScaleMode;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -38,7 +39,6 @@ import openfl.filters.ShaderFilter;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
-import flixel.system.scaleModes.RatioScaleMode;
 
 using StringTools;
 
@@ -106,6 +106,8 @@ class PlayState extends MusicBeatState
 
 	public static var misses:Int = 0;
 	public static var ghostMisses:Int = 0;
+
+	public static var deaths:Int = 0;
 
 	public var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
@@ -178,8 +180,6 @@ class PlayState extends MusicBeatState
 	// shitty stage res workaround
 	public static var changedRes:Bool = false;
 	public static var alreadyChanged:Bool = false;
-
-	public static var deaths:Int = 0;
 
 	// at the beginning of the playstate
 	override public function create()
@@ -2077,6 +2077,8 @@ class PlayState extends MusicBeatState
 		endingSong = true;
 		songMusic.volume = 0;
 		vocals.volume = 0;
+
+		deaths = 0;
 
 		if (SONG.validScore && !preventScoring)
 		{
