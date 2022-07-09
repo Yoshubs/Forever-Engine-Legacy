@@ -12,6 +12,7 @@ import meta.data.Conductor.BPMChangeEvent;
 import meta.data.Conductor;
 import states.*;
 import states.menus.*;
+import flixel.system.scaleModes.RatioScaleMode;
 
 class GameOverSubState extends MusicBeatSubState
 {
@@ -81,6 +82,8 @@ class GameOverSubState extends MusicBeatSubState
 		if (controls.BACK)
 		{
 			FlxG.resizeWindow(1280, 720);
+			FlxG.scaleMode = new RatioScaleMode();
+
 			FlxG.sound.music.stop();
 			PlayState.deaths = 0;
 

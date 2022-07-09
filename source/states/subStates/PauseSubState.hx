@@ -17,6 +17,7 @@ import meta.data.*;
 import meta.data.font.Alphabet;
 import states.*;
 import states.menus.*;
+import flixel.system.scaleModes.RatioScaleMode;
 
 class PauseSubState extends MusicBeatSubState
 {
@@ -214,10 +215,12 @@ class PauseSubState extends MusicBeatSubState
 					FlxG.resizeWindow(1280, 720);
 					Main.switchState(this, new OptionsMenuState());
 				case "Exit to menu":
+					FlxG.resizeWindow(1280, 720);
+					FlxG.scaleMode = new RatioScaleMode();
+
 					PlayState.resetMusic();
 					PlayState.deaths = 0;
 					disableCheats(true);
-					FlxG.resizeWindow(1280, 720);
 
 					if (PlayState.isStoryMode)
 						Main.switchState(this, new StoryMenuState());

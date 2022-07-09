@@ -38,6 +38,7 @@ import openfl.filters.ShaderFilter;
 import states.charting.*;
 import states.menus.*;
 import states.subStates.*;
+import flixel.system.scaleModes.RatioScaleMode;
 
 using StringTools;
 
@@ -121,7 +122,9 @@ class PlayState extends MusicBeatState
 	var songTime:Float = 0;
 
 	public var scriptArray:Array<HaxeScript> = [];
+	#if LUA_EXTENSION
 	public var luaArray:Array<LLua> = [];
+	#end
 
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
@@ -272,6 +275,7 @@ class PlayState extends MusicBeatState
 			}
 		}
 
+		#if LUA_EXTENSION
 		var luas:Array<Array<String>> = [
 			FileSystem.readDirectory(FileSystem.absolutePath(Paths.getPreloadPath('scripts/')))
 		];
@@ -300,6 +304,7 @@ class PlayState extends MusicBeatState
 			luaArray.push(new LLua(luaPath));
 
 		callLLua('create', []);
+		#end
 
 		// cache shit
 		displayRating('sick', 'early', true);
@@ -524,7 +529,9 @@ class PlayState extends MusicBeatState
 			FlxG.camera.setFilters([new ShaderFilter(shader)]);
 		 */
 
+		 #if LUA_EXTENSION
 		 callLLua('postCreate', []);
+		 #end
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
@@ -646,7 +653,10 @@ class PlayState extends MusicBeatState
 
 	override public function destroy()
 	{
+		#if LUA_EXTENSION
 		callLLua('destroy', []);
+		#end
+
 		if (!Init.trueSettings.get('Controller Mode'))
 		{
 			FlxG.stage.removeEventListener(KeyboardEvent.KEY_DOWN, onKeyPress);
@@ -836,10 +846,12 @@ class PlayState extends MusicBeatState
 
 			////////////////////////////////////////////////////////////////////////////////////
 
+			#if LUA_EXTENSION
 			setLLua('health', health);
 			setLLua('combo', combo);
 			setLLua('gfSpeed', gfSpeed);
 			callLLua('update', [elapsed]);
+			#end
 		}
 
 		if (!inCutscene)
@@ -985,7 +997,9 @@ class PlayState extends MusicBeatState
 
 			if (!practiceMode && health <= 0)
 			{
+				#if LUA_EXTENSION
 				callLLua('onGameOver', []);
+				#end
 
 				paused = true;
 				// startTimer.active = false;
@@ -1000,7 +1014,9 @@ class PlayState extends MusicBeatState
 
 				FlxG.sound.play(Paths.sound(GameOverSubState.deathSound));
 
+				#if DISCORD_RPC
 				Discord.changePresence("Game Over - " + songDetails, detailsSub, iconRPC);
+				#end
 			}
 
 			// spawn in the notes from the array
@@ -1493,7 +1509,9 @@ class PlayState extends MusicBeatState
 
 	public function pauseGame()
 	{
+		#if LUA_EXTENSION
 		callLLua('onPause', []);
+		#end
 
 		// pause discord rpc
 		updateRPC(true);
@@ -1751,7 +1769,9 @@ class PlayState extends MusicBeatState
 
 	function startSong():Void
 	{
+		#if LUA_EXTENSION
 		callLLua('onSongStart', []);
+		#end
 		startingSong = false;
 
 		previousFrameTime = FlxG.game.ticks;
@@ -1837,8 +1857,10 @@ class PlayState extends MusicBeatState
 		if (songMusic.time >= Conductor.songPosition + 20 || songMusic.time <= Conductor.songPosition - 20)
 			resyncVocals();
 
+		#if LUA_EXTENSION
 		setLLua('curStep', curStep);
 		callLLua('onStepHit', []);
+		#end
 	}
 
 	private function charactersDance(curBeat:Int)
@@ -1935,8 +1957,10 @@ class PlayState extends MusicBeatState
 		// stage stuffs
 		if (Init.trueSettings.get('Stage Opacity') > 0) stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
 
+		#if LUA_EXTENSION
 		setLLua('curBeat', curBeat);
 		callLLua('onBeatHit', []);
+		#end
 
 		if (curSong.toLowerCase() == 'bopeebo')
 		{
@@ -2025,7 +2049,9 @@ class PlayState extends MusicBeatState
 
 		Paths.clearUnusedMemory();
 
+		#if LUA_EXTENSION
 		callLLua('onCloseSubState', []);
+		#end
 
 		super.closeSubState();
 	}
@@ -2038,11 +2064,14 @@ class PlayState extends MusicBeatState
 
 	function endSong():Void
 	{
+		#if LUA_EXTENSION
 		callLLua('onSongEnd', []);
+		#end
 		// set ranking
 		rank = Std.string(Timings.returnScoreRating().toUpperCase());
 
 		FlxG.resizeWindow(1280, 720);
+		FlxG.scaleMode = new RatioScaleMode();
 
 		canPause = false;
 		endingSong = true;
@@ -2139,7 +2168,9 @@ class PlayState extends MusicBeatState
 	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
 	{
 		/*#if VIDEO_PLUGIN
+			#if LUA_EXTENSION
 			callLLua('onStartVideo', []);
+			#end
 			inCutscene = true;
 
 			var filepath:String = Paths.video(name);
@@ -2322,7 +2353,9 @@ class PlayState extends MusicBeatState
 		Conductor.songPosition = -(Conductor.crochet * 5);
 		swagCounter = 0;
 
+		#if LUA_EXTENSION
 		callLLua('onStartCountdown', []);
+		#end
 
 		camHUD.visible = true;
 
@@ -2349,11 +2382,15 @@ class PlayState extends MusicBeatState
 			switch (swagCounter)
 			{
 				case 0:
+					#if LUA_EXTENSION
 					callLLua('onCountdownTick', [0]);
+					#end
 					FlxG.sound.play(Paths.sound('intro3-' + assetModifier), 0.6);
 					Conductor.songPosition = -(Conductor.crochet * 4);
 				case 1:
+					#if LUA_EXTENSION
 					callLLua('onCountdownTick', [1]);
+					#end
 					var ready:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[0]));
 					ready.scrollFactor.set();
 					ready.updateHitbox();
@@ -2374,7 +2411,9 @@ class PlayState extends MusicBeatState
 
 					Conductor.songPosition = -(Conductor.crochet * 3);
 				case 2:
+					#if LUA_EXTENSION
 					callLLua('onCountdownTick', [2]);
+					#end
 					var set:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[1]));
 					set.scrollFactor.set();
 
@@ -2394,7 +2433,9 @@ class PlayState extends MusicBeatState
 
 					Conductor.songPosition = -(Conductor.crochet * 2);
 				case 3:
+					#if LUA_EXTENSION
 					callLLua('onCountdownTick', [3]);
+					#end
 					var go:FlxSprite = new FlxSprite().loadGraphic(Paths.image(introAlts[2]));
 					go.scrollFactor.set();
 
@@ -2437,6 +2478,7 @@ class PlayState extends MusicBeatState
 		return true;
 	}
 
+	#if LUA_EXTENSION
 	public function callLLua(evt:String, args:Array<Dynamic>)
 	{
 		var returnVar:Dynamic = 0;
@@ -2457,4 +2499,5 @@ class PlayState extends MusicBeatState
 		for (i in 0...luaArray.length)
 			luaArray[i].set(variable, arg);
 	}
+	#end
 }

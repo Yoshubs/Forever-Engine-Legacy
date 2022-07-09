@@ -1,5 +1,6 @@
 package meta.data;
 
+#if LUA_EXTENSION
 import llua.*;
 import llua.Lua.Lua_helper;
 
@@ -99,3 +100,4 @@ class LLua
         return lua == null;
     }
 }
+#end
