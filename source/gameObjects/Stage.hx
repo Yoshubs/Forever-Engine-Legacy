@@ -532,15 +532,30 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			spawnGirlfriend = button;
 		});
 
-		stageScript.set('changeResolution', function(desiredRes:String)
+		stageScript.set('changeResolution', function(desiredRes:String, scaleMode:String = 'ratio')
 		{
 			var stageRes = screenRes.split('x');
 			screenRes = desiredRes;
 			FlxG.resizeWindow(Std.parseInt(stageRes[0]), Std.parseInt(stageRes[1]));
 
-			var stageScal:StageSizeScaleMode;
-			stageScal = new StageSizeScaleMode();
-			FlxG.scaleMode = stageScal;
+			switch (scaleMode)
+			{
+				// for reference: https://api.haxeflixel.com/flixel/system/scaleModes/
+				case 'fill':
+					FlxG.scaleMode = new FillScaleMode();
+				case 'fixed':
+					FlxG.scaleMode = new FixedScaleMode();
+				case 'fixed-adjust':
+					FlxG.scaleMode = new FixedScaleAdjustSizeScaleMode();
+				case 'pixel-perfect':
+					FlxG.scaleMode = new PixelPerfectScaleMode();
+				case 'relative':
+					FlxG.scaleMode = new RelativeScaleMode(Std.parseInt(stageRes[0]), Std.parseInt(stageRes[1]));
+				case 'stage':
+					FlxG.scaleMode = new StageSizeScaleMode();
+				case 'ratio': // funny twitter word haha
+					FlxG.scaleMode = new RatioScaleMode();
+			}
 
 			// shitty workaround for buggy scales
 			PlayState.changedRes = true;
