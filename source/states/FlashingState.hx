@@ -25,7 +25,7 @@ class FlashingState extends MusicBeatState
 		FlxG.sound.volume = 1;
 
 		// bind save
-		FlxG.save.bind('foreverengine-settings', 'yoshubs');
+		FlxG.save.bind('foreverengine-settings');
 
 		// set up state save, this ensures that you did leave this state once BACK or ACCEPT was pressed
 		if (FlxG.save.data.leftFlashing == null)

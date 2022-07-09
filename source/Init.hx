@@ -357,7 +357,7 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		FlxG.save.bind('foreverengine-controls', 'yoshubs');
+		FlxG.save.bind('foreverengine-controls');
 
 		if (FlxG.save != null && FlxG.save.data.gameControls != null)
 		{
@@ -371,7 +371,7 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
-		FlxG.save.bind('foreverengine-settings', 'yoshubs');
+		FlxG.save.bind('foreverengine-settings');
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
@@ -382,7 +382,7 @@ class Init extends FlxState
 	public static function saveControls():Void
 	{
 		// binding this to a separate save so you can easily delete it without losing your settings
-		FlxG.save.bind('foreverengine-controls', 'yoshubs');
+		FlxG.save.bind('foreverengine-controls');
 		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
 		
