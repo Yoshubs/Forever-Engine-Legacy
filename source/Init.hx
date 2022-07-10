@@ -1,14 +1,11 @@
 import flixel.FlxG;
 import flixel.FlxState;
-import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
 import flixel.input.keyboard.FlxKey;
-import flixel.util.FlxSave;
 import meta.CoolUtil;
 import meta.Overlay;
 import meta.data.Highscore;
 import meta.data.dependency.Discord;
-import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
 import states.*;
 import states.charting.*;
@@ -266,9 +263,6 @@ class Init extends FlxState
 
 	override public function create():Void
 	{
-		// load settings, scores, etc
-		FlxG.save.bind('forever-settings', 'BeastlyGhost');
-
 		Highscore.load();
 		loadSettings();
 		loadControls();
@@ -289,24 +283,10 @@ class Init extends FlxState
 		goToInitialDestination();
 	}
 
-	private function goToInitialDestination()
-	{
-		// binding save to secrets so we can check your flashing lights state
-		FlxG.save.bind('forever-secrets', 'BeastlyGhost');
-
-		if (FlxG.save.data.leftFlashing == false) {
-			Main.switchState(this, new FlashingState());
-		}
-		else
-		{
-			// bind save back to settings
-			FlxG.save.bind('forever-settings', 'BeastlyGhost');
-			Main.switchState(this, (trueSettings.get("Custom Titlescreen") ? new CustomTitlescreen() : new TitleState()));
-		}
-	}
-
 	public static function loadSettings():Void
 	{
+		FlxG.save.bind('forever-settings', 'BeastlyGhost');
+
 		// set the true settings array
 		// only the first variable will be saved! the rest are for the menu stuffs
 
@@ -358,30 +338,33 @@ class Init extends FlxState
 			trueSettings.set("Menu Music", 'freakyMenu');*/
 
 		saveSettings();
+
 		updateAll();
 
 		FlxG.sound.volume = FlxG.save.data.volume;
 		FlxG.sound.muted = FlxG.save.data.mute;
 	}
 
-	public static function loadControls():Void
+	private function goToInitialDestination()
 	{
-		var ctrls:FlxSave = new FlxSave();
-		ctrls.bind('forever-controls', 'BeastlyGhost');
+		// binding save to secrets so we can check your flashing lights state
+		FlxG.save.bind('forever-secrets', 'BeastlyGhost');
 
-		if (FlxG.save != null && FlxG.save.data.gameControls != null)
+		if (FlxG.save.data.leftFlashing == false)
 		{
-			if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
-				gameControls = FlxG.save.data.gameControls;
+			Main.switchState(this, new FlashingState());
 		}
-
-		saveControls();
+		else
+		{
+			// bind save back to settings
+			FlxG.save.bind('forever-settings', 'BeastlyGhost');
+			Main.switchState(this, (trueSettings.get("Custom Titlescreen") ? new CustomTitlescreen() : new TitleState()));
+		}
 	}
 
 	public static function saveSettings():Void
 	{
 		// ez save lol
-		FlxG.save.bind('forever-settings', 'BeastlyGhost');
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
@@ -391,12 +374,22 @@ class Init extends FlxState
 
 	public static function saveControls():Void
 	{
-		// binding this to a separate save so you can easily delete it without losing your settings
 		FlxG.save.bind('forever-controls', 'BeastlyGhost');
 		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
 		
 		#if debug trace('Controls Saved!'); #end
+	}
+
+	public static function loadControls():Void
+	{
+		if (FlxG.save != null && FlxG.save.data.gameControls != null)
+		{
+			if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
+				gameControls = FlxG.save.data.gameControls;
+		}
+
+		saveControls();
 	}
 
 	public static function updateAll()

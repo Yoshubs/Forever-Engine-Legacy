@@ -46,7 +46,7 @@ class FreeplayState extends MusicBeatState
 	var lerpScore:Int = 0;
 	var intendedScore:Int = 0;
 
-	var intendedRank:String;
+	var intendedRank:String = 'N/A';
 
 	var songThread:Thread;
 	var threadActive:Bool = true;
