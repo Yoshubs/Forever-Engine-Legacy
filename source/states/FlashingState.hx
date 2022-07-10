@@ -25,7 +25,7 @@ class FlashingState extends MusicBeatState
 		FlxG.sound.volume = 1;
 
 		// bind save
-		FlxG.save.bind('foreverengine-settings');
+		FlxG.save.bind('forever-secrets', 'BeastlyGhost');
 
 		// set up state save, this ensures that you did leave this state once BACK or ACCEPT was pressed
 		if (FlxG.save.data.leftFlashing == null)
@@ -67,13 +67,10 @@ class FlashingState extends MusicBeatState
 
 		// set it to true, since you don't wanna go back to this state
 		FlxG.save.data.leftFlashing = true;
-		//FlxG.save.flush();
 	}
 
 	override function update(elapsed:Float)
 	{
-		super.update(elapsed);
-
 		if(!FlxG.save.data.leftFlashing) {
 			var accept:Bool = controls.ACCEPT;
 			var back:Bool = controls.BACK;
@@ -101,5 +98,6 @@ class FlashingState extends MusicBeatState
 			// anti "haha u stuck here now lmao!!!"
 			gotoTitleScreen();
 		}
+		super.update(elapsed);
 	}
 }

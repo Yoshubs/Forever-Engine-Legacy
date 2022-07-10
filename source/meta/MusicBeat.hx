@@ -40,8 +40,10 @@ class MusicBeatState extends FNFUIState
 		&& (!Std.isOfType(this, states.charting.OriginalChartingState)))
 			Paths.clearUnusedMemory();
 
+		#if debug
 		if (transIn != null)
 			trace('reg ' + transIn.region);
+		#end
 
 		super.create();
 
@@ -80,7 +82,7 @@ class MusicBeatState extends FNFUIState
 		}
 		if (skippedSteps.length > 0)
 		{
-			trace('skipped steps $skippedSteps');
+			#if debug trace('skipped steps $skippedSteps'); #end
 			skippedSteps = [];
 		}
 		curStep = trueStep;
@@ -125,8 +127,10 @@ class MusicBeatState extends FNFUIState
 
 		if (!storedSteps.contains(curStep))
 			storedSteps.push(curStep);
+		#if debug
 		else
 			trace('SOMETHING WENT WRONG??? STEP REPEATED $curStep');
+		#end
 	}
 
 	public function beatHit():Void

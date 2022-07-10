@@ -3,6 +3,7 @@ import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.graphics.FlxGraphic;
 import flixel.input.keyboard.FlxKey;
+import flixel.util.FlxSave;
 import meta.CoolUtil;
 import meta.Overlay;
 import meta.data.Highscore;
@@ -216,17 +217,19 @@ class Init extends FlxState
 		'UP' => [[FlxKey.UP, W], 2],
 		'RIGHT' => [[FlxKey.RIGHT, D], 3],
 
+		// sep
+
 		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 6],
 		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 7],
 		'PAUSE' => [[FlxKey.ENTER, P], 8],
 		'RESET' => [[R, null], 9],
-	];
 
-	public static var uiControls:Map<String, Dynamic> = [
-		'UI_UP' => [[FlxKey.UP, W], 8],
-		'UI_DOWN' => [[FlxKey.DOWN, S], 9],
-		'UI_LEFT' => [[FlxKey.LEFT, A], 10],
-		'UI_RIGHT' => [[FlxKey.RIGHT, D], 11],
+		// sep
+
+		'UI_UP' => [[FlxKey.UP, W], 12],
+		'UI_DOWN' => [[FlxKey.DOWN, S], 13],
+		'UI_LEFT' => [[FlxKey.LEFT, A], 14],
+		'UI_RIGHT' => [[FlxKey.RIGHT, D], 15],
 	];
 
 	public static var filters:Array<BitmapFilter> = []; // the filters the game has active
@@ -263,8 +266,9 @@ class Init extends FlxState
 
 	override public function create():Void
 	{
-		FlxG.save.bind('foreverengine-settings', 'yoshubs');
-		
+		// load settings, scores, etc
+		FlxG.save.bind('forever-settings', 'BeastlyGhost');
+
 		Highscore.load();
 		loadSettings();
 		loadControls();
@@ -282,18 +286,23 @@ class Init extends FlxState
 		FlxG.mouse.visible = false; // Hide mouse on start
 		FlxGraphic.defaultPersist = true; // make sure we control all of the memory
 
-		if (!FlxG.save.data.leftFlashing)
-			Main.switchState(this, new FlashingState());
-		else
-			gotoTitleScreen();
+		goToInitialDestination();
 	}
 
-	private function gotoTitleScreen()
+	private function goToInitialDestination()
 	{
-		if (trueSettings.get("Custom Titlescreen"))
-			Main.switchState(this, new CustomTitlescreen());
+		// binding save to secrets so we can check your flashing lights state
+		FlxG.save.bind('forever-secrets', 'BeastlyGhost');
+
+		if (FlxG.save.data.leftFlashing == false) {
+			Main.switchState(this, new FlashingState());
+		}
 		else
-			Main.switchState(this, new TitleState());
+		{
+			// bind save back to settings
+			FlxG.save.bind('forever-settings', 'BeastlyGhost');
+			Main.switchState(this, (trueSettings.get("Custom Titlescreen") ? new CustomTitlescreen() : new TitleState()));
+		}
 	}
 
 	public static function loadSettings():Void
@@ -357,7 +366,8 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		FlxG.save.bind('foreverengine-controls');
+		var ctrls:FlxSave = new FlxSave();
+		ctrls.bind('forever-controls', 'BeastlyGhost');
 
 		if (FlxG.save != null && FlxG.save.data.gameControls != null)
 		{
@@ -371,22 +381,22 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
-		FlxG.save.bind('foreverengine-settings');
+		FlxG.save.bind('forever-settings', 'BeastlyGhost');
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
-		//trace('Settings Saved!');
+		#if debug trace('Settings Saved!'); #end
 		updateAll();
 	}
 
 	public static function saveControls():Void
 	{
 		// binding this to a separate save so you can easily delete it without losing your settings
-		FlxG.save.bind('foreverengine-controls');
+		FlxG.save.bind('forever-controls', 'BeastlyGhost');
 		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
 		
-		//trace('Controls Saved!');
+		#if debug trace('Controls Saved!'); #end
 	}
 
 	public static function updateAll()

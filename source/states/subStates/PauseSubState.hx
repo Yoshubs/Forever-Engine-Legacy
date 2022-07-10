@@ -7,6 +7,7 @@ import flixel.addons.transition.FlxTransitionableState;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.system.FlxSound;
+import flixel.system.scaleModes.RatioScaleMode;
 import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
@@ -17,7 +18,6 @@ import meta.data.*;
 import meta.data.font.Alphabet;
 import states.*;
 import states.menus.*;
-import flixel.system.scaleModes.RatioScaleMode;
 
 class PauseSubState extends MusicBeatSubState
 {

@@ -32,7 +32,7 @@ class Selector extends FlxTypedSpriteGroup<FlxSprite>
 		super(x, y);
 
 		this.options = options;
-		trace(options);
+		#if debug trace(options); #end
 
 		// oops magic numbers
 		var shiftX = 48;

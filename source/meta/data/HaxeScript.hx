@@ -87,10 +87,12 @@ class HaxeScript
         #else
         if (interp == null || !isActive)
         {
+            #if debug
             if (interp == null) 
                 trace("This script is destroyed and unusable!");
             else 
                 trace("This script is not active!");
+            #end
 
             return;
         }

@@ -571,10 +571,10 @@ class Controls extends FlxActionSet
 		inline bindKeys(Control.DOWN, [Init.gameControls.get('DOWN')[0][0], Init.gameControls.get('DOWN')[0][1]]);
 		inline bindKeys(Control.LEFT, [Init.gameControls.get('LEFT')[0][0], Init.gameControls.get('LEFT')[0][1]]);
 		inline bindKeys(Control.RIGHT, [Init.gameControls.get('RIGHT')[0][0], Init.gameControls.get('RIGHT')[0][1]]);
-		inline bindKeys(Control.UI_UP, [Init.uiControls.get('UI_UP')[0][0], Init.uiControls.get('UI_UP')[0][1]]);
-		inline bindKeys(Control.UI_DOWN, [Init.uiControls.get('UI_DOWN')[0][0], Init.uiControls.get('UI_DOWN')[0][1]]);
-		inline bindKeys(Control.UI_LEFT, [Init.uiControls.get('UI_LEFT')[0][0], Init.uiControls.get('UI_LEFT')[0][1]]);
-		inline bindKeys(Control.UI_RIGHT, [Init.uiControls.get('UI_RIGHT')[0][0], Init.uiControls.get('UI_RIGHT')[0][1]]);
+		inline bindKeys(Control.UI_UP, [Init.gameControls.get('UI_UP')[0][0], Init.gameControls.get('UI_UP')[0][1]]);
+		inline bindKeys(Control.UI_DOWN, [Init.gameControls.get('UI_DOWN')[0][0], Init.gameControls.get('UI_DOWN')[0][1]]);
+		inline bindKeys(Control.UI_LEFT, [Init.gameControls.get('UI_LEFT')[0][0], Init.gameControls.get('UI_LEFT')[0][1]]);
+		inline bindKeys(Control.UI_RIGHT, [Init.gameControls.get('UI_RIGHT')[0][0], Init.gameControls.get('UI_RIGHT')[0][1]]);
 		inline bindKeys(Control.ACCEPT, [
 			Init.gameControls.get('ACCEPT')[0][0],
 			Init.gameControls.get('ACCEPT')[0][1],
@@ -721,10 +721,10 @@ class Controls extends FlxActionSet
 		addGamepadLiteral(id, [
 			Control.ACCEPT => [A],
 			Control.BACK => [B],
-			Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP],
-			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN],
-			Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT],
-			Control.RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT],
+			Control.UP => [DPAD_UP, LEFT_STICK_DIGITAL_UP, RIGHT_STICK_DIGITAL_UP],
+			Control.DOWN => [DPAD_DOWN, LEFT_STICK_DIGITAL_DOWN, RIGHT_STICK_DIGITAL_DOWN],
+			Control.LEFT => [DPAD_LEFT, LEFT_STICK_DIGITAL_LEFT, RIGHT_STICK_DIGITAL_LEFT],
+			Control.RIGHT => [DPAD_RIGHT, LEFT_STICK_DIGITAL_RIGHT, RIGHT_STICK_DIGITAL_RIGHT],
 			Control.PAUSE => [START],
 			Control.RESET => [Y]
 		]);

@@ -206,7 +206,7 @@ class OriginalChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			trace('CHECKED!');
+			#if debug trace('CHECKED!'); #end
 		};
 
 		var check_mute_inst = new FlxUICheckBox(10, 310, null, null, "Mute Instrumental (in editor)", 100);
@@ -316,7 +316,7 @@ class OriginalChartingState extends MusicBeatState
 			_song.six = sixKeyChart.checked;
 			updateGrid();
 			updateHeads();
-			trace('CHECKED!');
+			#if debug trace('CHECKED!'); #end
 		};
 		sixKeyChart.checked = false;
 
@@ -712,7 +712,7 @@ class OriginalChartingState extends MusicBeatState
 						}
 						else
 						{
-							trace('tryin to delete note...');
+							#if debug trace('tryin to delete note...'); #end
 							deleteNote(note);
 						}
 					}
@@ -1242,8 +1242,10 @@ class OriginalChartingState extends MusicBeatState
 			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteType]);
 		}
 
+		#if debug
 		trace(noteStrum);
 		trace(curSection);
+		#end
 
 		updateGrid();
 		updateNoteUI();

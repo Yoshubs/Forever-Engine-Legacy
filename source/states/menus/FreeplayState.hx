@@ -330,7 +330,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyDifficulty = curDifficulty;
 
 		PlayState.storyWeek = songs[curSelected].week;
-		trace('CUR WEEK' + PlayState.storyWeek);
+		#if debug trace('CUR WEEK' + PlayState.storyWeek); #end
 
 		if (stopThread) {
 			if (FlxG.sound.music != null) FlxG.sound.music.stop();
@@ -403,7 +403,7 @@ class FreeplayState extends MusicBeatState
 		}
 		//
 
-		trace("curSelected: " + curSelected);
+		#if debug trace("curSelected: " + curSelected); #end
 
 		changeDiff();
 
@@ -420,7 +420,7 @@ class FreeplayState extends MusicBeatState
 				{
 					if (!threadActive)
 					{
-						trace("Killing thread");
+						#if debug trace("Killing thread"); #end
 						return;
 					}
 
@@ -429,7 +429,7 @@ class FreeplayState extends MusicBeatState
 					{
 						if (index == curSelected && index != curSongPlaying)
 						{
-							trace("Loading index " + index);
+							#if debug trace("Loading index " + index); #end
 
 							var inst:Sound = Paths.inst(songs[curSelected].songName);
 
@@ -441,11 +441,15 @@ class FreeplayState extends MusicBeatState
 
 								curSongPlaying = curSelected;
 							}
+							#if debug
 							else
 								trace("Nevermind, skipping " + index);
+							#end
 						}
+						#if debug
 						else
 							trace("Skipping " + index);
+						#end
 					}
 				}
 			});

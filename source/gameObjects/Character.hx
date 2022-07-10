@@ -181,7 +181,7 @@ class Character extends FNFSprite
 		if (adjustPos)
 		{
 			x += characterData.offsetX;
-			trace('character ${curCharacter} scale ${scale.y}');
+			#if debug trace('character ${curCharacter} scale ${scale.y}'); #end
 			y += (characterData.offsetY - (frameHeight * scale.y));
 		}
 

@@ -90,14 +90,14 @@ class Paths
 						openfl.Assets.cache.removeBitmapData(key);
 						FlxG.bitmap._cache.remove(key);
 					}
-					trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture'));
+					#if debug trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture')); #end
 					obj.destroy();
 					currentTrackedAssets.remove(key);
 					counter++;
 				}
 			}
 		}
-		trace('removed $counter assets');
+		#if debug trace('removed $counter assets'); #end
 		// run the garbage collector for good measure lmfao
 		System.gc();
 	}
@@ -150,20 +150,20 @@ class Paths
 					bitmap.dispose();
 					bitmap.disposeImage();
 					bitmap = null;
-					trace('new texture $key, bitmap is $bitmap');
+					#if debug trace('new texture $key, bitmap is $bitmap'); #end
 					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
 				}
 				else
 				{
 					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
-					trace('new bitmap $key, not textured');
+					#if debug trace('new bitmap $key, not textured'); #end
 				}
 				currentTrackedAssets.set(key, newGraphic);
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedAssets.get(key);
 		}
-		trace('oh no ' + key + ' is returning null NOOOO');
+		#if debug trace('oh no ' + key + ' is returning null NOOOO'); #end
 		return null;
 	}
 
