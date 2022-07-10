@@ -210,9 +210,9 @@ class ChartingState extends MusicBeatState
 		camHUD.bgColor.alpha = 0;
 
 		FlxG.cameras.reset(camGame);
-		FlxG.cameras.add(camHUD);
-		FlxCamera.defaultCameras = [camGame];
+		FlxG.cameras.add(camHUD, false);
 
+		FlxG.cameras.setDefaultDrawTarget(camGame, true);
 		FlxG.camera.follow(strumLine);
 
 		bpmTxt = new FlxText(5, FlxG.height - 30, 0, "", 16);

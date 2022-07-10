@@ -128,8 +128,10 @@ class PlayState extends MusicBeatState
 	public var luaArray:Array<LLua> = [];
 	#end
 
+	// cameras
 	public static var camHUD:FlxCamera;
 	public static var camGame:FlxCamera;
+	public static var camAlt:FlxCamera;
 	public static var dialogueHUD:FlxCamera;
 
 	public var camDisplaceX:Float = 0;
@@ -224,10 +226,18 @@ class PlayState extends MusicBeatState
 		camHUD = new FlxCamera();
 		camHUD.bgColor.alpha = 0;
 
+		// create an alternative camera, will be used for stuff later
+		camAlt = new FlxCamera();
+		camAlt.bgColor.alpha = 0;
+
 		FlxG.cameras.reset(camGame);
 		FlxG.cameras.add(camHUD);
+		FlxG.cameras.add(camAlt);
+
 		allUIs.push(camHUD);
+
 		FlxCamera.defaultCameras = [camGame];
+		// FlxG.cameras.setDefaultDrawTarget(camGame, true);
 
 		// default song
 		if (SONG == null)
