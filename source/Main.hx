@@ -260,7 +260,7 @@ class Main extends Sprite
 		crashDialoguePath += ".exe";
 		#end
 
-		if (FileSystem.exists("./" + crashDialoguePath))
+		if (FileSystem.exists(crashDialoguePath))
 		{
 			Sys.println("Found crash dialog: " + crashDialoguePath);
 			new Process(crashDialoguePath, [path]);

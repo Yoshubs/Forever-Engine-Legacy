@@ -340,8 +340,10 @@ class Init extends FlxState
 
 		updateAll();
 
-		FlxG.sound.volume = FlxG.save.data.volume;
-		FlxG.sound.muted = FlxG.save.data.mute;
+		if(FlxG.save.data.volume != null)
+			FlxG.sound.volume = FlxG.save.data.volume;
+		if (FlxG.save.data.mute != null)
+			FlxG.sound.muted = FlxG.save.data.mute;
 	}
 
 	private function goToInitialDestination()
