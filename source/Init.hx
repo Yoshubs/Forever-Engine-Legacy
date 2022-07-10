@@ -5,10 +5,9 @@ import flixel.input.keyboard.FlxKey;
 import meta.CoolUtil;
 import meta.Overlay;
 import meta.data.Highscore;
-import meta.data.dependency.Discord;
+import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
 import states.*;
-import states.charting.*;
 
 using StringTools;
 
