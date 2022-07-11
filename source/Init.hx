@@ -437,10 +437,10 @@ class Init extends FlxState
 	public static function loadControls():Void
 	{
 		FlxG.save.bind('forever-controls', 'BeastlyGhost');
-		if (FlxG.save.data.gameControls != null)
+		if (FlxG.save != null && FlxG.save.data.controls != null)
 		{
-			if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
-				gameControls = FlxG.save.data.gameControls;
+			if ((FlxG.save.data.controls != null) && (Lambda.count(FlxG.save.data.controls) == Lambda.count(gameControls)))
+				gameControls = FlxG.save.data.controls;
 		}
 
 		saveControls();

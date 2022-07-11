@@ -133,7 +133,7 @@ class Paths
 		localTrackedAssets = [];
 	}
 
-	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool = false)
+	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool)
 	{
 		var path = getPath('images/$key.png', IMAGE, library);
 
