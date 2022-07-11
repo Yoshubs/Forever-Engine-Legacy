@@ -62,6 +62,12 @@ class Init extends FlxState
 			'Whether to pause the game automatically if the window is unfocused.',
 			NOT_FORCED
 		],
+		'Hardware Caching' => [
+			false,
+			Checkmark,
+			"Whether the game should upload images to the GPU, takes effect after restart.",
+			NOT_FORCED
+		],
 		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS counter.', NOT_FORCED],
 		'Memory Counter' => [
 			true,
