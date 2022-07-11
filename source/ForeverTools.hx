@@ -17,7 +17,7 @@ class ForeverTools
 	// set up maps and stuffs
 	public static function resetMenuMusic(resetVolume:Bool = false)
 	{
-		menuString = Init.trueSettings.get("Menu Music");
+		menuString = Init.trueSettings.get('Menu Music');
 
 		// make sure the music is playing
 		if (((FlxG.sound.music != null) && (!FlxG.sound.music.playing)) || (FlxG.sound.music == null))

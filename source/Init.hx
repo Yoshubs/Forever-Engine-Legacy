@@ -59,7 +59,18 @@ class Init extends FlxState
 			'Whether to pause the game automatically if the window is unfocused.',
 			NOT_FORCED
 		],
-		'FPS Counter' => [true, Checkmark, 'Whether to display the FPS counter.', NOT_FORCED],
+		'Hardware Caching' => [
+			false,
+			Checkmark,
+			"Whether the game should upload images to the GPU, takes effect after restart.",
+			NOT_FORCED
+		],
+		'FPS Counter' => [
+			true,
+			Checkmark,
+			'Whether to display the FPS counter.',
+			NOT_FORCED
+		],
 		'Memory Counter' => [
 			true,
 			Checkmark,
@@ -98,7 +109,12 @@ class Init extends FlxState
 			NOT_FORCED,
 			['None', 'Left', 'Right']
 		],
-		'Display Accuracy' => [true, Checkmark, 'Whether to display your accuracy on screen.', NOT_FORCED],
+		'Display Accuracy' => [
+			true,
+			Checkmark,
+			'Whether to display your accuracy on screen.',
+			NOT_FORCED
+		],
 		'Disable Antialiasing' => [
 			false,
 			Checkmark,
@@ -140,22 +156,44 @@ class Init extends FlxState
 			NOT_FORCED,
 			''
 		],
-		"Note Skin" => ['default', Selector, 'Choose a note skin.', NOT_FORCED, ''],
-		"Framerate Cap" => [120, Selector, 'Define your maximum FPS.', NOT_FORCED, ['']],
+		"Note Skin" => [
+			'default',
+			Selector,
+			'Choose a note skin.',
+			NOT_FORCED,
+			''
+		],
+		"Framerate Cap" => [
+			120,
+			Selector,
+			'Define your maximum FPS.',
+			NOT_FORCED,
+			['']
+		],
 		"Opaque Arrows" => [
 			false,
 			Checkmark,
 			"Makes the arrows at the top of the screen opaque again.",
 			NOT_FORCED
 		],
-		"Opaque Holds" => [false, Checkmark, "Huh, why isnt the trail cut off?", NOT_FORCED],
+		"Opaque Holds" => [
+			false,
+			Checkmark,
+			"Huh, why isnt the trail cut off?",
+			NOT_FORCED
+		],
 		'Ghost Tapping' => [
 			false,
 			Checkmark,
 			"Enables Ghost Tapping, allowing you to press inputs without missing.",
 			NOT_FORCED
 		],
-		'Centered Notefield' => [false, Checkmark, "Center the notes, disables the enemy's notes."],
+		'Centered Notefield' => [
+			false,
+			Checkmark,
+			"Center the notes, disables the enemy's notes.",
+			NOT_FORCED
+		],
 		"Custom Titlescreen" => [
 			false,
 			Checkmark,
@@ -181,25 +219,35 @@ class Init extends FlxState
 			"Simplifies the judgement animations, displaying only one judgement / rating sprite at a time.",
 			NOT_FORCED
 		],
-
-		"Sound Type" => ['default', Selector, 'Choose the Hitsound you prefer, you can create new sounds by adding yours to the sounds/hitsounds folder.', NOT_FORCED, ''],
-		'Hitsound Volume' => [Checkmark, Selector, 'Enables a Hitsound for when you Hit a Note.', NOT_FORCED],
-
-		'Icon Colored Health Bar' => [false, Checkmark, "Whether the Health Bar should follow the Character Icon colors.", NOT_FORCED],
-
-		'Disable Flashing Lights' => [false, Checkmark, "Whether flashing elements on the menus should be disabled.", NOT_FORCED],
-
-		'Hardware Caching' => [
-			false,
+		"Sound Type" => [
+			'default',
+			Selector,
+			'Choose the Hitsound you prefer.',
+			NOT_FORCED,
+			''
+		],
+		'Hitsound Volume' => [
 			Checkmark,
-			"Whether the game should upload images to the GPU, takes effect after restart.",
+			Selector,
+			'Whether to enable a sound for Note Hits.',
 			NOT_FORCED
 		],
-
+		'Icon Colored Health Bar' => [
+			false,
+			Checkmark,
+			"Whether the Health Bar should follow the Character Icon colors.",
+			NOT_FORCED
+		],
+		'Disable Flashing Lights' => [
+			false,
+			Checkmark,
+			"Whether flashing elements on the menus should be disabled.",
+			NOT_FORCED
+		],
 		'Menu Music' => [
 			'freakyMenu',
 			Selector,
-			'Choose the Menu Song you prefer.' /*, you can create custom ones by adding them to the assets/music folder.'*/,
+			'Choose the Menu Song you prefer.',
 			NOT_FORCED,
 			['freakyMenu', 'foreverMenu']
 		],
@@ -339,10 +387,6 @@ class Init extends FlxState
 		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
 			trueSettings.set("Sound Type", 'default');
 
-		/*gameSettings.get("Menu Music")[4] = CoolUtil.returnLibrary('music/menu', 'assets');
-		if (!gameSettings.get("Menu Music")[4].contains(trueSettings.get("Menu Music")))
-			trueSettings.set("Menu Music", 'freakyMenu');*/
-
 		saveSettings();
 
 		updateAll();
@@ -358,7 +402,7 @@ class Init extends FlxState
 		// binding save to secrets so we can check your flashing lights state
 		FlxG.save.bind('forever-secrets', 'BeastlyGhost');
 
-		if (FlxG.save.data.leftFlashing == false)
+		if (!FlxG.save.data.leftFlashing)
 		{
 			Main.switchState(this, new FlashingState());
 		}
@@ -373,6 +417,7 @@ class Init extends FlxState
 	public static function saveSettings():Void
 	{
 		// ez save lol
+		FlxG.save.bind('forever-settings', 'BeastlyGhost');
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
@@ -391,7 +436,8 @@ class Init extends FlxState
 
 	public static function loadControls():Void
 	{
-		if (FlxG.save != null && FlxG.save.data.gameControls != null)
+		FlxG.save.bind('forever-controls', 'BeastlyGhost');
+		if (FlxG.save.data.gameControls != null)
 		{
 			if ((FlxG.save.data.gameControls != null) && (Lambda.count(FlxG.save.data.gameControls) == Lambda.count(gameControls)))
 				gameControls = FlxG.save.data.gameControls;
