@@ -859,6 +859,11 @@ class PlayState extends MusicBeatState
 				getColFromFlixel(color);
 			});
 
+			set('doAlphaTween', function(object, value:Float, time:Float)
+			{
+				FlxTween.tween(object, {alpha: value}, time);
+			});
+
 			set('elapsed', elapsed);
 
 			for (i in scriptArray)

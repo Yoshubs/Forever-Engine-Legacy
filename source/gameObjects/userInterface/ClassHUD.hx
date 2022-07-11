@@ -147,27 +147,18 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			}
 		}
 
-		autoplayMark = new FlxText(400, 20, FlxG.width - 800, "AUTOPLAY", 32);
-		autoplayMark.screenCenter(XY);
+		autoplayMark = new FlxText(0, 0, 0, "AUTOPLAY", 32);
+		autoplayMark.screenCenter(X);
 		autoplayMark.setFormat(Paths.font("vcr.ttf"), 32, FlxColor.WHITE);
 		autoplayMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		autoplayMark.scrollFactor.set();
 		autoplayMark.borderSize = 2;
+		if (!Init.trueSettings.get('Downscroll'))
+			autoplayMark.y = (FlxG.height - autoplayMark.height / 2) - 30;
+		else
+			autoplayMark.y = (FlxG.height / 24) - 10;
 		autoplayMark.visible = PlayState.contents.bfStrums.autoplay;
 		add(autoplayMark);
-
-		/*PlayState.contents.set('createText', function(id:String = 'text', x:Float = 0, y:Float = 0, z:Float = 0,
-			text:String = 'balls', size:Int = 1, color:String = '0xFFFFFFFF', borderType:FlxTextBorderStyle = OUTLINE,
-			borderColor:FlxColor = FlxColor.BLACK, borderSizeS:Float = 1, borderQualityS:Float = 1)
-		{
-			var scriptText:FlxText = new FlxText(x, y, z, text, size);
-			scriptText.setFormat(Paths.font("vcr.ttf"), size, color);
-			scriptText.setBorderStyle(borderType, borderColor, borderSizeS, borderQualityS);
-			scriptText.antialiasing = true;
-			scriptText.scrollFactor.set();
-			PlayState.TextMap.set(id, scriptText);
-			add(scriptText);
-		});*/
 
 		updateScoreText();
 		updateBar();
