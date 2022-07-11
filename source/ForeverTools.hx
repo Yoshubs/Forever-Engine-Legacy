@@ -2,6 +2,7 @@ package;
 
 import flixel.FlxG;
 import flixel.system.FlxSound;
+import flixel.util.FlxColor;
 import meta.data.*;
 import openfl.utils.Assets;
 import sys.FileSystem;
@@ -53,6 +54,27 @@ class ForeverTools
 			// stop
 			songsArray[i].stop();
 			songsArray[i].destroy();
+		}
+	}
+
+	public static function getColFromFlixel(str:String):FlxColor
+	{
+		return switch (str)
+		{
+			case "black": FlxColor.BLACK;
+			case "white": FlxColor.WHITE;
+			case "blue": FlxColor.BLUE;
+			case "brown": FlxColor.BROWN;
+			case "cyan": FlxColor.CYAN;
+			case "gray": FlxColor.GRAY;
+			case "green": FlxColor.GREEN;
+			case "lime": FlxColor.LIME;
+			case "magenta": FlxColor.MAGENTA;
+			case "orange": FlxColor.ORANGE;
+			case "pink": FlxColor.PINK;
+			case "purple": FlxColor.PURPLE;
+			case "red": FlxColor.RED;
+			case "transparent" | _: FlxColor.TRANSPARENT;
 		}
 	}
 }

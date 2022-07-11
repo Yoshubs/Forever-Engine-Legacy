@@ -679,27 +679,6 @@ class PlayState extends MusicBeatState
 		super.destroy();
 	}
 
-	function getColFromFlixel(str:String):FlxColor
-	{
-		return switch (str)
-		{
-			case "black": FlxColor.BLACK;
-			case "white": FlxColor.WHITE;
-			case "blue": FlxColor.BLUE;
-			case "brown": FlxColor.BROWN;
-			case "cyan": FlxColor.CYAN;
-			case "gray": FlxColor.GRAY;
-			case "green": FlxColor.GREEN;
-			case "lime": FlxColor.LIME;
-			case "magenta": FlxColor.MAGENTA;
-			case "orange": FlxColor.ORANGE;
-			case "pink": FlxColor.PINK;
-			case "purple": FlxColor.PURPLE;
-			case "red": FlxColor.RED;
-			case "transparent" | _: FlxColor.TRANSPARENT;
-		}
-	}
-
 	var staticDisplace:Int = 0;
 
 	var lastSection:Int = 0;
@@ -856,7 +835,7 @@ class PlayState extends MusicBeatState
 			});
 			set('getColor', function(color:String)
 			{
-				getColFromFlixel(color);
+				ForeverTools.getColFromFlixel(color);
 			});
 
 			set('doAlphaTween', function(object, value:Float, time:Float)
