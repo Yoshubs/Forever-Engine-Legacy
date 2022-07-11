@@ -794,9 +794,19 @@ class PlayState extends MusicBeatState
 			set('bf', boyfriend);
 			set('gf', gf);
 			set('dad', dadOpponent);
-			set('curBf', boyfriend.curCharacter);
-			set('curGf', gf.curCharacter);
-			set('curDad', dadOpponent.curCharacter);
+
+			set('boyfriend', boyfriend);
+			set('girlfriend', gf);
+			set('dadOpponent', dadOpponent);
+
+			set('boyfriendName', boyfriend.curCharacter);
+			set('girlfriendName', gf.curCharacter);
+			set('dadOpponentName', dadOpponent.curCharacter);
+
+			set('bfName', boyfriend.curCharacter);
+			set('gfName', gf.curCharacter);
+			set('dadName', dadOpponent.curCharacter);
+
 			set('gfSpeed', gfSpeed);
 
 			// functions
