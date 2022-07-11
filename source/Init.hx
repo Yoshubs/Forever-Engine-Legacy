@@ -189,6 +189,13 @@ class Init extends FlxState
 
 		'Disable Flashing Lights' => [false, Checkmark, "Whether flashing elements on the menus should be disabled.", NOT_FORCED],
 
+		'Hardware Caching' => [
+			false,
+			Checkmark,
+			"Whether the game should upload images to the GPU, takes effect after restart.",
+			NOT_FORCED
+		],
+
 		'Menu Music' => [
 			'freakyMenu',
 			Selector,
