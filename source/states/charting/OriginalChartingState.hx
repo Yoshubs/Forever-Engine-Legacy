@@ -263,8 +263,6 @@ class OriginalChartingState extends MusicBeatState
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
 		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
-		var assetModifiers:Array<String> = CoolUtil.coolTextFile(Paths.txt('assetModifiersList'));
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
 
 		var player1DropDown = new FlxUIDropDownMenuCustom(10, stepperSpeed.y + 45, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -290,16 +288,21 @@ class OriginalChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 		blockPressWhileScrolling.push(player2DropDown);
 
-		var stageDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(stages, true), function(character:String)
+		// NOTE: make this get from the folders themselves, not from a text file -Ghost
+		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
+
+		var stageDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(stages, true), function(stage:String)
 		{
-			_song.stage = stages[Std.parseInt(character)];
+			_song.stage = stages[Std.parseInt(stage)];
 		});
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
-		var assetModifierDropDown = new FlxUIDropDownMenuCustom(stageDropDown.x , gfVersionDropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(assetModifiers, true), function(character:String)
+		var assetModifiers:Array<String> = CoolUtil.returnAssetsLibrary('UI/default');
+
+		var assetModifierDropDown = new FlxUIDropDownMenuCustom(stageDropDown.x , gfVersionDropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(assetModifiers, true), function(asset:String)
 		{
-			_song.assetModifier = assetModifiers[Std.parseInt(character)];
+			_song.assetModifier = assetModifiers[Std.parseInt(asset)];
 		});
 		assetModifierDropDown.selectedLabel = _song.assetModifier;
 		blockPressWhileScrolling.push(assetModifierDropDown);

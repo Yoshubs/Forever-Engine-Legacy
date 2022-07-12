@@ -82,7 +82,7 @@ class FreeplayState extends MusicBeatState
 			control over what you can display about the song (color, icon, etc) since it will be pregenerated for you instead.
 		**/
 		// load in all songs that exist in folder
-		var folderSongs:Array<String> = CoolUtil.returnLibrary('songs', 'assets');
+		var folderSongs:Array<String> = CoolUtil.returnAssetsLibrary('songs', 'assets');
 
 		///*
 		for (i in 0...Main.gameWeeks.length)

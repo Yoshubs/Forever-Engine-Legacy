@@ -64,7 +64,7 @@ class CoolUtil
 		return swagOffsets;
 	}
 
-	public static function returnLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
+	public static function returnAssetsLibrary(library:String, ?subDir:String = 'assets/images'):Array<String>
 	{
 		var libraryArray:Array<String> = [];
 

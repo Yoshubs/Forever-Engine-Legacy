@@ -375,15 +375,15 @@ class Init extends FlxState
 			trueSettings.set("Hitsound Volume", 0);
 
 		// 'hardcoded' ui skins
-		gameSettings.get("UI Skin")[4] = CoolUtil.returnLibrary('UI');
+		gameSettings.get("UI Skin")[4] = CoolUtil.returnAssetsLibrary('UI');
 		if (!gameSettings.get("UI Skin")[4].contains(trueSettings.get("UI Skin")))
 			trueSettings.set("UI Skin", 'default');
 
-		gameSettings.get("Note Skin")[4] = CoolUtil.returnLibrary('noteskins/notes');
+		gameSettings.get("Note Skin")[4] = CoolUtil.returnAssetsLibrary('noteskins/notes');
 		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
 			trueSettings.set("Note Skin", 'default');
 
-		gameSettings.get("Sound Type")[4] = CoolUtil.returnLibrary('sounds/hitsounds', 'assets');
+		gameSettings.get("Sound Type")[4] = CoolUtil.returnAssetsLibrary('sounds/hitsounds', 'assets');
 		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
 			trueSettings.set("Sound Type", 'default');
 

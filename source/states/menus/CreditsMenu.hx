@@ -5,6 +5,7 @@ import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
+import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
 import haxe.Json;
@@ -28,14 +29,14 @@ typedef CreditsData =
     offsetX:Int,
     offsetY:Int,
     size:Float,
-    menuBG:String,
+    bg:String,
 }
 
 class CreditsMenu extends MusicBeatState
 {
     var alfabe:FlxTypedGroup<Alphabet>;
-    var menuBG:FlxSprite = new FlxSprite();
-    var menuBGTween:FlxTween;
+    var bg:FlxSprite = new FlxSprite();
+    var bgTween:FlxTween;
     var infoText:FlxText;
 
     var curSelected:Int;
@@ -53,15 +54,15 @@ class CreditsMenu extends MusicBeatState
         Discord.changePresence('MENU SCREEN', 'Credits Menu');
         #end
 
-        if (creditsData.menuBG != null && creditsData.menuBG.length > 0)
-			menuBG.loadGraphic(Paths.image(creditsData.menuBG));
+        if (creditsData.bg != null && creditsData.bg.length > 0)
+			bg.loadGraphic(Paths.image(creditsData.bg));
 		else
-			menuBG.loadGraphic(Paths.image('menus/base/menuDesat'));
+			bg.loadGraphic(Paths.image('menus/base/menuDesat'));
 
-        menuBG.antialiasing = true;
-        menuBG.screenCenter();
-        menuBG.color = FlxColor.WHITE;
-        add(menuBG);
+        bg.antialiasing = true;
+        bg.screenCenter();
+        bg.color = FlxColor.WHITE;
+        add(bg);
         
         alfabe = new FlxTypedGroup<Alphabet>();
         add(alfabe);
@@ -161,15 +162,15 @@ class CreditsMenu extends MusicBeatState
         var color:FlxColor = FlxColor.fromRGB(creditsData.data[curSelected][5][0],
             creditsData.data[curSelected][5][1], creditsData.data[curSelected][5][2]);
 
-        if (menuBGTween != null)
-            menuBGTween.cancel();
+        if (bgTween != null)
+            bgTween.cancel();
             
-        if (color != menuBG.color)
+        if (color != bg.color)
         {
-            menuBGTween = FlxTween.color(menuBG, 0.35, menuBG.color, color,
+            bgTween = FlxTween.color(bg, 0.35, bg.color, color,
             {
                 onComplete: function(tween:FlxTween)
-                menuBGTween = null
+                bgTween = null
             });
         }
         
