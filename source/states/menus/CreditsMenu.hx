@@ -240,7 +240,7 @@ class CreditsMenu extends MusicBeatState
 
 		curSocial += huh;
 		if (curSocial < 0)
-			curSocial = 0;
+			curSocial = creditsData.data[curSelected][4][0].length - 1;
 		if (curSocial >= creditsData.data[curSelected][4].length)
 			curSocial = 0;
 	}
