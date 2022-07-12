@@ -225,7 +225,8 @@ class OriginalChartingState extends MusicBeatState
 		check_mute_vocals.checked = false;
 		check_mute_vocals.callback = function()
 		{
-			if(vocals != null) {
+			if(vocals != null)
+			{
 				var vol:Float = 1;
 
 				if (check_mute_vocals.checked)
