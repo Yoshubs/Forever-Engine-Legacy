@@ -126,7 +126,7 @@ class CreditsMenu extends MusicBeatState
 		{
 			changeSelection(-shiftMult);
 			updateInfoText();
-			changeSocial();
+			curSocial = 0;
 			holdTime = 0;
 		}
 
@@ -134,7 +134,7 @@ class CreditsMenu extends MusicBeatState
 		{
 			changeSelection(shiftMult);
 			updateInfoText();
-			changeSocial();
+			curSocial = 0;
 			holdTime = 0;
 		}
 
