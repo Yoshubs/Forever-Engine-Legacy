@@ -124,17 +124,17 @@ class CreditsMenu extends MusicBeatState
 
 		if (controls.UI_UP_P)
 		{
+			curSocial = 0;
 			changeSelection(-shiftMult);
 			updateInfoText();
-			curSocial = 0;
 			holdTime = 0;
 		}
 
 		if (controls.UI_DOWN_P)
 		{
+			curSocial = 0;
 			changeSelection(shiftMult);
 			updateInfoText();
-			curSocial = 0;
 			holdTime = 0;
 		}
 
