@@ -835,12 +835,12 @@ class PlayState extends MusicBeatState
 			});
 			set('getColor', function(color:String)
 			{
-				ForeverTools.getColFromFlixel(color);
+				ForeverTools.getColorFromString(color);
 			});
 
-			set('doAlphaTween', function(object, value:Float, time:Float)
+			set('doAlphaTween', function(object:String, value:Float, time:Float, ease:String)
 			{
-				FlxTween.tween(object, {alpha: value}, time);
+				FlxTween.tween(object, {alpha: value}, time, {ease: ForeverTools.getEaseFromString(ease)});
 			});
 
 			set('elapsed', elapsed);

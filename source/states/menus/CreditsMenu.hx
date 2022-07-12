@@ -63,7 +63,7 @@ class CreditsMenu extends MusicBeatState
         bg.screenCenter();
         bg.color = FlxColor.WHITE;
         add(bg);
-        
+
         alfabe = new FlxTypedGroup<Alphabet>();
         add(alfabe);
 
