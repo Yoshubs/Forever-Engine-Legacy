@@ -6,6 +6,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import flixel.util.FlxTimer;
 import haxe.Json;
 import meta.CoolUtil;
 import meta.MusicBeat.MusicBeatState;
@@ -35,8 +36,7 @@ class CreditsMenu extends MusicBeatState
     var alfabe:FlxTypedGroup<Alphabet>;
     var menuBG:FlxSprite = new FlxSprite();
     var menuBGTween:FlxTween;
-    var textBG:FlxSprite;
-    var desc:FlxText;
+    var infoText:FlxText;
 
     var curSelected:Int;
     
@@ -89,15 +89,12 @@ class CreditsMenu extends MusicBeatState
             }
         }
 
-        textBG = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
-        textBG.alpha = 0.6;
-        add(textBG);
-        
-        desc = new FlxText(textBG.x, textBG.y + 4, FlxG.width, "", 18);
-        desc.setFormat(Paths.font("vcr.ttf"), 18, FlxColor.WHITE, CENTER);
-        desc.scrollFactor.set();
-        add(desc);
-        
+        infoText = new FlxText(5, FlxG.height - 24, 0, "", 32);
+        infoText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+        infoText.textField.background = true;
+        infoText.textField.backgroundColor = FlxColor.BLACK;
+        add(infoText);
+
         changeSelection();
     }
 
@@ -119,6 +116,11 @@ class CreditsMenu extends MusicBeatState
             holdTime = 0;
         }
 
+        /**
+        * Hold Scrolling Code
+        * @author ShadowMario
+        **/
+
         if(controls.UI_DOWN || controls.UI_UP)
 		{
 			var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);
@@ -134,8 +136,10 @@ class CreditsMenu extends MusicBeatState
         if(FlxG.mouse.wheel != 0)
             changeSelection(-shiftMult * FlxG.mouse.wheel);
 
-        if (controls.BACK || FlxG.mouse.justPressedRight) 
+        if (controls.BACK || FlxG.mouse.justPressedRight) {
             Main.switchState(this, new MainMenuState());
+            Paths.clearUnusedMemory();
+        }
 
         if (controls.ACCEPT || FlxG.mouse.justPressed && selectableItem(curSelected) && creditsData.data[curSelected][4] != null
             && creditsData.data[curSelected][4] != '') 
@@ -145,7 +149,7 @@ class CreditsMenu extends MusicBeatState
     public function changeSelection(change:Int = 0)
     {
         FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
-        
+
         do {
             curSelected += change;
             if (curSelected < 0)
@@ -169,8 +173,8 @@ class CreditsMenu extends MusicBeatState
             });
         }
         
-        desc.text = creditsData.data[curSelected][2];
-        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 1) desc.text += ' - "' + creditsData.data[curSelected][3] + '"';
+        infoText.text = creditsData.data[curSelected][2];
+        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 1) infoText.text += ' - "' + creditsData.data[curSelected][3] + '"';
 
         var bullShit:Int = 0;
         for (item in alfabe.members)

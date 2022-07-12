@@ -248,6 +248,11 @@ class FreeplayState extends MusicBeatState
 				holdTime = 0;
 			}
 
+			/**
+			* Hold Scrolling Code
+			* @author ShadowMario
+			**/
+
 			if(controls.UI_DOWN || controls.UI_UP)
 			{
 				var checkLastHold:Int = Math.floor((holdTime - 0.5) * 10);

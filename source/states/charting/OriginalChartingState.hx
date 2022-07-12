@@ -493,6 +493,7 @@ class OriginalChartingState extends MusicBeatState
 		{
 			ForeverTools.killMusic([songMusic, vocals]);
 			loadSong(daSong);
+			changeSection();
 		};
 		//
 	}
@@ -631,8 +632,10 @@ class OriginalChartingState extends MusicBeatState
 			UI_box.x = FlxG.width / 2 + 160;
 			UI_box.y = 100;
 		}
-		
-		// uhh weird sex sound prevention hello psych engine from shadow mario
+
+		_song.song = typingShit.text;
+
+		// real thanks for the help with this ShadowMario, you are the best -Ghost
 		var playedSound:Array<Bool> = [];
 		for (i in 0...(_song.six ? 12 : 8)) {
 			playedSound.push(false);
@@ -647,32 +650,7 @@ class OriginalChartingState extends MusicBeatState
                 {
 					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
 					{
-						var sound:String = 'hitsounds/charter/hit';
-						FlxG.sound.play(Paths.sound(sound));
-						playedSound[data] = true;
-					}
-                }
-            }
-        });
-
-		_song.song = typingShit.text;
-
-		// real thanks for the help with this ShadowMario, you are the best -Ghost
-		var playedSound:Array<Bool> = [];
-		for (i in 0...8) {
-			playedSound.push(false);
-		}
-		curRenderedNotes.forEachAlive(function(note:Note)
-        {
-            if (note.strumTime < songMusic.time)
-            {
-				var data:Int = note.noteData % 4;
-
-				if (songMusic.playing && !playedSound[data] && note.noteData > -1 && note.strumTime >= lastSongPos)
-                {
-					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
-					{
-						FlxG.sound.play(Paths.sound('soundNoteTick'));
+						FlxG.sound.play(Paths.sound('hitsounds/charter/hit'));
 						playedSound[data] = true;
 					}
                 }
