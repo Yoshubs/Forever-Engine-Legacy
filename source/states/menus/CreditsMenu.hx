@@ -45,9 +45,13 @@ class CreditsMenu extends MusicBeatState
 	var icons:Array<AbsoluteSprite> = [];
 	var creditsData:CreditsData;
 
+    public static var offsetNumbers:Bool = false;
+
 	override function create()
 	{
 		super.create();
+
+        offsetNumbers = true;
 
 		creditsData = Json.parse(Paths.getTextFromFile('credits.json'));
 
@@ -72,7 +76,6 @@ class CreditsMenu extends MusicBeatState
 		{
 			var alphabet:Alphabet = new Alphabet(0, 70 * i, creditsData.data[i][0], !selectableItem(i));
 			alphabet.isMenuItem = true;
-			alphabet.itemType = "Centered";
 			alphabet.screenCenter(X);
 			alphabet.targetY = i;
 			alfabe.add(alphabet);
@@ -123,6 +126,7 @@ class CreditsMenu extends MusicBeatState
 		{
 			changeSelection(-shiftMult);
 			updateInfoText();
+			changeSocial();
 			holdTime = 0;
 		}
 
@@ -130,6 +134,7 @@ class CreditsMenu extends MusicBeatState
 		{
 			changeSelection(shiftMult);
 			updateInfoText();
+			changeSocial();
 			holdTime = 0;
 		}
 

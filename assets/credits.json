@@ -2,14 +2,14 @@
     "menuBG": "menus/base/menuDesat",
     
     "data": [
-        ["Underscore Team"],
+        ["FE CUstom Build Team"],
         [
             "BeastlyGhost",
             "ghost",
             "Main Coder", "Forever Engine my beloved.",
             [["Twitter", "https://twitter.com/Fan_de_RPG"]],
             [176, 206, 255],
-            -180, 0, null
+            380, 0, null
         ],
         [
             "Satoru",
@@ -17,7 +17,7 @@
             "Main Artist", null,
             [[""]],
             [255, 159, 212],
-            -180, 0, null
+            200, 0, null
         ],
         [
             "TahirArch",
@@ -25,7 +25,7 @@
             "Additional Coder", null,
             [[""]],
             [182, 84, 82],
-            -180, -3, null
+            280, -3, null
         ],
         [""],
         ["Special Thanks"],
@@ -47,9 +47,12 @@
             "NxtVithor",
             "vito",
             "Emotional Support", "Jo necessito sexo.",
-            [["Twitter", "https://twitter.com/NxtVithor"]],
+            [
+                ["Twitter", "https://twitter.com/NxtVithor"],
+                ["Twitch", "https://www.twitch.tv/nxtvithor"]
+            ],
             [245, 108, 255],
-            -180, -5, 0.9
+            280, -5, 0.9
         ],
         [""],
         ["Forever Engine Team"],
