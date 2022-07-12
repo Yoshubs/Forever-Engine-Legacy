@@ -118,9 +118,12 @@ class Paths
 		localTrackedAssets = [];
 	}
 
-	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool = false)
+	public static function returnGraphic(key:String, ?library:String, ?textureCompression:Bool)
 	{
 		var path = getPath('images/$key.png', IMAGE, library);
+		
+		textureCompression = Init.trueSettings.get('Hardware Caching');
+		
 		if (FileSystem.exists(path))
 		{
 			if (!currentTrackedAssets.exists(key))
@@ -292,8 +295,9 @@ class Paths
 		return inst;
 	}
 
-	inline static public function image(key:String, ?library:String, ?textureCompression:Bool = false)
+	inline static public function image(key:String, ?library:String, ?textureCompression:Bool)
 	{
+		textureCompression = Init.trueSettings.get('Hardware Caching');
 		var returnAsset:FlxGraphic = returnGraphic(key, library, textureCompression);
 		return returnAsset;
 	}
