@@ -7,7 +7,7 @@
             "BeastlyGhost",
             "ghost",
             "Main Coder", "Forever Engine my beloved.",
-            "https://twitter.com/Fan_de_RPG",
+            [["Twitter", "https://twitter.com/Fan_de_RPG"]],
             [176, 206, 255],
             -180, 0, null
         ],
@@ -15,7 +15,7 @@
             "Satoru",
             "satoru",
             "Main Artist", null,
-            "",
+            [[""]],
             [255, 159, 212],
             -180, 0, null
         ],
@@ -23,7 +23,7 @@
             "TahirArch",
             "macxp",
             "Additional Coder", null,
-            "",
+            [[""]],
             [182, 84, 82],
             -180, -3, null
         ],
@@ -33,21 +33,21 @@
             "ShadowMario",
             "",
             "Coding Advices", "WikiHow: How to handle fame.",
-            "https://twitter.com/Shadow_Mario_",
+            [["Twitter", "https://twitter.com/Shadow_Mario_"]],
             [68, 68, 68]
         ],
         [
             "PolybiusProxy",
             "",
             "Library for Loading Video Cutscenes", null,
-            "https://twitter.com/polybiusproxy",
+            [["Twitter", "https://twitter.com/polybiusproxy"]],
             [255, 234, 166]
         ],
         [
             "NxtVithor",
             "vito",
             "Emotional Support", "Jo necessito sexo.",
-            "https://twitter.com/NxtVithor",
+            [["Twitter", "https://twitter.com/NxtVithor"]],
             [245, 108, 255],
             -180, -5, 0.9
         ],
@@ -57,49 +57,49 @@
             "Shubs",
             "",
             "Lead Programmer", null,
-            "https://twitter.com/yoshubs",
+            [["Twitter", "https://twitter.com/yoshubs"]],
             [94, 153, 223]
         ],
         [
             "Pixloen",
             "",
             "Forever Engine's Custom Assets", null,
-            "https://github.com/PixlJacket",
+            [["Github", "https://github.com/PixlJacket"]],
             [172, 117, 244]
         ],
         [
             "Gedehari",
             "",
             "Programmer.", null,
-            "https://github.com/gedehari",
+            [["Github", "https://github.com/gedehari"]],
             [254, 219, 127]
         ],
         [
             "ImCodist",
             "",
             "Issue Fixes.", null,
-            "https://github.com/ImCodist",
+            [["Github", "https://github.com/ImCodist"]],
             [175, 68, 65]
         ],
         [
             "Scarlett",
             "",
             "Programmer, Wrote the Math Formula for Note Quants.", null,
-            "https://github.com/SomeKitten",
+            [["Github", "https://github.com/SomeKitten"]],
             [247, 147, 30]
         ],
         [
             "Oneilr",
             "",
             "Forever Engine's Custom Assets.", null,
-            "https://oneilr.newgrounds.com",
+            [["Newgrounds", "https://oneilr.newgrounds.com"]],
             [204, 177, 73]
         ],
         [
             "HelloSammu",
             "",
             "Engine Misc Fixes, Scaleable Text for Dialogue.", null,
-            "https://github.com/hellosammu",
+            [["Github", "https://github.com/hellosammu"]],
             [147, 214, 209]
         ]
     ],
@@ -109,7 +109,7 @@
             "name",
             "icon",
             "description", "quote",
-            "link",
+            [["social name", "link"]],
             ["bgcolor(R)", "bgcolor(G)", "bgcolor(B)"],
             "offsetX", "offsetY", "size"
         ]

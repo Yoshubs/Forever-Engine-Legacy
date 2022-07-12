@@ -24,7 +24,7 @@ typedef CreditsData =
     icon:String,
     desc:String,
     quote:String,
-    url:String, // this should be an array so we can add multiple socials later
+    url:Array<Array<String>>,
     color:Array<FlxColor>,
     offsetX:Int,
     offsetY:Int,
@@ -39,11 +39,12 @@ class CreditsMenu extends MusicBeatState
     var bgTween:FlxTween;
     var infoText:FlxText;
 
-    var curSelected:Int;
+    var curSelected:Int = -1;
+    var curSocial:Int = -1;
     
     var icons:Array<AbsoluteSprite> = [];
     var creditsData:CreditsData;
-    
+
     override function create()
     {
         super.create();
@@ -86,7 +87,7 @@ class CreditsMenu extends MusicBeatState
                 icons.push(icon);
                 add(icon);
 
-                curSelected = 1;
+                if(curSelected == -1) curSelected = i;
             }
         }
 
@@ -96,7 +97,11 @@ class CreditsMenu extends MusicBeatState
         infoText.textField.backgroundColor = FlxColor.BLACK;
         add(infoText);
 
+        if(curSocial == -1) curSocial = 0;
+
         changeSelection();
+        updateInfoText();
+        changeSocial();
     }
 
     var holdTime:Float = 0;
@@ -109,12 +114,24 @@ class CreditsMenu extends MusicBeatState
 
         if (controls.UI_UP_P) {
             changeSelection(-shiftMult);
+            updateInfoText();
             holdTime = 0;
         }
 
         if (controls.UI_DOWN_P) {
             changeSelection(shiftMult);
+            updateInfoText();
             holdTime = 0;
+        }
+
+        if (controls.UI_LEFT_P) {
+            changeSocial(-shiftMult);
+            updateInfoText();
+        }
+
+        if (controls.UI_RIGHT_P) {
+            changeSocial(shiftMult);
+            updateInfoText();
         }
 
         /**
@@ -131,20 +148,26 @@ class CreditsMenu extends MusicBeatState
 			if(holdTime > 0.5 && checkNewHold - checkLastHold > 0)
 			{
 				changeSelection((checkNewHold - checkLastHold) * (controls.UI_UP ? -shiftMult : shiftMult));
+                updateInfoText();
 			}
 		}
 
-        if(FlxG.mouse.wheel != 0)
+        if(FlxG.mouse.wheel != 0) {
             changeSelection(-shiftMult * FlxG.mouse.wheel);
+            updateInfoText();
+        }
 
-        if (controls.BACK || FlxG.mouse.justPressedRight) {
+        if (controls.BACK || FlxG.mouse.justPressedRight)
+        {
             Main.switchState(this, new MainMenuState());
             Paths.clearUnusedMemory();
         }
 
-        if (controls.ACCEPT || FlxG.mouse.justPressed && selectableItem(curSelected) && creditsData.data[curSelected][4] != null
-            && creditsData.data[curSelected][4] != '') 
-            CoolUtil.browserLoad(creditsData.data[curSelected][4]);
+        if (controls.ACCEPT || FlxG.mouse.justPressed
+            && selectableItem(curSelected)
+            && creditsData.data[curSelected][4][curSocial] != null
+            && creditsData.data[curSelected][4][curSocial] != [''])
+            CoolUtil.browserLoad(creditsData.data[curSelected][4][curSocial][1]);
     }
     
     public function changeSelection(change:Int = 0)
@@ -173,9 +196,6 @@ class CreditsMenu extends MusicBeatState
                 bgTween = null
             });
         }
-        
-        infoText.text = creditsData.data[curSelected][2];
-        if (creditsData.data[curSelected][3] != null && creditsData.data[curSelected][3].length >= 1) infoText.text += ' - "' + creditsData.data[curSelected][3] + '"';
 
         var bullShit:Int = 0;
         for (item in alfabe.members)
@@ -193,6 +213,45 @@ class CreditsMenu extends MusicBeatState
                 item.alpha = 1;
             }
         }
+    }
+
+    public function changeSocial(huh:Int = 0)
+    {
+        // prevent loud scroll sounds
+        if (huh >= -1) FlxG.sound.play(Paths.sound('scrollMenu'), 0.4);
+
+        curSocial += huh;
+        if (curSocial < 0)
+            curSocial = 0;
+        if (curSocial >= creditsData.data[curSelected][4].length)
+            curSocial = 0;
+    }
+
+    public function updateInfoText()
+    {
+        var data = creditsData.data;
+
+        // description
+        infoText.text = data[curSelected][2] + ' ';
+
+        //trace('Social: ' + curSocial);
+
+        // quotes
+        if (data[curSelected][3] != null
+            && data[curSelected][3].length >= 1)
+            infoText.text += '- "' + data[curSelected][3] + '" ';
+
+        // socials
+        if (
+            //giant check but you never know.
+            data[curSelected][4][curSocial] != null
+            && data[curSelected][4][curSocial].length >= 1
+            && data[curSelected][4][curSocial] != ''
+            && data[curSelected][4][curSocial][0] != null
+            && data[curSelected][4][curSocial][0].length >= 1
+            && data[curSelected][4][curSocial][0] != ''
+            )
+            infoText.text += '• Current Social: ' + data[curSelected][4][curSocial][0];
     }
     
     public function selectableItem(id:Int):Bool

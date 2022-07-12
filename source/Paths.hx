@@ -330,8 +330,9 @@ class Paths
 		return inst;
 	}
 
-	inline static public function image(key:String, ?library:String, ?textureCompression:Bool = false)
+	inline static public function image(key:String, ?library:String, ?textureCompression:Bool)
 	{
+		textureCompression = Init.trueSettings.get('Hardware Caching');
 		var returnAsset:FlxGraphic = returnGraphic(key, library, textureCompression);
 		return returnAsset;
 	}
