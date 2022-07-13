@@ -654,7 +654,7 @@ class OriginalChartingState extends MusicBeatState
                 {
 					if ((playTicksBf.checked) && (note.mustPress) || (playTicksDad.checked) && (!note.mustPress))
 					{
-						FlxG.sound.play(Paths.sound('hitsounds/charter/hit'));
+						FlxG.sound.play(Paths.sound('hitsounds/${PlayState.changeableSound}/hit'));
 						playedSound[data] = true;
 					}
                 }
