@@ -57,11 +57,36 @@ class Highscore
 
 		if (songRanks.exists(daSong))
 		{
-			if (songRanks.get(daSong) != null)
+			if (getRankInt(songRanks.get(daSong)) < getRankInt(rank))
 				setRank(daSong, rank);
 		}
 		else
 			setRank(daSong, rank);
+	}
+
+	static function getRankInt(rank:String):Int
+	{
+		switch (rank)
+		{
+			case 'F':
+				return 0;
+			case 'E':
+				return 1;
+			case 'D':
+				return 2;
+			case 'C':
+				return 3;
+			case 'B':
+				return 4;
+			case 'A':
+				return 5;
+			case 'S':
+				return 6;
+			case 'S+':
+				return 7;
+			default:
+				return -1;
+		}
 	}
 
 	/**

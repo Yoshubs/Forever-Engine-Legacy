@@ -15,7 +15,7 @@ class BaseButton extends FlxSprite
         this.clickThing = clickThing;
         this.size = size;
 
-        loadGraphic(Paths.image('UI/default/base/charting_button${size.toUpperCase()}'));
+        loadGraphic(Paths.image('UI/default/base/charter/charting_button${size.toUpperCase()}'));
         antialiasing = true;
         scrollFactor.set();
     }
