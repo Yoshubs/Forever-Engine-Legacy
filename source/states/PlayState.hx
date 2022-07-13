@@ -42,14 +42,13 @@ import states.subStates.*;
 
 using StringTools;
 
-#if !html5
+#if sys
 import sys.FileSystem;
 import sys.io.File;
-//import vlc.VideoHandler;
 #end
-#if DISCORD_RPC
-import meta.data.dependency.Discord;
-#end
+
+#if DISCORD_RPC import meta.data.dependency.Discord; #end
+#if VIDEO_PLUGIN import VideoHandler; #end
 
 class PlayState extends MusicBeatState
 {
@@ -2172,45 +2171,33 @@ class PlayState extends MusicBeatState
 		FlxG.switchState(new PlayState());
 	}
 
-	public function startVideo(name:String, loop:Bool = false, haccelerated:Bool = true, pauseMusic:Bool = false)
+	function playVideo(name:String, atEndOfSong:Bool = false)
 	{
-		/*#if VIDEO_PLUGIN
-			#if LUA_EXTENSION
-			callLLua('onStartVideo', []);
-			#end
-			inCutscene = true;
-
-			var filepath:String = Paths.video(name);
-			#if sys
-			if(!FileSystem.exists(filepath))
-			#else
-			if(!OpenFlAssets.exists(filepath))
-			#end
+		#if VIDEO_PLUGIN
+		inCutscene = true;
+		FlxG.sound.music.stop();
+		
+		var video:VideoHandler = new VideoHandler();
+		video.finishCallback = function()
+		{
+			if (atEndOfSong)
 			{
-				FlxG.log.warn('Couldnt find video file: ' + name);
-				startAndEnd();
-				return;
+				if (storyPlaylist.length <= 0)
+					Main.switchState(this, new StoryMenuState());
+				else
+				{
+					SONG = Song.loadFromJson(storyPlaylist[0].toLowerCase());
+					Main.switchState(this, new PlayState());
+				}
 			}
-
-			var bg = new FlxSprite(-FlxG.width, -FlxG.height).makeGraphic(FlxG.width * 3, FlxG.height * 3, FlxColor.BLACK);
-			bg.scrollFactor.set();
-			bg.cameras = [camHUD];
-			add(bg);
-
-			var video:VideoHandler = new VideoHandler();
-			video.playVideo(filepath, loop, haccelerated, pauseMusic);
-			video.finishCallback = function()
-			{
-				remove(bg);
-				startAndEnd();
-				Paths.clearUnusedMemory();
-			}
-			return;
-			#else
-			FlxG.log.warn('Platform not supported!');
-			startAndEnd();
-			return;
-			#end */
+			else
+				callTextbox();
+		}
+		video.playVideo(Paths.video(name));
+		#else
+		FlxG.log.warn('Platform not supported!');
+		startAndEnd();
+		#end
 	}
 
 	function startAndEnd()
@@ -2306,7 +2293,7 @@ class PlayState extends MusicBeatState
 				});
 
 			case 'test':
-				startVideo('test');
+				playVideo('test');
 
 			default:
 				callTextbox();

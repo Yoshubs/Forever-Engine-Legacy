@@ -31,7 +31,7 @@
 	<!-- mess around with these defines all you want and feel free to create new ones if needed -->
 
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
-	<define name="VIDEO_PLUGIN" if="windows" unless="32bits || web || neko" />
+	<!-- <define name="VIDEO_PLUGIN" if="windows || linux" unless="32bits" /> -->
 	<define name="LUA_EXTENSION" unless="web || neko" />
 
 	<!-- _____________________________ Path Settings ____________________________ -->
