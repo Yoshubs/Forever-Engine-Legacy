@@ -1190,7 +1190,7 @@ class PlayState extends MusicBeatState
 
 					if (!daNote.tooLate && daNote.strumTime < Conductor.songPosition - (Timings.msThreshold) && !daNote.wasGoodHit)
 					{
-						if ((!daNote.tooLate) && (daNote.mustPress))
+						if ((!daNote.tooLate) && (daNote.mustPress) && (daNote.noteType != MINE) && (daNote.noteType != NUKE))
 						{
 							if (!daNote.isSustainNote)
 							{
@@ -1279,6 +1279,9 @@ class PlayState extends MusicBeatState
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 
+			if (coolNote.noteType == MINE) health -= 0.35;
+			if (coolNote.noteType == NUKE) health -= 999; // haha
+
 			characterPlayAnimation(coolNote, character);
 
 			if (characterStrums.receptors.members[coolNote.noteData] != null)
@@ -1308,7 +1311,7 @@ class PlayState extends MusicBeatState
 					}
 				}
 
-				if (!coolNote.isSustainNote && coolNote.noteType != HURT)
+				if (!coolNote.isSustainNote && coolNote.noteType != MINE && coolNote.noteType != NUKE)
 				{
 					increaseCombo(foundRating, coolNote.noteData, character);
 					popUpScore(foundRating, ratingTiming, characterStrums, coolNote);
@@ -1318,7 +1321,7 @@ class PlayState extends MusicBeatState
 
 					healthCall(Timings.judgementsMap.get(foundRating)[3]);
 				}
-				else if (coolNote.isSustainNote && coolNote.noteType != HURT)
+				else if (coolNote.isSustainNote && coolNote.noteType != MINE && coolNote.noteType != NUKE)
 				{
 					// call updated accuracy stuffs
 					if (coolNote.parentNote != null)
@@ -1384,7 +1387,10 @@ class PlayState extends MusicBeatState
 			case NO_ANIM:
 				stringArrow = '';
 
-			case HURT:
+			case MINE:
+				stringArrow = baseString + 'miss';
+
+			case NUKE: // you instantly die with this one but...
 				stringArrow = baseString + 'miss';
 
 			default:
@@ -1430,7 +1436,7 @@ class PlayState extends MusicBeatState
 		if (autoplay)
 		{
 			// check if the note was a good hit
-			if (daNote.strumTime <= Conductor.songPosition && daNote.noteType != HURT)
+			if (daNote.strumTime <= Conductor.songPosition && daNote.noteType != MINE && daNote.noteType != NUKE)
 			{
 				// use a switch thing cus it feels right idk lol
 				// make sure the strum is played for the autoplay stuffs

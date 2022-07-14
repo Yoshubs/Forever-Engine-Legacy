@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TextureAtlas imagePath="NUKENOTE_assets.png">
+	<!-- Created with Adobe Animate version 20.0.0.17400 -->
+	<!-- http://www.adobe.com/products/animate.html -->
+	<SubTexture name="blue0000" x="11" y="11" width="132" height="132"/>
+	<SubTexture name="green0000" x="174" y="11" width="131" height="132"/>
+	<SubTexture name="purple0000" x="11" y="174" width="132" height="132"/>
+	<SubTexture name="red0000" x="174" y="174" width="131" height="132"/>
+</TextureAtlas>

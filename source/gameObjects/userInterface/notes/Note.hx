@@ -14,7 +14,8 @@ enum NoteType
 	ALT; // Alt Animation Notes
 	HEY; // Hey Notes
 	NO_ANIM; // No Animation Notes
-	HURT; // Hurt Notes
+	MINE; // Mines - Hit causes miss, deals damage
+	NUKE; // Nukes - Hit instantly kills you
 }
 
 class Note extends FNFSprite
@@ -58,7 +59,8 @@ class Note extends FNFSprite
 		'Alt Animation' => ALT,
 		'Hey!' => HEY,
 		'No Animation' => NO_ANIM,
-		'Hurt Note' => HURT
+		'Mine Note' => MINE,
+		'Nuke Note' => NUKE,
 	];
 
 	// for the Chart Editor
@@ -67,7 +69,8 @@ class Note extends FNFSprite
 		'Alt Animation',
 		'Hey!',
 		'No Animation',
-		'Hurt Note'
+		'Mine Note',
+		'Nuke Note'
 	];
 
 	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL)
@@ -135,12 +138,12 @@ class Note extends FNFSprite
 		// frames originally go here
 		switch (assetModifier)
 		{
-			case 'pixel': // pixel arrows default
+			case 'pixel':
 				if (isSustainNote)
 				{
 					switch (type)
 					{
-						default:
+						default: // pixel holds default
 							newNote.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('arrowEnds', assetModifier, Init.trueSettings.get("Note Skin"),
 							'noteskins/notes')), true, 7,
 							6);
@@ -158,7 +161,7 @@ class Note extends FNFSprite
 				{
 					switch (type)
 					{
-						default:
+						default: // pixel notes default
 							newNote.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('arrows-pixels', assetModifier, Init.trueSettings.get("Note Skin"),
 								'noteskins/notes')),
 								true, 17, 17);
@@ -175,22 +178,25 @@ class Note extends FNFSprite
 			default: // base game arrows for no reason whatsoever
 				switch (type)
 				{
-					case HURT: // hurt notes
+					case NUKE: // nukes
+						newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('nukes', assetModifier, Init.trueSettings.get("Note Skin"),
+						'noteskins/mines'));
+						newNote.animation.addByPrefix('greenScroll', 'green0');
+						newNote.animation.addByPrefix('redScroll', 'red0');
+						newNote.animation.addByPrefix('blueScroll', 'blue0');
+						newNote.animation.addByPrefix('purpleScroll', 'purple0');
+						newNote.setGraphicSize(Std.int(newNote.width * 0.9));
+						newNote.updateHitbox();
+						newNote.antialiasing = true;
+
+					case MINE: // mines
 						newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('mines', assetModifier, Init.trueSettings.get("Note Skin"),
 						'noteskins/mines'));
 						newNote.animation.addByPrefix('greenScroll', 'green0');
 						newNote.animation.addByPrefix('redScroll', 'red0');
 						newNote.animation.addByPrefix('blueScroll', 'blue0');
 						newNote.animation.addByPrefix('purpleScroll', 'purple0');
-						newNote.animation.addByPrefix('purpleholdend', 'pruple end hold');
-						newNote.animation.addByPrefix('greenholdend', 'green hold end');
-						newNote.animation.addByPrefix('redholdend', 'red hold end');
-						newNote.animation.addByPrefix('blueholdend', 'blue hold end');
-						newNote.animation.addByPrefix('purplehold', 'purple hold piece');
-						newNote.animation.addByPrefix('greenhold', 'green hold piece');
-						newNote.animation.addByPrefix('redhold', 'red hold piece');
-						newNote.animation.addByPrefix('bluehold', 'blue hold piece');
-						newNote.setGraphicSize(Std.int(newNote.width * 0.7));
+						newNote.setGraphicSize(Std.int(newNote.width * 0.9));
 						newNote.updateHitbox();
 						newNote.antialiasing = true;
 
@@ -292,7 +298,15 @@ class Note extends FNFSprite
 				{
 					switch (type)
 					{
-						case HURT: // hurt notes, can be quants however that's how i'm doing them for now
+						case NUKE:
+							newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('nukes', assetModifier, Init.trueSettings.get("Note Skin"),
+							'noteskins/mines'));
+							newNote.animation.addByPrefix('leftScroll', 'purple0');
+							newNote.animation.addByPrefix('downScroll', 'blue0');
+							newNote.animation.addByPrefix('upScroll', 'green0');
+							newNote.animation.addByPrefix('rightScroll', 'red0');
+
+						case MINE: // mines, can be quants however that's how i'm doing them for now
 							newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('mines', assetModifier, Init.trueSettings.get("Note Skin"),
 							'noteskins/mines'));
 							newNote.animation.addByPrefix('leftScroll', 'purple0');
@@ -318,18 +332,6 @@ class Note extends FNFSprite
 				{
 					switch (type)
 					{
-						case HURT: // i'm so sorry.
-							newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('mines', assetModifier, Init.trueSettings.get("Note Skin"),
-							'noteskins/mines'));
-							newNote.animation.addByPrefix('hold', 'purple hold piece');
-							newNote.animation.addByPrefix('hold', 'green hold piece');
-							newNote.animation.addByPrefix('hold', 'red hold piece');
-							newNote.animation.addByPrefix('hold', 'blue hold piece');
-							newNote.animation.addByPrefix('holdend', 'pruple end hold');
-							newNote.animation.addByPrefix('holdend', 'green hold end');
-							newNote.animation.addByPrefix('holdend', 'red hold end');
-							newNote.animation.addByPrefix('holdend', 'blue hold end');
-
 						default:
 							// quant holds
 							newNote.loadGraphic(Paths.image(ForeverTools.returnSkinAsset('HOLD_quants', assetModifier, Init.trueSettings.get("Note Skin"),
