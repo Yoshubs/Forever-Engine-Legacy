@@ -1318,7 +1318,7 @@ class PlayState extends MusicBeatState
 
 					healthCall(Timings.judgementsMap.get(foundRating)[3]);
 				}
-				else if (coolNote.isSustainNote)
+				else if (coolNote.isSustainNote && coolNote.noteType != HURT)
 				{
 					// call updated accuracy stuffs
 					if (coolNote.parentNote != null)
@@ -1372,6 +1372,7 @@ class PlayState extends MusicBeatState
 		{
 			case ALT:
 				altString = '-alt';
+
 			case HEY:
 				stringArrow = 'hey';
 
@@ -1379,10 +1380,13 @@ class PlayState extends MusicBeatState
 				{
 					character.dance();
 				});
+
 			case NO_ANIM:
 				stringArrow = '';
+
 			case HURT:
 				stringArrow = baseString + 'miss';
+
 			default:
 				stringArrow = baseString + altString;
 		}
