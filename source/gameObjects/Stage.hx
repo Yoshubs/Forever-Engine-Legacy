@@ -245,9 +245,9 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				santa.animation.addByPrefix('idle', 'santa idle in fear', 24, false);
 				santa.antialiasing = true;
 				add(santa);
-			case 'winterhorror': // had to change it, else the game would freak out and send you to week 1
-				curStage = 'winterhorror';
-				var bg:FNFSprite = new FNFSprite(-400, -500).loadGraphic(Paths.image('backgrounds/mall/evilBG'));
+			case 'mallEvil':
+				curStage = 'mallEvil';
+				var bg:FNFSprite = new FNFSprite(-400, -500).loadGraphic(Paths.image('backgrounds/' + curStage + '/evilBG'));
 				bg.antialiasing = true;
 				bg.scrollFactor.set(0.2, 0.2);
 				bg.active = false;
@@ -255,12 +255,12 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				bg.updateHitbox();
 				add(bg);
 
-				var evilTree:FNFSprite = new FNFSprite(300, -300).loadGraphic(Paths.image('backgrounds/mall/evilTree'));
+				var evilTree:FNFSprite = new FNFSprite(300, -300).loadGraphic(Paths.image('backgrounds/' + curStage + '/evilTree'));
 				evilTree.antialiasing = true;
 				evilTree.scrollFactor.set(0.2, 0.2);
 				add(evilTree);
 
-				var evilSnow:FNFSprite = new FNFSprite(-200, 700).loadGraphic(Paths.image("backgrounds/mall/evilSnow"));
+				var evilSnow:FNFSprite = new FNFSprite(-200, 700).loadGraphic(Paths.image("backgrounds/" + curStage + "/evilSnow"));
 				evilSnow.antialiasing = true;
 				add(evilSnow);
 			case 'school':
@@ -593,9 +593,9 @@ class Stage extends FlxTypedGroup<FlxBasic>
 		{
 			case 'highway':
 				gfVersion = 'gf-car';
-			case 'mall' | 'winterhorror':
+			case 'mall' | 'mallEvil':
 				gfVersion = 'gf-christmas';
-			case 'school' | 'thorns':
+			case 'school' | 'schoolEvil':
 				gfVersion = 'gf-pixel';
 		}
 
@@ -651,7 +651,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				dad.x -= 400;
 				dad.y += 20;
 
-			case 'winterhorror':
+			case 'mallEvil':
 				boyfriend.x += 320;
 			case 'school':
 				boyfriend.x += 200;
@@ -660,7 +660,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				dad.y += 580;
 				gf.x += 200;
 				gf.y += 320;
-			case 'thorns':
+			case 'schoolEvil':
 				dad.x -= 150;
 				dad.y += 50;
 				boyfriend.x += 200;
@@ -862,11 +862,11 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			case 'cocoa' | 'eggnog':
 				curStage = 'mall';
 			case 'winter-horrorland':
-				curStage = 'winterhorror';
+				curStage = 'mallEvil';
 			case 'senpai' | 'roses':
 				curStage = 'school';
 			case 'thorns':
-				curStage = 'thorns';
+				curStage = 'schoolEvil';
 			case 'ugh' | 'guns' | 'stress':
 				curStage = 'military';
 			default:

@@ -263,7 +263,7 @@ class OriginalChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
-		var characters:Array<String> = CoolUtil.coolTextFile(Paths.txt('characterList'));
+		var characters:Array<String> = CoolUtil.returnAssetsLibrary('characters', 'assets');
 
 		var player1DropDown = new FlxUIDropDownMenuCustom(10, stepperSpeed.y + 45, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -289,8 +289,7 @@ class OriginalChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 		blockPressWhileScrolling.push(player2DropDown);
 
-		// NOTE: make this get from the folders themselves, not from a text file -Ghost
-		var stages:Array<String> = CoolUtil.coolTextFile(Paths.txt('stageList'));
+		var stages:Array<String> = CoolUtil.returnAssetsLibrary('backgrounds');
 
 		var stageDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(stages, true), function(stage:String)
 		{

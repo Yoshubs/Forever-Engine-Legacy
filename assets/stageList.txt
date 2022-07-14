@@ -1,9 +1,0 @@
-stage
-spooky
-philly
-highway
-mall
-winterhorror
-school
-thorns
-military
