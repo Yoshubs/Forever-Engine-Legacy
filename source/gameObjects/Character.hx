@@ -5,13 +5,16 @@ package gameObjects;
 	stay the same as it was in the original source of the game. I'll most likely make some changes afterwards though!
 **/
 import flixel.FlxG;
+import flixel.util.FlxSort;
 import flixel.addons.util.FlxSimplex;
 import flixel.animation.FlxBaseAnimation;
 import flixel.graphics.frames.FlxAtlasFrames;
 import gameObjects.userInterface.HealthIcon;
 import meta.*;
 import meta.data.*;
+import meta.data.Section.SwagSection;
 import meta.data.dependency.FNFSprite;
+import gameObjects.background.TankmenBG;
 import openfl.utils.Assets as OpenFlAssets;
 import states.PlayState;
 import states.subStates.GameOverSubState;
@@ -32,13 +35,13 @@ typedef CharacterData =
 class Character extends FNFSprite
 {
 	public var debugMode:Bool = false;
+	public var skipDance:Bool = false;
 
 	public var character:String;
 
 	public var isPlayer:Bool = false;
 	public var curCharacter:String = 'bf';
-	public var barColor:Array<Float> = [];
-
+	
 	public var holdTimer:Float = 0;
 
 	public var icon:String;
@@ -46,7 +49,9 @@ class Character extends FNFSprite
 	public var characterData:CharacterData;
 	public var adjustPos:Bool = true;
 
+	public var animationNotes:Array<Dynamic> = [];
 	public var positionArray:Array<Float> = [0, 0];
+	public var barColor:Array<Float> = [];
 
 	public function new(?x:Float = 0, ?y:Float = 0, ?isPlayer:Bool = false, ?character:String = 'bf')
 	{
@@ -64,6 +69,14 @@ class Character extends FNFSprite
 			scaleY: 0,
 			quickDancer: false
 		};
+
+		switch(curCharacter)
+		{
+			case 'pico-speaker':
+				skipDance = true;
+				loadMappedAnims();
+				playAnim("shoot1");
+		}
 
 		if (isPlayer) // fuck you ninjamuffin lmao
 		{
@@ -208,6 +221,21 @@ class Character extends FNFSprite
 			}
 		}
 
+		switch(curCharacter)
+		{
+			case 'pico-speaker':
+				if(animationNotes.length > 0 && Conductor.songPosition > animationNotes[0][0])
+				{
+					var noteData:Int = 1;
+					if(animationNotes[0][1] > 2) noteData = 3;
+
+					noteData += FlxG.random.int(0, 1);
+					playAnim('shoot' + noteData, true);
+					animationNotes.shift();
+				}
+				if(animation.curAnim.finished) playAnim(animation.curAnim.name, false, false, animation.curAnim.frames.length - 3);
+		}
+
 		var curCharSimplified:String = simplifyCharacter();
 		
 		if (animation.curAnim != null)
@@ -230,7 +258,7 @@ class Character extends FNFSprite
 	 */
 	public function dance(?forced:Bool = false)
 	{
-		if (!debugMode && animation.curAnim != null)
+		if (!debugMode && !skipDance && animation.curAnim != null)
 		{
 			var curCharSimplified:String = simplifyCharacter();
 			switch (curCharSimplified)
@@ -286,5 +314,25 @@ class Character extends FNFSprite
 			base = base.substring(0, base.indexOf('-'));
 
 		return base;
+	}
+
+	function loadMappedAnims()
+	{
+		var sections:Array<SwagSection> = Song.loadFromJson('picospeaker', PlayState.SONG.song.toLowerCase()).notes;
+		for (section in sections)
+		{
+			for (note in section.sectionNotes)
+			{
+				animationNotes.push(note);
+			}
+		}
+		TankmenBG.animationNotes = animationNotes;
+		//trace(animationNotes);
+		animationNotes.sort(sortAnims);
+	}
+
+	function sortAnims(Obj1:Array<Dynamic>, Obj2:Array<Dynamic>):Int
+	{
+		return FlxSort.byValues(FlxSort.ASCENDING, Obj1[0], Obj2[0]);
 	}
 }

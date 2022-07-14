@@ -66,7 +66,7 @@ class FreeplayState extends MusicBeatState
 	private var existingDifficulties:Array<Array<String>> = [];
 
 	var leText:String;
-	var barTxt:FlxText;
+	var infoText:FlxText;
 
 	override function create()
 	{
@@ -161,19 +161,12 @@ class FreeplayState extends MusicBeatState
 		changeDiff();
 		resetScore(true);
 
-		var textBG:FlxSprite = new FlxSprite(0, FlxG.height - 26).makeGraphic(FlxG.width, 26, 0xFF000000);
-		textBG.alpha = 0.6;
-		add(textBG);
-
 		leText = "- ALT = Open Charting Menu. - RESET = Reset Score and Ranking. -";
-		var size:Int = 18;
-		barTxt = new FlxText(textBG.x, textBG.y + 4, FlxG.width, leText, size);
-		barTxt.setFormat(Paths.font("vcr.ttf"), size, FlxColor.WHITE, CENTER);
-		barTxt.scrollFactor.set();
-		add(barTxt);
-
-		FlxTween.tween(barTxt,{y: FlxG.height - 25}, 2, {ease: FlxEase.elasticInOut});
-		FlxTween.tween(textBG,{y: FlxG.height - 28}, 2, {ease: FlxEase.elasticInOut});
+		infoText = new FlxText(5, FlxG.height - 24, 0, leText, 32);
+		infoText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		infoText.textField.background = true;
+		infoText.textField.backgroundColor = FlxColor.BLACK;
+		add(infoText);
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
@@ -289,7 +282,7 @@ class FreeplayState extends MusicBeatState
 
 			if (presses > 0) {
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
-				barTxt.text = '- Data Destruction was Interrupted! -';
+				infoText.text = '- Data Destruction was Interrupted! -';
 				endBullshit();
 			}
 		}
@@ -486,18 +479,18 @@ class FreeplayState extends MusicBeatState
 			presses = 0;
 
 		if (presses == 1)
-			barTxt.text = '- Are you Sure? -';
+			infoText.text = '- Are you Sure? -';
 
 		if (presses == 2)
 		{
-			barTxt.text = '- Really Sure? -';
+			infoText.text = '- Really Sure? -';
 			FlxG.sound.music.volume = 0.3;
 		}
 
 		if (presses == 3)
 		{
 			noSound = true;
-			barTxt.text = '- Data Destroyed! -';
+			infoText.text = '- Data Destroyed! -';
 			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
 			iconArray[curSelected].animation.curAnim.curFrame = 1;
 			Highscore.clearData(songs[curSelected].songName, curDifficulty);
@@ -510,7 +503,7 @@ class FreeplayState extends MusicBeatState
 	{
 		new FlxTimer().start(1, function(resetText:FlxTimer)
 		{
-			barTxt.text = leText;
+			infoText.text = leText;
 			presses = 0;
 			iconArray[curSelected].animation.curAnim.curFrame = 0;
 			FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);

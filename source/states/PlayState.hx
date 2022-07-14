@@ -1865,6 +1865,8 @@ class PlayState extends MusicBeatState
 		setLLua('curStep', curStep);
 		callLLua('onStepHit', []);
 		#end
+
+		Stage.stageScript.set('curStep', curStep);
 	}
 
 	private function charactersDance(curBeat:Int)
@@ -1965,6 +1967,8 @@ class PlayState extends MusicBeatState
 		setLLua('curBeat', curBeat);
 		callLLua('onBeatHit', []);
 		#end
+
+		Stage.stageScript.set('curBeat', curBeat);
 
 		if (curSong.toLowerCase() == 'bopeebo')
 		{

@@ -59,6 +59,8 @@ class Stage extends FlxTypedGroup<FlxBasic>
 	var bgGirls:BackgroundGirls;
 
 	// week 7
+	var smokeL:FNFSprite;
+	var smokeR:FNFSprite;
 	var tankWatchtower:FNFSprite;
 	var tankGround:FNFSprite;
 	var tankmanRun:FlxTypedGroup<TankmenBG>;
@@ -77,10 +79,14 @@ class Stage extends FlxTypedGroup<FlxBasic>
 
 	public static var screenRes:String = '1280x720';
 
+	public static var stageScript:HaxeScript;
+
 	public function new(curStage)
 	{
 		super();
 		this.curStage = curStage;
+
+		stageScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 
 		switch (ChartParser.songType)
 		{
@@ -375,14 +381,14 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				ruins.updateHitbox();
 				add(ruins);
 
-				var smokeL:FNFSprite = new FNFSprite(-200, -100);
+				smokeL = new FNFSprite(-200, -100);
 				smokeL.frames = Paths.getSparrowAtlas('backgrounds/' + curStage + '/smokeLeft');
 				smokeL.animation.addByPrefix('smokeLeft', 'SmokeBlurLeft');
 				smokeL.antialiasing = true;
 				smokeL.scrollFactor.set(0.4, 0.4);
 				add(smokeL);
 
-				var smokeR:FNFSprite = new FNFSprite(1100, -100);
+				smokeR = new FNFSprite(1100, -100);
 				smokeR.frames = Paths.getSparrowAtlas('backgrounds/' + curStage + '/smokeRight');
 				smokeR.animation.addByPrefix('smokeRight', 'SmokeRight');
 				smokeR.antialiasing = true;
@@ -455,7 +461,6 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				foreground.add(tankdude3);
 		}
 
-		var stageScript:HaxeScript = new HaxeScript(Paths.getPreloadPath('stages/$curStage.hxs'));
 		stageScript.set('createGraphic', function(id:String, x:Float, y:Float, 
 			size:Float = 1, scrollX:Float, scrollY:Float, alphaValue:Float = 1, image:String, fore:Bool = false,
 			blendString:String = 'normal')
@@ -677,10 +682,28 @@ class Stage extends FlxTypedGroup<FlxBasic>
 				dad.x -= 80;
 				if (gfVersion != 'pico-speaker')
 				{
-					gf.x -= 170;
-					gf.y -= 75;
+					gf.x -= 50;
+					gf.y -= 200;
 				}
 		}
+
+		stageScript.set('setBfPos', function(x:Float = 0, y:Float = 0)
+		{
+			boyfriend.x = x;
+			boyfriend.y = y;
+		});
+
+		stageScript.set('setGfPos', function(x:Float = 0, y:Float = 0)
+		{
+			gf.x = x;
+			gf.y = y;
+		});
+
+		stageScript.set('setDadPos', function(x:Float = 0, y:Float = 0)
+		{
+			dad.x = x;
+			dad.y = y;
+		});
 	}
 
 	var curLight:Int = 0;
@@ -745,27 +768,29 @@ class Stage extends FlxTypedGroup<FlxBasic>
 					trainCooldown = FlxG.random.int(-4, 0);
 					trainStart();
 				}
+
+			case 'military':
+				smokeL.animation.play('smokeLeft');
+				smokeR.animation.play('smokeRight');
+				tankWatchtower.animation.play('watchtower');
 		}
 
-		switch (PlayState.SONG.song.toLowerCase())
+		if (gfVersion == 'pico-speaker')
 		{
-			case 'stress':
-				gf.x -= 50;
-				gf.y -= 200;
-				var tankmen:TankmenBG = new TankmenBG(20, 500, true);
-				tankmen.strumTime = 10;
-				tankmen.resetShit(20, 600, true);
-				tankmanRun.add(tankmen);
-				for (i in 0...TankmenBG.animationNotes.length)
+			var tankmen:TankmenBG = new TankmenBG(20, 500, true);
+			tankmen.strumTime = 10;
+			tankmen.resetShit(20, 600, true);
+			tankmanRun.add(tankmen);
+			for (i in 0...TankmenBG.animationNotes.length)
+			{
+				if (FlxG.random.bool(16))
 				{
-					if (FlxG.random.bool(16))
-					{
-						var man:TankmenBG = tankmanRun.recycle(TankmenBG);
-						man.strumTime = TankmenBG.animationNotes[i][0];
-						man.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
-						tankmanRun.add(man);
-					}
+					var man:TankmenBG = tankmanRun.recycle(TankmenBG);
+					man.strumTime = TankmenBG.animationNotes[i][0];
+					man.resetShit(500, 200 + FlxG.random.int(50, 100), TankmenBG.animationNotes[i][1] < 2);
+					tankmanRun.add(man);
 				}
+			}
 		}
 	}
 
