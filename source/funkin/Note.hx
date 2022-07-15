@@ -19,6 +19,12 @@ enum NoteType
 	NUKE; // Nukes - Hit instantly kills you
 }
 
+enum SustainType
+{
+	NORMAL; // Normal Holds, Hold to get them right
+	ROLL; // Roll Holds, press rapidly to get them right
+}
+
 class Note extends FNFSprite
 {
 	public var strumTime:Float = 0;
@@ -36,6 +42,7 @@ class Note extends FNFSprite
 
 	public var sustainLength:Float = 0;
 	public var isSustainNote:Bool = false;
+	public var sustainType:SustainType = NORMAL;
 
 	// only useful for charting stuffs
 	public var chartSustain:FlxSprite = null;
@@ -65,6 +72,11 @@ class Note extends FNFSprite
 		'Nuke Note' => NUKE,
 	];
 
+	public static var sustainTypeMap:Map<String, SustainType> = [
+		'' => NORMAL,
+		'Roll' => ROLL,
+	];
+
 	// for the Chart Editor
 	public static var noteTypeList:Array<String> = [
 		'',
@@ -76,7 +88,12 @@ class Note extends FNFSprite
 		'Nuke Note'
 	];
 
-	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL)
+	public static var sustainTypeList:Array<String> = [
+		'',
+		'Roll'
+	];
+
+	public function new(strumTime:Float, noteData:Int, noteAlt:Float, ?prevNote:Note, ?sustainNote:Bool = false, type:NoteType = NORMAL, susType:SustainType = NORMAL)
 	{
 		super(x, y);
 
@@ -85,6 +102,7 @@ class Note extends FNFSprite
 
 		this.prevNote = prevNote;
 		isSustainNote = sustainNote;
+		sustainType = susType;
 
 		// oh okay I know why this exists now
 		y -= 2000;
@@ -134,9 +152,9 @@ class Note extends FNFSprite
 
 		these are for all your custom note needs
 	**/
-	public static function returnDefaultNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note, type:NoteType = NORMAL):Note
+	public static function returnDefaultNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note, type:NoteType = NORMAL, susType:SustainType = NORMAL):Note
 	{
-		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, type);
+		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, type, susType);
 
 		// frames originally go here
 		switch (assetModifier)
@@ -223,10 +241,14 @@ class Note extends FNFSprite
 					default: // anything else
 						newNote.frames = Paths.getSparrowAtlas(ForeverTools.returnSkinAsset('NOTE_assets', assetModifier, Init.trueSettings.get("Note Skin"),
 						'noteskins/notes'));
+
+						// notes
 						newNote.animation.addByPrefix('greenScroll', 'green0');
 						newNote.animation.addByPrefix('redScroll', 'red0');
 						newNote.animation.addByPrefix('blueScroll', 'blue0');
 						newNote.animation.addByPrefix('purpleScroll', 'purple0');
+
+						// holds
 						newNote.animation.addByPrefix('purpleholdend', 'pruple end hold');
 						newNote.animation.addByPrefix('greenholdend', 'green hold end');
 						newNote.animation.addByPrefix('redholdend', 'red hold end');
@@ -235,6 +257,18 @@ class Note extends FNFSprite
 						newNote.animation.addByPrefix('greenhold', 'green hold piece');
 						newNote.animation.addByPrefix('redhold', 'red hold piece');
 						newNote.animation.addByPrefix('bluehold', 'blue hold piece');
+
+						// rolls
+						newNote.animation.addByPrefix('purplerollend', 'pruple end roll');
+						newNote.animation.addByPrefix('greenrollend', 'green roll end');
+						newNote.animation.addByPrefix('redrollend', 'red roll end');
+						newNote.animation.addByPrefix('bluerollend', 'blue roll end');
+						newNote.animation.addByPrefix('purpleroll', 'purple roll piece');
+						newNote.animation.addByPrefix('greenroll', 'green roll piece');
+						newNote.animation.addByPrefix('redroll', 'red roll piece');
+						newNote.animation.addByPrefix('blueroll', 'blue roll piece');
+
+						//
 						newNote.setGraphicSize(Std.int(newNote.width * 0.7));
 						newNote.updateHitbox();
 						newNote.antialiasing = true;
@@ -248,11 +282,20 @@ class Note extends FNFSprite
 		{
 			newNote.noteSpeed = prevNote.noteSpeed;
 			newNote.alpha = (Init.trueSettings.get('Opaque Holds')) ? 1 : 0.6;
-			newNote.animation.play(UIStaticArrow.getColorFromNumber(noteData) + 'holdend');
+
+			if (susType == NORMAL)
+				newNote.animation.play(UIStaticArrow.getColorFromNumber(noteData) + 'holdend');
+			else if (susType == ROLL)
+				newNote.animation.play(UIStaticArrow.getColorFromNumber(noteData) + 'rollend');
+
 			newNote.updateHitbox();
 			if (prevNote.isSustainNote)
 			{
-				prevNote.animation.play(UIStaticArrow.getColorFromNumber(prevNote.noteData) + 'hold');
+				if (susType == NORMAL)
+					prevNote.animation.play(UIStaticArrow.getColorFromNumber(prevNote.noteData) + 'hold');
+				else if (susType == ROLL)
+					prevNote.animation.play(UIStaticArrow.getColorFromNumber(prevNote.noteData) + 'roll');
+				
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * 1.5 * prevNote.noteSpeed;
 				prevNote.updateHitbox();
 				// prevNote.setGraphicSize();
@@ -261,9 +304,9 @@ class Note extends FNFSprite
 		return newNote;
 	}
 
-	public static function returnQuantNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note = null, type:NoteType = NORMAL):Note
+	public static function returnQuantNote(assetModifier, strumTime, noteData, noteAlt, ?isSustainNote:Bool = false, ?prevNote:Note = null, type:NoteType = NORMAL, susType:SustainType = NORMAL):Note
 	{
-		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, type);
+		var newNote:Note = new Note(strumTime, noteData, noteAlt, prevNote, isSustainNote, type, susType);
 
 		// actually determine the quant of the note
 		if (newNote.noteQuant == -1)
@@ -415,12 +458,20 @@ class Note extends FNFSprite
 		{
 			newNote.noteSpeed = prevNote.noteSpeed;
 			newNote.alpha = (Init.trueSettings.get('Opaque Holds')) ? 1 : 0.6;
-			newNote.animation.play('holdend');
+
+			if (susType == NORMAL)
+				newNote.animation.play('holdend');
+			else if (susType == ROLL)
+				newNote.animation.play('rollend');
+
 			newNote.updateHitbox();
 
 			if (prevNote.isSustainNote)
 			{
-				prevNote.animation.play('hold');
+				if (susType == NORMAL)
+					prevNote.animation.play('hold');
+				else if (susType == ROLL)
+					prevNote.animation.play('rollhold');
 
 				prevNote.scale.y *= Conductor.stepCrochet / 100 * (43 / 52) * 1.5 * prevNote.noteSpeed;
 				prevNote.updateHitbox();

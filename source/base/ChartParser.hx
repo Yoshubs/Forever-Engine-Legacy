@@ -2,6 +2,7 @@ package base;
 
 import Paths.ChartType;
 import funkin.Note.NoteType;
+import funkin.Note.SustainType;
 import funkin.Note;
 import funkin.Section.SwagSection;
 import funkin.Song.SwagSong;
@@ -122,7 +123,8 @@ class ChartParser
 				
 				var daBeats:Int = 0; // Not exactly representative of 'daBeats' lol, just how much it has looped
 
-				for (section in noteData) {
+				for (section in noteData)
+				{
 					var coolSection:Int = Std.int(section.lengthInSteps / 4);
 
 					for (songNotes in section.sectionNotes)
@@ -132,10 +134,18 @@ class ChartParser
 						// define the note's type
 						var daNoteAlt:Float = 0;
 						var daNoteType:NoteType = NORMAL;
+						var daSusType:SustainType = NORMAL;
 
 						// very stupid but I'm lazy
+
+						if (songNotes.length > 2) {
+							daNoteAlt = songNotes[3];
+						}
 						if (songNotes.length > 2) {
 							daNoteType = songNotes[3];
+						}
+						if (songNotes.length > 3) {
+							daSusType = songNotes[4];
 						}
 
 						// check the base section
@@ -159,6 +169,7 @@ class ChartParser
 
 						// set the note's length (sustain note)
 						swagNote.sustainLength = songNotes[2];
+						swagNote.sustainType = songNotes[4];
 						swagNote.scrollFactor.set(0, 0);
 						var susLength:Float = swagNote.sustainLength; // sus amogus
 
@@ -172,7 +183,7 @@ class ChartParser
 						{
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 							var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier,
-								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteAlt, true, oldNote, daNoteType);
+								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteAlt, true, oldNote, daNoteType, daSusType);
 							sustainNote.scrollFactor.set();
 
 							unspawnNotes.push(sustainNote);

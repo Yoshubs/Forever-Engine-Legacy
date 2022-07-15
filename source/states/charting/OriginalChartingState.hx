@@ -27,6 +27,7 @@ import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
 import funkin.*;
 import funkin.Note.NoteType;
+import funkin.Note.SustainType;
 import funkin.Section.SwagSection;
 import funkin.Song.SwagSong;
 import funkin.ui.*;
@@ -432,8 +433,11 @@ class OriginalChartingState extends MusicBeatState
 	}
 
 	var stepperSusLength:FlxUINumericStepper;
+	var stepperSusType:FlxUINumericStepper;
 	var noteTypeDropDown:FlxUIDropDownMenuCustom;
+	var noteSustainDropDown:FlxUIDropDownMenuCustom;
 	var currentType:NoteType = NORMAL;
+	var lnType:SustainType = NORMAL;
 	var key:Int = 0;
 
 	function addNoteUI():Void
@@ -446,6 +450,12 @@ class OriginalChartingState extends MusicBeatState
 		stepperSusLength.name = 'note_susLength';
 		blockPressWhileTypingOnStepper.push(stepperSusLength);
 
+		// sustain types
+		noteSustainDropDown = new FlxUIDropDownMenuCustom(160, 65, FlxUIDropDownMenuCustom.makeStrIdLabelArray(Note.sustainTypeList, false), function(type:String)
+		{
+			lnType = Note.sustainTypeMap[type];
+		});
+
 		// note types
 		noteTypeDropDown = new FlxUIDropDownMenuCustom(10, 65, FlxUIDropDownMenuCustom.makeStrIdLabelArray(Note.noteTypeList, false), function(type:String)
 		{
@@ -455,9 +465,11 @@ class OriginalChartingState extends MusicBeatState
 		blockPressWhileScrolling.push(noteTypeDropDown);
 
 		tab_group_note.add(new FlxText(10, 10, 0, 'Sustain length:'));
-		//tab_group_note.add(new FlxText(10, 45, 0, 'Note type:'));
+		tab_group_note.add(new FlxText(10, noteTypeDropDown.y - 15, 0, 'Note Type:'));
+		tab_group_note.add(new FlxText(160, noteSustainDropDown.y - 15, 0, 'Sustain Type:'));
 		tab_group_note.add(stepperSusLength);
 		tab_group_note.add(noteTypeDropDown);
+		tab_group_note.add(noteSustainDropDown);
 
 		UI_box.addGroup(tab_group_note);
 		// I'm genuinely tempted to go around and remove every instance of the word "sus" it is genuinely killing me inside
@@ -1099,19 +1111,21 @@ class OriginalChartingState extends MusicBeatState
 
 		for (i in sectionInfo)
 		{
-			var daNoteInfo = i[1];
 			var daStrumTime = i[0];
+			var daNoteInfo = i[1];
 			var daSus = i[2];
 			var daNoteType:NoteType = i[3];
+			var daLNType = lnType;
 
 			trace('Current note type is $daNoteType.');
 
 			var keys = 4;
 			if (_song.mania == 2) keys = 6;
 
-			var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, daNoteType);
+			var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, null, null, daNoteType, daLNType);
 			note.sustainLength = daSus;
 			note.noteType = daNoteType;
+			note.sustainType = daLNType;
 			note.setGraphicSize(GRID_SIZE, GRID_SIZE);
 			note.updateHitbox();
 			note.x = Math.floor(daNoteInfo * GRID_SIZE);
@@ -1126,6 +1140,10 @@ class OriginalChartingState extends MusicBeatState
 			{
 				var sustainVis:FlxSprite = new FlxSprite(note.x + (GRID_SIZE / 2),
 					note.y + GRID_SIZE).makeGraphic(8, Math.floor(FlxMath.remapToRange(daSus, 0, Conductor.stepCrochet * 16, 0, gridBG.height)));
+				if (note.sustainType == ROLL)
+					sustainVis.color = FlxColor.BLUE;
+				else if (note.sustainType == NORMAL)
+					sustainVis.color = FlxColor.WHITE;
 				curRenderedSustains.add(sustainVis);
 			}
 		}
@@ -1210,14 +1228,15 @@ class OriginalChartingState extends MusicBeatState
 		var noteData = Math.floor(FlxG.mouse.x / GRID_SIZE);
 		var noteType = currentType; // define notes as the current type
 		var noteSus = 0; // ninja you will NOT get away with this
+		var noteLNType = lnType;
 
-		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteType]);
+		_song.notes[curSection].sectionNotes.push([noteStrum, noteData, noteSus, noteType, noteLNType]);
 
 		curSelectedNote = _song.notes[curSection].sectionNotes[_song.notes[curSection].sectionNotes.length - 1];
 
 		if (FlxG.keys.pressed.CONTROL)
 		{
-			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteType]);
+			_song.notes[curSection].sectionNotes.push([noteStrum, (noteData + 4) % 8, noteSus, noteType, noteLNType]);
 		}
 
 		#if debug
