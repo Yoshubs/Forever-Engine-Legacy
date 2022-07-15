@@ -22,15 +22,13 @@ import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
-import gameObjects.*;
-import gameObjects.userInterface.*;
-import gameObjects.userInterface.notes.*;
-import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
-import meta.*;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.*;
-import meta.data.Song.SwagSong;
-import meta.data.dependency.*;
+import funkin.*;
+import funkin.ui.*;
+import funkin.Strumline.UIStaticArrow;
+import base.*;
+import base.MusicBeat.MusicBeatState;
+import funkin.Song.SwagSong;
+import dependency.*;
 import openfl.display.BlendMode;
 import openfl.display.BlendModeEffect;
 import openfl.display.GraphicsShader;
@@ -47,7 +45,7 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-#if DISCORD_RPC import meta.data.dependency.Discord; #end
+#if DISCORD_RPC import dependency.Discord; #end
 #if VIDEO_PLUGIN import VideoHandler; #end
 
 class PlayState extends MusicBeatState
@@ -582,6 +580,8 @@ class PlayState extends MusicBeatState
 				var possibleNoteList:Array<Note> = [];
 				var pressedNotes:Array<Note> = [];
 
+				var coolNote:Note;
+
 				bfStrums.allNotes.forEachAlive(function(daNote:Note)
 				{
 					if ((daNote.noteData == key) && daNote.canBeHit && !daNote.isSustainNote && !daNote.tooLate && !daNote.wasGoodHit)
@@ -608,7 +608,7 @@ class PlayState extends MusicBeatState
 
 						if (eligable)
 						{
-							goodNoteHit(coolNote, boyfriend, bfStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, (coolNote.noteType == GF ? gf : boyfriend), bfStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -619,7 +619,7 @@ class PlayState extends MusicBeatState
 				{ // else just call bad notes
 					ghostMisses++;
 					if (!Init.trueSettings.get('Ghost Tapping'))
-						missNoteCheck(true, key, boyfriend, true);
+						missNoteCheck(true, key, (coolNote.noteType == GF ? gf : boyfriend), true);
 				}
 
 				Conductor.songPosition = previousTime;
@@ -1199,7 +1199,7 @@ class PlayState extends MusicBeatState
 									note.tooLate = true;
 
 								vocals.volume = 0;
-								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (daNote.noteType == GF ? gf : boyfriend), true);
 								// ambiguous name
 								Timings.updateAccuracy(0);
 							}
@@ -1218,7 +1218,7 @@ class PlayState extends MusicBeatState
 
 										if (!breakFromLate)
 										{
-											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
+											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (daNote.noteType == GF ? gf : boyfriend), true);
 											for (note in parentNote.childrenNotes)
 												note.tooLate = true;
 										}
@@ -1279,8 +1279,14 @@ class PlayState extends MusicBeatState
 			coolNote.wasGoodHit = true;
 			vocals.volume = 1;
 
-			if (coolNote.noteType == MINE) health -= 0.35;
-			if (coolNote.noteType == NUKE) health -= 999; // haha
+			if (coolNote.noteType == MINE)
+			{
+				decreaseCombo(true);
+				health -= 0.69; // nice
+			}
+
+			if (coolNote.noteType == NUKE)
+				health -= 999; // haha
 
 			characterPlayAnimation(coolNote, character);
 
@@ -1853,14 +1859,14 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
-		#if debug trace('resyncing vocal time ${vocals.time}'); #end
+		#if DEBUG_TRACES trace('resyncing vocal time ${vocals.time}'); #end
 		songMusic.pause();
 		vocals.pause();
 		Conductor.songPosition = songMusic.time;
 		vocals.time = Conductor.songPosition;
 		songMusic.play();
 		vocals.play();
-		#if debug trace('new vocal time ${Conductor.songPosition}'); #end
+		#if DEBUG_TRACES trace('new vocal time ${Conductor.songPosition}'); #end
 	}
 
 	override function stepHit()

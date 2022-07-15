@@ -1,5 +1,8 @@
 package states;
 
+import base.*;
+import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxState;
@@ -22,11 +25,8 @@ import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.Alphabet;
 import lime.app.Application;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.*;
-import meta.data.dependency.Discord;
-import meta.data.font.Alphabet;
 import openfl.Assets;
 import states.menus.*;
 

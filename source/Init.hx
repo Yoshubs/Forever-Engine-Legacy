@@ -1,10 +1,10 @@
+import base.CoolUtil;
+import base.ui.Overlay;
 import flixel.FlxG;
 import flixel.FlxState;
 import flixel.graphics.FlxGraphic;
 import flixel.input.keyboard.FlxKey;
-import meta.CoolUtil;
-import meta.Overlay;
-import meta.data.Highscore;
+import funkin.Highscore;
 import openfl.filters.BitmapFilter;
 import openfl.filters.ColorMatrixFilter;
 import states.*;
@@ -421,7 +421,7 @@ class Init extends FlxState
 		FlxG.save.data.settings = trueSettings;
 		FlxG.save.flush();
 
-		#if debug trace('Settings Saved!'); #end
+		#if DEBUG_TRACES trace('Settings Saved!'); #end
 		updateAll();
 	}
 
@@ -431,7 +431,7 @@ class Init extends FlxState
 		FlxG.save.data.controls = gameControls;
 		FlxG.save.flush();
 		
-		#if debug trace('Controls Saved!'); #end
+		#if DEBUG_TRACES trace('Controls Saved!'); #end
 	}
 
 	public static function loadControls():Void

@@ -1,5 +1,9 @@
 package;
 
+import base.ui.Overlay;
+import dependency.Discord;
+import dependency.FNFTransition;
+import dependency.FNFUIState;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxGame;
@@ -7,16 +11,12 @@ import flixel.FlxSprite;
 import flixel.FlxState;
 import flixel.addons.transition.FlxTransitionableState;
 import flixel.util.FlxColor;
-import gameObjects.Stage;
+import funkin.PlayerSettings;
+import funkin.Stage;
 import haxe.CallStack.StackItem;
 import haxe.CallStack;
 import haxe.io.Path;
 import lime.app.Application;
-import meta.*;
-import meta.data.PlayerSettings;
-import meta.data.dependency.Discord;
-import meta.data.dependency.FNFTransition;
-import meta.data.dependency.FNFUIState;
 import openfl.Assets;
 import openfl.Lib;
 import openfl.display.FPS;

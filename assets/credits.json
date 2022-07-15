@@ -34,19 +34,21 @@
             "",
             "Coding Advices", "WikiHow: How to handle fame.",
             [["Twitter", "https://twitter.com/Shadow_Mario_"]],
-            [68, 68, 68]
+            [68, 68, 68],
+            380, 0, null
         ],
         [
             "PolybiusProxy",
             "",
             "Library for Loading Video Cutscenes", null,
             [["Twitter", "https://twitter.com/polybiusproxy"]],
-            [255, 234, 166]
+            [255, 234, 166],
+            380, 0, null
         ],
         [
             "NxtVithor",
             "vito",
-            "Emotional Support", "Jo necessito sexo.",
+            "Nuke Note Graphic", "I open the fucking door, and I piss on the floor.",
             [
                 ["Twitter", "https://twitter.com/NxtVithor"],
                 ["Twitch", "https://www.twitch.tv/nxtvithor"]
@@ -61,49 +63,56 @@
             "",
             "Lead Programmer", null,
             [["Twitter", "https://twitter.com/yoshubs"]],
-            [94, 153, 223]
+            [94, 153, 223],
+            380, 0, null
         ],
         [
             "Pixloen",
             "",
             "Forever Engine's Custom Assets", null,
             [["Github", "https://github.com/PixlJacket"]],
-            [172, 117, 244]
+            [172, 117, 244],
+            380, 0, null
         ],
         [
             "Gedehari",
             "",
             "Programmer.", null,
             [["Github", "https://github.com/gedehari"]],
-            [254, 219, 127]
+            [254, 219, 127],
+            380, 0, null
         ],
         [
             "ImCodist",
             "",
             "Issue Fixes.", null,
             [["Github", "https://github.com/ImCodist"]],
-            [175, 68, 65]
+            [175, 68, 65],
+            380, 0, null
         ],
         [
             "Scarlett",
             "",
             "Programmer, Wrote the Math Formula for Note Quants.", null,
             [["Github", "https://github.com/SomeKitten"]],
-            [247, 147, 30]
+            [247, 147, 30],
+            380, 0, null
         ],
         [
             "Oneilr",
             "",
             "Forever Engine's Custom Assets.", null,
             [["Newgrounds", "https://oneilr.newgrounds.com"]],
-            [204, 177, 73]
+            [204, 177, 73],
+            380, 0, null
         ],
         [
             "HelloSammu",
             "",
             "Engine Misc Fixes, Scaleable Text for Dialogue.", null,
             [["Github", "https://github.com/hellosammu"]],
-            [147, 214, 209]
+            [147, 214, 209],
+            380, 0, null
         ]
     ],
 

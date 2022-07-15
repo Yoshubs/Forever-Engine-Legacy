@@ -1,5 +1,6 @@
 package states.subStates;
 
+import base.MusicBeat.MusicBeatSubState;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,8 +9,7 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.input.keyboard.FlxKey;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import meta.MusicBeat.MusicBeatSubState;
-import meta.data.font.Alphabet;
+import funkin.Alphabet;
 
 using StringTools;
 

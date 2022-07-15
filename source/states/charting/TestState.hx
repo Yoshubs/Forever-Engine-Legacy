@@ -1,5 +1,6 @@
 package states.charting;
 
+import base.MusicBeat.MusicBeatState;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -16,13 +17,12 @@ import flixel.graphics.frames.FlxFrame;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
 import flixel.util.FlxGradient;
-import gameObjects.userInterface.menu.DebugUI.UIBox;
-import gameObjects.userInterface.menu.DebugUI;
-import gameObjects.userInterface.notes.Note;
+import funkin.Note;
+import funkin.ui.menu.DebugUI.UIBox;
+import funkin.ui.menu.DebugUI;
 import haxe.io.Bytes;
 import lime.media.AudioBuffer;
 import lime.media.vorbis.VorbisFile;
-import meta.MusicBeat.MusicBeatState;
 import openfl.display.BitmapData;
 import openfl.geom.Matrix;
 import openfl.geom.Rectangle;

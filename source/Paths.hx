@@ -3,11 +3,11 @@ package;
 /*
 	Aw hell yeah! something I can actually work on!
  */
+import base.CoolUtil;
 import flixel.FlxG;
 import flixel.graphics.FlxGraphic;
 import flixel.graphics.frames.FlxAtlasFrames;
 import lime.utils.Assets;
-import meta.CoolUtil;
 import openfl.display.BitmapData;
 import openfl.display3D.textures.Texture;
 import openfl.media.Sound;
@@ -90,14 +90,14 @@ class Paths
 						openfl.Assets.cache.removeBitmapData(key);
 						FlxG.bitmap._cache.remove(key);
 					}
-					#if debug trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture')); #end
+					#if DEBUG_TRACES trace('removed $key, ' + (isTexture ? 'is a texture' : 'is not a texture')); #end
 					obj.destroy();
 					currentTrackedAssets.remove(key);
 					counter++;
 				}
 			}
 		}
-		#if debug trace('removed $counter assets'); #end
+		#if DEBUG_TRACES trace('removed $counter assets'); #end
 		// run the garbage collector for good measure lmfao
 		System.gc();
 	}
@@ -153,20 +153,20 @@ class Paths
 					bitmap.dispose();
 					bitmap.disposeImage();
 					bitmap = null;
-					#if debug trace('new texture $key, bitmap is $bitmap'); #end
+					#if DEBUG_TRACES trace('new texture $key, bitmap is $bitmap'); #end
 					newGraphic = FlxGraphic.fromBitmapData(BitmapData.fromTexture(texture), false, key, false);
 				}
 				else
 				{
 					newGraphic = FlxGraphic.fromBitmapData(bitmap, false, key, false);
-					#if debug trace('new bitmap $key, not textured'); #end
+					#if DEBUG_TRACES trace('new bitmap $key, not textured'); #end
 				}
 				currentTrackedAssets.set(key, newGraphic);
 			}
 			localTrackedAssets.push(key);
 			return currentTrackedAssets.get(key);
 		}
-		#if debug trace('oh no ' + key + ' is returning null NOOOO'); #end
+		#if DEBUG_TRACES trace('oh no ' + key + ' is returning null NOOOO'); #end
 		return null;
 	}
 

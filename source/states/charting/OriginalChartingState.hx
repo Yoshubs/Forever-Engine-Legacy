@@ -1,5 +1,9 @@
 package states.charting;
 
+import base.*;
+import base.Conductor.BPMChangeEvent;
+import base.CoolUtil;
+import base.MusicBeat.MusicBeatState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
@@ -21,18 +25,13 @@ import flixel.text.FlxText;
 import flixel.ui.FlxButton;
 import flixel.ui.FlxSpriteButton;
 import flixel.util.FlxColor;
-import gameObjects.*;
-import gameObjects.userInterface.*;
-import gameObjects.userInterface.notes.*;
-import gameObjects.userInterface.notes.Note.NoteType;
+import funkin.*;
+import funkin.Note.NoteType;
+import funkin.Section.SwagSection;
+import funkin.Song.SwagSong;
+import funkin.ui.*;
 import haxe.Json;
 import lime.utils.Assets;
-import meta.CoolUtil;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.*;
-import meta.data.Conductor.BPMChangeEvent;
-import meta.data.Section.SwagSection;
-import meta.data.Song.SwagSong;
 import openfl.events.Event;
 import openfl.events.IOErrorEvent;
 import openfl.media.Sound;
@@ -206,7 +205,7 @@ class OriginalChartingState extends MusicBeatState
 		check_voices.callback = function()
 		{
 			_song.needsVoices = check_voices.checked;
-			#if debug trace('CHECKED!'); #end
+			#if DEBUG_TRACES trace('CHECKED!'); #end
 		};
 
 		var check_mute_inst = new FlxUICheckBox(10, 310, null, null, "Mute Instrumental (in editor)", 100);
@@ -263,6 +262,11 @@ class OriginalChartingState extends MusicBeatState
 		stepperBPM.name = 'song_bpm';
 		blockPressWhileTypingOnStepper.push(stepperBPM);
 
+		var stepperKeys:FlxUINumericStepper = new FlxUINumericStepper(10, 95, 1, 1, 0, 5, 0);
+		stepperKeys.value = _song.mania;
+		stepperKeys.name = 'song_keys';
+		blockPressWhileTypingOnStepper.push(stepperKeys);
+
 		var characters:Array<String> = CoolUtil.returnAssetsLibrary('characters', 'assets');
 
 		var player1DropDown = new FlxUIDropDownMenuCustom(10, stepperSpeed.y + 45, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
@@ -313,16 +317,6 @@ class OriginalChartingState extends MusicBeatState
 		playTicksDad = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y, null, null, 'Play Hitsounds (Opponent - in editor)', 100);
 		playTicksDad.checked = false;
 
-		sixKeyChart = new FlxUICheckBox(check_mute_inst.x + 120, playTicksBf.y + 50, null, null, '6k Chart', 100);
-		sixKeyChart.callback = function()
-		{
-			_song.six = sixKeyChart.checked;
-			updateGrid();
-			updateHeads();
-			#if debug trace('CHECKED!'); #end
-		};
-		sixKeyChart.checked = false;
-
 		playTicksBf = new FlxUICheckBox(check_mute_inst.x, check_mute_inst.y + 25, null, null, 'Play Hitsounds (Boyfriend - in editor)', 100);
 		playTicksBf.checked = false;
 
@@ -342,6 +336,7 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(loadAutosaveBtn);
 		tab_group_song.add(stepperBPM);
 		tab_group_song.add(stepperSpeed);
+		tab_group_song.add(stepperKeys);
 		tab_group_song.add(new FlxText(player1DropDown.x, player1DropDown.y - 15, 0, 'Boyfriend:'));
 		tab_group_song.add(new FlxText(gfVersionDropDown.x, gfVersionDropDown.y - 15, 0, 'Girlfriend:'));
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
@@ -352,7 +347,6 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(playTicksBf);
 		tab_group_song.add(playTicksDad);
-		//tab_group_song.add(sixKeyChart);
 		tab_group_song.add(stageDropDown);
 		tab_group_song.add(assetModifierDropDown);
 
@@ -401,11 +395,11 @@ class OriginalChartingState extends MusicBeatState
 
 				// must press
 				var keys = 4;
-				if (_song.six) keys = 6;
+				if (_song.mania == 2) keys = 6;
 
 				// in total
 				var tolKeys = 8;
-				if (_song.six) keys = 12;
+				if (_song.mania == 2) keys = 12;
 
 				note[1] = (note[1] + keys) % tolKeys;
 				_song.notes[curSection].sectionNotes[i] = note;
@@ -613,13 +607,13 @@ class OriginalChartingState extends MusicBeatState
 
 		Conductor.songPosition = songMusic.time;
 
-		if (_song.six && gridBG.width != GRID_SIZE * 12)
+		if (_song.mania == 2 && gridBG.width != GRID_SIZE * 12)
 		{
 			remove(gridBG);
 			gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 12, GRID_SIZE * 16);
 			add(gridBG);
 		}
-		if (!_song.six && gridBG.width != GRID_SIZE * 8)
+		if (_song.mania != 2 && gridBG.width != GRID_SIZE * 8)
 		{
 			remove(gridBG);
 			gridBG = FlxGridOverlay.create(GRID_SIZE, GRID_SIZE, GRID_SIZE * 8, GRID_SIZE * 16);
@@ -630,7 +624,7 @@ class OriginalChartingState extends MusicBeatState
 		//rightIcon.setPosition(gridBG.width / 2, -100);
 		UI_box.x = FlxG.width / 2;
 		UI_box.y = 20;
-		if (_song.six)
+		if (_song.mania == 2)
 		{
 			UI_box.x = FlxG.width / 2 + 160;
 			UI_box.y = 100;
@@ -640,7 +634,7 @@ class OriginalChartingState extends MusicBeatState
 
 		// real thanks for the help with this ShadowMario, you are the best -Ghost
 		var playedSound:Array<Bool> = [];
-		for (i in 0...(_song.six ? 12 : 8)) {
+		for (i in 0...(_song.mania == 2 ? 12 : 8)) {
 			playedSound.push(false);
 		}
 		curRenderedNotes.forEachAlive(function(note:Note)
@@ -693,7 +687,7 @@ class OriginalChartingState extends MusicBeatState
 						}
 						else
 						{
-							#if debug trace('tryin to delete note...'); #end
+							#if DEBUG_TRACES trace('tryin to delete note...'); #end
 							deleteNote(note);
 						}
 					}
@@ -1113,7 +1107,7 @@ class OriginalChartingState extends MusicBeatState
 			trace('Current note type is $daNoteType.');
 
 			var keys = 4;
-			if (_song.six) keys = 6;
+			if (_song.mania == 2) keys = 6;
 
 			var note:Note = ForeverAssets.generateArrow(PlayState.assetModifier, daStrumTime, daNoteInfo % 4, 0, daNoteType);
 			note.sustainLength = daSus;
@@ -1158,7 +1152,7 @@ class OriginalChartingState extends MusicBeatState
 
 		for (i in _song.notes[curSection].sectionNotes)
 		{
-			if (i.strumTime == note.strumTime && i.noteData % (_song.six ? 6 : 4) == note.noteData)
+			if (i.strumTime == note.strumTime && i.noteData % (_song.mania == 2 ? 6 : 4) == note.noteData)
 			{
 				curSelectedNote = _song.notes[curSection].sectionNotes[swagNum];
 			}
@@ -1175,7 +1169,7 @@ class OriginalChartingState extends MusicBeatState
 		var data:Null<Int> = note.noteData;
 
 		if (data > -1 && note.mustPress != _song.notes[curSection].mustHitSection)
-			data += (_song.six ? 6 : 4);
+			data += (_song.mania == 2 ? 6 : 4);
 
 		if (data > -1)
 		{

@@ -1,5 +1,9 @@
 package states.menus;
 
+import base.CoolUtil;
+import base.MusicBeat.MusicBeatState;
+import dependency.AbsoluteSprite;
+import dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
@@ -8,12 +12,8 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
+import funkin.Alphabet;
 import haxe.Json;
-import meta.CoolUtil;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.dependency.AbsoluteSprite;
-import meta.data.dependency.Discord;
-import meta.data.font.Alphabet;
 import sys.FileSystem;
 import sys.io.File;
 

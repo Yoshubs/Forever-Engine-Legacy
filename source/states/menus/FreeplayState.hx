@@ -1,5 +1,8 @@
 package states.menus;
 
+import base.CoolUtil;
+import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flash.text.TextField;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -13,14 +16,11 @@ import flixel.tweens.FlxTween;
 import flixel.tweens.misc.ColorTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import gameObjects.userInterface.HealthIcon;
+import funkin.*;
+import funkin.Alphabet;
+import funkin.Song.SwagSong;
+import funkin.ui.HealthIcon;
 import lime.utils.Assets;
-import meta.CoolUtil;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.*;
-import meta.data.Song.SwagSong;
-import meta.data.dependency.Discord;
-import meta.data.font.Alphabet;
 import openfl.media.Sound;
 import states.subStates.CharterSubState;
 import sys.FileSystem;
@@ -67,6 +67,8 @@ class FreeplayState extends MusicBeatState
 
 	var leText:String;
 	var infoText:FlxText;
+
+	var shouldDraw:Bool = true;
 
 	override function create()
 	{
@@ -328,7 +330,7 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyDifficulty = curDifficulty;
 
 		PlayState.storyWeek = songs[curSelected].week;
-		#if debug trace('CUR WEEK' + PlayState.storyWeek); #end
+		#if DEBUG_TRACES trace('CUR WEEK' + PlayState.storyWeek); #end
 
 		if (stopThread) {
 			if (FlxG.sound.music != null) FlxG.sound.music.stop();
@@ -401,7 +403,7 @@ class FreeplayState extends MusicBeatState
 		}
 		//
 
-		#if debug trace("curSelected: " + curSelected); #end
+		#if DEBUG_TRACES trace("curSelected: " + curSelected); #end
 
 		changeDiff();
 
@@ -418,7 +420,7 @@ class FreeplayState extends MusicBeatState
 				{
 					if (!threadActive)
 					{
-						#if debug trace("Killing thread"); #end
+						#if DEBUG_TRACES trace("Killing thread"); #end
 						return;
 					}
 
@@ -427,7 +429,7 @@ class FreeplayState extends MusicBeatState
 					{
 						if (index == curSelected && index != curSongPlaying)
 						{
-							#if debug trace("Loading index " + index); #end
+							#if DEBUG_TRACES trace("Loading index " + index); #end
 
 							var inst:Sound = Paths.inst(songs[curSelected].songName);
 
@@ -512,6 +514,18 @@ class FreeplayState extends MusicBeatState
 		FlxTween.color(bg, 0.35, bg.color, mainColor);
 
 		changeSelection();
+	}
+
+	override public function onFocus():Void
+	{
+		FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
+		super.onFocus();
+	}
+
+	override public function onFocusLost():Void
+	{
+		FlxG.sound.music.fadeIn(1.0, 1.0, 0.3);
+		super.onFocusLost();
 	}
 }
 

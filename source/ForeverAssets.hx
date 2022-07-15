@@ -1,18 +1,16 @@
 package;
 
+import base.Conductor;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.util.FlxColor;
-import gameObjects.userInterface.*;
-import gameObjects.userInterface.menu.*;
-import gameObjects.userInterface.notes.*;
-import gameObjects.userInterface.notes.Note.NoteType;
-import gameObjects.userInterface.notes.Note.NoteType;
-import gameObjects.userInterface.notes.Strumline.UIStaticArrow;
-import meta.data.Conductor;
-import meta.data.Section.SwagSection;
-import meta.data.Timings;
+import funkin.*;
+import funkin.Note.NoteType;
+import funkin.Section.SwagSection;
+import funkin.Strumline.UIStaticArrow;
+import funkin.Timings;
+import funkin.ui.menu.*;
 import states.PlayState;
 
 using StringTools;

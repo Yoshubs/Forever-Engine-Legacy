@@ -1,18 +1,18 @@
 package states.subStates;
 
+import base.Conductor.BPMChangeEvent;
+import base.Conductor;
+import base.MusicBeat.MusicBeatSubState;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSubState;
 import flixel.math.FlxMath;
+import flixel.system.scaleModes.RatioScaleMode;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import gameObjects.Boyfriend;
-import meta.MusicBeat.MusicBeatSubState;
-import meta.data.Conductor.BPMChangeEvent;
-import meta.data.Conductor;
+import funkin.Boyfriend;
 import states.*;
 import states.menus.*;
-import flixel.system.scaleModes.RatioScaleMode;
 
 class GameOverSubState extends MusicBeatSubState
 {

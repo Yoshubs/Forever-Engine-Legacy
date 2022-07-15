@@ -1,5 +1,8 @@
 package states.menus;
 
+import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
+import dependency.FNFSprite;
 import flixel.FlxBasic;
 import flixel.FlxG;
 import flixel.FlxSprite;
@@ -8,12 +11,9 @@ import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import gameObjects.userInterface.menu.Checkmark;
-import gameObjects.userInterface.menu.Selector;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.dependency.Discord;
-import meta.data.dependency.FNFSprite;
-import meta.data.font.Alphabet;
+import funkin.Alphabet;
+import funkin.ui.menu.Checkmark;
+import funkin.ui.menu.Selector;
 import states.subStates.OptionsSubState;
 import states.subStates.PauseSubState;
 

@@ -1,12 +1,12 @@
 package states.subStates.charting;
 
+import base.MusicBeat.MusicBeatSubState;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.math.FlxMath;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
-import meta.MusicBeat.MusicBeatSubState;
 
 class PreferenceSubState extends MusicBeatSubState
 {

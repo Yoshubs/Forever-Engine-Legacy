@@ -1,5 +1,8 @@
 package states.subStates;
 
+import base.*;
+import base.CoolUtil;
+import base.MusicBeat.MusicBeatSubState;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.FlxSubState;
@@ -12,10 +15,9 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import meta.CoolUtil;
-import meta.MusicBeat.MusicBeatSubState;
-import meta.data.*;
-import meta.data.font.Alphabet;
+import funkin.Alphabet;
+import funkin.Highscore;
+import funkin.Song;
 import states.*;
 import states.menus.*;
 

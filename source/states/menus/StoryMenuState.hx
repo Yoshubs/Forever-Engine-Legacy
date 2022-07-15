@@ -1,5 +1,8 @@
 package states.menus;
 
+import base.*;
+import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.transition.FlxTransitionableState;
@@ -12,11 +15,10 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
 import flixel.util.FlxTimer;
-import gameObjects.userInterface.menu.*;
-import meta.CoolUtil;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.*;
-import meta.data.dependency.Discord;
+import funkin.Alphabet;
+import funkin.Highscore;
+import funkin.Song;
+import funkin.ui.menu.*;
 
 using StringTools;
 
@@ -122,7 +124,7 @@ class StoryMenuState extends MusicBeatState
 			}
 		}
 
-		#if debug trace("Line 96"); #end
+		#if DEBUG_TRACES trace("Line 96"); #end
 
 		for (char in 0...3)
 		{
@@ -153,7 +155,7 @@ class StoryMenuState extends MusicBeatState
 		difficultySelectors = new FlxGroup();
 		add(difficultySelectors);
 
-		#if debug trace("Line 124"); #end
+		#if DEBUG_TRACES trace("Line 124"); #end
 
 		leftArrow = new FlxSprite(grpWeekText.members[0].x + grpWeekText.members[0].width + 10, grpWeekText.members[0].y + 10);
 		leftArrow.frames = ui_tex;
@@ -180,7 +182,7 @@ class StoryMenuState extends MusicBeatState
 		rightArrow.animation.play('idle');
 		difficultySelectors.add(rightArrow);
 
-		#if debug trace("Line 150"); #end
+		#if DEBUG_TRACES trace("Line 150"); #end
 
 		add(yellowBG);
 		add(grpWeekCharacters);

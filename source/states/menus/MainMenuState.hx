@@ -1,5 +1,7 @@
 package states.menus;
 
+import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxObject;
 import flixel.FlxSprite;
@@ -11,8 +13,6 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
-import meta.MusicBeat.MusicBeatState;
-import meta.data.dependency.Discord;
 
 using StringTools;
 
