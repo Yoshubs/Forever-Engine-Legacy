@@ -1853,14 +1853,14 @@ class PlayState extends MusicBeatState
 
 	function resyncVocals():Void
 	{
-		#if debug trace('resyncing vocal time ${vocals.time}'); #end
+		#if DEBUG_TRACES trace('resyncing vocal time ${vocals.time}'); #end
 		songMusic.pause();
 		vocals.pause();
 		Conductor.songPosition = songMusic.time;
 		vocals.time = Conductor.songPosition;
 		songMusic.play();
 		vocals.play();
-		#if debug trace('new vocal time ${Conductor.songPosition}'); #end
+		#if DEBUG_TRACES trace('new vocal time ${Conductor.songPosition}'); #end
 	}
 
 	override function stepHit()

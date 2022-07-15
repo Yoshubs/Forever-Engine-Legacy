@@ -33,6 +33,7 @@
 	<define name="DISCORD_RPC" if="desktop" unless="web || neko" />
 	<!-- <define name="VIDEO_PLUGIN" if="windows || linux" unless="32bits" /> -->
 	<define name="LUA_EXTENSION" unless="web || neko" />
+	<!--<define name="DEBUG_TRACES" if="debug" />-->
 
 	<!-- _____________________________ Path Settings ____________________________ -->
 

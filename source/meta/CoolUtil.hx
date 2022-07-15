@@ -76,7 +76,7 @@ class CoolUtil
 			if (!folder.contains('.'))
 				libraryArray.push(folder);
 		}
-		#if debug trace(libraryArray); #end
+		#if DEBUG_TRACES trace(libraryArray); #end
 		#end
 
 		return libraryArray;

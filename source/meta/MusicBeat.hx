@@ -82,7 +82,7 @@ class MusicBeatState extends FNFUIState
 		}
 		if (skippedSteps.length > 0)
 		{
-			#if debug trace('skipped steps $skippedSteps'); #end
+			#if DEBUG_TRACES trace('skipped steps $skippedSteps'); #end
 			skippedSteps = [];
 		}
 		curStep = trueStep;
