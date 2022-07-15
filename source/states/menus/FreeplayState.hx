@@ -441,12 +441,12 @@ class FreeplayState extends MusicBeatState
 
 								curSongPlaying = curSelected;
 							}
-							#if debug
+							#if DEBUG_TRACES
 							else
 								trace("Nevermind, skipping " + index);
 							#end
 						}
-						#if debug
+						#if DEBUG_TRACES
 						else
 							trace("Skipping " + index);
 						#end

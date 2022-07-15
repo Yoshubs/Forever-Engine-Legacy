@@ -116,9 +116,10 @@ class ChartingState extends MusicBeatState
 		{
 			if (PlayState.SONG.events == null)
 				PlayState.SONG.events = [];
-
-			_song = PlayState.SONG;
+		
+			_song = PlayState.SONG;	
 		}
+
 		else
 		{
 			_song = Song.loadFromJson('test', 'test');
@@ -149,7 +150,7 @@ class ChartingState extends MusicBeatState
 
 		//generateNotes();
 		recreateGrid();
-
+		
 		add(curRenderedSections);
 		add(curRenderedSustains);
 		add(curRenderedNotes);
@@ -166,16 +167,17 @@ class ChartingState extends MusicBeatState
 
 		// and now the epic note thingies
 		arrowGroup = new FlxTypedSpriteGroup<UIStaticArrow>(0, 0);
-		for (i in 0...keysTotal)
+		for (keys in 0...keysTotal)
 		{
-			var typeReal:Int = i;
+			var typeReal:Int = 0;
+			typeReal = keys;
 			if (typeReal > 3)
 				typeReal -= 4;
 
-			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((i - 1) * gridSize), -76,
+			var newArrow:UIStaticArrow = ForeverAssets.generateUIArrows(((FlxG.width / 2) - ((keysTotal / 2) * gridSize)) + ((keys - 1) * gridSize), -76,
 				typeReal, 'chart editor');
 
-			newArrow.ID = i;
+			newArrow.ID = keys;
 			newArrow.setGraphicSize(gridSize);
 			newArrow.updateHitbox();
 			newArrow.alpha = 0.9;
@@ -186,6 +188,7 @@ class ChartingState extends MusicBeatState
 
 			arrowGroup.add(newArrow);
 		}
+
 		add(arrowGroup);
 		arrowGroup.x -= 1;
 
@@ -348,9 +351,10 @@ class ChartingState extends MusicBeatState
 					var noteSus = 0; // ninja you will NOT get away with this
 
 					noteData--;
-
+					
 					if (noteData > -1)
 						generateChartNote(noteData, noteStrum, noteSus, 0, notesSection);
+					
 					else
 						generateEvent(noteStrum, null, null, null, true);
 				}
@@ -368,7 +372,6 @@ class ChartingState extends MusicBeatState
 
 							else
 							{
-
 								note.kill();
 								curRenderedNotes.remove(note);
 								deleteNote(note);
@@ -393,7 +396,7 @@ class ChartingState extends MusicBeatState
 		{
 			songPosition = songMusic.time;
 
-			PlayState.SONG = _song;
+			PlayState.SONG = null;
 			ForeverTools.killMusic([songMusic, vocals]);
 			Main.switchState(this, new FreeplayState());
 		}
@@ -402,6 +405,7 @@ class ChartingState extends MusicBeatState
 		{
 			if (curStep <= 0)
 				return;
+			
 			songMusic.pause();
 			vocals.pause();
 
@@ -738,18 +742,18 @@ class ChartingState extends MusicBeatState
 	function generateEvent(strumTime:Float, val1:String, val2:String, id:String, ?shouldPush:Bool = false):Void
 	{
 		var event:Array<Dynamic> = [strumTime, val1, val2, id];
-
+		
 		var eventNote:EventNote = new EventNote(strumTime, val1, val2, id);
 		eventNote.setGraphicSize(gridSize, gridSize);
 		eventNote.updateHitbox();
-		// eventNote.screenCenter(X);
+		//eventNote.screenCenter(X);
 		eventNote.x += 370;
 		eventNote.y = Math.floor(getYfromStrum((event[0] - sectionStartTime()) % (Conductor.stepCrochet * _song.notes[currentSection].lengthInSteps)));
 
 		if (shouldPush)
 		{
 			_song.events.push(event);
-		}
+		} 
 
 		trace('EVENT GENERATED');
 
