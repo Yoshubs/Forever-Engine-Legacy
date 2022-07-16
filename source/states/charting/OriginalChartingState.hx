@@ -96,7 +96,6 @@ class OriginalChartingState extends MusicBeatState
 
 	var playTicksBf:FlxUICheckBox = null;
 	var playTicksDad:FlxUICheckBox = null;
-	var sixKeyChart:FlxUICheckBox = null;
 
 	// was annoying.
 	private var blockPressWhileTypingOn:Array<FlxUIInputText> = [];
@@ -343,13 +342,13 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_song.add(new FlxText(player2DropDown.x, player2DropDown.y - 15, 0, 'Opponent:'));
 		tab_group_song.add(new FlxText(stageDropDown.x, stageDropDown.y - 15, 0, 'Stage:'));
 		tab_group_song.add(new FlxText(assetModifierDropDown.x, assetModifierDropDown.y - 15, 0, 'Asset Skin:'));
-		tab_group_song.add(player1DropDown);
-		tab_group_song.add(player2DropDown);
-		tab_group_song.add(gfVersionDropDown);
 		tab_group_song.add(playTicksBf);
 		tab_group_song.add(playTicksDad);
-		tab_group_song.add(stageDropDown);
+		tab_group_song.add(player2DropDown);
+		tab_group_song.add(gfVersionDropDown);
+		tab_group_song.add(player1DropDown);
 		tab_group_song.add(assetModifierDropDown);
+		tab_group_song.add(stageDropDown);
 
 		UI_box.addGroup(tab_group_song);
 		UI_box.scrollFactor.set();
@@ -405,6 +404,7 @@ class OriginalChartingState extends MusicBeatState
 				note[1] = (note[1] + keys) % tolKeys;
 				_song.notes[curSection].sectionNotes[i] = note;
 				updateGrid();
+				updateHeads();
 			}
 		});
 
@@ -545,9 +545,7 @@ class OriginalChartingState extends MusicBeatState
 			{
 				case 'Must hit section':
 					_song.notes[curSection].mustHitSection = check.checked;
-
 					updateHeads();
-
 				case 'Change BPM':
 					_song.notes[curSection].changeBPM = check.checked;
 					FlxG.log.add('changed bpm shit');
@@ -761,24 +759,18 @@ class OriginalChartingState extends MusicBeatState
 
 		if (!blockInput)
 		{
+			if (FlxG.keys.justPressed.ESCAPE)
+			{
+				bpmTxt.visible = !bpmTxt.visible;
+			}
 			if (FlxG.keys.justPressed.ENTER)
 			{
-				autosaveSong();
-				lastSection = curSection;
-
-				PlayState.SONG = _song;
-				ForeverTools.killMusic([songMusic, vocals]);
-				Main.switchState(this, new PlayState());
+				saveAndClose('PlayState');
 			}
 
 			if (FlxG.keys.justPressed.BACKSPACE)
 			{
-				autosaveSong();
-				lastSection = curSection;
-
-				PlayState.SONG = _song;
-				ForeverTools.killMusic([songMusic, vocals]);
-				Main.switchState(this, new FreeplayState());
+				saveAndClose('FreeplayState');
 			}
 
 			if (currentType != MINE && currentType != NUKE)
@@ -937,6 +929,22 @@ class OriginalChartingState extends MusicBeatState
 		updateGrid();
 	}
 
+	function saveAndClose(State:String)
+	{
+		autosaveSong();
+		lastSection = curSection;
+
+		PlayState.SONG = _song;
+		ForeverTools.killMusic([songMusic, vocals]);
+
+		FlxG.mouse.visible = false;
+
+		if (State == 'PlayState')
+			Main.switchState(this, new PlayState());
+		else
+			Main.switchState(this, new FreeplayState());
+	}
+
 	function recalculateSteps():Int
 	{
 		var lastChange:BPMChangeEvent = {
@@ -977,6 +985,7 @@ class OriginalChartingState extends MusicBeatState
 
 		updateGrid();
 		updateSectionUI();
+		updateHeads();
 	}
 
 	function changeSection(sec:Int = 0, ?updateMusic:Bool = true):Void
@@ -1009,10 +1018,12 @@ class OriginalChartingState extends MusicBeatState
 
 			updateGrid();
 			updateSectionUI();
+			updateHeads();
 		}
 		else
 		{
 			changeSection();
+			updateHeads();
 		}
 		Conductor.songPosition = songMusic.time;
 	}

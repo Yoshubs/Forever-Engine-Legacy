@@ -185,8 +185,6 @@ class PlayState extends MusicBeatState
 	{
 		super.create();
 
-		FlxG.mouse.visible = false;
-
 		// for scripts
 		contents = this;
 
@@ -875,6 +873,12 @@ class PlayState extends MusicBeatState
 					openSubState(new CharterSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
 					// resetMusic();
 				}
+				if ((FlxG.keys.justPressed.EIGHT))
+				{
+					var holdingShift = FlxG.keys.pressed.SHIFT;
+					var holdingAlt = FlxG.keys.pressed.ALT;
+					Main.switchState(this, new CharacterDebug(holdingShift ? SONG.player1 : holdingAlt ? SONG.gfVersion : SONG.player2, SONG.stage));
+				}
 
 				/*if ((FlxG.keys.justPressed.FIVE)) {
 						preventScoring = true;
@@ -1393,10 +1397,7 @@ class PlayState extends MusicBeatState
 			case NO_ANIM:
 				stringArrow = '';
 
-			case MINE:
-				stringArrow = baseString + 'miss';
-
-			case NUKE: // you instantly die with this one but...
+			case MINE | NUKE:
 				stringArrow = baseString + 'miss';
 
 			default:
