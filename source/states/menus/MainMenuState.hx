@@ -32,6 +32,8 @@ class MainMenuState extends MusicBeatState
 	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
 	var canSnap:Array<Float> = [];
 
+	var finishedAlphaTween:Bool = false;
+
 	// the create 'state'
 	override function create()
 	{
@@ -98,7 +100,7 @@ class MainMenuState extends MusicBeatState
 			canSnap[i] = -1;
 			// set the id
 			menuItem.ID = i;
-			// menuItem.alpha = 0;
+			menuItem.alpha = 0;
 
 			// placements
 			menuItem.screenCenter(X);
@@ -113,6 +115,16 @@ class MainMenuState extends MusicBeatState
 			menuItem.scrollFactor.set();
 			menuItem.antialiasing = true;
 			menuItem.updateHitbox();
+
+			FlxTween.tween(menuItem, {alpha: 1}, 0.9,
+			{
+				ease: FlxEase.quadIn,
+				onComplete: function(tween:FlxTween)
+				{
+					finishedAlphaTween = true;
+				}
+			});
+
 
 			/*
 				FlxTween.tween(menuItem, {alpha: 1, x: ((FlxG.width / 2) - (menuItem.width / 2))}, 0.35, {
@@ -146,7 +158,7 @@ class MainMenuState extends MusicBeatState
 
 	override function update(elapsed:Float)
 	{
-		if (!selectedSomethin)
+		if (!selectedSomethin && finishedAlphaTween)
 		{
 			if (controls.UI_UP_P)
 			{
@@ -167,7 +179,7 @@ class MainMenuState extends MusicBeatState
 			}
 		}
 
-		if ((!selectedSomethin) && (controls.ACCEPT || FlxG.mouse.justPressed))
+		if ((!selectedSomethin && finishedAlphaTween) && (controls.ACCEPT || FlxG.mouse.justPressed))
 		{
 			//
 			selectedSomethin = true;

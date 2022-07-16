@@ -328,7 +328,13 @@ class CharacterDebug extends MusicBeatState
 		{
 			animList = ['[NONE]'];
 
-			var text:FlxText = new FlxText(10, 38, 0, "No animations found.", 15);
+			var text:FlxText = new FlxText(10, 38, 0,
+				'
+				No animations found
+				\nplease make sure your ${curCharacter}.$fileExt script
+				has the offsets properly set up
+				\n\nHINT: addOffset(\'animationName\', offsetX, offsetY);
+				', 15);
 			text.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
 			text.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
 			text.scrollFactor.set();
