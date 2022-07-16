@@ -125,14 +125,18 @@ class CharacterDebug extends FlxState
 
 		genCharOffsets();
 
-		var tipTextArray:Array<String> = "E/Q - Camera Zoom In/Out
+		var tipTextArray:Array<String> =
+		"==================================
+		\nE/Q - Camera Zoom In/Out
 		\nR - Reset Camera Zoom
 		\nJKLI - Move Camera
+		\nHold Shift to Move 10x faster
+		\n==================================
 		\nW/S - Previous/Next Animation
 		\nSpace - Play Animation
-		\nArrow Keys - Move Character Offset
 		\nF - Flip Character horizontally
-		\nHold Shift to Move 10x faster\n".split('\n');
+		\nArrow Keys - Move Character Offset
+		\n==================================\n".split('\n');
 
 		for (i in 0...tipTextArray.length - 1)
 		{
@@ -145,7 +149,7 @@ class CharacterDebug extends FlxState
 		}
 
 		var tabs = [
-			{name: 'Character', label: 'Character'},
+			{name: 'Preferences', label: 'Preferences'},
 		];
 
 		UI_box = new FlxUITabMenu(null, tabs, true);
@@ -156,7 +160,7 @@ class CharacterDebug extends FlxState
 		UI_box.scrollFactor.set();
 		add(UI_box);
 
-		addCharacterUI();
+		addPreferencesUI();
 
 		camFollow = new FlxObject(0, 0, 2, 2);
 		camFollow.screenCenter();
@@ -164,14 +168,19 @@ class CharacterDebug extends FlxState
 
 		FlxG.camera.follow(camFollow);
 
+		for (anim => offsets in char.animOffsets)
+		{
+			char.setPosition(offsets[0], offsets[1]);
+		}
+
 		super.create();
 	}
 
 	var ghostAnimDropDown:FlxUIDropDownMenu;
-	function addCharacterUI()
+	function addPreferencesUI()
 	{
 		var tab_group = new FlxUI(null, UI_box);
-		tab_group.name = "Character";
+		tab_group.name = "Preferences";
 
 		var check_offset = new FlxUICheckBox(10, 60, null, null, "Offset Mode", 100);
 		check_offset.callback = function()
@@ -215,7 +224,6 @@ class CharacterDebug extends FlxState
 			if (pushList)
 				animList.push(anim);
 
-			char.setPosition(offsets[0], offsets[1]);
 			daLoop++;
 		}
 	}
@@ -312,8 +320,9 @@ class CharacterDebug extends FlxState
 				FlxG.camera.zoom = 0.1;
 		}
 
-		if (FlxG.keys.justPressed.F)
+		if (FlxG.keys.justPressed.F) {
 			char.flipX = !char.flipX;
+		}
 
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
 		{
