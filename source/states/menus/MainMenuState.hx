@@ -116,7 +116,7 @@ class MainMenuState extends MusicBeatState
 			menuItem.antialiasing = true;
 			menuItem.updateHitbox();
 
-			FlxTween.tween(menuItem, {alpha: 1}, 0.9,
+			FlxTween.tween(menuItem, {alpha: 1}, 0.4,
 			{
 				ease: FlxEase.quadIn,
 				onComplete: function(tween:FlxTween)
