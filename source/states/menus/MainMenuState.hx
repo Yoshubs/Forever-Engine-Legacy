@@ -29,7 +29,7 @@ class MainMenuState extends MusicBeatState
 	var magenta:FlxSprite;
 	var camFollow:FlxObject;
 
-	var optionShit:Array<String> = ['story mode', 'freeplay', 'credits', 'options'];
+	var optionShit:Array<String> = ['story mode', 'freeplay', 'donate', 'options'];
 	var canSnap:Array<Float> = [];
 
 	// the create 'state'
@@ -202,7 +202,7 @@ class MainMenuState extends MusicBeatState
 								Main.switchState(this, new StoryMenuState());
 							case 'freeplay':
 								Main.switchState(this, new FreeplayState());
-							case 'credits':
+							case 'donate':
 								Main.switchState(this, new CreditsMenu());
 							case 'options':
 								transIn = FlxTransitionableState.defaultTransIn;
