@@ -466,10 +466,10 @@ class OriginalChartingState extends MusicBeatState
 
 		tab_group_note.add(new FlxText(10, 10, 0, 'Sustain length:'));
 		tab_group_note.add(new FlxText(10, noteTypeDropDown.y - 15, 0, 'Note Type:'));
-		tab_group_note.add(new FlxText(160, noteSustainDropDown.y - 15, 0, 'Sustain Type:'));
+		//tab_group_note.add(new FlxText(160, noteSustainDropDown.y - 15, 0, 'Sustain Type:'));
 		tab_group_note.add(stepperSusLength);
 		tab_group_note.add(noteTypeDropDown);
-		tab_group_note.add(noteSustainDropDown);
+		//tab_group_note.add(noteSustainDropDown);
 
 		UI_box.addGroup(tab_group_note);
 		// I'm genuinely tempted to go around and remove every instance of the word "sus" it is genuinely killing me inside
