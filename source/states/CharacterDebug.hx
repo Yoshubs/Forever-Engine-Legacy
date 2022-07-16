@@ -168,11 +168,6 @@ class CharacterDebug extends FlxState
 
 		FlxG.camera.follow(camFollow);
 
-		for (anim => offsets in char.animOffsets)
-		{
-			char.setPosition(offsets[0], offsets[1]);
-		}
-
 		super.create();
 	}
 
@@ -225,6 +220,8 @@ class CharacterDebug extends FlxState
 				animList.push(anim);
 
 			daLoop++;
+
+			char.setPosition(offsets[0], offsets[1]);
 		}
 	}
 
