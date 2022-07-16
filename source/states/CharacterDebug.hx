@@ -10,6 +10,7 @@ import flixel.addons.ui.FlxUI;
 import flixel.addons.ui.FlxUICheckBox;
 import flixel.addons.ui.FlxUIDropDownMenu;
 import flixel.addons.ui.FlxUITabMenu;
+import flixel.animation.FlxAnimation;
 import flixel.group.FlxGroup.FlxTypedGroup;
 import flixel.text.FlxText;
 import flixel.util.FlxColor;
@@ -34,22 +35,18 @@ class CharacterDebug extends MusicBeatState
 	var _file:FileReference;
 
 	// characters
-	var bf:Boyfriend;
-	var dadOpponent:Character;
 	var char:Character;
+	var ghost:Character;
 
-	var isDad:Bool = true;
 	var curCharacter:String = 'dad';
 
 	var curAnim:Int = 0;
 
 	var textAnim:FlxText;
 	var dumbTexts:FlxTypedGroup<FlxText>;
-	var animList:Array<String> = [''];
+	var animList:Array<String> = [];
 
 	var camFollow:FlxObject;
-
-	var ghost:Character;
 
 	private var stageBuild:Stage;
 	var curStage:String = 'stage';
@@ -58,10 +55,22 @@ class CharacterDebug extends MusicBeatState
 	private var camHUD:FlxCamera;
 
 	var UI_box:FlxUITabMenu;
-
-	var canOffset:Bool = false;
-
 	var fileExt:String = 'hxs';
+
+	var tipTextArray:Array<String> =
+	"
+		==================================
+		\nE/Q - Camera Zoom In/Out
+		\nR - Reset Camera Zoom
+		\nJKLI - Move Camera
+		\nHold Shift to Move 10x faster
+		\n==================================
+		\nW/S - Previous/Next Animation
+		\nSpace - Play Animation
+		\nF - Flip Character horizontally
+		\nArrow Keys - Move Character Offset
+		\n==================================\n
+	".split('\n');
 
 	public function new(curCharacter:String = 'dad', curStage:String = 'stage')
 	{
@@ -85,38 +94,26 @@ class CharacterDebug extends MusicBeatState
 		//FlxG.cameras.reset(camGame);
 		//FlxG.cameras.add(camHUD);
 
+		// set up camera
+		camFollow = new FlxObject(0, 0, 2, 2);
+		camFollow.screenCenter();
+		add(camFollow);
+
+		FlxG.camera.follow(camFollow);
+
+		// add stage
 		stageBuild = new Stage(curStage);
 		add(stageBuild);
 
-		if (curCharacter.startsWith('bf'))
-			isDad = false;
-
+		// add characters
 		ghost = new Character(0, 0, curCharacter);
 		ghost.debugMode = true;
 		ghost.visible = false;
 		add(ghost);
 
-		if (isDad)
-		{
-			dadOpponent = new Character(0, 0, curCharacter);
-			dadOpponent.screenCenter();
-			dadOpponent.debugMode = true;
-			add(dadOpponent);
+		generateCharacter(!curCharacter.startsWith('bf'));
 
-			char = dadOpponent;
-			dadOpponent.flipX = false;
-		}
-		else
-		{
-			bf = new Boyfriend(0, 0);
-			bf.screenCenter();
-			bf.debugMode = true;
-			add(bf);
-
-			char = bf;
-			bf.flipX = false;
-		}
-
+		// add texts
 		dumbTexts = new FlxTypedGroup<FlxText>();
 		add(dumbTexts);
 
@@ -128,29 +125,17 @@ class CharacterDebug extends MusicBeatState
 
 		genCharOffsets();
 
-		var tipTextArray:Array<String> =
-		"==================================
-		\nE/Q - Camera Zoom In/Out
-		\nR - Reset Camera Zoom
-		\nJKLI - Move Camera
-		\nHold Shift to Move 10x faster
-		\n==================================
-		\nW/S - Previous/Next Animation
-		\nSpace - Play Animation
-		\nF - Flip Character horizontally
-		\nArrow Keys - Move Character Offset
-		\n==================================\n".split('\n');
-
 		for (i in 0...tipTextArray.length - 1)
 		{
 			var tipText:FlxText = new FlxText(FlxG.width - 320, FlxG.height - 15 - 16 * (tipTextArray.length - i), 300, tipTextArray[i], 12);
-			//tipText.cameras = [camHUD];
+			// tipText.cameras = [camHUD];
 			tipText.setFormat(null, 12, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
 			tipText.scrollFactor.set();
 			tipText.borderSize = 1.5;
 			add(tipText);
 		}
 
+		// add menu tabs
 		var tabs = [
 			{name: 'Preferences', label: 'Preferences'},
 		];
@@ -165,25 +150,19 @@ class CharacterDebug extends MusicBeatState
 
 		addPreferencesUI();
 
-		camFollow = new FlxObject(0, 0, 2, 2);
-		camFollow.screenCenter();
-		add(camFollow);
-
-		FlxG.camera.follow(camFollow);
+		ghostAnimDropDown.selectedLabel = '';
 	}
 
 	var ghostAnimDropDown:FlxUIDropDownMenu;
+	var check_offset:FlxUICheckBox;
+
 	function addPreferencesUI()
 	{
 		var tab_group = new FlxUI(null, UI_box);
 		tab_group.name = "Preferences";
 
-		var check_offset = new FlxUICheckBox(10, 60, null, null, "Offset Mode", 100);
-		check_offset.callback = function()
-		{
-			canOffset = !canOffset;
-		};
-		check_offset.checked = true;
+		check_offset = new FlxUICheckBox(10, 60, null, null, "Offset Mode", 100);
+		check_offset.checked = false;
 
 		ghostAnimDropDown = new FlxUIDropDownMenu(10, 30, FlxUIDropDownMenu.makeStrIdLabelArray(animList, true), function(animation:String)
 		{
@@ -191,7 +170,7 @@ class CharacterDebug extends MusicBeatState
 			{
 				ghost.visible = true;
 				ghost.alpha = 0.85;
-				ghost.playAnim(animList[0], true);
+				ghost.playAnim('idle', true);
 			}
 			else
 			{
@@ -205,6 +184,124 @@ class CharacterDebug extends MusicBeatState
 		UI_box.addGroup(tab_group);
 	}
 
+	override function update(elapsed:Float)
+	{
+		textAnim.text = char.animation.curAnim.name;
+		ghost.flipX = char.flipX;
+
+		if (controls.ACCEPT || controls.BACK) {
+			FlxG.mouse.visible = false;
+			Main.switchState(this, new PlayState());
+		}
+
+		if (FlxG.keys.justPressed.R)
+		{
+			FlxG.camera.zoom = 1;
+		}
+
+		if (FlxG.keys.pressed.E && FlxG.camera.zoom < 3)
+		{
+			FlxG.camera.zoom += elapsed * FlxG.camera.zoom;
+			if (FlxG.camera.zoom > 3)
+				FlxG.camera.zoom = 3;
+		}
+		if (FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1)
+		{
+			FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
+			if (FlxG.camera.zoom < 0.1)
+				FlxG.camera.zoom = 0.1;
+		}
+
+		if (FlxG.keys.justPressed.F) {
+			char.flipX = !char.flipX;
+		}
+
+		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
+		{
+			var addToCam:Float = 500 * elapsed;
+			if (FlxG.keys.pressed.SHIFT)
+				addToCam *= 4;
+
+			if (FlxG.keys.pressed.I)
+				camFollow.y -= addToCam;
+			else if (FlxG.keys.pressed.K)
+				camFollow.y += addToCam;
+
+			if (FlxG.keys.pressed.J)
+				camFollow.x -= addToCam;
+			else if (FlxG.keys.pressed.L)
+				camFollow.x += addToCam;
+		}
+
+		if (FlxG.keys.justPressed.W)
+			updateAnimation(-1);
+		else if (FlxG.keys.justPressed.S)
+			updateAnimation(1);
+
+		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
+		{
+			char.playAnim(animList[curAnim]);
+		}
+
+		if (check_offset.checked)
+		{
+			var controlArray:Array<Bool> = [
+				FlxG.keys.justPressed.LEFT,
+				FlxG.keys.justPressed.RIGHT,
+				FlxG.keys.justPressed.UP,
+				FlxG.keys.justPressed.DOWN
+			];
+
+			for (i in 0...controlArray.length)
+			{
+				if (controlArray[i])
+				{
+					var holdShift = FlxG.keys.pressed.SHIFT;
+					var multiplier = 1;
+					if (holdShift)
+						multiplier = 10;
+
+					var arrayVal = 0;
+					if (i > 1)
+						arrayVal = 1;
+
+					var negaMult:Int = 1;
+					if (i % 2 == 1)
+						negaMult = -1;
+					char.animOffsets.get(animList[curAnim])[arrayVal] += negaMult * multiplier;
+
+					char.playAnim(animList[curAnim], false);
+				}
+			}
+		}
+
+		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.S)
+			saveCharOffsets();
+
+		//ghost.setPosition(char.x, char.y);
+		updateTexts();
+		genCharOffsets(false);
+		super.update(elapsed);
+	}
+
+	function updateAnimation(hey:Int)
+	{
+		curAnim += hey;
+
+		if (curAnim < 0)
+			curAnim = animList.length;
+		if (curAnim >= animList.length)
+			curAnim = 0;
+	}
+
+	function generateCharacter(isDad:Bool = true)
+	{
+		char = new Character(!isDad, curCharacter);
+		char.screenCenter();
+		char.debugMode = true;
+		add(char);
+	}
+	
 	function genCharOffsets(pushList:Bool = true):Void
 	{
 		var daLoop:Int = 0;
@@ -218,11 +315,25 @@ class CharacterDebug extends MusicBeatState
 			dumbTexts.add(text);
 
 			if (pushList)
+			{
 				animList.push(anim);
+			}
 
 			daLoop++;
 
 			char.setPosition(offsets[0], offsets[1]);
+		}
+
+		if (dumbTexts.length < 1)
+		{
+			animList = ['[NONE]'];
+
+			var text:FlxText = new FlxText(10, 38, 0, "No animations found.", 15);
+			text.setFormat(Paths.font('vcr.ttf'), 18, FlxColor.WHITE);
+			text.setBorderStyle(OUTLINE, FlxColor.BLACK, 1.5);
+			text.scrollFactor.set();
+			text.color = FlxColor.RED;
+			dumbTexts.add(text);
 		}
 	}
 
@@ -288,121 +399,5 @@ class CharacterDebug extends MusicBeatState
 			text.kill();
 			dumbTexts.remove(text, true);
 		});
-	}
-
-	override function update(elapsed:Float)
-	{
-		textAnim.text = char.animation.curAnim.name;
-		ghost.flipX = char.flipX;
-
-		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE) {
-			FlxG.mouse.visible = false;
-			Main.switchState(this, new PlayState());
-		}
-
-		if (FlxG.keys.justPressed.R)
-		{
-			FlxG.camera.zoom = 1;
-		}
-
-		if (FlxG.keys.pressed.E && FlxG.camera.zoom < 3)
-		{
-			FlxG.camera.zoom += elapsed * FlxG.camera.zoom;
-			if (FlxG.camera.zoom > 3)
-				FlxG.camera.zoom = 3;
-		}
-		if (FlxG.keys.pressed.Q && FlxG.camera.zoom > 0.1)
-		{
-			FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
-			if (FlxG.camera.zoom < 0.1)
-				FlxG.camera.zoom = 0.1;
-		}
-
-		if (FlxG.keys.justPressed.F) {
-			char.flipX = !char.flipX;
-		}
-
-		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
-		{
-			var addToCam:Float = 500 * elapsed;
-			if (FlxG.keys.pressed.SHIFT)
-				addToCam *= 4;
-
-			if (FlxG.keys.pressed.I)
-				camFollow.y -= addToCam;
-			else if (FlxG.keys.pressed.K)
-				camFollow.y += addToCam;
-
-			if (FlxG.keys.pressed.J)
-				camFollow.x -= addToCam;
-			else if (FlxG.keys.pressed.L)
-				camFollow.x += addToCam;
-		}
-
-		if (canOffset)
-		{
-			if (FlxG.keys.justPressed.W)
-				updateAnimation(-1);
-			else if (FlxG.keys.justPressed.S)
-				updateAnimation(1);
-
-			if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
-			{
-				char.playAnim(animList[curAnim]);
-				ghost.playAnim(animList[curAnim]);
-
-				updateTexts();
-				genCharOffsets(false);
-			}
-		}
-
-		var upP = FlxG.keys.anyJustPressed([UP]);
-		var rightP = FlxG.keys.anyJustPressed([RIGHT]);
-		var downP = FlxG.keys.anyJustPressed([DOWN]);
-		var leftP = FlxG.keys.anyJustPressed([LEFT]);
-
-		var holdShift = FlxG.keys.pressed.SHIFT;
-		var multiplier = 1;
-		if (holdShift)
-			multiplier = 10;
-
-		if (upP || rightP || downP || leftP)
-		{
-			updateTexts();
-			if (upP) {
-				char.animOffsets.get(animList[curAnim])[1] += 1 * multiplier;
-			}
-			if (downP) {
-				char.animOffsets.get(animList[curAnim])[1] -= 1 * multiplier;
-			}
-			if (leftP) {
-				char.animOffsets.get(animList[curAnim])[0] += 1 * multiplier;
-			}
-			if (rightP) {
-				char.animOffsets.get(animList[curAnim])[0] -= 1 * multiplier;
-			}
-
-			updateTexts();
-			genCharOffsets(false);
-
-			ghost.setPosition(char.x, char.y);
-			char.playAnim(animList[curAnim]);
-			ghost.playAnim(animList[curAnim]);
-		}
-
-		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.S)
-			saveCharOffsets();
-
-		super.update(elapsed);
-	}
-
-	function updateAnimation(hey:Int)
-	{
-		curAnim += hey;
-
-		if (curAnim < 0)
-			curAnim = animList.length;
-		if (curAnim >= animList.length)
-			curAnim = 0;
 	}
 }
