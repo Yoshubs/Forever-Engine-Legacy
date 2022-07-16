@@ -1127,7 +1127,7 @@ class PlayState extends MusicBeatState
 					if (daNote.isSustainNote)
 					{
 						daNote.y -= ((daNote.height / 2) * downscrollMultiplier);
-						if ((daNote.animation.curAnim.name.endsWith('holdend')) && (daNote.prevNote != null))
+						if ((daNote.animation.curAnim.name.endsWith('holdend') || daNote.animation.curAnim.name.endsWith('rollend')) && (daNote.prevNote != null))
 						{
 							daNote.y -= ((daNote.prevNote.height / 2) * downscrollMultiplier);
 							if (Init.trueSettings.get('Downscroll'))

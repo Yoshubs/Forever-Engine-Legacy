@@ -137,10 +137,6 @@ class ChartParser
 						var daSusType:SustainType = NORMAL;
 
 						// very stupid but I'm lazy
-
-						if (songNotes.length > 2) {
-							daNoteAlt = songNotes[3];
-						}
 						if (songNotes.length > 2) {
 							daNoteType = songNotes[3];
 						}
@@ -181,9 +177,14 @@ class ChartParser
 						// basically said push the sustain notes to the array respectively
 						for (susNote in 0...Math.floor(susLength))
 						{
+							var daSus:Bool = true;
+
+							if (swagNote.sustainType == ROLL)
+								daSus = false;
+
 							oldNote = unspawnNotes[Std.int(unspawnNotes.length - 1)];
 							var sustainNote:Note = ForeverAssets.generateArrow(PlayState.assetModifier,
-								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteAlt, true, oldNote, daNoteType, daSusType);
+								daStrumTime + (Conductor.stepCrochet * susNote) + Conductor.stepCrochet, daNoteData, daNoteAlt, daSus, oldNote, daNoteType, daSusType);
 							sustainNote.scrollFactor.set();
 
 							unspawnNotes.push(sustainNote);

@@ -248,25 +248,29 @@ class Note extends FNFSprite
 						newNote.animation.addByPrefix('blueScroll', 'blue0');
 						newNote.animation.addByPrefix('purpleScroll', 'purple0');
 
-						// holds
+						// hold ends
 						newNote.animation.addByPrefix('purpleholdend', 'pruple end hold');
 						newNote.animation.addByPrefix('greenholdend', 'green hold end');
 						newNote.animation.addByPrefix('redholdend', 'red hold end');
 						newNote.animation.addByPrefix('blueholdend', 'blue hold end');
+						
+						// hold pieces
 						newNote.animation.addByPrefix('purplehold', 'purple hold piece');
 						newNote.animation.addByPrefix('greenhold', 'green hold piece');
 						newNote.animation.addByPrefix('redhold', 'red hold piece');
 						newNote.animation.addByPrefix('bluehold', 'blue hold piece');
 
-						// rolls
-						newNote.animation.addByPrefix('purplerollend', 'pruple end roll');
-						newNote.animation.addByPrefix('greenrollend', 'green roll end');
-						newNote.animation.addByPrefix('redrollend', 'red roll end');
-						newNote.animation.addByPrefix('bluerollend', 'blue roll end');
-						newNote.animation.addByPrefix('purpleroll', 'purple roll piece');
-						newNote.animation.addByPrefix('greenroll', 'green roll piece');
-						newNote.animation.addByPrefix('redroll', 'red roll piece');
-						newNote.animation.addByPrefix('blueroll', 'blue roll piece');
+						// roll ends
+						newNote.animation.addByPrefix('redrollend', 'pruple end hold');
+						newNote.animation.addByPrefix('bluerollend', 'green hold end');
+						newNote.animation.addByPrefix('greenrollend', 'blue hold end');
+						newNote.animation.addByPrefix('purplerollend', 'red hold end');
+						
+						// roll pieces
+						newNote.animation.addByPrefix('redroll', 'purple hold piece');
+						newNote.animation.addByPrefix('blueroll', 'green hold piece');
+						newNote.animation.addByPrefix('greenroll', 'blue hold piece');
+						newNote.animation.addByPrefix('purpleroll', 'red hold piece');
 
 						//
 						newNote.setGraphicSize(Std.int(newNote.width * 0.7));
