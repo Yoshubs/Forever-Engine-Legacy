@@ -1,5 +1,6 @@
 package states;
 
+import base.MusicBeat.MusicBeatState;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -28,7 +29,7 @@ using StringTools;
 	and some other additional features
  */
  
-class CharacterDebug extends FlxState
+class CharacterDebug extends MusicBeatState
 {
 	var _file:FileReference;
 
@@ -69,8 +70,10 @@ class CharacterDebug extends FlxState
 		this.curStage = curStage;
 	}
 
-	override function create()
+	override public function create()
 	{
+		super.create();
+
 		FlxG.sound.music.stop();
 
 		FlxG.mouse.visible = true;
@@ -167,8 +170,6 @@ class CharacterDebug extends FlxState
 		add(camFollow);
 
 		FlxG.camera.follow(camFollow);
-
-		super.create();
 	}
 
 	var ghostAnimDropDown:FlxUIDropDownMenu;
