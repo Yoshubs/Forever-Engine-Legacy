@@ -58,21 +58,6 @@ class CharacterDebug extends MusicBeatState
 	var UI_box:FlxUITabMenu;
 	var fileExt:String = 'hxs';
 
-	var tipTextArray:Array<String> =
-	"
-		==================================
-		\nE/Q - Camera Zoom In/Out
-		\nR - Reset Camera Zoom
-		\nJKLI - Move Camera
-		\nHold Shift to Move 10x faster
-		\n==================================
-		\nW/S - Previous/Next Animation
-		\nSpace - Play Animation
-		\nF - Flip Character horizontally
-		\nArrow Keys - Move Character Offset
-		\n==================================\n
-	".split('\n');
-
 	public function new(curCharacter:String = 'dad', curStage:String = 'stage')
 	{
 		super();
@@ -129,16 +114,6 @@ class CharacterDebug extends MusicBeatState
 		#if DISCORD_RPC
 		Discord.changePresence('OFFSET EDITOR', 'Editing: ' + curCharacter);
 		#end
-
-		for (i in 0...tipTextArray.length - 1)
-		{
-			var tipText:FlxText = new FlxText(FlxG.width - 320, FlxG.height - 15 - 16 * (tipTextArray.length - i), 300, tipTextArray[i], 12);
-			// tipText.cameras = [camHUD];
-			tipText.setFormat(null, 12, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE_FAST, FlxColor.BLACK);
-			tipText.scrollFactor.set();
-			tipText.borderSize = 1.5;
-			add(tipText);
-		}
 
 		// add menu tabs
 		var tabs = [
