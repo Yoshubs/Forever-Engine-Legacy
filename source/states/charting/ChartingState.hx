@@ -131,6 +131,10 @@ class ChartingState extends MusicBeatState
 		Conductor.changeBPM(_song.bpm);
 		Conductor.mapBPMChanges(_song);
 
+		#if DISCORD_RPC
+		Discord.changePresence('CHART EDITOR', 'Charting: ' + _song.song);
+		#end
+
 		gridGroup = new FlxTypedGroup<FlxObject>();
 		add(gridGroup);
 

@@ -41,10 +41,6 @@ class MainMenuState extends MusicBeatState
 
 		CreditsMenu.offsetNumbers = false;
 
-		// set the transitions to the previously set ones
-		transIn = FlxTransitionableState.defaultTransIn;
-		transOut = FlxTransitionableState.defaultTransOut;
-
 		// make sure the music is playing
 		ForeverTools.resetMenuMusic();
 
@@ -52,8 +48,16 @@ class MainMenuState extends MusicBeatState
 		Discord.changePresence('MENU SCREEN', 'Main Menu');
 		#end
 
+		// set the transitions to the previously set ones
+		transIn = FlxTransitionableState.defaultTransIn;
+		transOut = FlxTransitionableState.defaultTransOut;
+
 		// uh
 		persistentUpdate = persistentDraw = true;
+
+		// add the camera
+		camFollow = new FlxObject(0, 0, 1, 1);
+		add(camFollow);
 
 		// background
 		bg = new FlxSprite(-80);
@@ -76,10 +80,6 @@ class MainMenuState extends MusicBeatState
 		magenta.antialiasing = true;
 		magenta.color = 0xFFfd719b;
 		add(magenta);
-
-		// add the camera
-		camFollow = new FlxObject(0, 0, 1, 1);
-		add(camFollow);
 
 		// add the menu items
 		menuItems = new FlxTypedGroup<FlxSprite>();

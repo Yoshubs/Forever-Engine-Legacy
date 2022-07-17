@@ -4,6 +4,7 @@ import base.*;
 import base.Conductor.BPMChangeEvent;
 import base.CoolUtil;
 import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flixel.FlxG;
 import flixel.FlxSprite;
 import flixel.addons.display.FlxGridOverlay;
@@ -161,6 +162,10 @@ class OriginalChartingState extends MusicBeatState
 		loadSong(_song.song);
 		Conductor.changeBPM(_song.bpm);
 		Conductor.mapBPMChanges(_song);
+
+		#if DISCORD_RPC
+		Discord.changePresence('CHART EDITOR', 'Charting: ' + _song.song);
+		#end
 
 		bpmTxt = new FlxText(1000, 50, 0, "", 16);
 		bpmTxt.scrollFactor.set();

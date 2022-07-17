@@ -251,6 +251,12 @@ class Init extends FlxState
 			NOT_FORCED,
 			['freakyMenu', 'foreverMenu']
 		],
+		'Allow Combo Breaks' => [
+			true,
+			Checkmark,
+			'Whether to replace Misses with Combo Breaks on the Info Bar.',
+			NOT_FORCED
+		],
 
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],

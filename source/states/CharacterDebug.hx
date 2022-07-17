@@ -1,6 +1,7 @@
 package states;
 
 import base.MusicBeat.MusicBeatState;
+import dependency.Discord;
 import flixel.FlxCamera;
 import flixel.FlxG;
 import flixel.FlxObject;
@@ -125,6 +126,10 @@ class CharacterDebug extends MusicBeatState
 
 		genCharOffsets();
 
+		#if DISCORD_RPC
+		Discord.changePresence('OFFSET EDITOR', 'Editing: ' + curCharacter);
+		#end
+
 		for (i in 0...tipTextArray.length - 1)
 		{
 			var tipText:FlxText = new FlxText(FlxG.width - 320, FlxG.height - 15 - 16 * (tipTextArray.length - i), 300, tipTextArray[i], 12);
@@ -194,6 +199,8 @@ class CharacterDebug extends MusicBeatState
 			Main.switchState(this, new PlayState());
 		}
 
+		// camera controls
+
 		if (FlxG.keys.justPressed.R)
 		{
 			FlxG.camera.zoom = 1;
@@ -210,10 +217,6 @@ class CharacterDebug extends MusicBeatState
 			FlxG.camera.zoom -= elapsed * FlxG.camera.zoom;
 			if (FlxG.camera.zoom < 0.1)
 				FlxG.camera.zoom = 0.1;
-		}
-
-		if (FlxG.keys.justPressed.F) {
-			char.flipX = !char.flipX;
 		}
 
 		if (FlxG.keys.pressed.I || FlxG.keys.pressed.J || FlxG.keys.pressed.K || FlxG.keys.pressed.L)
@@ -233,9 +236,13 @@ class CharacterDebug extends MusicBeatState
 				camFollow.x += addToCam;
 		}
 
-		if (FlxG.keys.justPressed.W)
-			updateAnimation(-1);
-		else if (FlxG.keys.justPressed.S)
+		// character controls
+
+		if (FlxG.keys.justPressed.F) {
+			char.flipX = !char.flipX;
+		}
+
+		if (FlxG.keys.justPressed.W || FlxG.keys.justPressed.S)
 			updateAnimation(1);
 
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
@@ -270,6 +277,9 @@ class CharacterDebug extends MusicBeatState
 						negaMult = -1;
 					char.animOffsets.get(animList[curAnim])[arrayVal] += negaMult * multiplier;
 
+					updateTexts();
+					genCharOffsets(false);
+					//ghost.setPosition(char.x, char.y);
 					char.playAnim(animList[curAnim], false);
 				}
 			}
@@ -278,9 +288,6 @@ class CharacterDebug extends MusicBeatState
 		if (FlxG.keys.pressed.CONTROL && FlxG.keys.justPressed.S)
 			saveCharOffsets();
 
-		//ghost.setPosition(char.x, char.y);
-		updateTexts();
-		genCharOffsets(false);
 		super.update(elapsed);
 	}
 
