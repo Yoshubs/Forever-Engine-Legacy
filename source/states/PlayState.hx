@@ -785,6 +785,11 @@ class PlayState extends MusicBeatState
 
 			set('gfSpeed', gfSpeed);
 
+			set('endAnim', function(char:Character, tmr:Float)
+			{
+				characterEndAnim(char, tmr);
+			});
+
 			// functions
 			set('set', function(key:String, value:Dynamic)
 			{
@@ -1904,6 +1909,77 @@ class PlayState extends MusicBeatState
 			dadOpponent.dance();
 	}
 
+	private function onBeatEvents(curBeat:Int)
+	{
+		switch (SONG.song.toLowerCase())
+		{
+			case 'tutorial':
+				if (curBeat % 16 == 15
+					&& SONG.song.toLowerCase() == 'tutorial'
+					&& dadOpponent.curCharacter == 'gf'
+					&& curBeat > 16
+					&& curBeat < 48)
+				{
+					if (boyfriend.animOffsets.exists('hey'))
+					{
+						boyfriend.playAnim('hey,', true);
+					}
+	
+					if (gf.animOffsets.exists('cheer'))
+					{
+						gf.playAnim('cheer', true);
+					}
+
+					characterEndAnim(boyfriend, 0.6);
+					characterEndAnim(gf, 0.6);
+				}
+
+			case 'bopeebo':
+				if (curBeat % 8 == 7)
+				{
+					if (boyfriend.animOffsets.exists('hey'))
+					{
+						boyfriend.playAnim('hey', true);
+					}
+					characterEndAnim(boyfriend, 0.6);
+				}
+				switch (curBeat)
+				{
+					case 128, 129, 130:
+						vocals.volume = 0;
+				}
+
+			case 'fresh':
+				switch (curBeat)
+				{
+					case 16 | 80:
+						gfSpeed = 2;
+					case 48 | 112:
+						gfSpeed = 1;
+				}
+
+			case 'milf':
+				if (curSong.toLowerCase() == 'milf'
+					&& curBeat >= 168
+					&& curBeat < 200
+					&& !Init.trueSettings.get('Reduced Movements')
+					&& FlxG.camera.zoom < 1.35)
+				{
+					FlxG.camera.zoom += 0.015;
+					for (hud in allUIs)
+						hud.zoom += 0.03;
+				}
+		}
+	}
+
+	public function characterEndAnim(char:Character, time:Float)
+	{
+		new FlxTimer().start(time, function(tmr:FlxTimer)
+		{
+			char.dance();
+		});
+	}
+
 	override function beatHit()
 	{
 		super.beatHit();
@@ -1929,55 +2005,7 @@ class PlayState extends MusicBeatState
 		//
 		charactersDance(curBeat);
 
-		/*if (curBeat % 16 == 15
-				&& SONG.song.toLowerCase() == 'tutorial'
-				&& dadOpponent.curCharacter == 'gf'
-				&& curBeat > 16
-				&& curBeat < 48)
-			{
-				if (boyfriend.animOffsets.exists('hey'))
-					boyfriend.playAnim('hey');
-
-				if (gf.animOffsets.exists('cheer'))
-					gf.playAnim('cheer');
-		}*/
-
-		if (curSong.toLowerCase() == 'bopeebo')
-		{
-			switch (curBeat)
-			{
-				case 128, 129, 130:
-					vocals.volume = 0;
-			}
-		}
-
-		/*if (curBeat % 8 == 7 && curSong.toLowerCase() == 'bopeebo')
-			{
-				if (boyfriend.animOffsets.exists('hey'))
-					boyfriend.playAnim('hey');
-		}*/
-
-		if (curSong.toLowerCase() == 'fresh')
-		{
-			switch (curBeat)
-			{
-				case 16 | 80:
-					gfSpeed = 2;
-				case 48 | 112:
-					gfSpeed = 1;
-			}
-		}
-
-		if (curSong.toLowerCase() == 'milf'
-			&& curBeat >= 168
-			&& curBeat < 200
-			&& !Init.trueSettings.get('Reduced Movements')
-			&& FlxG.camera.zoom < 1.35)
-		{
-			FlxG.camera.zoom += 0.015;
-			for (hud in allUIs)
-				hud.zoom += 0.03;
-		}
+		onBeatEvents(curBeat);
 
 		// stage stuffs
 		if (Init.trueSettings.get('Stage Opacity') > 0) stageBuild.stageUpdate(curBeat, boyfriend, gf, dadOpponent);
