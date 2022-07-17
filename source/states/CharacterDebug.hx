@@ -194,7 +194,7 @@ class CharacterDebug extends MusicBeatState
 		textAnim.text = char.animation.curAnim.name;
 		ghost.flipX = char.flipX;
 
-		if (FlxG.keys.justPressed.ENTER || FlxG.keys.justPressed.ESCAPE) {
+		if (FlxG.keys.justPressed.ESCAPE) {
 			FlxG.mouse.visible = false;
 			Main.switchState(this, new PlayState());
 		}
