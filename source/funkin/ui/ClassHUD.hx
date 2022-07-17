@@ -234,12 +234,6 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		// testing purposes
 		var displayAccuracy:Bool = Init.trueSettings.get('Display Accuracy');
 
-		var missName:String = 'Combo Breaks: ';
-		if (!Init.trueSettings.get('Allow Combo Breaks'))
-		{
-			missName = 'Misses: ';
-		}
-
 		switch (PlayState.SONG.song.toLowerCase())
 		{
 			/*case 'bopeebo':
@@ -252,7 +246,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 				if (displayAccuracy)
 				{
 					scoreBar.text += divider + 'Accuracy: ' + Std.string(Math.floor(Timings.getAccuracy() * 100) / 100) + '%' + Timings.comboDisplay;
-					scoreBar.text += divider + missName + Std.string(PlayState.misses);
+					scoreBar.text += divider + 'Combo Breaks: ' + Std.string(PlayState.misses);
 					scoreBar.text += divider + 'Rank: ' + Std.string(Timings.returnScoreRating().toUpperCase());
 				}
 				scoreBar.text += '\n';

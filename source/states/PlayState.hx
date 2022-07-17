@@ -1704,36 +1704,17 @@ class PlayState extends MusicBeatState
 
 	function increaseCombo(?baseRating:String, ?direction = 0, ?character:Character)
 	{
-		var fromShits:Bool = Init.trueSettings.get('Allow Combo Breaks');
-
-		if (!fromShits)
+		// trolled this can actually decrease your combo if you get a bad/shit/miss
+		if (baseRating != null)
 		{
-			if (Timings.judgementsMap.get('miss')[0] > 0)
+			if (Timings.judgementsMap.get(baseRating)[3] > 0)
 			{
-				if (baseRating != null)
-				{
-					if (combo < 0)
-						combo = 0;
-					combo += 1;
-				}
+				if (combo < 0)
+					combo = 0;
+				combo += 1;
 			}
 			else
 				missNoteCheck(true, direction, character, false, true);
-		}
-		else
-		{
-			// trolled this can actually decrease your combo if you get a bad/shit/miss
-			if (baseRating != null)
-			{
-				if (Timings.judgementsMap.get(baseRating)[3] > 0)
-				{
-					if (combo < 0)
-						combo = 0;
-					combo += 1;
-				}
-				else
-					missNoteCheck(true, direction, character, false, true);
-			}
 		}
 	}
 
