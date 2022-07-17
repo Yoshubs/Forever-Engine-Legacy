@@ -241,8 +241,11 @@ class CharacterDebug extends MusicBeatState
 		if (FlxG.keys.justPressed.F) {
 			char.flipX = !char.flipX;
 		}
+		
+		if (FlxG.keys.justPressed.W)
+			updateAnimation(-1);
 
-		if (FlxG.keys.justPressed.W || FlxG.keys.justPressed.S)
+		if (FlxG.keys.justPressed.S)
 			updateAnimation(1);
 
 		if (FlxG.keys.justPressed.S || FlxG.keys.justPressed.W || FlxG.keys.justPressed.SPACE)
@@ -296,7 +299,7 @@ class CharacterDebug extends MusicBeatState
 		curAnim += hey;
 
 		if (curAnim < 0)
-			curAnim = animList.length;
+			curAnim = animList.length - 1;
 		if (curAnim >= animList.length)
 			curAnim = 0;
 	}
