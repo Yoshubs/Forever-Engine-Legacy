@@ -251,6 +251,13 @@ class Init extends FlxState
 			NOT_FORCED,
 			['freakyMenu', 'foreverMenu']
 		],
+		'Center Text' => [
+			'Difficulty',
+			Selector,
+			'What should the Center Mark text show?',
+			NOT_FORCED,
+			['Difficulty', 'Time']
+		],
 
 		// custom millisecond timings
 		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],

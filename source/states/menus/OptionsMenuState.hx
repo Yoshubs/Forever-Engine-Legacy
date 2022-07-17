@@ -70,6 +70,7 @@ class OptionsMenuState extends MusicBeatState
 					['', null],
 					['Text Settings', null],
 					['', null],
+					['Center Text', getFromOption],
 					['Display Accuracy', getFromOption],
 					['Skip Text', getFromOption],
 					['', null],

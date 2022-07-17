@@ -1797,6 +1797,8 @@ class PlayState extends MusicBeatState
 		previousFrameTime = FlxG.game.ticks;
 		lastReportedPlayheadPosition = 0;
 
+		FlxTween.tween(uiHUD.centerMark, {alpha: 1}, 0.5, {ease: FlxEase.circOut});
+
 		if (!paused)
 		{
 			songMusic.play();

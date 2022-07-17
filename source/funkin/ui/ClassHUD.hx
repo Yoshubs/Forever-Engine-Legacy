@@ -18,6 +18,7 @@ import flixel.ui.FlxBar;
 import flixel.util.FlxColor;
 import flixel.util.FlxSort;
 import flixel.util.FlxTimer;
+import flixel.util.FlxStringUtil;
 import funkin.Timings;
 import states.PlayState;
 
@@ -33,7 +34,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var scoreDisplay:String = 'beep bop bo skdkdkdbebedeoop brrapadop';
 
 	var cornerMark:FlxText; // engine mark at the upper right corner
-	var centerMark:FlxText; // song display name and difficulty at the center
+	public var centerMark:FlxText; // song display name and difficulty or timer at the center
 
 	private var healthBarBG:FlxSprite;
 	private var healthBar:FlxBar;
@@ -48,6 +49,11 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 	var infoDisplay:String = CoolUtil.dashToSpace(PlayState.SONG.song);
 	var diffDisplay:String = CoolUtil.difficultyFromNumber(PlayState.storyDifficulty);
 	var engineDisplay:String = "FOREVER ENGINE v" + Main.gameVersion;
+
+	// Time Text Stuff
+	public var timeDisplay:String = "0:00 / 0:00";
+	public var updateTime:Bool = (Init.trueSettings.get('Center Text') == 'Time');
+	var songPercent:Float = 0;
 
 	public var autoplayMark:FlxText;
 
@@ -113,7 +119,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 		cornerMark.setPosition(FlxG.width - (cornerMark.width + 5), 5);
 		cornerMark.antialiasing = true;
 
-		centerMark = new FlxText(0, 0, 0, '- ${infoDisplay + " [" + diffDisplay}] -');
+		centerMark = new FlxText(0, 0, 0, updateTime ? '- $infoDisplay [$timeDisplay] -' : '- $infoDisplay [$diffDisplay] -');
 		centerMark.setFormat(Paths.font('vcr.ttf'), 24, FlxColor.WHITE);
 		centerMark.setBorderStyle(OUTLINE, FlxColor.BLACK, 2);
 		add(centerMark);
@@ -123,6 +129,7 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 			centerMark.y = (FlxG.height / 24) - 10;
 		centerMark.screenCenter(X);
 		centerMark.antialiasing = true;
+		centerMark.alpha = 0;
 
 		// counter
 		if (Init.trueSettings.get('Counter') != 'None')
@@ -220,6 +227,33 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 				iconP2.animation.curAnim.curFrame = 1;
 			else
 				iconP2.animation.curAnim.curFrame = 0;
+		}
+
+		if (updateTime)
+			updateTimer();
+	}
+
+	public function updateTimer()
+	{
+		if (updateTime)
+		{
+			var curTime:Float = Conductor.songPosition;
+			var secondsTotal:Int = Math.floor(curTime / 1000);
+
+			if (curTime < 0)
+				curTime = 0;
+
+			if (secondsTotal < 0)
+				secondsTotal = 0;
+
+			timeDisplay =
+				FlxStringUtil.formatTime(secondsTotal, false)
+				+ ' / '
+				+ FlxStringUtil.formatTime(Math.floor((PlayState.songLength) / 1000), false);
+
+			centerMark.text = '- $infoDisplay [$timeDisplay] -';
+
+			songPercent = (curTime / PlayState.songLength);
 		}
 	}
 
