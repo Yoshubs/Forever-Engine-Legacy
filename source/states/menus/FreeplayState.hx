@@ -22,10 +22,10 @@ import funkin.Song.SwagSong;
 import funkin.ui.HealthIcon;
 import lime.utils.Assets;
 import openfl.media.Sound;
-import states.subStates.CharterSubState;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
+import states.charting.*;
 
 using StringTools;
 
@@ -69,6 +69,10 @@ class FreeplayState extends MusicBeatState
 	var infoText:FlxText;
 
 	var shouldDraw:Bool = true;
+
+	var cyanMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.CYAN);
+	var yellowMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.YELLOW);
+	var redMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.RED);
 
 	override function create()
 	{
@@ -163,12 +167,15 @@ class FreeplayState extends MusicBeatState
 		changeDiff();
 		resetScore(true);
 
-		leText = "- ALT = Open Charting Menu. - RESET = Reset Score and Ranking. -";
-		infoText = new FlxText(5, FlxG.height - 24, 0, leText, 32);
+		infoText = new FlxText(5, FlxG.height - 24, 0, '', 32);
 		infoText.setFormat("VCR OSD Mono", 20, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
 		infoText.textField.background = true;
 		infoText.textField.backgroundColor = FlxColor.BLACK;
 		add(infoText);
+
+		infoText.applyMarkup(
+			"- ALT **(+SHIFT)** = Open **(NEW)** Charting State. - RESET = Reset Score and Ranking. -",
+			[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
@@ -284,7 +291,9 @@ class FreeplayState extends MusicBeatState
 
 			if (presses > 0) {
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
-				infoText.text = '- Data Destruction was Interrupted! -';
+				infoText.applyMarkup(
+					"^^- Data Destruction was Interrupted! -^^",
+					[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
 				endBullshit();
 			}
 		}
@@ -293,7 +302,8 @@ class FreeplayState extends MusicBeatState
 			loadSong(true, true);
 		else if (alt) {
 			loadSong(false, false);
-			openSubState(new CharterSubState(0, 0, false));
+			if (FlxG.sound.music.playing) FlxG.sound.music.stop();
+			Main.switchState(this, shiftP ? new ChartingState() : new OriginalChartingState());
 		}
 		else if (controls.RESET && presses < 3)
 		{
@@ -481,18 +491,24 @@ class FreeplayState extends MusicBeatState
 			presses = 0;
 
 		if (presses == 1)
-			infoText.text = '- Are you Sure? -';
+			infoText.applyMarkup(
+				"^^- Are you Sure? -^^",
+				[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
 
 		if (presses == 2)
 		{
-			infoText.text = '- Really Sure? -';
+			infoText.applyMarkup(
+				"++- Really Sure? -++",
+				[new FlxTextFormatMarkerPair(redMarkup, '++')]);
 			FlxG.sound.music.volume = 0.3;
 		}
 
 		if (presses == 3)
 		{
 			noSound = true;
-			infoText.text = '- Data Destroyed! -';
+			infoText.applyMarkup(
+				"++- Data Destroyed! -++",
+				[new FlxTextFormatMarkerPair(redMarkup, '++')]);
 			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
 			iconArray[curSelected].animation.curAnim.curFrame = 1;
 			Highscore.clearData(songs[curSelected].songName, curDifficulty);
@@ -505,7 +521,9 @@ class FreeplayState extends MusicBeatState
 	{
 		new FlxTimer().start(1, function(resetText:FlxTimer)
 		{
-			infoText.text = leText;
+			infoText.applyMarkup(
+				"- ALT **(+SHIFT)** = Open **(NEW)** Charting State. - RESET = Reset Score and Ranking. -",
+				[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
 			presses = 0;
 			iconArray[curSelected].animation.curAnim.curFrame = 0;
 			FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
