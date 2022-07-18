@@ -293,7 +293,7 @@ class FreeplayState extends MusicBeatState
 			if (presses > 0) {
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
 				infoText.applyMarkup(
-					"**- Data Destruction was Interrupted! -**",
+					"- **Data Destruction was Interrupted!** -",
 					[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
 				endBullshit();
 			}
@@ -493,13 +493,13 @@ class FreeplayState extends MusicBeatState
 
 		if (presses == 1)
 			infoText.applyMarkup(
-				";;- Are you Sure? -;;",
+				"- ;;Are you Sure?;; -",
 				[new FlxTextFormatMarkerPair(grayMarkup, ';;')]);
 
 		if (presses == 2)
 		{
 			infoText.applyMarkup(
-				"^^- Really Sure? -^^",
+				"- ^^Really Sure?^^ -",
 				[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
 			FlxG.sound.music.volume = 0.3;
 		}
@@ -508,7 +508,7 @@ class FreeplayState extends MusicBeatState
 		{
 			noSound = true;
 			infoText.applyMarkup(
-				"++- Data Destroyed! -++",
+				"- ++Data Destroyed!++ -",
 				[new FlxTextFormatMarkerPair(redMarkup, '++')]);
 			FlxG.sound.play(Paths.sound('resetScore_sfx'), 0.4);
 			iconArray[curSelected].animation.curAnim.curFrame = 1;
