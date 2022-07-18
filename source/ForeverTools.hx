@@ -14,19 +14,15 @@ import sys.FileSystem;
 **/
 class ForeverTools
 {
-	public static var menuString:String = 'freakyMenu';
-
 	// set up maps and stuffs
 	public static function resetMenuMusic(resetVolume:Bool = false)
 	{
-		menuString = Init.trueSettings.get('Menu Music');
-
 		// make sure the music is playing
 		if (((FlxG.sound.music != null) && (!FlxG.sound.music.playing)) || (FlxG.sound.music == null))
 		{
-			FlxG.sound.playMusic(Paths.music('menu/$menuString'), (resetVolume) ? 0 : 0.7);
+			var song = (Init.trueSettings.get("Custom Titlescreen") ? Paths.music('foreverMenu') : Paths.music('freakyMenu'));
+			FlxG.sound.playMusic(song, (resetVolume) ? 0 : 0.7);
 			if (resetVolume) FlxG.sound.music.fadeIn(4, 0, 0.7);
-
 			// placeholder bpm
 			Conductor.changeBPM(102);
 		}
@@ -83,6 +79,7 @@ class ForeverTools
 	{
 		switch (ease.toLowerCase())
 		{
+			case 'linear': return FlxEase.linear;
 			case 'backin': return FlxEase.backIn;
 			case 'backinout': return FlxEase.backInOut;
 			case 'backout': return FlxEase.backOut;

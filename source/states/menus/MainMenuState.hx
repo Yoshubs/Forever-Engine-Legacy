@@ -13,6 +13,7 @@ import flixel.text.FlxText;
 import flixel.tweens.FlxEase;
 import flixel.tweens.FlxTween;
 import flixel.util.FlxColor;
+import states.subStates.PauseSubState;
 
 using StringTools;
 
@@ -217,6 +218,7 @@ class MainMenuState extends MusicBeatState
 							case 'donate':
 								Main.switchState(this, new CreditsMenu());
 							case 'options':
+								PauseSubState.toOptions = false;
 								transIn = FlxTransitionableState.defaultTransIn;
 								transOut = FlxTransitionableState.defaultTransOut;
 								Main.switchState(this, new OptionsMenuState());

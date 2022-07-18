@@ -27,52 +27,24 @@ class PauseSubState extends MusicBeatSubState
 	var curSelected:Int = 0;
 	var pauseMusic:FlxSound;
 
-	var pauseOG:Array<String> = ['Resume', 'Restart Song', 'Change Difficulty', 'Exit to Options', 'Exit to menu'];
-	var difficultyChoices:Array<String> = ['EASY', 'NORMAL', 'HARD', 'BACK'];
-	var menuPrefs = ['Toggle Practice Mode', 'Toggle Autoplay', 'BACK'];
-
-	var menuItems:Array<String> = [];
-
-	public static var playingPause:Bool = false;
+	var menuItems:Array<String> = ['Resume', 'Restart Song', 'Exit to Options', 'Exit to menu'];
 
 	public static var toOptions:Bool = false;
-
 	public static var practiceText:FlxText;
 
 	public function new(x:Float, y:Float)
 	{
 		super();
 
-		toOptions = false;
-
-		if (!PlayState.isStoryMode) {
-			pauseOG.insert(3, 'Preferences');
-		}
-
-		if (PlayState.chartingMode) {
-			menuPrefs.insert(2, 'Leave Charting Mode');
-		}
-
-		if (!playingPause)
-		{
-			playingPause = true;
-			pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
-			pauseMusic.volume = 0;
-			pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
-			pauseMusic.ID = 9000;
-
-			FlxG.sound.list.add(pauseMusic);
-		}
-		else
-		{
-			for (i in FlxG.sound.list)
-			{
-				if (i.ID == 9000) // jankiest static variable
-					pauseMusic = i;
-			}
-		}
+		pauseMusic = new FlxSound().loadEmbedded(Paths.music('breakfast'), true, true);
+		pauseMusic.volume = 0;
+		pauseMusic.play(false, FlxG.random.int(0, Std.int(pauseMusic.length / 2)));
 
 		FlxG.sound.list.add(pauseMusic);
+
+		if (PlayState.chartingMode) {
+			menuItems.insert(3, 'Leave Charting Mode');
+		}
 
 		var bg:FlxSprite = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
 		bg.alpha = 0;
@@ -124,40 +96,25 @@ class PauseSubState extends MusicBeatSubState
 		grpMenuShit = new FlxTypedGroup<Alphabet>();
 		add(grpMenuShit);
 
-		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
-
-		menuItems = pauseOG;
-		regenMenu();
-	}
-
-	private function regenMenu()
-	{
-		while (grpMenuShit.members.length > 0)
-		{
-			grpMenuShit.remove(grpMenuShit.members[0], true);
-		}
-
 		for (i in 0...menuItems.length)
 		{
-			var menuItem:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
-			menuItem.isMenuItem = true;
-			menuItem.targetY = i;
-			grpMenuShit.add(menuItem);
+			var songText:Alphabet = new Alphabet(0, (70 * i) + 30, menuItems[i], true, false);
+			songText.isMenuItem = true;
+			songText.targetY = i;
+			grpMenuShit.add(songText);
 		}
 
-		curSelected = 0;
-
 		changeSelection();
+
+		cameras = [FlxG.cameras.list[FlxG.cameras.list.length - 1]];
 	}
 
 	override function update(elapsed:Float)
-	{	
+	{
 		super.update(elapsed);
 
-		if (playingPause) {
-			if (pauseMusic.volume < 0.5)
-				pauseMusic.volume += 0.01 * elapsed;
-		}
+		if (pauseMusic.volume < 0.5)
+			pauseMusic.volume += 0.01 * elapsed;
 
 		if (controls.UI_UP_P)
 		{
@@ -173,40 +130,16 @@ class PauseSubState extends MusicBeatSubState
 		if (controls.ACCEPT)
 		{
 			var daSelected:String = menuItems[curSelected];
-			if (menuItems == difficultyChoices)
-			{
-				if(menuItems.length - 1 != curSelected && difficultyChoices.contains(daSelected)) {
-					var name:String = PlayState.SONG.song;
-					var poop = Highscore.formatSong(name, curSelected);
-					PlayState.SONG = Song.loadFromJson(poop, name);
-					PlayState.storyDifficulty = curSelected;
-					Main.switchState(this, new PlayState());
-					PlayState.resetMusic();
-					PlayState.deaths = 0;
-					return;
-				}
-				menuItems = pauseOG;
-				regenMenu();
-			}
-
 			switch (daSelected)
 			{
 				case "Resume":
 					close();
 				case "Restart Song":
-
 					if (!PlayState.chartingMode)
 						disableCheats(false);
 					else
 						disableCheats(true);
-
 					Main.switchState(this, new PlayState());
-				case 'Change Difficulty':
-					menuItems = difficultyChoices;
-					regenMenu();
-				case 'Preferences':
-					menuItems = menuPrefs;
-					regenMenu();
 				case 'Leave Charting Mode':
 					disableCheats(true);
 					PlayState.chartingMode = false;
@@ -215,6 +148,7 @@ class PauseSubState extends MusicBeatSubState
 					toOptions = true;
 					disableCheats(true);
 					FlxG.resizeWindow(1280, 720);
+					FlxG.scaleMode = new RatioScaleMode();
 					Main.switchState(this, new OptionsMenuState());
 				case "Exit to menu":
 					FlxG.resizeWindow(1280, 720);
@@ -228,43 +162,6 @@ class PauseSubState extends MusicBeatSubState
 						Main.switchState(this, new StoryMenuState());
 					else
 						Main.switchState(this, new FreeplayState());
-
-				//
-
-				// Cheats
-
-				case "Toggle Autoplay":
-					PlayState.preventScoring = true;
-					PlayState.contents.bfStrums.autoplay = !PlayState.contents.bfStrums.autoplay;
-					PlayState.uiHUD.autoplayMark.visible = PlayState.contents.bfStrums.autoplay;
-					PlayState.uiHUD.autoplayMark.alpha = 1;
-
-				case "Toggle Practice Mode":
-					PlayState.preventScoring = true;
-					PlayState.practiceMode = !PlayState.practiceMode;
-					practiceText.visible = PlayState.practiceMode;
-
-				//
-
-				// Change Difficulty
-				case "EASY" | "NORMAL" | "HARD":
-					PlayState.SONG = Song.loadFromJson(Highscore.formatSong(PlayState.SONG.song.toLowerCase(), curSelected), PlayState.SONG.song.toLowerCase());
-					PlayState.storyDifficulty = curSelected;
-
-					//
-					PlayState.practiceMode = false;
-					PlayState.contents.bfStrums.autoplay = false;
-					PlayState.uiHUD.autoplayMark.visible = false;
-					PlayState.preventScoring = false;
-					practiceText.visible = false;
-					//
-
-					Main.switchState(this, new PlayState());
-				case "BACK":
-					menuItems = pauseOG;
-					regenMenu();
-
-				//
 			}
 		}
 	}
@@ -272,7 +169,6 @@ class PauseSubState extends MusicBeatSubState
 	override function destroy()
 	{
 		pauseMusic.destroy();
-		playingPause = false;
 		super.destroy();
 	}
 
@@ -298,7 +194,6 @@ class PauseSubState extends MusicBeatSubState
 			curSelected = 0;
 
 		var bullShit:Int = 0;
-
 		for (item in grpMenuShit.members)
 		{
 			item.targetY = bullShit - curSelected;
@@ -313,6 +208,5 @@ class PauseSubState extends MusicBeatSubState
 				// item.setGraphicSize(Std.int(item.width));
 			}
 		}
-		//
 	}
 }

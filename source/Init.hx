@@ -244,13 +244,6 @@ class Init extends FlxState
 			"Whether flashing elements on the menus should be disabled.",
 			NOT_FORCED
 		],
-		'Menu Music' => [
-			'freakyMenu',
-			Selector,
-			'Choose the Menu Song you prefer.',
-			NOT_FORCED,
-			['freakyMenu', 'foreverMenu']
-		],
 		'Center Text' => [
 			'Difficulty',
 			Selector,
@@ -258,12 +251,6 @@ class Init extends FlxState
 			NOT_FORCED,
 			['Difficulty', 'Time']
 		],
-
-		// custom millisecond timings
-		"Sick! Hit Window" => [55, Selector, 'Define your desired Hit Window for getting a "Sick!" Judgement.', NOT_FORCED, ['']],
-		"Good Hit Window" => [80, Selector, 'Define your desired Hit Window for getting a "Good" Judgement.', NOT_FORCED, ['']],
-		"Bad Hit Window" => [100, Selector, 'Define your desired Hit Window for getting a "Bad" Judgement.', NOT_FORCED, ['']],
-		"Shit Hit Window" => [120, Selector, 'Define your desired Hit Window for getting a "Shit" Judgement.', NOT_FORCED, ['']],
 	];
 
 	public static var trueSettings:Map<String, Dynamic> = [];
@@ -275,14 +262,10 @@ class Init extends FlxState
 		'UP' => [[FlxKey.UP, W], 2],
 		'RIGHT' => [[FlxKey.RIGHT, D], 3],
 
-		// sep
-
 		'ACCEPT' => [[FlxKey.SPACE, Z, FlxKey.ENTER], 6],
 		'BACK' => [[FlxKey.BACKSPACE, X, FlxKey.ESCAPE], 7],
 		'PAUSE' => [[FlxKey.ENTER, P], 8],
 		'RESET' => [[R, null], 9],
-
-		// sep
 
 		'UI_UP' => [[FlxKey.UP, W], 12],
 		'UI_DOWN' => [[FlxKey.DOWN, S], 13],
@@ -390,12 +373,11 @@ class Init extends FlxState
 		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
 			trueSettings.set("Note Skin", 'default');
 
-		gameSettings.get("Sound Type")[4] = CoolUtil.returnAssetsLibrary('sounds/hitsounds', 'assets');
+		gameSettings.get("Sound Type")[4] = CoolUtil.returnAssetsLibrary('hitsounds', 'assets/sounds');
 		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
 			trueSettings.set("Sound Type", 'default');
 
 		saveSettings();
-
 		updateAll();
 
 		if(FlxG.save.data.volume != null)

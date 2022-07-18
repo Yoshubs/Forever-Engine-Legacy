@@ -45,8 +45,9 @@ import sys.FileSystem;
 import sys.io.File;
 #end
 
-#if DISCORD_RPC import dependency.Discord; #end
-#if VIDEO_PLUGIN import VideoHandler; #end
+#if VIDEO_PLUGIN
+import VideoHandler;
+#end
 
 class PlayState extends MusicBeatState
 {
@@ -135,25 +136,18 @@ class PlayState extends MusicBeatState
 	public var camDisplaceY:Float = 0; // might not use depending on result
 
 	public static var cameraSpeed:Float = 1;
-
 	public static var defaultCamZoom:Float = 1.05;
-
 	public static var forceZoom:Array<Float>;
 
 	public static var songScore:Int = 0;
-
 	public static var rank:String = 'N/A';
 
 	var storyDifficultyText:String = "";
-
 	public static var iconRPC:String = "";
-
 	public static var songLength:Float = 0;
 
 	private var stageBuild:Stage;
-
 	public static var uiHUD:ClassHUD;
-
 	public static var daPixelZoom:Float = 6;
 
 	// strumlines
@@ -179,6 +173,8 @@ class PlayState extends MusicBeatState
 	// shitty stage res workaround
 	public static var changedRes:Bool = false;
 	public static var alreadyChanged:Bool = false;
+
+	var prevCharter:Int = 0;
 
 	// at the beginning of the playstate
 	override public function create()
@@ -244,7 +240,7 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase()}/script.hxs')
 		];
 		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
 		var pushedScripts:Array<String> = [];
@@ -319,10 +315,8 @@ class PlayState extends MusicBeatState
 		// set up a class for the stage type in here afterwards
 		curStage = "";
 
-		var stageExists:Bool = FileSystem.exists(Paths.getPreloadPath('stages/' + SONG.stage.toLowerCase() + '.hxs'));
-
 		// call the song's stage if it exists
-		if (SONG.stage != null && SONG.stage.length > 1 && stageExists)
+		if (SONG.stage != null && SONG.stage.length > 1 && checkFile(SONG.stage, '.hxs', 'stages/'))
 			curStage = SONG.stage;
 		else
 			curStage = 'stage';
@@ -537,6 +531,21 @@ class PlayState extends MusicBeatState
 		 #if LUA_EXTENSION
 		 callLLua('postCreate', []);
 		 #end
+	}
+
+	/**
+	* function to check if a file exists
+	* @param script the file name
+	* @param fileExt the file extension
+	* @param library the folder where the file should be located
+	* example usage: `checkFile(SONG.stage, '.hxs', 'stages/');`
+	**/
+	public function checkFile(script:String, fileExt:String, library:String):Bool
+	{
+		if (FileSystem.exists(Paths.getPreloadPath(library + script + fileExt)))
+			return true;
+		else
+			return false;
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
@@ -874,26 +883,40 @@ class PlayState extends MusicBeatState
 				// charting state (more on that later)
 				if ((FlxG.keys.justPressed.SEVEN))
 				{
-					paused = true;
-					openSubState(new CharterSubState(boyfriend.getScreenPosition().x, boyfriend.getScreenPosition().y));
-					// resetMusic();
+					resetMusic();
+					chartingMode = true;
+					preventScoring = true;
+					if (FlxG.keys.pressed.SHIFT)
+					{
+						prevCharter = 1;
+						Main.switchState(this, new ChartingState());
+					}
+					else
+					{
+						prevCharter = 0;
+						Main.switchState(this, new OriginalChartingState());
+					}
 				}
 				if ((FlxG.keys.justPressed.EIGHT))
 				{
 					var holdingShift = FlxG.keys.pressed.SHIFT;
 					var holdingAlt = FlxG.keys.pressed.ALT;
+
+					resetMusic();
 					Main.switchState(this, new CharacterDebug(holdingShift ? SONG.player1 : holdingAlt ? SONG.gfVersion : SONG.player2, SONG.stage));
 				}
 
-				/*if ((FlxG.keys.justPressed.FIVE)) {
-						preventScoring = true;
-						practiceMode = true;
-					}
+				if ((FlxG.keys.justPressed.FIVE)) {
+					preventScoring = true;
+					practiceMode = true;
+					PauseSubState.practiceText.visible = practiceMode;
+				}
 
-					if ((FlxG.keys.justPressed.SIX)) {
-						preventScoring = true;
-						bfStrums.autoplay = !bfStrums.autoplay;
-				}*/
+				if ((FlxG.keys.justPressed.SIX)) {
+					preventScoring = true;
+					bfStrums.autoplay = !bfStrums.autoplay;
+					uiHUD.autoplayMark.visible = bfStrums.autoplay;
+				}
 			}
 
 			///*
@@ -2141,10 +2164,8 @@ class PlayState extends MusicBeatState
 			Highscore.saveRank(SONG.song, rank, storyDifficulty);
 		}
 
-		if (chartingMode && CharterSubState.charter == 0)
-			Main.switchState(this, new ChartingState());
-		else if (chartingMode && CharterSubState.charter == 1)
-			Main.switchState(this, new OriginalChartingState());
+		if (chartingMode)
+			Main.switchState(this, (prevCharter == 1 ? new ChartingState() : new OriginalChartingState()));
 		else if (!isStoryMode)
 			Main.switchState(this, new FreeplayState());
 		else
