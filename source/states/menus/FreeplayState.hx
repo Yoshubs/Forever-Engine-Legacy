@@ -283,14 +283,16 @@ class FreeplayState extends MusicBeatState
 
 		if (controls.BACK || FlxG.mouse.justPressedRight)
 		{
-			if (presses <= 0) {
+			if (presses <= 0)
+			{
 				if (FlxG.sound.music != null) FlxG.sound.music.stop();
 				threadActive = false;
 				FlxG.sound.play(Paths.sound('cancelMenu'), 0.4);
 				Main.switchState(this, new MainMenuState());
 			}
 
-			if (presses > 0) {
+			if (presses > 0)
+			{
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
 				infoText.applyMarkup(
 					"- **Data Destruction was Interrupted!** -",
@@ -301,7 +303,8 @@ class FreeplayState extends MusicBeatState
 
 		if (accepted || FlxG.mouse.justPressed)
 			loadSong(true, true);
-		else if (alt) {
+		else if (alt)
+		{
 			loadSong(false, false);
 			if (FlxG.sound.music.playing) FlxG.sound.music.stop();
 			Main.switchState(this, shiftP ? new ChartingState() : new OriginalChartingState());
@@ -343,7 +346,8 @@ class FreeplayState extends MusicBeatState
 		PlayState.storyWeek = songs[curSelected].week;
 		#if DEBUG_TRACES trace('CUR WEEK' + PlayState.storyWeek); #end
 
-		if (stopThread) {
+		if (stopThread)
+		{
 			if (FlxG.sound.music != null) FlxG.sound.music.stop();
 			threadActive = false;
 		}

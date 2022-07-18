@@ -219,17 +219,17 @@ class Init extends FlxState
 			"Simplifies the judgement animations, displaying only one judgement / rating sprite at a time.",
 			NOT_FORCED
 		],
-		"Sound Type" => [
+		"Hitsound Type" => [
 			'default',
 			Selector,
-			'Choose the Hitsound you prefer.',
+			'Choose the Note Hitsound you prefer.',
 			NOT_FORCED,
 			''
 		],
 		'Hitsound Volume' => [
 			Checkmark,
 			Selector,
-			'Whether to enable a sound for Note Hits.',
+			'The volume for your Note Hitsounds.',
 			NOT_FORCED
 		],
 		'Icon Colored Health Bar' => [
@@ -373,9 +373,9 @@ class Init extends FlxState
 		if (!gameSettings.get("Note Skin")[4].contains(trueSettings.get("Note Skin")))
 			trueSettings.set("Note Skin", 'default');
 
-		gameSettings.get("Sound Type")[4] = CoolUtil.returnAssetsLibrary('hitsounds', 'assets/sounds');
-		if (!gameSettings.get("Sound Type")[4].contains(trueSettings.get("Sound Type")))
-			trueSettings.set("Sound Type", 'default');
+		gameSettings.get("Hitsound Type")[4] = CoolUtil.returnAssetsLibrary('hitsounds', 'assets/sounds');
+		if (!gameSettings.get("Hitsound Type")[4].contains(trueSettings.get("Hitsound Type")))
+			trueSettings.set("Hitsound Type", 'default');
 
 		saveSettings();
 		updateAll();
