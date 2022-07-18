@@ -73,6 +73,7 @@ class FreeplayState extends MusicBeatState
 	var cyanMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.CYAN);
 	var yellowMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.YELLOW);
 	var redMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.RED);
+	var grayMarkup:FlxTextFormat = new FlxTextFormat(FlxColor.GRAY);
 
 	override function create()
 	{
@@ -174,7 +175,7 @@ class FreeplayState extends MusicBeatState
 		add(infoText);
 
 		infoText.applyMarkup(
-			"- ALT **(+SHIFT)** = Open **(NEW)** Charting State. - RESET = Reset Score and Ranking. -",
+			"- **(SHIFT+)** ALT = Open **(NEW)** Charting State. - RESET = Reset Score and Ranking. -",
 			[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
 	}
 
@@ -492,14 +493,14 @@ class FreeplayState extends MusicBeatState
 
 		if (presses == 1)
 			infoText.applyMarkup(
-				"^^- Are you Sure? -^^",
-				[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
+				";;- Are you Sure? -;;",
+				[new FlxTextFormatMarkerPair(grayMarkup, ';;')]);
 
 		if (presses == 2)
 		{
 			infoText.applyMarkup(
-				"++- Really Sure? -++",
-				[new FlxTextFormatMarkerPair(redMarkup, '++')]);
+				"^^- Really Sure? -^^",
+				[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
 			FlxG.sound.music.volume = 0.3;
 		}
 
