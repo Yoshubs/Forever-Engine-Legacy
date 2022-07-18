@@ -293,8 +293,8 @@ class FreeplayState extends MusicBeatState
 			if (presses > 0) {
 				FlxG.sound.play(Paths.sound('confirmMenu'), 0.4);
 				infoText.applyMarkup(
-					"^^- Data Destruction was Interrupted! -^^",
-					[new FlxTextFormatMarkerPair(yellowMarkup, '^^')]);
+					"**- Data Destruction was Interrupted! -**",
+					[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
 				endBullshit();
 			}
 		}
