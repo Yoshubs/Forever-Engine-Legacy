@@ -240,7 +240,7 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase()}/script.hxs')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
 		];
 		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
 		var pushedScripts:Array<String> = [];
