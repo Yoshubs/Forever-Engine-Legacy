@@ -315,8 +315,10 @@ class PlayState extends MusicBeatState
 		// set up a class for the stage type in here afterwards
 		curStage = "";
 
+		var stageExists = FileSystem.exists(Paths.getPreloadPath('stages/$curStage.hxs'));
+
 		// call the song's stage if it exists
-		if (SONG.stage != null && SONG.stage.length > 1 && checkFile(SONG.stage, '.hxs', 'stages/'))
+		if (SONG.stage != null && SONG.stage.length > 1 && stageExists)
 			curStage = SONG.stage;
 		else
 			curStage = 'stage';
@@ -531,21 +533,6 @@ class PlayState extends MusicBeatState
 		 #if LUA_EXTENSION
 		 callLLua('postCreate', []);
 		 #end
-	}
-
-	/**
-	* function to check if a file exists
-	* @param script the file name
-	* @param fileExt the file extension
-	* @param library the folder where the file should be located
-	* example usage: `checkFile(SONG.stage, '.hxs', 'stages/');`
-	**/
-	public function checkFile(script:String, fileExt:String, library:String):Bool
-	{
-		if (FileSystem.exists(Paths.getPreloadPath(library + script + fileExt)))
-			return true;
-		else
-			return false;
 	}
 
 	public static function copyKey(arrayToCopy:Array<FlxKey>):Array<FlxKey>
