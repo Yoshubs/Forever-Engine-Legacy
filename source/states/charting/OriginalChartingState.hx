@@ -422,7 +422,7 @@ class OriginalChartingState extends MusicBeatState
 		check_altAnim = new FlxUICheckBox(10, 400, null, null, "Alt Animation Section", 100);
 		check_altAnim.name = 'check_altAnim';
 
-		check_changeBPM = new FlxUICheckBox(10, 60, null, null, 'Change Song BPM', 100);
+		check_changeBPM = new FlxUICheckBox(10, 60, null, null, 'Change BPM', 100);
 		check_changeBPM.name = 'check_changeBPM';
 
 		tab_group_section.add(stepperLength);
