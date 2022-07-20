@@ -613,7 +613,7 @@ class PlayState extends MusicBeatState
 				{ // else just call bad notes
 					ghostMisses++;
 					if (!Init.trueSettings.get('Ghost Tapping'))
-						missNoteCheck(true, key, (coolNote.noteType == GF ? gf : boyfriend), true);
+						missNoteCheck(true, key, boyfriend, true);
 				}
 
 				Conductor.songPosition = previousTime;
@@ -1218,7 +1218,7 @@ class PlayState extends MusicBeatState
 									note.tooLate = true;
 
 								vocals.volume = 0;
-								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (daNote.noteType == GF ? gf : boyfriend), true);
+								missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
 								// ambiguous name
 								Timings.updateAccuracy(0);
 							}
@@ -1237,7 +1237,7 @@ class PlayState extends MusicBeatState
 
 										if (!breakFromLate)
 										{
-											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, (daNote.noteType == GF ? gf : boyfriend), true);
+											missNoteCheck((Init.trueSettings.get('Ghost Tapping')) ? true : false, daNote.noteData, boyfriend, true);
 											for (note in parentNote.childrenNotes)
 												note.tooLate = true;
 										}
