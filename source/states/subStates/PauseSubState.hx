@@ -147,12 +147,12 @@ class PauseSubState extends MusicBeatSubState
 				case "Exit to Options":
 					toOptions = true;
 					disableCheats(true);
-					FlxG.resizeWindow(1280, 720);
-					FlxG.scaleMode = new RatioScaleMode();
+					//FlxG.resizeWindow(1280, 720);
+					//FlxG.scaleMode = new RatioScaleMode();
 					Main.switchState(this, new OptionsMenuState());
 				case "Exit to menu":
-					FlxG.resizeWindow(1280, 720);
-					FlxG.scaleMode = new RatioScaleMode();
+					//FlxG.resizeWindow(1280, 720);
+					//FlxG.scaleMode = new RatioScaleMode();
 
 					PlayState.resetMusic();
 					PlayState.deaths = 0;

@@ -81,8 +81,8 @@ class GameOverSubState extends MusicBeatSubState
 
 		if (controls.BACK)
 		{
-			FlxG.resizeWindow(1280, 720);
-			FlxG.scaleMode = new RatioScaleMode();
+			//FlxG.resizeWindow(1280, 720);
+			//FlxG.scaleMode = new RatioScaleMode();
 
 			FlxG.sound.music.stop();
 			PlayState.deaths = 0;

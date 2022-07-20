@@ -2150,8 +2150,8 @@ class PlayState extends MusicBeatState
 		// set ranking
 		rank = Std.string(Timings.returnScoreRating().toUpperCase());
 
-		FlxG.resizeWindow(1280, 720);
-		FlxG.scaleMode = new RatioScaleMode();
+		//FlxG.resizeWindow(1280, 720);
+		//FlxG.scaleMode = new RatioScaleMode();
 
 		canPause = false;
 		endingSong = true;

@@ -576,7 +576,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			spawnGirlfriend = button;
 		});
 
-		stageScript.set('changeResolution', function(desiredRes:String, scaleMode:String = 'ratio')
+		/*stageScript.set('changeResolution', function(desiredRes:String, scaleMode:String = 'ratio')
 		{
 			var stageRes = screenRes.split('x');
 			screenRes = desiredRes;
@@ -606,7 +606,7 @@ class Stage extends FlxTypedGroup<FlxBasic>
 			if (PlayState.changedRes && !PlayState.alreadyChanged) {
 				FlxG.resetState();
 			}
-		});
+		});*/
 
 		stageScript.execute();
 	}
