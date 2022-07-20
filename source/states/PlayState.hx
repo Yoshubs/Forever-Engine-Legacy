@@ -315,10 +315,8 @@ class PlayState extends MusicBeatState
 		// set up a class for the stage type in here afterwards
 		curStage = "";
 
-		var stageExists = FileSystem.exists(Paths.getPreloadPath('stages/$curStage.hxs'));
-
 		// call the song's stage if it exists
-		if (SONG.stage != null && stageExists)
+		if (SONG.stage != null)
 			curStage = SONG.stage;
 		else
 			curStage = 'stage';
