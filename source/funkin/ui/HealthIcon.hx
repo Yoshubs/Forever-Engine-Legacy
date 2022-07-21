@@ -39,15 +39,20 @@ class HealthIcon extends FlxSprite
 		antialiasing = true;
 		var iconGraphic:FlxGraphic = Paths.image('icons/icon-' + iconPath);
 
-		if (iconGraphic.width >= 450)
+		if (iconGraphic.width >= 450) // 3 frames
 		{
 			loadGraphic(iconGraphic, true, Std.int(iconGraphic.width / 3), iconGraphic.height);
 			animation.add('icon', [0, 1, 2], 0, false, isPlayer);
 		}
-		else if (iconGraphic.width >= 300)
+		else if (iconGraphic.width >= 300) // 2 frames
 		{
 			loadGraphic(iconGraphic, true, Std.int(iconGraphic.width / 2), iconGraphic.height);
 			animation.add('icon', [0, 1], 0, false, isPlayer);
+		}
+		else if (iconGraphic.width >= 150) // 1 frame
+		{
+			loadGraphic(iconGraphic, true, Std.int(iconGraphic.width / 1), iconGraphic.height);
+			animation.add('icon', [0], 0, false, isPlayer);
 		}
 		initialWidth = width;
 		initialHeight = height;
