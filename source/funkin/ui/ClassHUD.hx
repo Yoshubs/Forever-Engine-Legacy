@@ -229,32 +229,28 @@ class ClassHUD extends FlxTypedGroup<FlxBasic>
 				iconP2.animation.curAnim.curFrame = 0;
 		}
 
-		if (updateTime)
+		if (updateTime && !PlayState.contents.paused)
 			updateTimer();
 	}
 
 	public function updateTimer()
 	{
-		if (updateTime)
-		{
-			var curTime:Float = Conductor.songPosition;
-			var secondsTotal:Int = Math.floor(curTime / 1000);
+		var curTime:Float = Conductor.songPosition;
+		var secondsTotal:Int = Math.floor(curTime / 1000);
 
-			if (curTime < 0)
-				curTime = 0;
+		if (curTime < 0)
+			curTime = 0;
 
-			if (secondsTotal < 0)
-				secondsTotal = 0;
+		if (secondsTotal < 0)
+			secondsTotal = 0;
 
-			timeDisplay =
-				FlxStringUtil.formatTime(secondsTotal, false)
-				+ ' / '
-				+ FlxStringUtil.formatTime(Math.floor((PlayState.songLength) / 1000), false);
+		timeDisplay =
+			FlxStringUtil.formatTime(secondsTotal, false)
+			+ ' / '
+			+ FlxStringUtil.formatTime(Math.floor((PlayState.songLength) / 1000), false);
 
-			centerMark.text = '- $infoDisplay [$timeDisplay] -';
-
-			songPercent = (curTime / PlayState.songLength);
-		}
+		centerMark.text = '- $infoDisplay [$timeDisplay] -';
+		songPercent = (curTime / PlayState.songLength);
 	}
 
 	private final divider:String = " • ";

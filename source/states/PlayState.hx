@@ -110,8 +110,8 @@ class PlayState extends MusicBeatState
 	public var generatedMusic:Bool = false;
 	public var endingSong:Bool = false;
 
-	private var startingSong:Bool = false;
-	private var paused:Bool = false;
+	public var startingSong:Bool = false;
+	public var paused:Bool = false;
 	var startedCountdown:Bool = false;
 	var inCutscene:Bool = false;
 
