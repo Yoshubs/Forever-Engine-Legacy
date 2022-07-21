@@ -12,9 +12,20 @@
             380, 0, null
         ],
         [
+            "NxtVithor",
+            "vito",
+            "Main Artist", "I open the fucking door, and I piss on the floor.",
+            [
+                ["Twitter", "https://twitter.com/NxtVithor"],
+                ["Twitch", "https://www.twitch.tv/nxtvithor"]
+            ],
+            [245, 108, 255],
+            280, -5, 0.9
+        ],
+        [
             "Satoru",
             "satoru",
-            "Main Artist", null,
+            "Additional Artist", null,
             [[""]],
             [255, 159, 212],
             200, 0, null
@@ -44,17 +55,6 @@
             [["Twitter", "https://twitter.com/polybiusproxy"]],
             [255, 234, 166],
             380, 0, null
-        ],
-        [
-            "NxtVithor",
-            "vito",
-            "Nuke Note Graphic", "I open the fucking door, and I piss on the floor.",
-            [
-                ["Twitter", "https://twitter.com/NxtVithor"],
-                ["Twitch", "https://www.twitch.tv/nxtvithor"]
-            ],
-            [245, 108, 255],
-            280, -5, 0.9
         ],
         [""],
         ["Forever Engine Team"],
