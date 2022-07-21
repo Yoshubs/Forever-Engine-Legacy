@@ -366,6 +366,7 @@ class OriginalChartingState extends MusicBeatState
 	var check_changeBPM:FlxUICheckBox;
 	var stepperSectionBPM:FlxUINumericStepper;
 	var check_altAnim:FlxUICheckBox;
+	var check_gfSec:FlxUICheckBox;
 
 	function addSectionUI():Void
 	{
@@ -414,13 +415,16 @@ class OriginalChartingState extends MusicBeatState
 		});
 
 		// NOTE: make this a drop down later so we can make the camera point to GF.
-		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Camera Points to P1", 100);
+		check_mustHitSection = new FlxUICheckBox(10, 30, null, null, "Must hit section", 100);
 		check_mustHitSection.name = 'check_mustHit';
 		check_mustHitSection.checked = true;
 		// _song.needsVoices = check_mustHit.checked;
 
 		check_altAnim = new FlxUICheckBox(10, 400, null, null, "Alt Animation Section", 100);
 		check_altAnim.name = 'check_altAnim';
+
+		check_gfSec = new FlxUICheckBox(160, 400, null, null, "Girlfriend Section", 100);
+		check_gfSec.name = 'check_gfSec';
 
 		check_changeBPM = new FlxUICheckBox(10, 60, null, null, 'Change BPM', 100);
 		check_changeBPM.name = 'check_changeBPM';
@@ -430,6 +434,7 @@ class OriginalChartingState extends MusicBeatState
 		tab_group_section.add(stepperCopy);
 		tab_group_section.add(check_mustHitSection);
 		tab_group_section.add(check_altAnim);
+		tab_group_section.add(check_gfSec);
 		tab_group_section.add(check_changeBPM);
 		tab_group_section.add(copyButton);
 		tab_group_section.add(clearSectionButton);
@@ -555,8 +560,10 @@ class OriginalChartingState extends MusicBeatState
 				case 'Change BPM':
 					_song.notes[curSection].changeBPM = check.checked;
 					FlxG.log.add('changed bpm shit');
-				case "Alt Animation":
+				case "Alt Animation Section":
 					_song.notes[curSection].altAnim = check.checked;
+				case "Girlfriend Section":
+					_song.notes[curSection].gfSection = check.checked;
 			}
 		}
 		else if (id == FlxUINumericStepper.CHANGE_EVENT && (sender is FlxUINumericStepper))
@@ -1056,6 +1063,7 @@ class OriginalChartingState extends MusicBeatState
 		stepperLength.value = sec.lengthInSteps;
 		check_mustHitSection.checked = sec.mustHitSection;
 		check_altAnim.checked = sec.altAnim;
+		check_gfSec.checked = sec.gfSection;
 		check_changeBPM.checked = sec.changeBPM;
 		stepperSectionBPM.value = sec.bpm;
 
@@ -1173,6 +1181,7 @@ class OriginalChartingState extends MusicBeatState
 			bpm: _song.bpm,
 			changeBPM: false,
 			mustHitSection: true,
+			gfSection: false,
 			sectionNotes: [],
 			typeOfSection: 0,
 			altAnim: false

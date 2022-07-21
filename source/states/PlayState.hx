@@ -598,9 +598,12 @@ class PlayState extends MusicBeatState
 								eligable = false;
 						}
 
+						var gfNote = coolNote.noteType == GF;
+						var gfSec = PlayState.SONG.notes[curSection].gfSection;
+
 						if (eligable)
 						{
-							goodNoteHit(coolNote, (coolNote.noteType == GF ? gf : boyfriend), bfStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, (gfNote || gfSec ? gf : boyfriend), bfStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -956,7 +959,10 @@ class PlayState extends MusicBeatState
 					lastSection = Std.int(curStep / 16);
 				}
 
-				if (!PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection)
+				var mustHit = PlayState.SONG.notes[Std.int(curStep / 16)].mustHitSection;
+				var gfSection = PlayState.SONG.notes[Std.int(curStep / 16)].gfSection;
+
+				if (!mustHit && !gfSection)
 				{
 					var char = dadOpponent;
 
@@ -969,7 +975,7 @@ class PlayState extends MusicBeatState
 					if (char.curCharacter == 'mom')
 						vocals.volume = 1;
 				}
-				else
+				else if (mustHit && !gfSection)
 				{
 					var char = boyfriend;
 
@@ -990,6 +996,16 @@ class PlayState extends MusicBeatState
 					}
 
 					camFollow.setPosition(getCenterX + camDisplaceX - char.characterData.camOffsetX,
+						getCenterY + camDisplaceY + char.characterData.camOffsetY);
+				}
+				else if (gfSection && !mustHit || gfSection && mustHit)
+				{
+					var char = gf;
+
+					var getCenterX = char.getMidpoint().x + 100;
+					var getCenterY = char.getMidpoint().y - 100;
+
+					camFollow.setPosition(getCenterX + camDisplaceX + char.characterData.camOffsetX,
 						getCenterY + camDisplaceY + char.characterData.camOffsetY);
 				}
 			}
@@ -1486,6 +1502,16 @@ class PlayState extends MusicBeatState
 					notesPressedAutoplay.push(daNote);
 				}
 
+				var curSection = Std.int(curStep / 16);
+
+				var gfNote = daNote.noteType == GF;
+				var gfSec = PlayState.SONG.notes[curSection].gfSection;
+
+				if (gfNote || gfSec)
+				{
+					char = gf;
+				}
+
 				goodNoteHit(daNote, char, strumline, canDisplayJudgement);
 			}
 			//
@@ -1826,7 +1852,7 @@ class PlayState extends MusicBeatState
 		if (!paused)
 		{
 			songMusic.play();
-			songMusic.onComplete = endSong;
+			songMusic.onComplete = endSong.bind();
 			vocals.play();
 
 			resyncVocals();
