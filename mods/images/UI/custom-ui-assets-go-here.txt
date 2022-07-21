@@ -1,0 +1,15 @@
+asset folders consist of a single folder with multiple replaceable assets
+
+example
+
+- ready.png
+- set.png
+- go.png
+
+- NOTE_assets.png, NOTE_assets.xml
+- noteSplashes.png
+- checkboxThingie.png, checkboxThingie.xml
+- alphabet.png, alphabet.xml
+- combo.png, judgements.png
+
+etc...

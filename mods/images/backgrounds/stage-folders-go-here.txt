@@ -1,0 +1,7 @@
+stage folders consist of a simple folder with the stage name and with files for it
+
+example:
+
+- background.png
+- ground.png
+- people.png, people.xml
