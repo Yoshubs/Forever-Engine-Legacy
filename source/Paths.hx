@@ -350,19 +350,19 @@ class Paths
 		return 'assets/fonts/$key';
 	}
 
-	inline static public function getSparrowAtlas(key:String, ?library:String)
+	inline static public function getSparrowAtlas(key:String, ?library:String, folder:String = 'images')
 	{
 		var graphic:FlxGraphic = returnGraphic(key, library);
-		return (FlxAtlasFrames.fromSparrow(graphic, File.getContent(file('images/$key.xml', library))));
+		return (FlxAtlasFrames.fromSparrow(graphic, File.getContent(file('$folder/$key.xml', library))));
 	}
 
-	inline static public function getPackerAtlas(key:String, ?library:String)
+	inline static public function getPackerAtlas(key:String, ?library:String, folder:String = 'images')
 	{
-		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('images/$key.txt', library)));
+		return (FlxAtlasFrames.fromSpriteSheetPacker(image(key, library), file('$folder/$key.txt', library)));
 	}
 
-	inline static public function video(key:String)
+	inline static public function video(key:String, ?library:String = 'assets')
 	{
-		return 'assets/videos/$key.$VIDEO_EXT';
+		return '$library/videos/$key.$VIDEO_EXT';
 	}
 }

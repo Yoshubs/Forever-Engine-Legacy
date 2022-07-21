@@ -272,7 +272,9 @@ class OriginalChartingState extends MusicBeatState
 		stepperKeys.name = 'song_keys';
 		blockPressWhileTypingOnStepper.push(stepperKeys);
 
-		var characters:Array<String> = CoolUtil.returnAssetsLibrary('characters', 'assets');
+		var baseChars:Array<String> = CoolUtil.returnAssetsLibrary('characters', 'assets');
+		var modChars:Array<String> = CoolUtil.returnAssetsLibrary('characters', 'mods');
+		var characters:Array<String> = baseChars/*, modChars*/;
 
 		var player1DropDown = new FlxUIDropDownMenuCustom(10, stepperSpeed.y + 45, FlxUIDropDownMenuCustom.makeStrIdLabelArray(characters, true), function(character:String)
 		{
@@ -298,7 +300,9 @@ class OriginalChartingState extends MusicBeatState
 		player2DropDown.selectedLabel = _song.player2;
 		blockPressWhileScrolling.push(player2DropDown);
 
-		var stages:Array<String> = CoolUtil.returnAssetsLibrary('backgrounds');
+		var baseStages:Array<String> = CoolUtil.returnAssetsLibrary('backgrounds', 'assets/images');
+		var modStages:Array<String> = CoolUtil.returnAssetsLibrary('backgrounds', 'mods/images');
+		var stages:Array<String> = baseStages/*, modStages*/;
 
 		var stageDropDown = new FlxUIDropDownMenuCustom(player1DropDown.x + 140, player1DropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(stages, true), function(stage:String)
 		{
@@ -307,7 +311,9 @@ class OriginalChartingState extends MusicBeatState
 		stageDropDown.selectedLabel = _song.stage;
 		blockPressWhileScrolling.push(stageDropDown);
 
-		var assetModifiers:Array<String> = CoolUtil.returnAssetsLibrary('UI/default');
+		var baseAssets:Array<String> = CoolUtil.returnAssetsLibrary('UI/default', 'assets/images');
+		var modAssets:Array<String> = CoolUtil.returnAssetsLibrary('UI', 'mods/images');
+		var assetModifiers:Array<String> = baseAssets/*, modAssets*/;
 
 		var assetModifierDropDown = new FlxUIDropDownMenuCustom(stageDropDown.x , gfVersionDropDown.y, FlxUIDropDownMenuCustom.makeStrIdLabelArray(assetModifiers, true), function(asset:String)
 		{

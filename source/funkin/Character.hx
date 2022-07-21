@@ -163,14 +163,14 @@ class Character extends FNFSprite
 			updateHitbox();
 		});
 
-		charScript.set('setTex', function(character:String)
+		charScript.set('setTex', function(character:String, library:String = 'assets', folder:String = 'images')
 		{
-			frames = Paths.getSparrowAtlas(character);
+			frames = Paths.getSparrowAtlas(character, library, folder);
 		});
 
-		charScript.set('setPacker', function(character:String)
+		charScript.set('setPacker', function(character:String, library:String = 'assets', folder:String = 'images')
 		{
-			frames = Paths.getPackerAtlas(character);
+			frames = Paths.getPackerAtlas(character, library, folder);
 		});
 
 		charScript.set('playAnim', function(name:String, ?force:Bool = false, ?reversed:Bool = false, ?frames:Int = 0)
