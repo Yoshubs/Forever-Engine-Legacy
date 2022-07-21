@@ -240,9 +240,13 @@ class PlayState extends MusicBeatState
 		//
 
 		var scripts:Array<String> = [
-			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
+			Paths.getPreloadPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs'),
+			Paths.getModPath('songs/${SONG.song.toLowerCase().replace(' ', '-')}/script.hxs')
 		];
-		var fools:Array<String> = [Paths.getPreloadPath('scripts/')];
+		var fools:Array<String> = [
+			Paths.getPreloadPath('scripts/'),
+			Paths.getModPath('scripts/')
+		];
 		var pushedScripts:Array<String> = [];
 
 		for (i in scripts)
@@ -264,11 +268,19 @@ class PlayState extends MusicBeatState
 			{
 				for (e in foolPath)
 				{
-					var scriptFile:String = Paths.getPreloadPath('scripts/$e.hxs');
+					var baseScript:String = Paths.getPreloadPath('scripts/$e.hxs');
+					var modScript:String = Paths.getModPath('scripts/$e.hxs');
 
-					if (FileSystem.exists(scriptFile) && e.endsWith('.hxs') && !pushedScripts.contains(e))
+					if (FileSystem.exists(baseScript) && e.endsWith('.hxs') && !pushedScripts.contains(e))
 					{
-						var script:HaxeScript = new HaxeScript(scriptFile);
+						var script:HaxeScript = new HaxeScript(baseScript);
+						scriptArray.push(script);
+						pushedScripts.push(e);
+					}
+
+					if (FileSystem.exists(modScript) && e.endsWith('.hxs') && !pushedScripts.contains(e))
+					{
+						var script:HaxeScript = new HaxeScript(modScript);
 						scriptArray.push(script);
 						pushedScripts.push(e);
 					}

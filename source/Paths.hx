@@ -266,6 +266,14 @@ class Paths
 		return returnPath;
 	}
 
+	public inline static function getModPath(file:String)
+	{
+		var returnPath:String = 'mods/$file';
+		if (!FileSystem.exists(returnPath))
+			returnPath = CoolUtil.swapSpaceDash(returnPath);
+		return returnPath;
+	}
+
 	inline static public function file(file:String, type:AssetType = TEXT, ?library:String)
 	{
 		return getPath(file, type, library);
