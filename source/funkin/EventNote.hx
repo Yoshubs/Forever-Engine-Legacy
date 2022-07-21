@@ -2,6 +2,7 @@ package funkin;
 
 import base.*;
 import flixel.FlxSprite;
+import states.PlayState;
 
 class EventNote extends FlxSprite
 {
