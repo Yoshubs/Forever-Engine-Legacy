@@ -1,0 +1,2 @@
+custom sounds goes here, if named the same as a existing sound on the assets folder
+it will override the assets folder one

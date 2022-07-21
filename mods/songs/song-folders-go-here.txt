@@ -1,0 +1,5 @@
+custom songs folders go here, song folders consist of 3 files at minimum
+
+- songName.json
+- Inst.ogg
+- Voices.ogg

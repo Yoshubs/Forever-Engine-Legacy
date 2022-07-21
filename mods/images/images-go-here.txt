@@ -1,0 +1,2 @@
+add your custom images here
+for example, you can add a stage layer image and use a script to set it up on a custom stage

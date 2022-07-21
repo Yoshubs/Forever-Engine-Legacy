@@ -1,0 +1,8 @@
+Custom Characters folders consist of at least 4 files
+
+- Character Icon
+- Character PNG files
+- Character XML/TXT files
+- Character Script
+
+take a look at the exampleChar folder for more information

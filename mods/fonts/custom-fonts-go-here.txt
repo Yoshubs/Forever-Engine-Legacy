@@ -1,0 +1,3 @@
+add your custom fonts here, example: vcr.ttf
+
+these fonts can be used with scripts
