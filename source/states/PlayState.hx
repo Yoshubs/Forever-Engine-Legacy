@@ -908,12 +908,13 @@ class PlayState extends MusicBeatState
 
 				if ((FlxG.keys.justPressed.FIVE)) {
 					preventScoring = true;
-					practiceMode = true;
-					PauseSubState.practiceText.visible = practiceMode;
+					FlxG.sound.play(Paths.sound('scrollMenu'));
+					practiceMode = !practiceMode;
 				}
 
 				if ((FlxG.keys.justPressed.SIX)) {
 					preventScoring = true;
+					FlxG.sound.play(Paths.sound('scrollMenu'));
 					bfStrums.autoplay = !bfStrums.autoplay;
 					uiHUD.autoplayMark.visible = bfStrums.autoplay;
 				}
