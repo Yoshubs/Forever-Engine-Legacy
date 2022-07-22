@@ -615,7 +615,7 @@ class PlayState extends MusicBeatState
 
 						if (eligable)
 						{
-							goodNoteHit(coolNote, (gfNote || gfSec ? gf : boyfriend), bfStrums, firstNote); // then hit the note
+							goodNoteHit(coolNote, (!gfNote || !gfSec ? boyfriend : gf), bfStrums, firstNote); // then hit the note
 							pressedNotes.push(coolNote);
 						}
 						// end of this little check
@@ -1521,9 +1521,7 @@ class PlayState extends MusicBeatState
 				var gfSec = PlayState.SONG.notes[curSection].gfSection;
 
 				if (gfNote || gfSec)
-				{
 					char = gf;
-				}
 
 				goodNoteHit(daNote, char, strumline, canDisplayJudgement);
 			}
