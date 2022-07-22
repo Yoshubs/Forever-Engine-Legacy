@@ -248,7 +248,7 @@ class Init extends FlxState
 			'Difficulty',
 			Selector,
 			'What should the Center Mark text show?',
-			NOT_FORCED,
+			FORCED,
 			['Difficulty', 'Time']
 		],
 	];

@@ -103,10 +103,10 @@ class OptionsMenuState extends MusicBeatState
 					['Opaque Arrows', getFromOption],
 					['Opaque Holds', getFromOption],
 					['', null],
-					['User Interface Settings', null],
+					/*['User Interface Settings', null],
 					['', null],
 					['Center Text', getFromOption],
-					['', null],
+					['', null],*/
 					['Accessibility Settings', null],
 					['', null],
 					['Disable Antialiasing', getFromOption],
