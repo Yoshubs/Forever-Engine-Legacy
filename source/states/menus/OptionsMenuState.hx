@@ -217,13 +217,14 @@ class OptionsMenuState extends MusicBeatState
 			if (currentAttachmentMap != null)
 				setAttachmentAlpha(currentAttachmentMap.get(activeSubgroup.members[i]), 0.6);
 			activeSubgroup.members[i].targetY = (i - curSelection) / 2;
-			activeSubgroup.members[i].xTo = 200 + ((i - curSelection) * 25);
+			//activeSubgroup.members[i].xTo = 200 + ((i - curSelection) * 25);
 
 			// check for null members and hardcode the dividers
 			if (categoryMap.get(curCategory)[0][i][1] == null)
 			{
 				activeSubgroup.members[i].alpha = 1;
-				activeSubgroup.members[i].xTo += Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40)) - 200;
+				activeSubgroup.members[i].xTo = Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40));
+				//activeSubgroup.members[i].xTo += Std.int((FlxG.width / 2) - ((activeSubgroup.members[i].text.length / 2) * 40)) - 200;
 			}
 		}
 

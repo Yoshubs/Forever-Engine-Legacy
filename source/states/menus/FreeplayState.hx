@@ -22,10 +22,10 @@ import funkin.Song.SwagSong;
 import funkin.ui.HealthIcon;
 import lime.utils.Assets;
 import openfl.media.Sound;
+import states.charting.*;
 import sys.FileSystem;
 import sys.thread.Mutex;
 import sys.thread.Thread;
-import states.charting.*;
 
 using StringTools;
 
