@@ -1094,20 +1094,20 @@ class OriginalChartingState extends MusicBeatState
 		{
 			leftIcon.setPosition(gridBG.width / 2, -100);
 			rightIcon.setPosition(0, -100);
-			colorFlash(false);
+			//colorFlash(false);
 		}
 		else
 		{
 			leftIcon.setPosition(0, -100);
 			rightIcon.setPosition(gridBG.width / 2, -100);
-			colorFlash(true);
+			//colorFlash(true);
 		}
 	}
 
 	function colorFlash(mustHit:Bool)
 	{
 		var color = (mustHit ? 0xFF66FF33 : 0xFFFF0000);
-		
+
 		var disableFlashing = Init.trueSettings.get('Disable Flashing Lights');
 		if (!disableFlashing)
 		{
