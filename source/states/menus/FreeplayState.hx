@@ -60,6 +60,7 @@ class FreeplayState extends MusicBeatState
 
 	private var mainColor = FlxColor.WHITE;
 	private var bg:FlxSprite;
+	private var onFocusLostBG:FlxSprite;
 	private var scoreBG:FlxSprite;
 
 	private var existingSongs:Array<String> = [];
@@ -177,6 +178,10 @@ class FreeplayState extends MusicBeatState
 		infoText.applyMarkup(
 			"- **(SHIFT+)** ALT = Open **(NEW)** Charting State. - RESET = Reset Score and Ranking. -",
 			[new FlxTextFormatMarkerPair(cyanMarkup, '**')]);
+
+		onFocusLostBG = new FlxSprite().makeGraphic(FlxG.width, FlxG.height, FlxColor.BLACK);
+		onFocusLostBG.alpha = 0;
+		add(onFocusLostBG);
 	}
 
 	public function addSong(songName:String, weekNum:Int, songCharacter:String, songColor:FlxColor)
@@ -542,12 +547,14 @@ class FreeplayState extends MusicBeatState
 	override public function onFocus():Void
 	{
 		FlxG.sound.music.fadeIn(1.0, 0.3, 1.0);
+		FlxTween.tween(onFocusLostBG, {alpha: 0}, 1.0, {ease: FlxEase.circOut});
 		super.onFocus();
 	}
 
 	override public function onFocusLost():Void
 	{
 		FlxG.sound.music.fadeIn(1.0, 1.0, 0.3);
+		FlxTween.tween(onFocusLostBG, {alpha: 0.8}, 1.0, {ease: FlxEase.circOut});
 		super.onFocusLost();
 	}
 }
