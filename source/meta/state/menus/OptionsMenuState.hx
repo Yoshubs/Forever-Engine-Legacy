@@ -464,55 +464,17 @@ class OptionsMenuState extends MusicBeatState
 	{
 		var fps = selector.fpsCap;
 		var bgdark = selector.darkBG;
+		
+		/**
+		* I hope this is better?? -gabi(Ghost)
+		========
+		* left to right, minimum value, maximum value, change value
+		* rest is default stuff that I needed to keep
+		**/
 		if (fps)
-		{
-			// bro I dont even know if the engine works in html5 why am I even doing this
-			// lazily hardcoded fps cap
-			var originalFPS = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
-			var increase = 15 * updateBy;
-			if (originalFPS + increase < 30)
-				increase = 0;
-			// high fps cap
-			if (originalFPS + increase > 360)
-				increase = 0;
-
-			if (updateBy == -1)
-				selector.selectorPlay('left', 'press');
-			else
-				selector.selectorPlay('right', 'press');
-
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-
-			originalFPS += increase;
-			selector.chosenOptionString = Std.string(originalFPS);
-			selector.optionChosen.text = Std.string(originalFPS);
-			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originalFPS);
-			Init.saveSettings();
-		}
+			generateSelector(30, 360, 15, updateBy, selector);
 		else if (bgdark)
-		{
-			// lazily hardcoded darkness cap
-			var originaldark = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
-			var increase = 5 * updateBy;
-			if (originaldark + increase < 0)
-				increase = 0;
-			// high darkness cap
-			if (originaldark + increase > 100)
-				increase = 0;
-
-			if (updateBy == -1)
-				selector.selectorPlay('left', 'press');
-			else
-				selector.selectorPlay('right', 'press');
-
-			FlxG.sound.play(Paths.sound('scrollMenu'));
-
-			originaldark += increase;
-			selector.chosenOptionString = Std.string(originaldark);
-			selector.optionChosen.text = Std.string(originaldark);
-			Init.trueSettings.set(activeSubgroup.members[curSelection].text, originaldark);
-			Init.saveSettings();
-		}
+			generateSelector(0, 100, 5, updateBy, selector);
 		else if (!fps && !bgdark)
 		{
 			// get the current option as a number
@@ -546,6 +508,32 @@ class OptionsMenuState extends MusicBeatState
 			Init.trueSettings.set(activeSubgroup.members[curSelection].text, selector.chosenOptionString);
 			Init.saveSettings();
 		}
+	}
+	
+	function generateSelector(min:Int = 0, max:Int = 100, inc:Int = 5, updateBy:Int, selector:Selector)
+	{
+		// lazily hardcoded uhh, everything relating to selectors I suppose
+		var originalValue = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
+		var increase = inc * updateBy;
+		// min
+		if (originalValue + increase < min)
+			increase = 0;
+		// max
+		if (originalValue + increase > max)
+			increase = 0;
+
+		if (updateBy == -1)
+			selector.selectorPlay('left', 'press');
+		else
+			selector.selectorPlay('right', 'press');
+
+		FlxG.sound.play(Paths.sound('scrollMenu'));
+
+		originalValue += increase;
+		selector.chosenOptionString = Std.string(originalValue);
+		selector.optionChosen.text = Std.string(originalValue);
+		Init.trueSettings.set(activeSubgroup.members[curSelection].text, originalValue);
+		Init.saveSettings();
 	}
 
 	public function callNewGroup()
