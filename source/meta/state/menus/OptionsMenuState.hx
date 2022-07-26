@@ -510,7 +510,7 @@ class OptionsMenuState extends MusicBeatState
 		}
 	}
 	
-	function generateSelector(min:Int = 0, max:Int = 100, inc:Int = 5, updateBy:Int, selector:Selector)
+	function generateSelector(min:Float = 0, max:Float = 100, inc:Float = 5, updateBy:Int, selector:Selector)
 	{
 		// lazily hardcoded uhh, everything relating to selectors I suppose
 		var originalValue = Init.trueSettings.get(activeSubgroup.members[curSelection].text);
