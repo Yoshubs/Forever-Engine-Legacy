@@ -17,14 +17,11 @@
 	<!--These window settings apply to all targets-->
 	<window width="1280" height="720" fps="" background="#000000" hardware="true" vsync="false" />
 
-	<!--HTML5-specific-->
-	<window if="html5" resizable="true" />
-
 	<!--Desktop-specific-->
 	<window if="desktop" orientation="landscape" fullscreen="false" resizable="true" />
 
-	<!--Mobile-specific-->
-	<window if="mobile" orientation="landscape" fullscreen="true" resizable="false" />
+	<!--Switch-specific-->
+	<window if="switch" orientation="landscape" fullscreen="true" resizable="true" />
 
 	<!-- _____________________________ Custom Defines ____________________________ -->
 	
@@ -51,11 +48,10 @@
 	<!--<assets path="mods" />-->
 
 	<!-- _______________________________ Libraries ______________________________ -->
-
-	<haxedev set='webgl' if="html5" />
-
+	
 	<haxelib name="flixel" />
 	<haxelib name="flixel-addons" />
+	<haxelib name="flixel-tools" /> <!--Make sre you've download flixel-tools in terminal-->
 	<haxelib name="flixel-ui" />
 	<haxelib name="discord_rpc" if="DISCORD_RPC"/>
 	<haxelib name="polymod"/>
